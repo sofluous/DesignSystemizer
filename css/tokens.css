@@ -41,6 +41,7 @@
 
   --ds-control-h: 38px;
   --ds-control-h-sm: 32px;
+  --ds-control-hit-min: 32px;
   --ds-layout-gap: var(--ds-space-4);
   --ds-card-pad: var(--ds-space-4);
   --ds-label-transform: uppercase;
@@ -72,6 +73,19 @@
 
   --ds-btn-radius: var(--ds-radius-2);
   --ds-btn-h: var(--ds-control-h);
+  --ds-btn-h-sm: var(--ds-control-h-sm);
+  --ds-btn-icon-size: var(--ds-control-hit-min);
+  --ds-btn-icon-size-sm: var(--ds-control-h-sm);
+  --ds-btn-icon-font-size: 16px;
+  --ds-arrow-btn-size: var(--ds-control-h-sm);
+  --ds-arrow-btn-radius: var(--ds-radius-1);
+  --ds-arrow-btn-font-size: var(--ds-fs-2);
+  --ds-scrollbar-size: 10px;
+  --ds-scrollbar-size-x: var(--ds-scrollbar-size);
+  --ds-scrollbar-size-y: var(--ds-scrollbar-size);
+  --ds-scrollbar-thumb: color-mix(in oklab, var(--ds-accent) 55%, var(--ds-bg-raised));
+  --ds-scrollbar-track: transparent;
+  --ds-scrollbar-radius: 10px;
   --ds-btn-pad-x: var(--ds-space-3);
   --ds-btn-bg: var(--ds-bg-raised);
   --ds-btn-border: var(--ds-border);
@@ -97,6 +111,31 @@
   --ds-input-text: var(--ds-text);
   --ds-input-placeholder: var(--ds-text-muted);
   --ds-input-shadow: none;
+  --ds-color-input-radius: var(--ds-btn-radius);
+  --ds-color-input-bg: var(--ds-btn-bg);
+  --ds-color-input-shadow: var(--ds-input-shadow);
+  --ds-color-input-pad: 3px;
+
+  --ds-check-size: 16px;
+  --ds-check-bg: var(--ds-input-bg);
+  --ds-check-border: var(--ds-input-border);
+  --ds-check-mark: var(--ds-btn-primary-text);
+  --ds-check-checked-bg: var(--ds-accent);
+
+  --ds-range-track-h: 8px;
+  --ds-range-track-bg: var(--ds-bg-soft);
+  --ds-range-track-border: var(--ds-border);
+  --ds-range-thumb-size: 16px;
+  --ds-range-thumb-bg: var(--ds-btn-bg);
+  --ds-range-thumb-border: var(--ds-btn-border);
+  --ds-range-thumb-shadow: var(--ds-btn-shadow);
+
+  --ds-spin-bg: var(--ds-bg-soft);
+  --ds-spin-border: var(--ds-input-border);
+  --ds-spin-glyph: var(--ds-text-muted);
+  --ds-spin-opacity: 0;
+  --ds-spin-opacity-active: 0.9;
+  --ds-number-pad-end: calc(var(--ds-space-2) + 8px);
 
   --ds-chip-bg: color-mix(in oklab, var(--ds-bg-raised), transparent 12%);
   --ds-chip-border: var(--ds-border);
