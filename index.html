@@ -98,6 +98,76 @@
         gap: var(--ds-space-4);
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       }
+      .builder-mode-bar {
+        display: flex;
+        align-items: center;
+        gap: var(--ds-space-2);
+        flex-wrap: wrap;
+      }
+      .builder-group-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--ds-space-2);
+        align-items: center;
+      }
+      .builder-group-tabs .ds-btn {
+        min-height: var(--ds-control-h-sm);
+      }
+      .builder-group-tabs .ds-btn[aria-pressed="true"] {
+        border-color: var(--ds-accent);
+        color: var(--ds-text);
+        background: color-mix(in oklab, var(--ds-accent) 14%, var(--ds-btn-bg));
+      }
+      .builder-tabs-divider {
+        width: 1px;
+        height: 18px;
+        background: var(--ds-border);
+      }
+      .preset-actions {
+        align-self: end;
+      }
+      .preset-actions .ds-toolbar {
+        justify-content: flex-end;
+      }
+      .builder-workbench {
+        display: grid;
+        gap: var(--ds-space-4);
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+        align-items: start;
+      }
+      .builder-workbench-controls {
+        min-width: 0;
+      }
+      .builder-live-preview {
+        position: sticky;
+        top: var(--ds-space-4);
+      }
+      .preview-section[hidden] {
+        display: none;
+      }
+      .preview-section > summary {
+        list-style: none;
+        cursor: pointer;
+        color: var(--ds-text-muted);
+        font-size: var(--ds-fs-1);
+        text-transform: uppercase;
+        letter-spacing: var(--ds-label-spacing);
+        padding: 6px 8px;
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+        border-radius: var(--ds-radius-1);
+        background: var(--ds-bg-soft);
+      }
+      .preview-section > summary::-webkit-details-marker {
+        display: none;
+      }
+      .preview-section[open] > summary {
+        color: var(--ds-text);
+        border-color: var(--ds-border-strong);
+      }
+      .preview-section .ds-popover {
+        width: auto;
+        max-width: none;
+      }
       .builder-group {
         display: grid;
         gap: var(--ds-space-3);
@@ -115,29 +185,32 @@
         letter-spacing: 0.06em;
       }
       .builder-field-head {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        gap: 6px;
+        display: flex;
         align-items: center;
+        gap: var(--ds-space-2);
+        width: 100%;
+      }
+      .builder-field-head > label {
+        margin: 0;
+        min-width: 0;
       }
       .builder-field-actions {
         display: inline-flex;
         gap: 4px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.15s ease;
-      }
-      .builder-field:hover .builder-field-actions,
-      .builder-field:focus-within .builder-field-actions {
-        opacity: 1;
-        pointer-events: auto;
+        margin-left: auto;
+        justify-content: flex-end;
+        align-items: center;
       }
       .builder-help-btn {
-        min-width: 24px;
+        min-width: 46px;
         min-height: 24px;
-        padding: 0 6px;
+        padding: 0 8px;
         font-size: 11px;
         line-height: 1;
+      }
+      .builder-help-btn.is-icon {
+        min-width: 28px;
+        padding: 0 6px;
       }
       .builder-field-row {
         display: grid;
@@ -262,7 +335,8 @@
       }
       .builder-shadow-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 10ch));
+        justify-content: start;
         gap: 6px;
       }
       .builder-shadow-grid.compact {
@@ -277,7 +351,8 @@
       }
       .builder-multi-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 10ch));
+        justify-content: start;
         gap: 6px;
       }
       .builder-multi-grid.compact {
@@ -292,6 +367,12 @@
         min-height: 26px;
         padding: 0 8px;
         font-size: var(--ds-fs-1);
+      }
+      .builder-field input[type="number"] {
+        width: min(100%, 10ch);
+      }
+      .builder-field-row.single input[type="number"] {
+        width: min(100%, 14ch);
       }
       .calendar-grid {
         display: grid;
@@ -425,6 +506,12 @@
         }
         .studio-main {
           padding: var(--ds-space-4);
+        }
+        .builder-workbench {
+          grid-template-columns: 1fr;
+        }
+        .builder-live-preview {
+          position: static;
         }
       }
     </style>
@@ -1586,21 +1673,27 @@ Do not occlude the trigger element when contextual help opens.</pre
                     >Texture Preset</label
                   ><select id="texturePresetSelect" class="ds-select"></select>
                 </div>
-              </div>
-              <div class="ds-toolbar">
-                <button
-                  class="ds-btn ds-btn-primary"
-                  id="applyPresetBtn"
-                  type="button"
-                >
-                  Apply Preset Combination</button
-                ><button
-                  class="ds-btn ds-btn-danger"
-                  id="resetOverridesBtn"
-                  type="button"
-                >
-                  Reset Custom Overrides
-                </button>
+                <div class="ds-field preset-actions">
+                  <label class="ds-label" aria-hidden="true">&nbsp;</label>
+                  <div class="ds-toolbar">
+                    <button
+                      class="ds-btn ds-btn-primary"
+                      id="applyPresetBtn"
+                      type="button"
+                    >
+                      Apply
+                    </button>
+                    <button
+                      class="ds-btn ds-btn-danger ds-btn-icon"
+                      id="resetOverridesBtn"
+                      type="button"
+                      aria-label="Reset custom overrides"
+                      title="Reset custom overrides"
+                    >
+                      ↺
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="ds-field">
@@ -1613,7 +1706,117 @@ Do not occlude the trigger element when contextual help opens.</pre
                 placeholder="custom-theme"
               />
             </div>
-            <div class="builder-grid" id="builderGroups"></div>
+            <div class="builder-mode-bar ds-card">
+              <div id="builderGroupTabs" class="builder-group-tabs"></div>
+            </div>
+            <div class="builder-workbench">
+              <div class="builder-workbench-controls">
+                <div class="builder-grid" id="builderGroups"></div>
+              </div>
+              <aside class="ds-card builder-live-preview ds-stack">
+                <div>
+                  <h3 class="ds-card-title">Live Component Preview</h3>
+                  <p class="ds-card-subtitle" id="builderPreviewHint">
+                    Edit tokens and preview realistic component outcomes in real
+                    time.
+                  </p>
+                </div>
+                <details
+                  class="preview-section ds-stack"
+                  data-preview-groups="Semantic Colors,Typography"
+                  open
+                >
+                  <summary>Typography + Semantic</summary>
+                  <div class="ds-card ds-stack">
+                    <h2>Dashboard Heading</h2>
+                    <p class="ds-muted">
+                      Supporting text and metadata for readability checks.
+                    </p>
+                    <div class="ds-toolbar">
+                      <span class="ds-badge success">Success</span>
+                      <span class="ds-badge warning">Warning</span>
+                      <span class="ds-badge danger">Danger</span>
+                    </div>
+                  </div>
+                </details>
+                <details
+                  class="preview-section ds-stack"
+                  data-preview-groups="Density and Layout,App Layout and Utility,Geometry and Borders"
+                  open
+                >
+                  <summary>Layout + Geometry</summary>
+                  <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                    <article class="ds-card ds-stack">
+                      <h5 class="ds-card-title">Panel A</h5>
+                      <p class="ds-muted">Spacing rhythm and corner shape.</p>
+                      <button class="ds-btn ds-btn-sm" type="button">
+                        Action
+                      </button>
+                    </article>
+                    <article class="ds-card ds-stack">
+                      <h5 class="ds-card-title">Panel B</h5>
+                      <p class="ds-muted">Border weight and hierarchy.</p>
+                      <button class="ds-btn ds-btn-sm ds-btn-primary" type="button">
+                        Confirm
+                      </button>
+                    </article>
+                  </div>
+                </details>
+                <details
+                  class="preview-section ds-stack"
+                  data-preview-groups="Surface and Depth,Motion and Layers"
+                  open
+                >
+                  <summary>Surface + Depth</summary>
+                  <div class="ds-toolbar">
+                    <button class="ds-btn" type="button">Default Surface</button>
+                    <button class="ds-btn ds-btn-primary" type="button">
+                      Elevated Action
+                    </button>
+                    <button class="ds-btn ds-btn-text" type="button">
+                      Borderless
+                    </button>
+                  </div>
+                  <div class="ds-popover-wrap is-open">
+                    <button class="ds-btn" type="button">Context Trigger</button>
+                    <div class="ds-popover" style="position: static">
+                      Surface/material and overlay depth preview.
+                    </div>
+                  </div>
+                </details>
+                <details
+                  class="preview-section ds-stack"
+                  data-preview-groups="Buttons and Inputs,Native Controls,Chips and Scrollbars"
+                  open
+                >
+                  <summary>Inputs + Native Controls</summary>
+                  <div class="ds-field">
+                    <label class="ds-label" for="builderPreviewSearch"
+                      >Search</label
+                    >
+                    <div class="ds-input-icon-wrap">
+                      <span class="ds-input-icon" aria-hidden="true">?</span>
+                      <input
+                        id="builderPreviewSearch"
+                        class="ds-input"
+                        type="text"
+                        placeholder="Search tokens"
+                      />
+                    </div>
+                  </div>
+                  <div class="ds-toolbar">
+                    <input type="range" min="0" max="100" value="58" />
+                    <label><input type="checkbox" checked /> Checkbox</label>
+                    <label><input type="radio" checked name="previewPlan" /> Radio</label>
+                    <input class="ds-input" type="number" value="12" />
+                  </div>
+                  <div class="ds-toolbar">
+                    <span class="ds-chip">Chip</span>
+                    <span class="ds-chip ds-chip-accent">Accent Chip</span>
+                  </div>
+                </details>
+              </aside>
+            </div>
             <div class="ds-stack">
               <label class="ds-label" for="themeExportOutput"
                 >Exported Theme Block</label
@@ -3265,6 +3468,12 @@ Do not occlude the trigger element when contextual help opens.</pre
           const n = parseFloat(v);
           return Number.isFinite(n) ? n : f;
         }
+        function builderGroupId(name) {
+          return String(name || "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+        }
         function humanLabel(t) {
           return t.replace("--ds-", "").replace(/-/g, " ");
         }
@@ -3382,9 +3591,12 @@ Do not occlude the trigger element when contextual help opens.</pre
         }
         function renderBuilder() {
           const host = document.getElementById("builderGroups");
+          host.innerHTML = "";
           tokenGroups.forEach((group) => {
             const card = document.createElement("article");
             card.className = "ds-card builder-group";
+            card.setAttribute("data-group-name", group.name);
+            card.id = "builder-group-" + builderGroupId(group.name);
             const title = document.createElement("h3");
             title.className = "ds-card-title";
             title.textContent = group.name;
@@ -3695,6 +3907,90 @@ Do not occlude the trigger element when contextual help opens.</pre
             host.appendChild(card);
           });
         }
+        const builderGroupTabs = document.getElementById("builderGroupTabs");
+        const builderPreviewHint = document.getElementById("builderPreviewHint");
+        const builderState = {
+          activeGroup: "__all__",
+        };
+        function renderBuilderGroupTabs() {
+          builderGroupTabs.innerHTML = "";
+          const allBtn = document.createElement("button");
+          allBtn.type = "button";
+          allBtn.className = "ds-btn ds-btn-sm";
+          allBtn.textContent = "All";
+          allBtn.setAttribute(
+            "aria-pressed",
+            String(builderState.activeGroup === "__all__"),
+          );
+          allBtn.setAttribute("data-group-key", "__all__");
+          allBtn.addEventListener("click", function () {
+            builderState.activeGroup = "__all__";
+            applyBuilderPresentation();
+          });
+          builderGroupTabs.appendChild(allBtn);
+          const divider = document.createElement("span");
+          divider.className = "builder-tabs-divider";
+          divider.setAttribute("aria-hidden", "true");
+          builderGroupTabs.appendChild(divider);
+          tokenGroups.forEach((group) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "ds-btn ds-btn-sm";
+            btn.textContent = group.name;
+            btn.setAttribute("data-group-key", group.name);
+            btn.setAttribute(
+              "aria-pressed",
+              String(group.name === builderState.activeGroup),
+            );
+            btn.addEventListener("click", function () {
+              builderState.activeGroup = group.name;
+              applyBuilderPresentation();
+            });
+            builderGroupTabs.appendChild(btn);
+          });
+        }
+        function applyBuilderPresentation() {
+          const grouped = builderState.activeGroup !== "__all__";
+          document.querySelectorAll("#builderGroups .builder-group").forEach((card) => {
+            const groupName = card.getAttribute("data-group-name");
+            card.hidden = grouped && groupName !== builderState.activeGroup;
+          });
+          const sections = document.querySelectorAll(".preview-section");
+          let anyVisible = false;
+          sections.forEach((section) => {
+            if (!grouped) {
+              section.hidden = false;
+              anyVisible = true;
+              return;
+            }
+            const groups = (section.getAttribute("data-preview-groups") || "")
+              .split(",")
+              .map((s) => s.trim());
+            const match = groups.indexOf(builderState.activeGroup) > -1;
+            section.hidden = !match;
+            if (match) {
+              anyVisible = true;
+              if ("open" in section) section.open = true;
+            }
+          });
+          if (!anyVisible && sections.length > 0) {
+            sections[0].hidden = false;
+          }
+          const tabButtons = builderGroupTabs.querySelectorAll("button[data-group-key]");
+          tabButtons.forEach((btn) =>
+            btn.setAttribute(
+              "aria-pressed",
+              String(btn.getAttribute("data-group-key") === builderState.activeGroup),
+            ),
+          );
+          if (builderPreviewHint) {
+            builderPreviewHint.textContent = grouped
+              ? "Editing group: " +
+                builderState.activeGroup +
+                ". Preview filtered to relevant component samples."
+              : "Edit tokens and preview realistic component outcomes in real time.";
+          }
+        }
         function getRawTokenValue(meta) {
           if (!meta) return "";
           if (meta.type === "color") return meta.extra.value.trim();
@@ -3805,6 +4101,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             const token = tokenList[index] || "";
             const label = field.querySelector("label");
             if (!token || !label) return;
+            const labelText = (label.textContent || "").trim() || humanLabel(token);
             field.dataset.token = token;
             const head = document.createElement("div");
             head.className = "builder-field-head";
@@ -3815,16 +4112,23 @@ Do not occlude the trigger element when contextual help opens.</pre
             const infoBtn = document.createElement("button");
             infoBtn.type = "button";
             infoBtn.className = "ds-btn builder-help-btn";
-            infoBtn.textContent = "i";
-            infoBtn.title = "Show token details";
-            infoBtn.setAttribute("aria-label", "Show token details");
+            infoBtn.textContent = "Info";
+            infoBtn.title = labelText + " (" + token + ")";
+            infoBtn.setAttribute(
+              "aria-label",
+              "Show details for " + labelText + " (" + token + ")",
+            );
             infoBtn.addEventListener("click", () => openTokenInfo(token));
             const copyBtn = document.createElement("button");
             copyBtn.type = "button";
             copyBtn.className = "ds-btn builder-help-btn";
-            copyBtn.textContent = "Copy";
-            copyBtn.title = "Copy token assignment";
-            copyBtn.setAttribute("aria-label", "Copy token assignment");
+            copyBtn.classList.add("is-icon");
+            copyBtn.textContent = "⧉";
+            copyBtn.title = "Copy " + token + " assignment";
+            copyBtn.setAttribute(
+              "aria-label",
+              "Copy assignment for " + labelText + " (" + token + ")",
+            );
             copyBtn.addEventListener("click", () => {
               const meta = controlMap.get(token);
               if (!meta) return;
@@ -3842,6 +4146,8 @@ Do not occlude the trigger element when contextual help opens.</pre
         }
         renderBuilder();
         attachBuilderLearningTools();
+        renderBuilderGroupTabs();
+        applyBuilderPresentation();
         const initialCombo = baseThemePresetMap[initialTheme];
         if (initialCombo) {
           setPresetSelectors(initialCombo);
