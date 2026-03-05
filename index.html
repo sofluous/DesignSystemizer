@@ -241,6 +241,36 @@
         gap: var(--ds-layout-gap);
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       }
+      .wiki-grid {
+        display: grid;
+        gap: var(--ds-layout-gap);
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+      .wiki-link-list {
+        display: grid;
+        gap: var(--ds-space-2);
+      }
+      .wiki-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--ds-space-2);
+        padding: 10px 12px;
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+        border-radius: var(--ds-radius-2);
+        background: var(--ds-bg-raised);
+        color: var(--ds-text);
+        text-decoration: none;
+      }
+      .wiki-link:hover {
+        border-color: var(--ds-border-strong);
+        background: var(--ds-bg-soft);
+      }
+      .wiki-link::after {
+        content: "Open";
+        font-size: var(--ds-fs-1);
+        color: var(--ds-text-muted);
+      }
       .mono {
         font-family: var(--ds-font-mono);
       }
@@ -545,6 +575,13 @@
             <option value="eva-wireframe">Eva Wireframe</option>
             <option value="eva-unit-01">Eva Unit-01</option>
             <option value="saturn-alloy">Saturn Alloy</option>
+            <option value="old-web-portal">Old Web Portal</option>
+            <option value="candy-spectrum">Candy Spectrum</option>
+            <option value="complementary-wave">Complementary Wave</option>
+            <option value="sunset-pop">Sunset Pop</option>
+            <option value="oilslick-nacre">Oilslick Nacre</option>
+            <option value="holo-nocturne">Holo Nocturne</option>
+            <option value="signal-poster">Signal Poster</option>
           </select>
         </div>
         <hr class="studio-divider" />
@@ -556,6 +593,14 @@
             aria-selected="true"
           >
             Guide
+          </button>
+          <button
+            class="ds-btn studio-tab"
+            type="button"
+            data-panel="wiki"
+            aria-selected="false"
+          >
+            Wiki
           </button>
           <button
             class="ds-btn studio-tab"
@@ -1628,6 +1673,67 @@ Do not occlude the trigger element when contextual help opens.</pre
 4. Drag extracted files into your project folder
 5. Follow INSTALL.md in the package</pre
                 >
+              </article>
+            </div>
+          </article>
+        </section>
+        <section id="panel-wiki" class="studio-panel ds-stack" hidden>
+          <article class="ds-card ds-stack">
+            <div>
+              <h2 class="ds-card-title">Design System Wiki</h2>
+              <p class="ds-card-subtitle">
+                Central source-of-truth references for UX rules, component
+                contracts, and validation standards.
+              </p>
+            </div>
+            <div class="wiki-grid">
+              <article class="ds-card ds-stack">
+                <h3 class="ds-card-title">Core Guide</h3>
+                <div class="wiki-link-list">
+                  <a class="wiki-link" href="./wiki/FOUNDATIONS.md" target="_blank"
+                    >Foundations</a
+                  >
+                  <a class="wiki-link" href="./wiki/PATTERNS.md" target="_blank"
+                    >Patterns</a
+                  >
+                  <a class="wiki-link" href="./wiki/CONTENT_UX.md" target="_blank"
+                    >Content UX</a
+                  >
+                </div>
+              </article>
+              <article class="ds-card ds-stack">
+                <h3 class="ds-card-title">Implementation Specs</h3>
+                <div class="wiki-link-list">
+                  <a
+                    class="wiki-link"
+                    href="./wiki/COMPONENT_SPEC.md"
+                    target="_blank"
+                    >Component Spec</a
+                  >
+                  <a class="wiki-link" href="./wiki/ICONOGRAPHY.md" target="_blank"
+                    >Iconography</a
+                  >
+                  <a
+                    class="wiki-link"
+                    href="./wiki/VALIDATION_CHECKLIST.md"
+                    target="_blank"
+                    >Validation Checklist</a
+                  >
+                </div>
+              </article>
+              <article class="ds-card ds-stack">
+                <h3 class="ds-card-title">Governance</h3>
+                <div class="wiki-link-list">
+                  <a class="wiki-link" href="./_docs/README.md" target="_blank"
+                    >Docs Index</a
+                  >
+                  <a class="wiki-link" href="./_docs/DECISIONS_LOG.md" target="_blank"
+                    >Decisions Log</a
+                  >
+                  <a class="wiki-link" href="./_docs/CHANGELOG.md" target="_blank"
+                    >Docs Changelog</a
+                  >
+                </div>
               </article>
             </div>
           </article>
@@ -2735,6 +2841,45 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-card-backdrop-blur": "0px",
             "--ds-control-backdrop-blur": "0px",
           },
+          "pixel-grid": {
+            "--ds-body-texture-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 8px), repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 8px)",
+            "--ds-card-texture-image":
+              "repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0 1px, transparent 1px 6px)",
+            "--ds-control-texture-image":
+              "repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0 1px, transparent 1px 5px)",
+            "--ds-texture-blend": "overlay",
+            "--ds-texture-strength": "0.38",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "spectrum-wash": {
+            "--ds-body-texture-image":
+              "radial-gradient(circle at 8% 12%, color-mix(in oklab,var(--ds-danger) 32%, transparent), transparent 34%), radial-gradient(circle at 88% 18%, color-mix(in oklab,var(--ds-info) 28%, transparent), transparent 38%), radial-gradient(circle at 30% 84%, color-mix(in oklab,var(--ds-warning) 26%, transparent), transparent 42%)",
+            "--ds-card-texture-image":
+              "linear-gradient(135deg, color-mix(in oklab,var(--ds-accent) 18%, transparent), color-mix(in oklab,var(--ds-focus) 12%, transparent), transparent)",
+            "--ds-control-texture-image":
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-accent) 16%, transparent), transparent)",
+            "--ds-texture-blend": "screen",
+            "--ds-texture-strength": "0.34",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "nacre-flow": {
+            "--ds-body-texture-image":
+              "radial-gradient(62% 46% at 11% 10%, color-mix(in oklab,var(--ds-accent) 20%, transparent), transparent 58%), radial-gradient(58% 44% at 87% 13%, color-mix(in oklab,var(--ds-focus) 16%, transparent), transparent 60%), radial-gradient(72% 52% at 48% 92%, color-mix(in oklab,var(--ds-info) 14%, transparent), transparent 64%)",
+            "--ds-card-texture-image":
+              "linear-gradient(132deg, rgba(255,255,255,0.08), rgba(132,236,255,0.05), rgba(255,140,202,0.05), rgba(255,255,255,0.03))",
+            "--ds-control-texture-image":
+              "linear-gradient(170deg, rgba(255,255,255,0.08), rgba(94,222,255,0.05), rgba(255,141,212,0.04))",
+            "--ds-texture-blend": "screen",
+            "--ds-texture-strength": "0.26",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "1px",
+            "--ds-control-backdrop-blur": "0px",
+          },
         };
         const baseThemePresetMap = {
           "steel-night": {
@@ -2754,7 +2899,7 @@ Do not occlude the trigger element when contextual help opens.</pre
           "amber-terminal": {
             family: "cathode",
             hue: "amber",
-            style: "terminal",
+            style: "terminal-amber",
             scale: "compact",
             texture: "noise-film",
           },
@@ -2844,6 +2989,58 @@ Do not occlude the trigger element when contextual help opens.</pre
           },
         });
         Object.assign(stylePresets, {
+          "terminal-amber": {
+            "--ds-font-sans":
+              '"Space Mono", "OCR A Std", Consolas, "Courier New", monospace',
+            "--ds-font-mono":
+              '"Space Mono", "OCR A Std", Consolas, "Courier New", monospace',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "14px",
+            "--ds-fs-3": "16px",
+            "--ds-fs-4": "21px",
+            "--ds-fs-5": "28px",
+            "--ds-lh-base": "1.42",
+            "--ds-radius-1": "1px",
+            "--ds-radius-2": "2px",
+            "--ds-radius-3": "3px",
+            "--ds-radius-4": "4px",
+            "--ds-radius-pill": "4px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.12em",
+            "--ds-text": "#ffc978",
+            "--ds-text-muted": "#ffac4a",
+            "--ds-accent": "#ffb347",
+            "--ds-accent-strong": "#ff9b22",
+            "--ds-focus": "#ffd889",
+            "--ds-card-shadow":
+              "0 0 0 1px color-mix(in oklab,var(--ds-accent) 28%, transparent) inset, 0 0 20px color-mix(in oklab,var(--ds-accent) 24%, transparent)",
+            "--ds-btn-bg": "#1a1205",
+            "--ds-btn-bg-hover": "#211707",
+            "--ds-btn-border": "#6a4618",
+            "--ds-btn-text": "#ffc978",
+            "--ds-btn-shadow":
+              "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 38%, transparent), 0 0 10px color-mix(in oklab,var(--ds-accent) 16%, transparent)",
+            "--ds-btn-shadow-hover":
+              "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 52%, transparent), 0 0 16px color-mix(in oklab,var(--ds-accent) 24%, transparent)",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, #ffbf59 0%, #ff9a2e 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, #ffc96f 0%, #ffaa47 100%)",
+            "--ds-btn-primary-border": "#f79a2a",
+            "--ds-btn-primary-text": "#180f03",
+            "--ds-input-bg": "#171005",
+            "--ds-input-border": "#6b4517",
+            "--ds-input-text": "#ffc978",
+            "--ds-input-placeholder": "#d49546",
+            "--ds-input-shadow":
+              "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 34%, transparent), 0 0 10px color-mix(in oklab,var(--ds-accent) 14%, transparent)",
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, rgba(255,206,124,0.032) 0 1px, transparent 1px 6px), radial-gradient(circle at 16% 10%, rgba(255,170,60,0.16), transparent 28%), linear-gradient(180deg, #0f0b03 0%, #130e04 50%, #0c0802 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,190,96,0.08), rgba(0,0,0,0.2))",
+          },
           neumorph: {
             "--ds-font-sans": '"Inter", "Segoe UI", Roboto, Arial, sans-serif',
             "--ds-radius-1": "10px",
@@ -2952,7 +3149,16 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-press-transform": "none",
           },
           "saturn-skeuo": {
-            "--ds-font-sans": '"Trebuchet MS", "Segoe UI", sans-serif',
+            "--ds-font-sans":
+              '"Eurostile", "Trebuchet MS", "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"OCR A Std", "Consolas", "Lucida Console", monospace',
+            "--ds-fs-1": "11px",
+            "--ds-fs-2": "13px",
+            "--ds-fs-3": "16px",
+            "--ds-fs-4": "22px",
+            "--ds-fs-5": "30px",
+            "--ds-lh-base": "1.35",
             "--ds-radius-1": "4px",
             "--ds-radius-2": "10px",
             "--ds-radius-3": "14px",
@@ -2963,25 +3169,422 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-label-transform": "uppercase",
             "--ds-label-spacing": "0.1em",
             "--ds-card-shadow":
-              "inset 0 1px 0 rgba(255,255,255,0.62), inset 0 -3px 10px rgba(18,22,30,0.62), 0 16px 28px rgba(5,8,12,0.52)",
+              "inset 0 1px 0 rgba(255,255,255,0.66), inset 0 -3px 12px rgba(18,22,30,0.66), 0 18px 32px rgba(5,8,12,0.58)",
             "--ds-btn-shadow":
               "inset 0 2px 0 rgba(255,255,255,0.9), inset 0 -3px 6px rgba(15,18,26,0.56), 0 4px 10px rgba(8,10,14,0.5)",
             "--ds-btn-shadow-hover":
               "inset 0 2px 0 rgba(255,255,255,0.96), inset 0 -3px 8px rgba(15,18,26,0.62), 0 6px 14px rgba(8,10,14,0.56)",
             "--ds-btn-shadow-active":
               "inset 0 4px 10px rgba(19,23,30,0.62), inset 0 -1px 0 rgba(255,255,255,0.3)",
+            "--ds-btn-bg":
+              "linear-gradient(180deg, #5d687b 0%, #525d70 16%, #444d5e 62%, #394252 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(180deg, #677388 0%, #5a667b 16%, #4c5669 62%, #404a5d 100%)",
+            "--ds-btn-border": "#b7c4d7",
+            "--ds-btn-text": "#f2f7ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, #87e8ff 0%, #4bcaf6 48%, #1e9cc9 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, #9beeff 0%, #60d2fa 48%, #29a9d2 100%)",
+            "--ds-btn-primary-border": "#66cdec",
+            "--ds-btn-primary-text": "#06141c",
             "--ds-input-bg":
-              "linear-gradient(180deg, #f4e8bd 0%, #d7c993 22%, #887a54 100%)",
-            "--ds-input-border": "#c9b57f",
-            "--ds-input-text": "#1f2026",
-            "--ds-input-placeholder": "#5c5a4d",
+              "linear-gradient(180deg, #5b6578 0%, #4d5769 24%, #3e4657 100%)",
+            "--ds-input-border": "#adb9cb",
+            "--ds-input-text": "#f1f6ff",
+            "--ds-input-placeholder": "#c2cede",
             "--ds-input-shadow":
-              "inset 0 2px 4px rgba(21,24,33,0.36), inset 0 1px 0 rgba(255,248,211,0.74)",
+              "inset 0 2px 4px rgba(11,14,21,0.45), inset 0 1px 0 rgba(233,241,255,0.26)",
             "--ds-body-bg-image":
-              "radial-gradient(circle at 50% -18%, rgba(101,126,168,0.3), transparent 42%), radial-gradient(circle at 50% 120%, rgba(18,28,48,0.7), transparent 54%), linear-gradient(180deg, #0c0f17 0%, #171b28 48%, #0a0b10 100%)",
+              "radial-gradient(circle at 50% -18%, rgba(140, 163, 196, 0.22), transparent 42%), radial-gradient(circle at 50% 118%, rgba(15, 24, 46, 0.78), transparent 56%), radial-gradient(circle at 6% 8%, rgba(188, 214, 255, 0.1), transparent 22%), linear-gradient(180deg, #090c14 0%, #141a28 46%, #080a10 100%)",
             "--ds-card-bg-image":
-              "linear-gradient(180deg, rgba(255,255,255,0.24), rgba(26,30,38,0.18))",
+              "linear-gradient(180deg, rgba(255,255,255,0.26), rgba(26,30,38,0.24))",
             "--ds-btn-press-transform": "translateY(1px)",
+          },
+          "old-web": {
+            "--ds-font-sans":
+              '"Tahoma", "Verdana", "MS Sans Serif", "Segoe UI", sans-serif',
+            "--ds-font-mono": '"Lucida Console", "Courier New", monospace',
+            "--ds-radius-1": "0px",
+            "--ds-radius-2": "0px",
+            "--ds-radius-3": "0px",
+            "--ds-radius-4": "0px",
+            "--ds-radius-pill": "0px",
+            "--ds-border-w": "2px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.08em",
+            "--ds-bg": "#081436",
+            "--ds-bg-elevated": "#10214a",
+            "--ds-bg-raised": "#18306a",
+            "--ds-bg-soft": "#224388",
+            "--ds-text": "#f3f8ff",
+            "--ds-text-muted": "#bed1f3",
+            "--ds-border": "#4fd8ff",
+            "--ds-border-strong": "#ffd95f",
+            "--ds-accent": "#2cecff",
+            "--ds-accent-strong": "#00bddf",
+            "--ds-focus": "#ffe77a",
+            "--ds-success": "#80fcb4",
+            "--ds-warning": "#ffd95f",
+            "--ds-danger": "#ff5ca9",
+            "--ds-info": "#7dbbff",
+            "--ds-card-shadow":
+              "0 0 0 2px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.16) inset, 0 0 0 2px color-mix(in oklab,var(--ds-border) 45%, transparent)",
+            "--ds-btn-bg": "linear-gradient(180deg, #4a66c4 0%, #2c438f 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(180deg, #5b77d5 0%, #3854a5 100%)",
+            "--ds-btn-border": "#ffd95f",
+            "--ds-btn-text": "#f5f9ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, #36f1ff 0%, #00b9da 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, #53f5ff 0%, #18cce6 100%)",
+            "--ds-btn-primary-border": "#ffe77a",
+            "--ds-btn-primary-text": "#11213a",
+            "--ds-input-bg": "linear-gradient(180deg, #0e1e4d 0%, #0b1740 100%)",
+            "--ds-input-border": "#56dfff",
+            "--ds-input-text": "#fff8d5",
+            "--ds-input-placeholder": "#c5d1f1",
+            "--ds-input-shadow":
+              "inset 0 0 0 1px rgba(255,255,255,0.11), inset 0 -1px 0 rgba(0,0,0,0.35)",
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 6px), repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px), radial-gradient(circle at 88% 10%, rgba(44,236,255,0.24), transparent 30%), radial-gradient(circle at 12% 84%, rgba(255,120,210,0.16), transparent 36%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.28))",
+          },
+          "candy-pop": {
+            "--ds-font-sans":
+              '"Baloo 2", "Nunito", "Trebuchet MS", "Segoe UI", sans-serif',
+            "--ds-radius-1": "8px",
+            "--ds-radius-2": "14px",
+            "--ds-radius-3": "20px",
+            "--ds-radius-4": "26px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "none",
+            "--ds-label-spacing": "0.03em",
+            "--ds-bg": "#fff2fb",
+            "--ds-bg-elevated": "#ffffff",
+            "--ds-bg-raised": "#ffe8f7",
+            "--ds-bg-soft": "#ffe0ff",
+            "--ds-text": "#4a1f52",
+            "--ds-text-muted": "#7b4f89",
+            "--ds-border": "#f0b5de",
+            "--ds-border-strong": "#d98ad0",
+            "--ds-accent": "#ff4fc0",
+            "--ds-accent-strong": "#e63fa7",
+            "--ds-focus": "#47d8ff",
+            "--ds-success": "#47d78f",
+            "--ds-warning": "#ffb84d",
+            "--ds-danger": "#ff5a92",
+            "--ds-info": "#3dbbff",
+            "--ds-card-shadow":
+              "0 10px 24px rgba(170,96,164,0.18), inset 0 1px 0 rgba(255,255,255,0.75)",
+            "--ds-btn-bg":
+              "linear-gradient(135deg, #ff64c2 0%, #ff90d9 48%, #66cfff 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(135deg, #ff7ace 0%, #ffa4e1 48%, #7ed9ff 100%)",
+            "--ds-btn-border": "#b95aa8",
+            "--ds-btn-text": "#31123a",
+            "--ds-btn-primary-bg":
+              "linear-gradient(135deg, #ff2fa8 0%, #874cff 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(135deg, #ff4ab6 0%, #9a65ff 100%)",
+            "--ds-btn-primary-border": "#6f3fcd",
+            "--ds-btn-primary-text": "#18081f",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,231,249,0.95))",
+            "--ds-input-border": "#e2a7d7",
+            "--ds-input-text": "#4e2258",
+            "--ds-input-placeholder": "#a06bad",
+            "--ds-input-shadow":
+              "inset 0 1px 2px rgba(207,138,193,0.24), 0 0 0 1px rgba(255,255,255,0.6)",
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 12% 12%, rgba(255,99,197,0.22), transparent 34%), radial-gradient(circle at 88% 18%, rgba(71,216,255,0.22), transparent 36%), linear-gradient(180deg, #fff4fd 0%, #ffe9fb 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(155deg, rgba(255,255,255,0.65), rgba(255,205,241,0.45))",
+          },
+          "complimentary-gradient": {
+            "--ds-font-sans":
+              '"Sora", "Inter", "Segoe UI", sans-serif',
+            "--ds-radius-1": "6px",
+            "--ds-radius-2": "12px",
+            "--ds-radius-3": "16px",
+            "--ds-radius-4": "22px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.07em",
+            "--ds-bg": "#f6f8fc",
+            "--ds-bg-elevated": "#ffffff",
+            "--ds-bg-raised": "#edf2fb",
+            "--ds-bg-soft": "#e3ecfa",
+            "--ds-text": "#1c2944",
+            "--ds-text-muted": "#4b628a",
+            "--ds-border": "#a6bbdf",
+            "--ds-border-strong": "#7d9fd5",
+            "--ds-accent": "#2a7fff",
+            "--ds-accent-strong": "#1f67d8",
+            "--ds-focus": "#ff9a45",
+            "--ds-success": "#1fa77f",
+            "--ds-warning": "#e28b2f",
+            "--ds-danger": "#d34b67",
+            "--ds-info": "#2889e4",
+            "--ds-card-shadow":
+              "0 12px 26px rgba(44,58,99,0.14), 0 0 0 1px rgba(124,147,211,0.24) inset",
+            "--ds-btn-bg":
+              "linear-gradient(135deg, #4f84ff 0%, #6dc6ff 56%, #ffbb69 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(135deg, #6595ff 0%, #84d0ff 56%, #ffc985 100%)",
+            "--ds-btn-border": "#6f90cf",
+            "--ds-btn-text": "#10213b",
+            "--ds-btn-primary-bg":
+              "linear-gradient(135deg, #ff8b46 0%, #ffb25c 48%, #4aa8f2 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(135deg, #ffa05e 0%, #ffc473 48%, #61b6ff 100%)",
+            "--ds-btn-primary-border": "#d2824f",
+            "--ds-btn-primary-text": "#18233a",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(239,236,228,0.94))",
+            "--ds-input-border": "#9eb1de",
+            "--ds-input-text": "#2a3553",
+            "--ds-input-placeholder": "#7584ab",
+            "--ds-input-shadow":
+              "inset 0 1px 2px rgba(50,62,99,0.18), 0 0 0 1px rgba(176,191,235,0.3)",
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 12% 10%, rgba(63,124,255,0.13), transparent 34%), radial-gradient(circle at 90% 16%, rgba(255,166,93,0.16), transparent 34%), linear-gradient(180deg, #f9fbff 0%, #eef4fc 54%, #e8effa 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(160deg, rgba(100,132,224,0.14), rgba(55,85,171,0.08), rgba(255,166,92,0.12))",
+          },
+          "vaporwave-neon": {
+            "--ds-font-sans":
+              '"Space Mono", "Eurostile", "Trebuchet MS", "Segoe UI", sans-serif',
+            "--ds-radius-1": "2px",
+            "--ds-radius-2": "8px",
+            "--ds-radius-3": "12px",
+            "--ds-radius-4": "16px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.11em",
+            "--ds-bg": "#0f0926",
+            "--ds-bg-elevated": "#180f38",
+            "--ds-bg-raised": "#22134f",
+            "--ds-bg-soft": "#2e1a64",
+            "--ds-text": "#f8f2ff",
+            "--ds-text-muted": "#ccb9ef",
+            "--ds-border": "#6a63d8",
+            "--ds-border-strong": "#a44fff",
+            "--ds-accent": "#ff4ad8",
+            "--ds-accent-strong": "#e12ac8",
+            "--ds-focus": "#48dcff",
+            "--ds-success": "#5ff8c4",
+            "--ds-warning": "#ffd36c",
+            "--ds-danger": "#ff6aa4",
+            "--ds-info": "#62c6ff",
+            "--ds-card-shadow":
+              "0 0 0 1px color-mix(in oklab,var(--ds-accent) 35%, transparent) inset, 0 0 22px color-mix(in oklab,var(--ds-focus) 18%, transparent)",
+            "--ds-btn-bg":
+              "linear-gradient(135deg, #6f45ff 0%, #ff49d4 56%, #3fd5ff 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(135deg, #8460ff 0%, #ff66de 56%, #67ddff 100%)",
+            "--ds-btn-border": "#a55bff",
+            "--ds-btn-text": "#fdf8ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(135deg, #ff49d1 0%, #44d9ff 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(135deg, #ff6ee0 0%, #66e2ff 100%)",
+            "--ds-btn-primary-border": "#54bfff",
+            "--ds-btn-primary-text": "#2a0f44",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(45,26,102,0.9), rgba(33,20,77,0.92))",
+            "--ds-input-border": "#8d62ff",
+            "--ds-input-text": "#f8f2ff",
+            "--ds-input-placeholder": "#bfabec",
+            "--ds-input-shadow":
+              "inset 0 0 0 1px rgba(255,255,255,0.06), 0 0 12px color-mix(in oklab,var(--ds-accent) 24%, transparent)",
+            "--ds-body-bg-image":
+              "linear-gradient(180deg, #100926 0%, #170d34 44%, #0f0823 100%), radial-gradient(circle at 14% 12%, rgba(255,72,208,0.22), transparent 30%), radial-gradient(circle at 84% 16%, rgba(56,220,255,0.2), transparent 30%), repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-focus) 16%, transparent) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-accent) 12%, transparent) 0 1px, transparent 1px 16px)",
+            "--ds-card-bg-image":
+              "linear-gradient(160deg, rgba(255,86,213,0.18), rgba(107,107,255,0.14), rgba(80,206,255,0.16))",
+          },
+          "holo-nocturne": {
+            "--ds-font-sans":
+              '"Sora", "Inter", "Segoe UI", sans-serif',
+            "--ds-fs-1": "11px",
+            "--ds-fs-2": "13px",
+            "--ds-fs-3": "16px",
+            "--ds-fs-4": "22px",
+            "--ds-fs-5": "30px",
+            "--ds-lh-base": "1.38",
+            "--ds-radius-1": "9px",
+            "--ds-radius-2": "14px",
+            "--ds-radius-3": "20px",
+            "--ds-radius-4": "26px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.08em",
+            "--ds-bg": "#06080d",
+            "--ds-bg-elevated": "#0c1118",
+            "--ds-bg-raised": "#121924",
+            "--ds-bg-soft": "#1a2331",
+            "--ds-text": "#edf3ff",
+            "--ds-text-muted": "#9baac4",
+            "--ds-border": "#30465f",
+            "--ds-border-strong": "#456589",
+            "--ds-accent": "#74dcff",
+            "--ds-accent-strong": "#54bddf",
+            "--ds-focus": "#ff8ac8",
+            "--ds-success": "#71efc5",
+            "--ds-warning": "#ffd188",
+            "--ds-danger": "#ff7ca8",
+            "--ds-info": "#7eafff",
+            "--ds-card-shadow":
+              "0 20px 36px rgba(1,3,8,0.7), inset 0 0 0 1px rgba(255,255,255,0.05)",
+            "--ds-btn-bg":
+              "linear-gradient(140deg, #161d28 0%, #1a2230 78%, #2d3550 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(140deg, #1b2431 0%, #1f2b3b 78%, #3a4464 100%)",
+            "--ds-btn-border": "#425c7d",
+            "--ds-btn-text": "#edf4ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(132deg, #226792 0%, #8b45a3 52%, #2b8775 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(132deg, #2d79a8 0%, #a15cbc 52%, #39a08c 100%)",
+            "--ds-btn-primary-border": "#7f9fca",
+            "--ds-btn-primary-text": "#ecf5ff",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(19,27,38,0.96), rgba(13,20,30,0.97))",
+            "--ds-input-border": "#476280",
+            "--ds-input-text": "#edf4ff",
+            "--ds-input-placeholder": "#93a7c4",
+            "--ds-input-shadow":
+              "inset 0 1px 2px rgba(0,0,0,0.6), 0 0 0 1px rgba(117,173,218,0.18)",
+            "--ds-body-bg-image":
+              "radial-gradient(90% 90% at 12% 12%, rgba(117,224,255,0.14), transparent 22%), radial-gradient(90% 90% at 86% 16%, rgba(255,138,200,0.13), transparent 24%), radial-gradient(120% 100% at 44% 94%, rgba(124,158,255,0.12), transparent 28%), linear-gradient(180deg, #05070c 0%, #090e15 52%, #06080e 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(146deg, rgba(255,255,255,0.03), rgba(111,228,255,0.04), rgba(255,141,208,0.04), rgba(255,255,255,0.015))",
+          },
+          "oilslick-organic": {
+            "--ds-font-sans":
+              '"Outfit", "Sora", "Inter", "Segoe UI", sans-serif',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "14px",
+            "--ds-fs-3": "17px",
+            "--ds-fs-4": "24px",
+            "--ds-fs-5": "34px",
+            "--ds-lh-base": "1.42",
+            "--ds-radius-1": "10px",
+            "--ds-radius-2": "16px",
+            "--ds-radius-3": "22px",
+            "--ds-radius-4": "28px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.08em",
+            "--ds-bg": "#05080c",
+            "--ds-bg-elevated": "#0b1017",
+            "--ds-bg-raised": "#121924",
+            "--ds-bg-soft": "#1a2230",
+            "--ds-text": "#eff4ff",
+            "--ds-text-muted": "#9eabc3",
+            "--ds-border": "#34465d",
+            "--ds-border-strong": "#4a6280",
+            "--ds-accent": "#7de8ff",
+            "--ds-accent-strong": "#5cc9e7",
+            "--ds-focus": "#ff9ad8",
+            "--ds-success": "#79f2c8",
+            "--ds-warning": "#ffd186",
+            "--ds-danger": "#ff7fa8",
+            "--ds-info": "#7ab6ff",
+            "--ds-card-shadow":
+              "0 16px 34px rgba(2,4,8,0.62), inset 0 0 0 1px rgba(255,255,255,0.05)",
+            "--ds-btn-bg":
+              "linear-gradient(136deg, #131925 0%, #1d2432 68%, #3a3350 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(136deg, #1b2434 0%, #2a3449 68%, #4a4268 100%)",
+            "--ds-btn-border": "#4e627c",
+            "--ds-btn-text": "#eaf3ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(132deg, #2a6f8d 0%, #8f3f8a 48%, #2c8a78 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(132deg, #3c83a5 0%, #a0509f 48%, #3ba08b 100%)",
+            "--ds-btn-primary-border": "#7f9ac4",
+            "--ds-btn-primary-text": "#eaf6ff",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(22,29,40,0.95), rgba(16,22,31,0.96))",
+            "--ds-input-border": "#445c77",
+            "--ds-input-text": "#edf4ff",
+            "--ds-input-placeholder": "#95a7c3",
+            "--ds-input-shadow":
+              "inset 0 1px 2px rgba(0,0,0,0.52), 0 0 0 1px rgba(104,149,183,0.16)",
+            "--ds-body-bg-image":
+              "radial-gradient(74% 56% at 14% 12%, rgba(110,235,255,0.15), transparent 44%), radial-gradient(70% 52% at 84% 18%, rgba(255,118,216,0.14), transparent 42%), conic-gradient(from 206deg at 56% 84%, rgba(86,120,255,0.13), rgba(110,255,214,0.09), rgba(255,128,210,0.1), rgba(86,120,255,0.13)), linear-gradient(180deg, #04070b 0%, #090e15 54%, #05080d 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(146deg, rgba(255,255,255,0.05), rgba(114,233,255,0.08), rgba(255,143,210,0.08), rgba(255,255,255,0.03))",
+          },
+          "graphic-signal": {
+            "--ds-font-sans":
+              '"Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "15px",
+            "--ds-fs-3": "18px",
+            "--ds-fs-4": "26px",
+            "--ds-fs-5": "36px",
+            "--ds-lh-base": "1.34",
+            "--ds-radius-1": "0px",
+            "--ds-radius-2": "0px",
+            "--ds-radius-3": "2px",
+            "--ds-radius-4": "4px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "0px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.14em",
+            "--ds-bg": "#ebebea",
+            "--ds-bg-elevated": "#f7f7f4",
+            "--ds-bg-raised": "#dfe0de",
+            "--ds-bg-soft": "#d3d4d2",
+            "--ds-text": "#111215",
+            "--ds-text-muted": "#515255",
+            "--ds-border": "#000000",
+            "--ds-border-strong": "#000000",
+            "--ds-accent": "#ff5b00",
+            "--ds-accent-strong": "#d94d00",
+            "--ds-focus": "#ff8f54",
+            "--ds-success": "#7ed6a6",
+            "--ds-warning": "#ff8f30",
+            "--ds-danger": "#e8432e",
+            "--ds-info": "#8dbdff",
+            "--ds-card-shadow": "0 12px 24px rgba(0,0,0,0.16)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.06))",
+            "--ds-btn-bg": "#111215",
+            "--ds-btn-bg-hover": "#1a1c20",
+            "--ds-btn-border": "#111215",
+            "--ds-btn-text": "#f7f7f4",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, #ff6a14 0%, #d74c00 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, #ff7a2b 0%, #e65a0e 100%)",
+            "--ds-btn-primary-border": "#d74c00",
+            "--ds-btn-primary-text": "#101114",
+            "--ds-input-bg": "#f7f7f4",
+            "--ds-input-border": "#111215",
+            "--ds-input-text": "#111215",
+            "--ds-input-placeholder": "#67686d",
+            "--ds-input-shadow": "inset 0 0 0 1px rgba(0,0,0,0.08)",
+            "--ds-body-bg-image":
+              "linear-gradient(180deg, #eeeeec 0%, #e7e7e5 100%)",
           },
         });
         Object.assign(baseThemePresetMap, {
@@ -3012,6 +3615,55 @@ Do not occlude the trigger element when contextual help opens.</pre
             style: "saturn-skeuo",
             scale: "standard",
             texture: "brushed-metal",
+          },
+          "old-web-portal": {
+            family: "electric",
+            hue: "ultraviolet",
+            style: "old-web",
+            scale: "compact",
+            texture: "pixel-grid",
+          },
+          "candy-spectrum": {
+            family: "pastel",
+            hue: "magenta",
+            style: "candy-pop",
+            scale: "comfortable",
+            texture: "spectrum-wash",
+          },
+          "complementary-wave": {
+            family: "bold",
+            hue: "cobalt",
+            style: "complimentary-gradient",
+            scale: "standard",
+            texture: "spectrum-wash",
+          },
+          "sunset-pop": {
+            family: "sunset",
+            hue: "magenta",
+            style: "vaporwave-neon",
+            scale: "comfortable",
+            texture: "wire-grid",
+          },
+          "holo-nocturne": {
+            family: "alloy",
+            hue: "ultraviolet",
+            style: "holo-nocturne",
+            scale: "standard",
+            texture: "clean",
+          },
+          "oilslick-nacre": {
+            family: "alloy",
+            hue: "teal",
+            style: "oilslick-organic",
+            scale: "standard",
+            texture: "nacre-flow",
+          },
+          "signal-poster": {
+            family: "bold",
+            hue: "orange",
+            style: "graphic-signal",
+            scale: "standard",
+            texture: "clean",
           },
         });
         const familyPresetSelect =
@@ -3052,6 +3704,14 @@ Do not occlude the trigger element when contextual help opens.</pre
             "eva-wire": "noise-film",
             "eva-unit01": "carbon-fiber",
             "saturn-skeuo": "brushed-metal",
+            "old-web": "pixel-grid",
+            "terminal-amber": "noise-film",
+            "candy-pop": "spectrum-wash",
+            "complimentary-gradient": "spectrum-wash",
+            "vaporwave-neon": "wire-grid",
+            "holo-nocturne": "clean",
+            "oilslick-organic": "nacre-flow",
+            "graphic-signal": "clean",
           };
           return map[styleKey] || "clean";
         }

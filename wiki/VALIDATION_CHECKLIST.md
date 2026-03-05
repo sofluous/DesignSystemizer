@@ -1,0 +1,34 @@
+# [TASK: DesignSystem/Validation | Create Cross-Project UI/UX Checklist | v0.1]
+
+## Use
+Run this checklist before merge/release for any UI-affecting change.
+
+## 1) Foundation Compliance
+- [ ] No avoidable hardcoded design values when tokens exist.
+- [ ] Typography and spacing follow system scales.
+- [ ] Elevation and borders follow component/token rules.
+
+## 2) Pattern Compliance
+- [ ] Primary action hierarchy is clear and singular per context.
+- [ ] Sidebar/modal/drawer usage follows pattern rules.
+- [ ] Borderless/icon actions only used for low-emphasis actions.
+
+## 3) Component Consistency
+- [ ] Variants and states match `COMPONENT_SPEC.md`.
+- [ ] Focus, disabled, loading states are present where required.
+- [ ] Input icons and control adornments inherit tokenized colors.
+
+## 4) Accessibility
+- [ ] Keyboard navigation works in interactive flows.
+- [ ] Focus indicators are visible.
+- [ ] Color contrast acceptable for text and status cues.
+
+## 5) Theme Compatibility
+- [ ] Tested against at least 3 distinct themes (light/dark/high-style).
+- [ ] No unreadable surfaces in texture-heavy themes.
+- [ ] No broken layout at compact and comfortable scales.
+
+## 6) Interaction Quality
+- [ ] No FOUC/flicker on first render for themed UI.
+- [ ] Popovers/menus position correctly and do not force horizontal overflow.
+- [ ] Modal and drawer close flows are consistent.

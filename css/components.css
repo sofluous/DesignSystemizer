@@ -291,6 +291,22 @@ p {
   font: inherit;
 }
 
+/* Keep native select popup rows readable under themed text colors. */
+.ds-select {
+  color-scheme: light dark;
+}
+
+.ds-select option,
+.ds-select optgroup {
+  background: var(--ds-bg-elevated);
+  color: var(--ds-text);
+}
+
+.ds-select option:checked {
+  background: var(--ds-accent);
+  color: var(--ds-text-inverse);
+}
+
 .ds-textarea {
   min-height: 100px;
   resize: vertical;
