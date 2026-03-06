@@ -70,6 +70,20 @@
         border: 0;
         border-top: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
       }
+      .inspector-controls {
+        display: grid;
+        gap: var(--ds-space-2);
+      }
+      .inspector-controls .ds-toolbar {
+        justify-content: flex-start;
+      }
+      .inspector-dock {
+        display: grid;
+        gap: var(--ds-space-2);
+      }
+      .inspector-dock[hidden] {
+        display: none;
+      }
       .studio-tab {
         width: 100%;
         text-align: left;
@@ -77,7 +91,7 @@
       .studio-tab[aria-selected="true"] {
         border-color: var(--ds-accent);
         background: color-mix(in oklab, var(--ds-accent) 16%, var(--ds-btn-bg));
-        color: var(--ds-text);
+        color: var(--ds-btn-text);
       }
       .studio-main {
         min-width: 0;
@@ -115,7 +129,7 @@
       }
       .builder-group-tabs .ds-btn[aria-pressed="true"] {
         border-color: var(--ds-accent);
-        color: var(--ds-text);
+        color: var(--ds-btn-text);
         background: color-mix(in oklab, var(--ds-accent) 14%, var(--ds-btn-bg));
       }
       .builder-tabs-divider {
@@ -172,6 +186,55 @@
         display: grid;
         gap: var(--ds-space-3);
         align-content: start;
+      }
+      .builder-group[hidden] {
+        display: none;
+      }
+      .ds-inspector {
+        position: fixed;
+        z-index: calc(var(--ds-z-toast) + 20);
+        width: min(340px, calc(100vw - 24px));
+        pointer-events: none;
+        padding: var(--ds-space-3);
+        box-shadow: var(--ds-shadow-md);
+      }
+      .ds-inspector[hidden] {
+        display: none;
+      }
+      .ds-inspector-title {
+        font-weight: 700;
+        margin: 0 0 var(--ds-space-2);
+      }
+      .ds-inspector-grid {
+        display: grid;
+        gap: 4px;
+        font-size: var(--ds-fs-1);
+      }
+      .ds-inspector-grid code {
+        color: var(--ds-text);
+      }
+      .inspector-cursor-badge {
+        position: fixed;
+        z-index: calc(var(--ds-z-toast) + 24);
+        pointer-events: none;
+        min-width: 22px;
+        height: 20px;
+        padding: 0 5px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border-strong);
+        border-radius: var(--ds-radius-pill);
+        background: color-mix(in oklab, var(--ds-bg-elevated) 84%, transparent);
+        color: var(--ds-text);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        box-shadow: var(--ds-shadow-sm);
+        transform: translate(-50%, -100%);
+      }
+      .inspector-cursor-badge[hidden] {
+        display: none;
       }
       .builder-field {
         display: grid;
@@ -270,6 +333,103 @@
         content: "Open";
         font-size: var(--ds-fs-1);
         color: var(--ds-text-muted);
+      }
+      .wiki-workspace {
+        display: grid;
+        gap: var(--ds-layout-gap);
+        grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+        align-items: start;
+      }
+      .wiki-nav {
+        display: grid;
+        gap: var(--ds-space-3);
+        position: sticky;
+        top: var(--ds-space-4);
+      }
+      .wiki-nav-list {
+        display: grid;
+        gap: 6px;
+      }
+      .wiki-nav-btn[aria-pressed="true"] {
+        border-color: var(--ds-accent);
+        background: color-mix(in oklab, var(--ds-accent) 16%, var(--ds-btn-bg));
+        color: var(--ds-btn-text);
+      }
+      .wiki-pane {
+        min-width: 0;
+      }
+      .wiki-frame {
+        width: 100%;
+        min-height: 78vh;
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+        border-radius: var(--ds-radius-2);
+        background: var(--ds-bg-elevated);
+      }
+      .icon-toolbar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--ds-space-3);
+      }
+      .icon-meta {
+        margin-top: calc(var(--ds-space-2) * -1);
+      }
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: var(--ds-space-3);
+      }
+      .icon-card {
+        display: grid;
+        gap: var(--ds-space-2);
+      }
+      .icon-preview {
+        height: 88px;
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+        border-radius: var(--ds-radius-2);
+        background: var(--ds-bg-soft);
+        display: grid;
+        place-items: center;
+      }
+      .icon-preview svg {
+        width: 34px;
+        height: 34px;
+        stroke: var(--ds-text);
+        fill: none;
+        stroke-width: 1.8;
+      }
+      .icon-preview.is-placeholder svg {
+        stroke: var(--ds-text-muted);
+      }
+      .icon-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .icon-tag {
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+        border-radius: var(--ds-radius-pill);
+        padding: 2px 8px;
+        font-size: var(--ds-fs-1);
+        color: var(--ds-text-muted);
+        background: var(--ds-bg-raised);
+      }
+      .icon-status {
+        font-size: var(--ds-fs-1);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .icon-status.placeholder {
+        color: var(--ds-warning);
+      }
+      .icon-status.ready {
+        color: var(--ds-success);
+      }
+      .hitlist-table-wrap {
+        overflow: auto;
+      }
+      .hitlist-table th,
+      .hitlist-table td {
+        white-space: nowrap;
       }
       .mono {
         font-family: var(--ds-font-mono);
@@ -543,6 +703,18 @@
         .builder-live-preview {
           position: static;
         }
+        .wiki-workspace {
+          grid-template-columns: 1fr;
+        }
+        .wiki-nav {
+          position: static;
+        }
+        .wiki-frame {
+          min-height: 60vh;
+        }
+        .icon-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
     <noscript>
@@ -584,7 +756,6 @@
             <option value="signal-poster">Signal Poster</option>
           </select>
         </div>
-        <hr class="studio-divider" />
         <nav class="studio-nav" role="tablist" aria-label="Studio sections">
           <button
             class="ds-btn studio-tab"
@@ -618,13 +789,103 @@
           >
             Components
           </button>
+          <button
+            class="ds-btn studio-tab"
+            type="button"
+            data-panel="icons"
+            aria-selected="false"
+          >
+            Icons
+          </button>
         </nav>
+        <hr class="studio-divider" />
+        <article class="ds-card inspector-controls">
+          <h3 class="ds-card-title">Inspector</h3>
+          <div class="ds-toolbar">
+            <button
+              class="ds-btn ds-btn-sm"
+              id="inspectorToggleBtn"
+              type="button"
+              aria-pressed="false"
+            >
+              Inspector Off
+            </button>
+            <button
+              class="ds-btn ds-btn-sm"
+              id="inspectorPinBtn"
+              type="button"
+              aria-pressed="false"
+              disabled
+            >
+              Pin
+            </button>
+          </div>
+          <p class="ds-muted" id="inspectorHint">
+            Toggle inspector on to hover components and inspect details.
+          </p>
+          <div id="inspectorDock" class="inspector-dock" hidden></div>
+        </article>
         <p class="ds-muted">
           Builder edits apply in real time to this preview page.
         </p>
       </aside>
 
       <main class="studio-main">
+        <section id="panel-icons" class="studio-panel ds-stack" hidden>
+          <article class="ds-card ds-stack">
+            <div>
+              <h2 class="ds-card-title">Icon Gallery and Hitlist</h2>
+              <p class="ds-card-subtitle">
+                Track every icon situation across apps, mark placeholders vs ready SVGs, and rank immediate creation priorities.
+              </p>
+            </div>
+            <div class="icon-toolbar">
+              <div class="ds-field">
+                <label class="ds-label" for="iconSearch">Search</label>
+                <input id="iconSearch" class="ds-input" type="search" placeholder="Search icon names, tags, app usage..." />
+              </div>
+              <div class="ds-field">
+                <label class="ds-label" for="iconStatusFilter">Status</label>
+                <select id="iconStatusFilter" class="ds-select">
+                  <option value="all">All</option>
+                  <option value="placeholder">Placeholder</option>
+                  <option value="ready">Ready</option>
+                </select>
+              </div>
+              <div class="ds-field">
+                <label class="ds-label" for="iconCategoryFilter">Category</label>
+                <select id="iconCategoryFilter" class="ds-select">
+                  <option value="all">All</option>
+                </select>
+              </div>
+            </div>
+            <div class="icon-meta ds-muted mono" id="iconMeta">Loading icon repository...</div>
+            <div class="icon-grid" id="iconGrid"></div>
+          </article>
+          <article class="ds-card ds-stack">
+            <div>
+              <h3 class="ds-card-title">Hitlist</h3>
+              <p class="ds-card-subtitle">
+                Ranked by `frequency x utility x gap` to prioritize what should be drawn next.
+              </p>
+            </div>
+            <div class="hitlist-table-wrap">
+              <table class="ds-table hitlist-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Icon Situation</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Priority Score</th>
+                    <th scope="col">Used In</th>
+                  </tr>
+                </thead>
+                <tbody id="iconHitlistBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
         <section id="panel-components" class="studio-panel ds-stack" hidden>
           <article class="ds-card ds-stack">
             <div>
@@ -640,6 +901,8 @@
                   <button class="ds-btn ds-btn-primary" type="button">
                     Primary</button
                   ><button class="ds-btn" type="button">Secondary</button
+                  ><button class="ds-btn ds-btn-tertiary" type="button">
+                    Tertiary</button
                   ><button class="ds-btn ds-btn-danger" type="button">
                     Danger</button
                   ><button class="ds-btn ds-btn-ghost" type="button">
@@ -657,7 +920,8 @@
                   <span class="pill">Pill</span
                   ><span class="ds-badge success">Status</span
                   ><span class="ds-chip">Chip</span
-                  ><span class="ds-chip ds-chip-accent">Accent Chip</span>
+                  ><span class="ds-chip ds-chip-accent">Accent Chip</span
+                  ><span class="ds-chip ds-chip-alt">Alt Accent Chip</span>
                 </div>
               </article>
               <article class="ds-card ds-stack">
@@ -929,6 +1193,76 @@
                   <div class="ds-note">
                     <strong class="ds-label ds-label-block">Breakpoint</strong
                     ><code>--ds-layout-breakpoint-md</code>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="ds-grid ds-grid-2">
+              <article class="ds-card ds-stack">
+                <h3 class="ds-card-title">Actions and Validation</h3>
+                <div class="ds-toolbar">
+                  <div class="ds-btn-group" role="group" aria-label="Batch actions">
+                    <button class="ds-btn ds-btn-sm" type="button">Move</button>
+                    <button class="ds-btn ds-btn-sm" type="button">Duplicate</button>
+                    <button class="ds-btn ds-btn-sm ds-btn-danger" type="button">Delete</button>
+                  </div>
+                  <div class="ds-btn-split" role="group" aria-label="Split action">
+                    <button class="ds-btn ds-btn-primary ds-btn-sm" type="button">Create</button>
+                    <button class="ds-btn ds-btn-primary ds-btn-sm" type="button" aria-label="Open create options">v</button>
+                  </div>
+                </div>
+                <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                  <div class="ds-field is-valid">
+                    <label class="ds-label" for="validName">Valid Field</label>
+                    <input id="validName" class="ds-input" type="text" value="Vector set v2" />
+                    <div class="ds-status success">Looks good. Ready to save.</div>
+                  </div>
+                  <div class="ds-field is-danger">
+                    <label class="ds-label" for="errorName">Invalid Field</label>
+                    <input id="errorName" class="ds-input" type="text" value="x" />
+                    <div class="ds-status danger">Name must be at least 3 characters.</div>
+                  </div>
+                </div>
+                <article class="ds-empty-state">
+                  <div class="ds-empty-state-icon" aria-hidden="true">i</div>
+                  <strong>No icons matched your filters</strong>
+                  <p class="ds-muted">Try a broader search or clear category/status filters.</p>
+                  <button class="ds-btn ds-btn-tertiary ds-btn-sm" type="button">Clear Filters</button>
+                </article>
+              </article>
+              <article class="ds-card ds-stack">
+                <h3 class="ds-card-title">Tabs, Skeleton, and Command Palette</h3>
+                <div class="ds-tabs demo-tabset">
+                  <div class="ds-tablist" role="tablist" aria-label="Primary tabs">
+                    <button class="ds-tab" type="button" aria-selected="true" data-tab-target="tabOverview">Overview</button>
+                    <button class="ds-tab" type="button" aria-selected="false" data-tab-target="tabActivity">Activity</button>
+                    <button class="ds-tab" type="button" aria-selected="false" data-tab-target="tabSettings">Settings</button>
+                  </div>
+                  <div id="tabOverview" class="ds-tabpanel">
+                    <div class="ds-subtablist" role="tablist" aria-label="Subtabs">
+                      <button class="ds-subtab" type="button" aria-selected="true">Summary</button>
+                      <button class="ds-subtab" type="button" aria-selected="false">Resources</button>
+                      <button class="ds-subtab" type="button" aria-selected="false">Limits</button>
+                    </div>
+                  </div>
+                  <div id="tabActivity" class="ds-tabpanel" hidden>
+                    <div class="ds-skeleton-card" aria-label="Loading activity feed">
+                      <div class="ds-skeleton-line w-80"></div>
+                      <div class="ds-skeleton-line"></div>
+                      <div class="ds-skeleton-line w-60"></div>
+                      <div class="ds-skeleton-line w-40"></div>
+                    </div>
+                  </div>
+                  <div id="tabSettings" class="ds-tabpanel" hidden>
+                    <div class="ds-command-palette">
+                      <input class="ds-input" type="search" placeholder="Type a command..." />
+                      <div class="ds-command-palette-list">
+                        <button class="ds-command-item" type="button"><span>Toggle Density</span><span class="ds-muted mono">Ctrl+K D</span></button>
+                        <button class="ds-command-item" type="button"><span>Create Icon Placeholder</span><span class="ds-muted mono">Ctrl+K I</span></button>
+                        <button class="ds-command-item" type="button"><span>Export Theme Package</span><span class="ds-muted mono">Ctrl+K E</span></button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </article>
@@ -1682,59 +2016,46 @@ Do not occlude the trigger element when contextual help opens.</pre
             <div>
               <h2 class="ds-card-title">Design System Wiki</h2>
               <p class="ds-card-subtitle">
-                Central source-of-truth references for UX rules, component
-                contracts, and validation standards.
+                Browse source-of-truth docs inline without leaving the studio.
               </p>
             </div>
-            <div class="wiki-grid">
-              <article class="ds-card ds-stack">
-                <h3 class="ds-card-title">Core Guide</h3>
-                <div class="wiki-link-list">
-                  <a class="wiki-link" href="./wiki/FOUNDATIONS.md" target="_blank"
-                    >Foundations</a
-                  >
-                  <a class="wiki-link" href="./wiki/PATTERNS.md" target="_blank"
-                    >Patterns</a
-                  >
-                  <a class="wiki-link" href="./wiki/CONTENT_UX.md" target="_blank"
-                    >Content UX</a
-                  >
-                </div>
-              </article>
-              <article class="ds-card ds-stack">
-                <h3 class="ds-card-title">Implementation Specs</h3>
-                <div class="wiki-link-list">
-                  <a
-                    class="wiki-link"
-                    href="./wiki/COMPONENT_SPEC.md"
-                    target="_blank"
-                    >Component Spec</a
-                  >
-                  <a class="wiki-link" href="./wiki/ICONOGRAPHY.md" target="_blank"
-                    >Iconography</a
-                  >
-                  <a
-                    class="wiki-link"
-                    href="./wiki/VALIDATION_CHECKLIST.md"
-                    target="_blank"
-                    >Validation Checklist</a
-                  >
-                </div>
-              </article>
-              <article class="ds-card ds-stack">
-                <h3 class="ds-card-title">Governance</h3>
-                <div class="wiki-link-list">
-                  <a class="wiki-link" href="./_docs/README.md" target="_blank"
-                    >Docs Index</a
-                  >
-                  <a class="wiki-link" href="./_docs/DECISIONS_LOG.md" target="_blank"
-                    >Decisions Log</a
-                  >
-                  <a class="wiki-link" href="./_docs/CHANGELOG.md" target="_blank"
-                    >Docs Changelog</a
-                  >
-                </div>
-              </article>
+            <div class="wiki-workspace">
+              <aside class="wiki-nav">
+                <article class="ds-card ds-stack">
+                  <h3 class="ds-card-title">Core Guide</h3>
+                  <div class="wiki-nav-list">
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="FOUNDATIONS.md">Foundations</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="PATTERNS.md">Patterns</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="CONTENT_UX.md">Content UX</button>
+                  </div>
+                </article>
+                <article class="ds-card ds-stack">
+                  <h3 class="ds-card-title">Implementation</h3>
+                  <div class="wiki-nav-list">
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="THEME_ARCHITECTURE_DIAGRAM.md">Theme Architecture Diagram</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="THEME_PRESET_MAP.md">Theme Preset Map</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="COMPONENT_SPEC.md">Component Spec</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="ICONOGRAPHY.md">Iconography</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="VALIDATION_CHECKLIST.md">Validation Checklist</button>
+                  </div>
+                </article>
+                <article class="ds-card ds-stack">
+                  <h3 class="ds-card-title">Governance</h3>
+                  <div class="wiki-nav-list">
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="../_docs/README.md">Docs Index</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="../_docs/DECISIONS_LOG.md">Decisions Log</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="../_docs/CHANGELOG.md">Docs Changelog</button>
+                  </div>
+                </article>
+              </aside>
+              <section class="wiki-pane">
+                <iframe
+                  id="wikiFrame"
+                  class="wiki-frame"
+                  title="Design System Wiki Content"
+                  src="./wiki/viewer.html?doc=FOUNDATIONS.md&embed=1"
+                ></iframe>
+              </section>
             </div>
           </article>
         </section>
@@ -1879,6 +2200,9 @@ Do not occlude the trigger element when contextual help opens.</pre
                     <button class="ds-btn ds-btn-primary" type="button">
                       Elevated Action
                     </button>
+                    <button class="ds-btn ds-btn-tertiary" type="button">
+                      Tertiary Action
+                    </button>
                     <button class="ds-btn ds-btn-text" type="button">
                       Borderless
                     </button>
@@ -1887,6 +2211,37 @@ Do not occlude the trigger element when contextual help opens.</pre
                     <button class="ds-btn" type="button">Context Trigger</button>
                     <div class="ds-popover" style="position: static">
                       Surface/material and overlay depth preview.
+                    </div>
+                  </div>
+                </details>
+                <details
+                  class="preview-section ds-stack"
+                  data-preview-groups="Buttons and Inputs,Surface and Depth,Motion and Layers"
+                  open
+                >
+                  <summary>Action Patterns</summary>
+                  <div class="ds-toolbar">
+                    <div class="ds-btn-group" role="group" aria-label="Preview action group">
+                      <button class="ds-btn ds-btn-sm" type="button">Move</button>
+                      <button class="ds-btn ds-btn-sm" type="button">Copy</button>
+                      <button class="ds-btn ds-btn-sm ds-btn-danger" type="button">Delete</button>
+                    </div>
+                    <div class="ds-btn-split" role="group" aria-label="Preview split button">
+                      <button class="ds-btn ds-btn-primary ds-btn-sm" type="button">Create</button>
+                      <button class="ds-btn ds-btn-primary ds-btn-sm" type="button" aria-label="Open create menu">v</button>
+                    </div>
+                    <button class="ds-btn ds-btn-tertiary ds-btn-sm" type="button">Tertiary</button>
+                  </div>
+                  <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                    <div class="ds-field is-valid">
+                      <label class="ds-label" for="builderValidField">Valid</label>
+                      <input id="builderValidField" class="ds-input" type="text" value="Ready" />
+                      <div class="ds-status success">Validation success</div>
+                    </div>
+                    <div class="ds-field is-danger">
+                      <label class="ds-label" for="builderErrorField">Error</label>
+                      <input id="builderErrorField" class="ds-input" type="text" value="x" />
+                      <div class="ds-status danger">Validation error</div>
                     </div>
                   </div>
                 </details>
@@ -1919,6 +2274,7 @@ Do not occlude the trigger element when contextual help opens.</pre
                   <div class="ds-toolbar">
                     <span class="ds-chip">Chip</span>
                     <span class="ds-chip ds-chip-accent">Accent Chip</span>
+                    <span class="ds-chip ds-chip-alt">Alt Accent Chip</span>
                   </div>
                 </details>
               </aside>
@@ -2054,6 +2410,17 @@ Do not occlude the trigger element when contextual help opens.</pre
       </div>
     </dialog>
     <div class="ds-toast-stack" id="toastStack" aria-live="polite"></div>
+    <aside id="componentInspector" class="ds-card ds-inspector" hidden>
+      <p class="ds-inspector-title" id="inspectorTitle">Inspector</p>
+      <div class="ds-inspector-grid">
+        <div><strong>Element:</strong> <code id="inspectorElement">-</code></div>
+        <div><strong>Token Surface:</strong> <code id="inspectorSurface">-</code></div>
+        <div><strong>Text Color:</strong> <code id="inspectorText">-</code></div>
+        <div><strong>Border:</strong> <code id="inspectorBorder">-</code></div>
+        <div><strong>Radius:</strong> <code id="inspectorRadius">-</code></div>
+        <div><strong>Shadow:</strong> <code id="inspectorShadow">-</code></div>
+      </div>
+    </aside>
 
     <script>
       (function () {
@@ -2077,6 +2444,8 @@ Do not occlude the trigger element when contextual help opens.</pre
               { token: "--ds-border-strong", type: "color" },
               { token: "--ds-accent", type: "color" },
               { token: "--ds-accent-strong", type: "color" },
+              { token: "--ds-accent-alt", type: "color" },
+              { token: "--ds-accent-alt-strong", type: "color" },
               { token: "--ds-focus", type: "color" },
               { token: "--ds-success", type: "color" },
               { token: "--ds-warning", type: "color" },
@@ -2249,6 +2618,10 @@ Do not occlude the trigger element when contextual help opens.</pre
               { token: "--ds-btn-primary-bg-hover", type: "paint" },
               { token: "--ds-btn-primary-border", type: "color" },
               { token: "--ds-btn-primary-text", type: "color" },
+              { token: "--ds-btn-tertiary-bg", type: "paint" },
+              { token: "--ds-btn-tertiary-bg-hover", type: "paint" },
+              { token: "--ds-btn-tertiary-border", type: "color" },
+              { token: "--ds-btn-tertiary-text", type: "color" },
               { token: "--ds-btn-text-quiet", type: "color" },
               { token: "--ds-btn-text-quiet-hover", type: "color" },
               { token: "--ds-btn-text-quiet-active", type: "color" },
@@ -2259,6 +2632,14 @@ Do not occlude the trigger element when contextual help opens.</pre
               { token: "--ds-input-placeholder", type: "color" },
               { token: "--ds-input-icon-color", type: "color" },
               { token: "--ds-input-icon-color-focus", type: "color" },
+              { token: "--ds-validation-success-bg", type: "paint" },
+              { token: "--ds-validation-success-border", type: "color" },
+              { token: "--ds-validation-success-text", type: "color" },
+              { token: "--ds-validation-danger-bg", type: "paint" },
+              { token: "--ds-validation-danger-border", type: "color" },
+              { token: "--ds-validation-danger-text", type: "color" },
+              { token: "--ds-skeleton-base", type: "color" },
+              { token: "--ds-skeleton-shimmer", type: "color" },
             ],
           },
           {
@@ -3029,7 +3410,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-primary-bg-hover":
               "linear-gradient(180deg, #ffc96f 0%, #ffaa47 100%)",
             "--ds-btn-primary-border": "#f79a2a",
-            "--ds-btn-primary-text": "#180f03",
+            "--ds-btn-primary-text": "var(--ds-text)",
             "--ds-input-bg": "#171005",
             "--ds-input-border": "#6b4517",
             "--ds-input-text": "#ffc978",
@@ -3187,7 +3568,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-primary-bg-hover":
               "linear-gradient(180deg, #9beeff 0%, #60d2fa 48%, #29a9d2 100%)",
             "--ds-btn-primary-border": "#66cdec",
-            "--ds-btn-primary-text": "#06141c",
+            "--ds-btn-primary-text": "var(--ds-text)",
             "--ds-input-bg":
               "linear-gradient(180deg, #5b6578 0%, #4d5769 24%, #3e4657 100%)",
             "--ds-input-border": "#adb9cb",
@@ -3241,7 +3622,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-primary-bg-hover":
               "linear-gradient(180deg, #53f5ff 0%, #18cce6 100%)",
             "--ds-btn-primary-border": "#ffe77a",
-            "--ds-btn-primary-text": "#11213a",
+            "--ds-btn-primary-text": "var(--ds-text)",
             "--ds-input-bg": "linear-gradient(180deg, #0e1e4d 0%, #0b1740 100%)",
             "--ds-input-border": "#56dfff",
             "--ds-input-text": "#fff8d5",
@@ -3399,7 +3780,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-primary-bg-hover":
               "linear-gradient(135deg, #ff6ee0 0%, #66e2ff 100%)",
             "--ds-btn-primary-border": "#54bfff",
-            "--ds-btn-primary-text": "#2a0f44",
+            "--ds-btn-primary-text": "var(--ds-text)",
             "--ds-input-bg":
               "linear-gradient(180deg, rgba(45,26,102,0.9), rgba(33,20,77,0.92))",
             "--ds-input-border": "#8d62ff",
@@ -3556,35 +3937,31 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-bg-soft": "#d3d4d2",
             "--ds-text": "#111215",
             "--ds-text-muted": "#515255",
-            "--ds-border": "#000000",
+            "--ds-border": "#111215",
             "--ds-border-strong": "#000000",
-            "--ds-accent": "#ff5b00",
-            "--ds-accent-strong": "#d94d00",
-            "--ds-focus": "#ff8f54",
-            "--ds-success": "#7ed6a6",
-            "--ds-warning": "#ff8f30",
-            "--ds-danger": "#e8432e",
-            "--ds-info": "#8dbdff",
-            "--ds-card-shadow": "0 12px 24px rgba(0,0,0,0.16)",
+            "--ds-bg-overlay": "rgba(16,16,18,0.2)",
+            "--ds-card-shadow":
+              "0 10px 22px color-mix(in oklab,var(--ds-bg) 62%, transparent)",
             "--ds-card-bg-image":
-              "linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.06))",
-            "--ds-btn-bg": "#111215",
-            "--ds-btn-bg-hover": "#1a1c20",
-            "--ds-btn-border": "#111215",
-            "--ds-btn-text": "#f7f7f4",
-            "--ds-btn-primary-bg":
-              "linear-gradient(180deg, #ff6a14 0%, #d74c00 100%)",
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 3%, transparent), color-mix(in oklab,var(--ds-bg) 9%, transparent))",
+            "--ds-btn-bg": "var(--ds-bg)",
+            "--ds-btn-bg-hover":
+              "color-mix(in oklab, var(--ds-bg) 88%, var(--ds-accent) 12%)",
+            "--ds-btn-border": "transparent",
+            "--ds-btn-text": "var(--ds-bg-elevated)",
+            "--ds-btn-primary-bg": "var(--ds-accent)",
             "--ds-btn-primary-bg-hover":
-              "linear-gradient(180deg, #ff7a2b 0%, #e65a0e 100%)",
-            "--ds-btn-primary-border": "#d74c00",
-            "--ds-btn-primary-text": "#101114",
-            "--ds-input-bg": "#f7f7f4",
-            "--ds-input-border": "#111215",
-            "--ds-input-text": "#111215",
-            "--ds-input-placeholder": "#67686d",
-            "--ds-input-shadow": "inset 0 0 0 1px rgba(0,0,0,0.08)",
+              "color-mix(in oklab, var(--ds-accent) 88%, white 12%)",
+            "--ds-btn-primary-border": "var(--ds-accent-strong)",
+            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
+            "--ds-input-bg": "var(--ds-bg-elevated)",
+            "--ds-input-border": "var(--ds-bg)",
+            "--ds-input-text": "var(--ds-text)",
+            "--ds-input-placeholder": "var(--ds-text-muted)",
+            "--ds-input-shadow":
+              "inset 0 0 0 1px color-mix(in oklab,var(--ds-bg) 10%, transparent)",
             "--ds-body-bg-image":
-              "linear-gradient(180deg, #eeeeec 0%, #e7e7e5 100%)",
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 2%, white), var(--ds-bg))",
           },
         });
         Object.assign(baseThemePresetMap, {
@@ -3673,6 +4050,54 @@ Do not occlude the trigger element when contextual help opens.</pre
         const scalePresetSelect = document.getElementById("scalePresetSelect");
         const texturePresetSelect =
           document.getElementById("texturePresetSelect");
+        const themePrimaryTextMode = {
+          "mono-slate": "surface",
+          "paper-mint": "surface",
+          "neon-grid": "surface",
+          "skeuo-panel": "surface",
+          "industrial-terminal": "surface",
+          "velvet-touch": "surface",
+          "eva-wireframe": "surface",
+        };
+        const baseThemeVisualOverrides = {
+          "signal-poster": {
+            "--ds-bg": "#ebebea",
+            "--ds-bg-elevated": "#f7f7f4",
+            "--ds-bg-raised": "#dfe0de",
+            "--ds-bg-soft": "#d3d4d2",
+            "--ds-text": "#111215",
+            "--ds-text-muted": "#515255",
+            "--ds-border": "#000000",
+            "--ds-border-strong": "#000000",
+            "--ds-accent": "#ff5b00",
+            "--ds-accent-strong": "#d94d00",
+            "--ds-focus": "#ff8f54",
+            "--ds-success": "#7ed6a6",
+            "--ds-warning": "#ff8f30",
+            "--ds-danger": "#e8432e",
+            "--ds-info": "#8dbdff",
+            "--ds-card-shadow": "0 12px 24px rgba(0,0,0,0.16)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.06))",
+            "--ds-btn-bg": "#111215",
+            "--ds-btn-bg-hover": "#1a1c20",
+            "--ds-btn-border": "#111215",
+            "--ds-btn-text": "#f7f7f4",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, #ff6a14 0%, #d74c00 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, #ff7a2b 0%, #e65a0e 100%)",
+            "--ds-btn-primary-border": "#d74c00",
+            "--ds-btn-primary-text": "#101114",
+            "--ds-input-bg": "#f7f7f4",
+            "--ds-input-border": "#111215",
+            "--ds-input-text": "#111215",
+            "--ds-input-placeholder": "#67686d",
+            "--ds-input-shadow": "inset 0 0 0 1px rgba(0,0,0,0.08)",
+            "--ds-body-bg-image":
+              "linear-gradient(180deg, #eeeeec 0%, #e7e7e5 100%)",
+          },
+        };
         function fillPresetSelect(el, dict) {
           Object.keys(dict).forEach((k) => {
             const o = document.createElement("option");
@@ -3722,6 +4147,72 @@ Do not occlude the trigger element when contextual help opens.</pre
             );
           }
         });
+        const paletteLockedStyles = new Set([
+          "terminal-amber",
+          "eva-wire",
+          "eva-unit01",
+          "saturn-skeuo",
+          "old-web",
+          "candy-pop",
+          "complimentary-gradient",
+          "vaporwave-neon",
+          "holo-nocturne",
+          "oilslick-organic",
+        ]);
+        function auditPresetConnectivity() {
+          const issues = [];
+          Object.entries(baseThemePresetMap).forEach(([themeName, combo]) => {
+            if (!colorFamilyPresets[combo.family]) {
+              issues.push(themeName + " missing family preset: " + combo.family);
+            }
+            if (!huePresets[combo.hue]) {
+              issues.push(themeName + " missing hue preset: " + combo.hue);
+            }
+            if (!stylePresets[combo.style]) {
+              issues.push(themeName + " missing style preset: " + combo.style);
+            }
+            if (!scalePresets[combo.scale]) {
+              issues.push(themeName + " missing scale preset: " + combo.scale);
+            }
+            if (!texturePresets[combo.texture]) {
+              issues.push(themeName + " missing texture preset: " + combo.texture);
+            }
+          });
+          if (issues.length) {
+            console.warn("[ThemeBuilder] Preset connectivity issues:", issues);
+          }
+          return issues;
+        }
+        function auditStyleComposability() {
+          const corePalettePrefixes = [
+            "--ds-bg",
+            "--ds-text",
+            "--ds-accent",
+            "--ds-border",
+            "--ds-focus",
+            "--ds-success",
+            "--ds-warning",
+            "--ds-danger",
+            "--ds-info",
+          ];
+          const issues = [];
+          Object.entries(stylePresets).forEach(([styleName, bundle]) => {
+            if (paletteLockedStyles.has(styleName)) return;
+            Object.keys(bundle).forEach((token) => {
+              if (corePalettePrefixes.some((prefix) => token.startsWith(prefix))) {
+                issues.push(
+                  styleName + " hardcodes core palette token: " + token,
+                );
+              }
+            });
+          });
+          if (issues.length) {
+            console.warn("[ThemeBuilder] Style composability issues:", issues);
+          }
+          return issues;
+        }
+        auditPresetConnectivity();
+        auditStyleComposability();
         function hsl(h, s, l) {
           return (
             "hsl(" +
@@ -3738,6 +4229,59 @@ Do not occlude the trigger element when contextual help opens.</pre
         }
         function rotate(h, d) {
           return (h + d + 360) % 360;
+        }
+        function hslToRgb(h, s, l) {
+          const hue = ((h % 360) + 360) % 360;
+          const sat = clamp(s, 0, 100) / 100;
+          const lig = clamp(l, 0, 100) / 100;
+          const c = (1 - Math.abs(2 * lig - 1)) * sat;
+          const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
+          const m = lig - c / 2;
+          let r1 = 0;
+          let g1 = 0;
+          let b1 = 0;
+          if (hue < 60) {
+            r1 = c;
+            g1 = x;
+          } else if (hue < 120) {
+            r1 = x;
+            g1 = c;
+          } else if (hue < 180) {
+            g1 = c;
+            b1 = x;
+          } else if (hue < 240) {
+            g1 = x;
+            b1 = c;
+          } else if (hue < 300) {
+            r1 = x;
+            b1 = c;
+          } else {
+            r1 = c;
+            b1 = x;
+          }
+          return [r1 + m, g1 + m, b1 + m];
+        }
+        function hexToRgb(hex) {
+          const clean = (hex || "").trim().replace("#", "");
+          if (!/^[0-9a-f]{6}$/i.test(clean)) return [0, 0, 0];
+          return [
+            parseInt(clean.slice(0, 2), 16) / 255,
+            parseInt(clean.slice(2, 4), 16) / 255,
+            parseInt(clean.slice(4, 6), 16) / 255,
+          ];
+        }
+        function luminance(rgb) {
+          const toLinear = (c) =>
+            c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+          const [r, g, b] = rgb.map(toLinear);
+          return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        }
+        function contrastRatio(rgbA, rgbB) {
+          const l1 = luminance(rgbA);
+          const l2 = luminance(rgbB);
+          const lighter = Math.max(l1, l2);
+          const darker = Math.min(l1, l2);
+          return (lighter + 0.05) / (darker + 0.05);
         }
         function hueProfile(hueKey) {
           const hue = huePresets[hueKey] || huePresets.cyan;
@@ -3769,14 +4313,27 @@ Do not occlude the trigger element when contextual help opens.</pre
           const textSat = isLight
             ? Math.max(6, sat * 0.18)
             : Math.max(8, sat * 0.24);
+          const textColor = hsl(h, textSat, fam.textL);
+          const textInverseColor = isLight ? "#0f1216" : "#f6fbff";
+          const primaryBgColor = hsl(h, aSat, fam.accentL);
+          const textContrast = contrastRatio(
+            hslToRgb(h, textSat, fam.textL),
+            hslToRgb(h, aSat, fam.accentL),
+          );
+          const inverseContrast = contrastRatio(
+            hexToRgb(textInverseColor),
+            hslToRgb(h, aSat, fam.accentL),
+          );
+          const primaryTextColor =
+            inverseContrast >= textContrast ? textInverseColor : textColor;
           const bundle = {
             "--ds-bg": hsl(h, clamp(sat * 0.22, 5, 34), fam.bgL),
             "--ds-bg-elevated": hsl(h, clamp(sat * 0.24, 6, 36), fam.elevL),
             "--ds-bg-raised": hsl(h, clamp(sat * 0.3, 8, 40), fam.raisedL),
             "--ds-bg-soft": hsl(h, clamp(sat * 0.36, 10, 46), fam.softL),
-            "--ds-text": hsl(h, textSat, fam.textL),
+            "--ds-text": textColor,
             "--ds-text-muted": hsl(h, clamp(sat * 0.2, 8, 30), fam.mutedL),
-            "--ds-text-inverse": isLight ? "#0f1216" : "#f6fbff",
+            "--ds-text-inverse": textInverseColor,
             "--ds-border": hsl(h, clamp(sat * 0.26, 8, 36), fam.borderL),
             "--ds-border-strong": hsl(
               h,
@@ -3789,6 +4346,10 @@ Do not occlude the trigger element when contextual help opens.</pre
               aSat,
               clamp(fam.accentL + (isLight ? -9 : 8), 6, 94),
             ),
+            "--ds-accent-alt":
+              "color-mix(in oklab, var(--ds-accent) 68%, var(--ds-focus) 32%)",
+            "--ds-accent-alt-strong":
+              "color-mix(in oklab, var(--ds-accent-alt) 72%, black 28%)",
             "--ds-focus": hsl(
               h,
               clamp(aSat * 0.92, 0, 100),
@@ -3814,7 +4375,7 @@ Do not occlude the trigger element when contextual help opens.</pre
               clamp(aSat * 0.72, 20, 95),
               clamp(fam.accentL + (isLight ? -4 : 9), 8, 90),
             ),
-            "--ds-btn-primary-bg": hsl(h, aSat, fam.accentL),
+            "--ds-btn-primary-bg": primaryBgColor,
             "--ds-btn-primary-bg-hover": hsl(
               h,
               aSat,
@@ -3825,7 +4386,19 @@ Do not occlude the trigger element when contextual help opens.</pre
               clamp(aSat * 0.9, 0, 100),
               clamp(fam.accentL + (isLight ? -13 : 2), 6, 95),
             ),
-            "--ds-btn-primary-text": isLight ? "#ffffff" : "#071018",
+            "--ds-btn-primary-text": primaryTextColor,
+            "--ds-btn-tertiary-bg":
+              "color-mix(in oklab, var(--ds-accent-alt) 18%, var(--ds-bg-raised))",
+            "--ds-btn-tertiary-bg-hover":
+              "color-mix(in oklab, var(--ds-btn-tertiary-bg) 82%, var(--ds-accent-alt) 18%)",
+            "--ds-btn-tertiary-border":
+              "color-mix(in oklab, var(--ds-accent-alt-strong) 62%, var(--ds-border) 38%)",
+            "--ds-btn-tertiary-text": "var(--ds-accent-alt)",
+            "--ds-native-color-scheme": isLight ? "light" : "dark",
+            "--ds-native-icon-filter": isLight
+              ? "none"
+              : "invert(1) brightness(1.06)",
+            "--ds-native-icon-opacity": isLight ? "0.86" : "0.92",
             "--ds-bg-overlay": isLight
               ? "rgba(24,26,30,0.15)"
               : "rgba(5,9,15,0.72)",
@@ -3868,14 +4441,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             bundle["--ds-card-bg-image"] =
               "linear-gradient(180deg, rgba(255,255,255,0.18), rgba(26,30,38,0.14))";
           }
-          if (
-            familyKey === "paper" ||
-            familyKey === "pastel" ||
-            familyKey === "frost" ||
-            familyKey === "neumorph"
-          ) {
-            bundle["--ds-btn-primary-text"] = "#ffffff";
-          }
+          // Keep status tones constrained for monochrome/noir families.
           if (familyKey === "monochrome" || familyKey === "noir") {
             bundle["--ds-success"] = bundle["--ds-accent"];
             bundle["--ds-warning"] = bundle["--ds-accent-strong"];
@@ -4152,7 +4718,19 @@ Do not occlude the trigger element when contextual help opens.</pre
           texturePresetSelect.value =
             combo.texture || inferTexturePreset(combo.style);
         }
-        function applySelectedPresetCombo() {
+        function comboMatchesBaseTheme(themeKey) {
+          const combo = baseThemePresetMap[themeKey];
+          if (!combo) return false;
+          return (
+            familyPresetSelect.value === combo.family &&
+            huePresetSelect.value === combo.hue &&
+            stylePresetSelect.value === combo.style &&
+            scalePresetSelect.value === combo.scale &&
+            texturePresetSelect.value ===
+              (combo.texture || inferTexturePreset(combo.style))
+          );
+        }
+        function applySelectedPresetCombo(themeKey) {
           root.removeAttribute("data-theme");
           setTokenBundle(
             buildColorBundle(familyPresetSelect.value, huePresetSelect.value),
@@ -4160,6 +4738,21 @@ Do not occlude the trigger element when contextual help opens.</pre
           setTokenBundle(stylePresets[stylePresetSelect.value]);
           setTokenBundle(scalePresets[scalePresetSelect.value]);
           setTokenBundle(texturePresets[texturePresetSelect.value]);
+          const activeTheme = themeKey || themeSelect.value;
+          if (
+            baseThemeVisualOverrides[activeTheme] &&
+            comboMatchesBaseTheme(activeTheme)
+          ) {
+            setTokenBundle(baseThemeVisualOverrides[activeTheme]);
+          }
+          const primaryTextMode = themePrimaryTextMode[activeTheme] || "contrast";
+          if (primaryTextMode === "surface") {
+            root.style.setProperty("--ds-btn-primary-text", "var(--ds-bg-elevated)");
+          } else if (primaryTextMode === "text") {
+            root.style.setProperty("--ds-btn-primary-text", "var(--ds-text)");
+          } else if (primaryTextMode === "inverse") {
+            root.style.setProperty("--ds-btn-primary-text", "var(--ds-text-inverse)");
+          }
         }
         function syncControlsFromComputed() {
           const cs = getComputedStyle(root);
@@ -5008,6 +5601,12 @@ Do not occlude the trigger element when contextual help opens.</pre
             applySelectedPresetCombo();
           }
           syncControlsFromComputed();
+          const activeWikiBtn = wikiNavButtons.find(
+            (btn) => btn.getAttribute("aria-pressed") === "true",
+          );
+          if (activeWikiBtn) {
+            setActiveWikiDoc(activeWikiBtn.getAttribute("data-doc"));
+          }
         });
         const resetDialog = document.getElementById("resetConfirmDialog");
         const skipResetConfirmChk = document.getElementById(
@@ -5062,6 +5661,190 @@ Do not occlude the trigger element when contextual help opens.</pre
             const zip = makeZip(files);
             downloadBlob(exp.name + "-theme-package.zip", zip);
           });
+        const iconRegistry = [
+          { id: "search", name: "Search", category: "navigation", status: "ready", frequency: 5, utility: 5, apps: ["KataCart", "Bonsai", "Trekulate"], tags: ["find", "lookup", "filter"], glyph: '<circle cx="11" cy="11" r="6"></circle><line x1="16" y1="16" x2="21" y2="21"></line>' },
+          { id: "close", name: "Close", category: "actions", status: "ready", frequency: 5, utility: 5, apps: ["KataCart", "Bonsai", "DesignSystem"], tags: ["dismiss", "cancel", "modal"], glyph: '<line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line>' },
+          { id: "chevron-down", name: "Chevron Down", category: "navigation", status: "ready", frequency: 5, utility: 4, apps: ["KataCart", "Trekulate"], tags: ["collapse", "expand", "accordion"], glyph: '<polyline points="6,9 12,15 18,9"></polyline>' },
+          { id: "menu", name: "Menu", category: "navigation", status: "ready", frequency: 4, utility: 4, apps: ["Bonsai", "KataCart"], tags: ["drawer", "hamburger", "panel"], glyph: '<line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line>' },
+          { id: "info", name: "Info", category: "feedback", status: "placeholder", frequency: 5, utility: 5, apps: ["DesignSystem", "Bonsai"], tags: ["help", "tooltip", "guide"] },
+          { id: "warning", name: "Warning", category: "feedback", status: "placeholder", frequency: 4, utility: 5, apps: ["KataCart", "Trekulate"], tags: ["alert", "error-state"] },
+          { id: "success-check", name: "Success Check", category: "feedback", status: "placeholder", frequency: 4, utility: 5, apps: ["KataCart", "Bonsai"], tags: ["confirm", "done"] },
+          { id: "trash", name: "Delete/Trash", category: "actions", status: "placeholder", frequency: 5, utility: 5, apps: ["KataCart", "Bonsai", "Trekulate"], tags: ["remove", "danger"] },
+          { id: "edit", name: "Edit/Pencil", category: "actions", status: "placeholder", frequency: 4, utility: 4, apps: ["KataCart", "Bonsai"], tags: ["rename", "modify"] },
+          { id: "copy", name: "Copy", category: "actions", status: "placeholder", frequency: 4, utility: 4, apps: ["DesignSystem", "KataCart"], tags: ["duplicate", "clipboard"] },
+          { id: "download", name: "Download", category: "actions", status: "placeholder", frequency: 4, utility: 4, apps: ["DesignSystem", "Bonsai"], tags: ["export", "save"] },
+          { id: "upload", name: "Upload", category: "actions", status: "placeholder", frequency: 3, utility: 4, apps: ["KataCart"], tags: ["import", "attach"] },
+          { id: "calendar", name: "Calendar", category: "data", status: "placeholder", frequency: 4, utility: 4, apps: ["Trekulate", "Bonsai"], tags: ["date", "schedule"] },
+          { id: "clock", name: "Clock/Time", category: "data", status: "placeholder", frequency: 3, utility: 4, apps: ["Trekulate"], tags: ["duration", "time"] },
+          { id: "location-pin", name: "Location Pin", category: "map", status: "placeholder", frequency: 5, utility: 5, apps: ["Trekulate"], tags: ["geo", "marker", "map"] },
+          { id: "route-path", name: "Route Path", category: "map", status: "placeholder", frequency: 4, utility: 5, apps: ["Trekulate"], tags: ["navigation", "line"] },
+          { id: "layers", name: "Layers", category: "map", status: "placeholder", frequency: 3, utility: 4, apps: ["Trekulate"], tags: ["overlays", "stack"] },
+          { id: "filter", name: "Filter", category: "data", status: "placeholder", frequency: 5, utility: 4, apps: ["KataCart", "Bonsai"], tags: ["sort", "query"] },
+          { id: "sort", name: "Sort", category: "data", status: "placeholder", frequency: 4, utility: 4, apps: ["KataCart"], tags: ["order", "list"] },
+          { id: "settings", name: "Settings", category: "navigation", status: "placeholder", frequency: 4, utility: 5, apps: ["All"], tags: ["preferences", "gear"] },
+        ];
+        const iconSearch = document.getElementById("iconSearch");
+        const iconStatusFilter = document.getElementById("iconStatusFilter");
+        const iconCategoryFilter = document.getElementById("iconCategoryFilter");
+        const iconGrid = document.getElementById("iconGrid");
+        const iconMeta = document.getElementById("iconMeta");
+        const iconHitlistBody = document.getElementById("iconHitlistBody");
+        function iconPriorityScore(icon) {
+          const gap = icon.status === "placeholder" ? 2 : 0.6;
+          return Math.round(icon.frequency * icon.utility * gap * 10) / 10;
+        }
+        function placeholderGlyph() {
+          return '<rect x="4" y="4" width="16" height="16" rx="2" ry="2" stroke-dasharray="2 2"></rect><line x1="8" y1="8" x2="16" y2="16"></line><line x1="16" y1="8" x2="8" y2="16"></line>';
+        }
+        function iconSvgMarkup(icon) {
+          return (
+            '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+            (icon.glyph || placeholderGlyph()) +
+            "</svg>"
+          );
+        }
+        function iconSvgFile(icon) {
+          const body = icon.glyph || placeholderGlyph();
+          return (
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+            "<title>" +
+            icon.name +
+            "</title>" +
+            body +
+            "</svg>\n"
+          );
+        }
+        function downloadIconSvg(icon) {
+          const blob = new Blob([iconSvgFile(icon)], {
+            type: "image/svg+xml;charset=utf-8",
+          });
+          downloadBlob(icon.id + ".svg", blob);
+        }
+        function buildIconCategoryFilter() {
+          if (!iconCategoryFilter) return;
+          const categories = Array.from(
+            new Set(iconRegistry.map((i) => i.category)),
+          ).sort();
+          categories.forEach((c) => {
+            const opt = document.createElement("option");
+            opt.value = c;
+            opt.textContent = c;
+            iconCategoryFilter.appendChild(opt);
+          });
+        }
+        function filteredIcons() {
+          const q = (iconSearch?.value || "").trim().toLowerCase();
+          const status = iconStatusFilter?.value || "all";
+          const category = iconCategoryFilter?.value || "all";
+          return iconRegistry.filter((icon) => {
+            if (status !== "all" && icon.status !== status) return false;
+            if (category !== "all" && icon.category !== category) return false;
+            if (!q) return true;
+            const haystack = [
+              icon.id,
+              icon.name,
+              icon.category,
+              icon.status,
+              ...(icon.apps || []),
+              ...(icon.tags || []),
+            ]
+              .join(" ")
+              .toLowerCase();
+            return haystack.indexOf(q) > -1;
+          });
+        }
+        function renderIconGallery() {
+          if (!iconGrid || !iconHitlistBody || !iconMeta) return;
+          const rows = filteredIcons();
+          iconGrid.innerHTML = "";
+          rows.forEach((icon) => {
+            const card = document.createElement("article");
+            card.className = "ds-card icon-card";
+            const preview = document.createElement("div");
+            preview.className =
+              "icon-preview" +
+              (icon.status === "placeholder" ? " is-placeholder" : "");
+            preview.innerHTML = iconSvgMarkup(icon);
+            const title = document.createElement("h4");
+            title.className = "ds-card-title";
+            title.textContent = icon.name;
+            const status = document.createElement("div");
+            status.className = "icon-status " + icon.status;
+            status.textContent = icon.status;
+            const tags = document.createElement("div");
+            tags.className = "icon-tags";
+            [icon.category, ...(icon.tags || []).slice(0, 2)].forEach((tag) => {
+              const t = document.createElement("span");
+              t.className = "icon-tag";
+              t.textContent = tag;
+              tags.appendChild(t);
+            });
+            const used = document.createElement("p");
+            used.className = "ds-muted";
+            used.textContent = "Used in: " + (icon.apps || []).join(", ");
+            const actions = document.createElement("div");
+            actions.className = "ds-toolbar";
+            const exportBtn = document.createElement("button");
+            exportBtn.type = "button";
+            exportBtn.className = "ds-btn ds-btn-sm";
+            exportBtn.textContent =
+              icon.status === "ready" ? "Export SVG" : "Export Placeholder";
+            exportBtn.addEventListener("click", function () {
+              downloadIconSvg(icon);
+            });
+            actions.appendChild(exportBtn);
+            card.appendChild(preview);
+            card.appendChild(title);
+            card.appendChild(status);
+            card.appendChild(tags);
+            card.appendChild(used);
+            card.appendChild(actions);
+            iconGrid.appendChild(card);
+          });
+          const readyCount = rows.filter((i) => i.status === "ready").length;
+          const missingCount = rows.length - readyCount;
+          iconMeta.textContent =
+            rows.length +
+            " icon situations tracked (" +
+            readyCount +
+            " ready, " +
+            missingCount +
+            " placeholders).";
+          const rankRows = iconRegistry
+            .slice()
+            .sort((a, b) => iconPriorityScore(b) - iconPriorityScore(a));
+          iconHitlistBody.innerHTML = "";
+          rankRows.forEach((icon, index) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML =
+              "<td>" +
+              String(index + 1) +
+              "</td>" +
+              "<td>" +
+              icon.name +
+              "</td>" +
+              "<td>" +
+              icon.category +
+              "</td>" +
+              "<td>" +
+              icon.status +
+              "</td>" +
+              "<td>" +
+              String(iconPriorityScore(icon)) +
+              "</td>" +
+              "<td>" +
+              (icon.apps || []).join(", ") +
+              "</td>";
+            iconHitlistBody.appendChild(tr);
+          });
+        }
+        if (iconSearch && iconStatusFilter && iconCategoryFilter) {
+          buildIconCategoryFilter();
+          [iconSearch, iconStatusFilter, iconCategoryFilter].forEach((el) =>
+            el.addEventListener("input", renderIconGallery),
+          );
+          renderIconGallery();
+        }
         document.querySelectorAll(".studio-tab").forEach((btn) =>
           btn.addEventListener("click", function () {
             const panel = btn.getAttribute("data-panel");
@@ -5075,6 +5858,70 @@ Do not occlude the trigger element when contextual help opens.</pre
             document.getElementById("panel-" + panel).hidden = false;
           }),
         );
+        const wikiFrame = document.getElementById("wikiFrame");
+        const wikiNavButtons = Array.from(
+          document.querySelectorAll(".wiki-nav-btn"),
+        );
+        function wikiViewerSrc(docPath) {
+          const theme = root.getAttribute("data-theme") || "steel-night";
+          return (
+            "./wiki/viewer.html?doc=" +
+            encodeURIComponent(docPath) +
+            "&embed=1&theme=" +
+            encodeURIComponent(theme)
+          );
+        }
+        function syncWikiThemeTokens() {
+          if (!wikiFrame) return;
+          const iframeDoc = wikiFrame.contentDocument;
+          if (!iframeDoc) return;
+          const iframeRoot = iframeDoc.documentElement;
+          const activeTheme = root.getAttribute("data-theme") || "steel-night";
+          iframeRoot.setAttribute("data-theme", activeTheme);
+          const src = getComputedStyle(root);
+          for (let i = 0; i < src.length; i += 1) {
+            const prop = src[i];
+            if (!prop || prop.indexOf("--ds-") !== 0) continue;
+            iframeRoot.style.setProperty(prop, src.getPropertyValue(prop));
+          }
+        }
+        function setActiveWikiDoc(docPath) {
+          if (!wikiFrame || !docPath) return;
+          wikiNavButtons.forEach((btn) => {
+            btn.setAttribute(
+              "aria-pressed",
+              String(btn.getAttribute("data-doc") === docPath),
+            );
+          });
+          const nextSrc = wikiViewerSrc(docPath);
+          if (wikiFrame.getAttribute("src") !== nextSrc) {
+            wikiFrame.setAttribute("src", nextSrc);
+          } else {
+            syncWikiThemeTokens();
+          }
+        }
+        if (wikiFrame && wikiNavButtons.length) {
+          wikiFrame.addEventListener("load", function () {
+            syncWikiThemeTokens();
+          });
+          let initialDoc = "FOUNDATIONS.md";
+          try {
+            const initialUrl = new URL(
+              wikiFrame.getAttribute("src"),
+              window.location.href,
+            );
+            const docFromSrc = initialUrl.searchParams.get("doc");
+            if (docFromSrc) initialDoc = docFromSrc;
+          } catch (_) {}
+          setActiveWikiDoc(initialDoc);
+          wikiNavButtons.forEach((btn) => {
+            btn.addEventListener("click", function () {
+              const docPath = btn.getAttribute("data-doc");
+              if (!docPath) return;
+              setActiveWikiDoc(docPath);
+            });
+          });
+        }
         const dropdown = document.getElementById("actionsDropdown");
         const dropdownToggle = document.getElementById("dropdownToggle");
         dropdownToggle.addEventListener("click", function () {
@@ -5209,6 +6056,21 @@ Do not occlude the trigger element when contextual help opens.</pre
             b.setAttribute("aria-pressed", "true");
           }),
         );
+        document.querySelectorAll(".demo-tabset").forEach((setEl) => {
+          const tabs = Array.from(setEl.querySelectorAll(".ds-tab[data-tab-target]"));
+          tabs.forEach((tab) =>
+            tab.addEventListener("click", function () {
+              const targetId = tab.getAttribute("data-tab-target");
+              tabs.forEach((peer) => peer.setAttribute("aria-selected", "false"));
+              setEl
+                .querySelectorAll(".ds-tabpanel")
+                .forEach((panel) => (panel.hidden = true));
+              tab.setAttribute("aria-selected", "true");
+              const panel = targetId ? setEl.querySelector("#" + targetId) : null;
+              if (panel) panel.hidden = false;
+            }),
+          );
+        });
         let arrowValue = 0;
         const arrowOut = document.getElementById("arrowValue");
         document
@@ -5223,6 +6085,269 @@ Do not occlude the trigger element when contextual help opens.</pre
             arrowValue -= 1;
             arrowOut.textContent = String(arrowValue);
           });
+        const inspector = document.getElementById("componentInspector");
+        const inspectorTitle = document.getElementById("inspectorTitle");
+        const inspectorElement = document.getElementById("inspectorElement");
+        const inspectorSurface = document.getElementById("inspectorSurface");
+        const inspectorText = document.getElementById("inspectorText");
+        const inspectorBorder = document.getElementById("inspectorBorder");
+        const inspectorRadius = document.getElementById("inspectorRadius");
+        const inspectorShadow = document.getElementById("inspectorShadow");
+        const inspectorToggleBtn = document.getElementById("inspectorToggleBtn");
+        const inspectorPinBtn = document.getElementById("inspectorPinBtn");
+        const inspectorHint = document.getElementById("inspectorHint");
+        const inspectorDock = document.getElementById("inspectorDock");
+        const inspectorCursorBadge = document.createElement("div");
+        inspectorCursorBadge.className = "inspector-cursor-badge";
+        inspectorCursorBadge.hidden = true;
+        inspectorCursorBadge.textContent = "◎";
+        document.body.appendChild(inspectorCursorBadge);
+        const inspectorHomeParent = inspector.parentElement;
+        const inspectorHomeNext = inspector.nextSibling;
+        const inspectorState = {
+          enabled: false,
+          pinned: false,
+          hoverTarget: null,
+          cursorX: 24,
+          cursorY: 24,
+        };
+        const inspectSelector = [
+          ".ds-btn",
+          ".ds-input",
+          ".ds-select",
+          ".ds-textarea",
+          ".ds-card",
+          ".ds-chip",
+          ".ds-badge",
+          ".ds-menu-item",
+          ".ds-popover",
+          ".ds-table",
+          ".ds-switch-track",
+        ].join(",");
+        function componentLabel(el) {
+          if (!el) return "Component";
+          const className = Array.from(el.classList || []).find((x) =>
+            x.startsWith("ds-"),
+          );
+          if (!className) return el.tagName.toLowerCase();
+          return className.replace(/^ds-/, "").replace(/-/g, " ");
+        }
+        function showInspectorFor(el, clientX, clientY) {
+          if (!inspector || !el) return;
+          const cs = getComputedStyle(el);
+          inspectorTitle.textContent = "Inspector: " + componentLabel(el);
+          inspectorElement.textContent =
+            el.tagName.toLowerCase() +
+            (el.className
+              ? "." +
+                String(el.className)
+                  .trim()
+                  .split(/\s+/)
+                  .join(".")
+              : "");
+          inspectorSurface.textContent =
+            cs.backgroundColor && cs.backgroundColor !== "rgba(0, 0, 0, 0)"
+              ? cs.backgroundColor
+              : cs.backgroundImage || "transparent";
+          inspectorText.textContent = cs.color;
+          inspectorBorder.textContent =
+            cs.borderWidth + " " + cs.borderStyle + " " + cs.borderColor;
+          inspectorRadius.textContent = cs.borderRadius;
+          inspectorShadow.textContent = cs.boxShadow;
+          inspector.hidden = false;
+          if (!inspectorState.pinned) {
+            const gap = 14;
+            const maxX = window.innerWidth - inspector.offsetWidth - 10;
+            const maxY = window.innerHeight - inspector.offsetHeight - 10;
+            let x = clientX + gap;
+            let y = clientY + gap;
+            if (x > maxX)
+              x = Math.max(10, clientX - inspector.offsetWidth - gap);
+            if (y > maxY)
+              y = Math.max(10, clientY - inspector.offsetHeight - gap);
+            inspector.style.left = x + "px";
+            inspector.style.top = y + "px";
+          }
+        }
+        function positionCursorBadge(clientX, clientY) {
+          if (!inspectorState.enabled) return;
+          inspectorCursorBadge.hidden = false;
+          inspectorCursorBadge.textContent = "◎";
+          inspectorCursorBadge.style.left = clientX + "px";
+          inspectorCursorBadge.style.top = clientY - 8 + "px";
+        }
+        function syncInspectorControls() {
+          if (!inspectorToggleBtn || !inspectorPinBtn || !inspectorHint) return;
+          inspectorToggleBtn.setAttribute(
+            "aria-pressed",
+            String(inspectorState.enabled),
+          );
+          inspectorToggleBtn.textContent = inspectorState.enabled
+            ? "Inspector On"
+            : "Inspector Off";
+          inspectorPinBtn.disabled = !inspectorState.enabled;
+          inspectorPinBtn.setAttribute(
+            "aria-pressed",
+            String(inspectorState.pinned),
+          );
+          inspectorPinBtn.textContent = inspectorState.pinned ? "Follow" : "Pin";
+          if (!inspectorState.enabled) {
+            inspectorHint.textContent =
+              "Toggle inspector on to hover components and inspect details. Hotkeys: I (on/off), P (pin/follow).";
+          } else if (inspectorState.pinned) {
+            inspectorHint.textContent =
+              "Inspector pinned in sidebar and tracking live hover. Click Follow to undock.";
+          } else {
+            inspectorHint.textContent =
+              "Hover any component to inspect details. Click Pin to dock the inspector. Hotkeys: I, P.";
+          }
+        }
+        function moveInspectorToDocked(isDocked) {
+          if (!inspector || !inspectorDock) return;
+          if (isDocked) {
+            inspector.classList.add("ds-stack");
+            inspector.style.position = "static";
+            inspector.style.left = "";
+            inspector.style.top = "";
+            inspector.style.width = "100%";
+            inspector.style.pointerEvents = "auto";
+            inspectorDock.hidden = false;
+            inspectorDock.appendChild(inspector);
+          } else {
+            inspector.style.position = "fixed";
+            inspector.style.width = "";
+            inspector.style.pointerEvents = "";
+            if (inspectorHomeParent) {
+              if (inspectorHomeNext)
+                inspectorHomeParent.insertBefore(inspector, inspectorHomeNext);
+              else inspectorHomeParent.appendChild(inspector);
+            }
+            inspectorDock.hidden = true;
+          }
+        }
+        function hideInspector() {
+          if (!inspector) return;
+          inspector.hidden = true;
+        }
+        function toggleInspector(enabled) {
+          inspectorState.enabled = enabled;
+          if (!enabled) {
+            inspectorState.pinned = false;
+            inspectorState.hoverTarget = null;
+            moveInspectorToDocked(false);
+            inspectorCursorBadge.hidden = true;
+            hideInspector();
+          } else if (inspectorState.hoverTarget) {
+            showInspectorFor(
+              inspectorState.hoverTarget,
+              inspectorState.cursorX,
+              inspectorState.cursorY,
+            );
+          }
+          syncInspectorControls();
+        }
+        function toggleInspectorPin() {
+          if (!inspectorState.enabled) return;
+          if (inspectorState.pinned) {
+            inspectorState.pinned = false;
+            moveInspectorToDocked(false);
+            if (inspectorState.hoverTarget) {
+              showInspectorFor(
+                inspectorState.hoverTarget,
+                inspectorState.cursorX,
+                inspectorState.cursorY,
+              );
+            }
+            syncInspectorControls();
+            return;
+          }
+          inspectorState.pinned = true;
+          moveInspectorToDocked(true);
+          if (inspectorState.hoverTarget) showInspectorFor(inspectorState.hoverTarget, 0, 0);
+          syncInspectorControls();
+        }
+        inspectorToggleBtn?.addEventListener("click", function () {
+          toggleInspector(!inspectorState.enabled);
+        });
+        inspectorPinBtn?.addEventListener("click", function () {
+          toggleInspectorPin();
+        });
+        document.addEventListener("mousemove", function (event) {
+          if (!inspectorState.enabled) return;
+          inspectorState.cursorX = event.clientX;
+          inspectorState.cursorY = event.clientY;
+          positionCursorBadge(event.clientX, event.clientY);
+          const hovered = event.target;
+          if (!(hovered instanceof Element)) {
+            hideInspector();
+            return;
+          }
+          if (inspector.contains(hovered)) return;
+          const target = hovered.closest(inspectSelector);
+          if (!target) {
+            inspectorState.hoverTarget = null;
+            hideInspector();
+            return;
+          }
+          inspectorState.hoverTarget = target;
+          showInspectorFor(target, event.clientX, event.clientY);
+        });
+        document.addEventListener("mouseleave", function () {
+          inspectorCursorBadge.hidden = true;
+          if (inspectorState.pinned) return;
+          hideInspector();
+        });
+        document.addEventListener("keydown", function (event) {
+          if (
+            event.target instanceof HTMLElement &&
+            (event.target.closest("input, textarea, select, [contenteditable='true']") ||
+              event.target.isContentEditable)
+          ) {
+            return;
+          }
+          const key = event.key.toLowerCase();
+          if (key === "i") {
+            event.preventDefault();
+            toggleInspector(!inspectorState.enabled);
+            return;
+          }
+          if (key === "p") {
+            event.preventDefault();
+            if (!inspectorState.enabled) toggleInspector(true);
+            toggleInspectorPin();
+          }
+        });
+        window.addEventListener("resize", function () {
+          if (
+            inspectorState.enabled &&
+            !inspectorState.pinned &&
+            inspectorState.hoverTarget
+          ) {
+            showInspectorFor(
+              inspectorState.hoverTarget,
+              inspectorState.cursorX,
+              inspectorState.cursorY,
+            );
+          }
+        });
+        window.addEventListener(
+          "scroll",
+          function () {
+            if (
+              inspectorState.enabled &&
+              !inspectorState.pinned &&
+              inspectorState.hoverTarget
+            ) {
+              showInspectorFor(
+                inspectorState.hoverTarget,
+                inspectorState.cursorX,
+                inspectorState.cursorY,
+              );
+            }
+          },
+          { passive: true },
+        );
+        syncInspectorControls();
         requestAnimationFrame(function () {
           document.documentElement.setAttribute("data-theme-ready", "1");
         });

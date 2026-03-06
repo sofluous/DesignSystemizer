@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wiki Viewer</title>
+    <link rel="stylesheet" href="../theme.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: var(--ds-bg, #121722);
+        color: var(--ds-text, #eaf1ff);
+        font-family: var(--ds-font-sans);
+        font-size: var(--ds-fs-2);
+        line-height: var(--ds-lh-base);
+      }
+      .wiki-shell {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: var(--ds-space-5);
+      }
+      body.wiki-embed {
+        background: var(--ds-bg, #121722);
+      }
+      body.wiki-embed .wiki-shell {
+        max-width: none;
+        margin: 0;
+        padding: var(--ds-space-2, 8px);
+      }
+      body.wiki-embed .wiki-article {
+        border: var(--ds-border-w, 1px) var(--ds-border-style, solid)
+          var(--ds-border, #3e4a64);
+        border-radius: var(--ds-radius-2, 10px);
+        box-shadow: var(--ds-card-shadow, none);
+        background: var(--ds-bg-elevated, #1b2130);
+        color: var(--ds-text, #eaf1ff);
+        padding: var(--ds-space-3);
+      }
+      body.wiki-embed .wiki-header {
+        display: none;
+      }
+      .wiki-article {
+        display: grid;
+        gap: var(--ds-space-4);
+      }
+      .wiki-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--ds-space-3);
+      }
+      .wiki-title {
+        margin: 0;
+        font-size: var(--ds-fs-4);
+      }
+      .wiki-meta {
+        color: var(--ds-text-muted);
+        font-size: var(--ds-fs-1);
+      }
+      .wiki-content {
+        display: grid;
+        gap: var(--ds-space-3);
+        color: var(--ds-text, #eaf1ff);
+      }
+      .wiki-content h1,
+      .wiki-content h2,
+      .wiki-content h3,
+      .wiki-content h4 {
+        margin: 0;
+        color: var(--ds-text, #eaf1ff);
+      }
+      .wiki-content p {
+        margin: 0;
+        color: var(--ds-text, #eaf1ff);
+      }
+      .wiki-content ul,
+      .wiki-content ol {
+        margin: 0;
+        padding-left: 1.35rem;
+      }
+      .wiki-content li {
+        margin: 0.15rem 0;
+        color: var(--ds-text, #eaf1ff);
+      }
+      .wiki-content pre {
+        margin: 0;
+        overflow: auto;
+        color: var(--ds-text, #eaf1ff);
+      }
+      .wiki-content blockquote {
+        margin: 0;
+        padding-left: var(--ds-space-3);
+        border-left: 3px solid var(--ds-border-strong);
+        color: var(--ds-text-muted);
+      }
+      .wiki-content table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .wiki-content th,
+      .wiki-content td {
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+        padding: 6px 8px;
+      }
+      .wiki-content th {
+        text-align: left;
+        background: var(--ds-bg-raised);
+      }
+      .wiki-content a {
+        color: var(--ds-link);
+      }
+      .wiki-content .mermaid {
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+        border-radius: var(--ds-radius-2);
+        background: var(--ds-bg-raised, #161c29);
+        padding: var(--ds-space-3);
+        overflow: auto;
+      }
+      .wiki-error {
+        color: var(--ds-danger);
+      }
+      .ds-card {
+        border: var(--ds-border-w, 1px) var(--ds-border-style, solid)
+          var(--ds-border, #3e4a64);
+        border-radius: var(--ds-radius-2, 10px);
+        background: var(--ds-bg-elevated, #1b2130);
+        color: var(--ds-text, #eaf1ff);
+        box-shadow: var(--ds-card-shadow, none);
+        padding: var(--ds-card-pad, 16px);
+      }
+      .ds-btn {
+        border: var(--ds-border-w, 1px) var(--ds-border-style, solid)
+          var(--ds-btn-border, #4b5877);
+        border-radius: var(--ds-radius-1, 8px);
+        background: var(--ds-btn-bg, #252f45);
+        color: var(--ds-btn-text, #eef3ff);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 30px;
+        padding: 0 10px;
+      }
+      .ds-code {
+        border: var(--ds-border-w, 1px) var(--ds-border-style, solid)
+          var(--ds-border, #3e4a64);
+        border-radius: var(--ds-radius-1, 8px);
+        background: var(--ds-bg-soft, #141926);
+        color: var(--ds-text, #eaf1ff);
+        padding: var(--ds-space-2, 8px);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wiki-shell">
+      <article class="ds-card wiki-article">
+        <header class="wiki-header">
+          <div>
+            <h1 class="wiki-title" id="docTitle">Wiki Document</h1>
+            <p class="wiki-meta" id="docMeta">Loading...</p>
+          </div>
+          <a class="ds-btn ds-btn-sm" id="openRawLink" href="#" target="_blank"
+            >Open Raw</a
+          >
+        </header>
+        <section class="wiki-content" id="wikiContent"></section>
+      </article>
+    </main>
+    <script>
+      (function () {
+        const titleEl = document.getElementById("docTitle");
+        const metaEl = document.getElementById("docMeta");
+        const contentEl = document.getElementById("wikiContent");
+        const rawLink = document.getElementById("openRawLink");
+        const params = new URLSearchParams(window.location.search);
+        const embedMode = params.get("embed") === "1";
+        const themeParam = params.get("theme");
+        if (embedMode) {
+          document.body.classList.add("wiki-embed");
+        }
+        if (themeParam) {
+          document.documentElement.setAttribute("data-theme", themeParam);
+        }
+        function escapeHtml(input) {
+          return String(input)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
+        function ensureMermaidLoaded() {
+          return typeof window.mermaid !== "undefined";
+        }
+        function parseRgb(value) {
+          const m = String(value || "").match(/rgba?\(([^)]+)\)/i);
+          if (!m) return [20, 24, 32];
+          const parts = m[1]
+            .split(",")
+            .map((x) => Number.parseFloat(x.trim()))
+            .filter((x) => Number.isFinite(x));
+          return [parts[0] || 20, parts[1] || 24, parts[2] || 32];
+        }
+        function isDarkColor(rgb) {
+          const [r, g, b] = rgb;
+          const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          return luma < 132;
+        }
+        async function renderMermaidIn(rootEl) {
+          if (!ensureMermaidLoaded()) return;
+          const blocks = Array.from(rootEl.querySelectorAll(".mermaid"));
+          if (!blocks.length) return;
+          const cs = getComputedStyle(document.body);
+          const text = cs.getPropertyValue("--ds-text").trim() || cs.color;
+          const border = cs.getPropertyValue("--ds-border").trim() || "#4a5672";
+          const accent = cs.getPropertyValue("--ds-accent").trim() || "#69b9ff";
+          const bg = cs.getPropertyValue("--ds-bg-raised").trim() || cs.backgroundColor;
+          const dark = isDarkColor(parseRgb(bg));
+          window.mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: "loose",
+            theme: dark ? "dark" : "neutral",
+            themeCSS:
+              ".node rect,.node circle,.node polygon{stroke:" +
+              border +
+              ";fill:" +
+              bg +
+              ";}" +
+              ".edgePath path,.flowchart-link{stroke:" +
+              accent +
+              ";}" +
+              ".label,span.nodeLabel,foreignObject div{color:" +
+              text +
+              ";fill:" +
+              text +
+              ";}" +
+              ".cluster rect{stroke:" +
+              border +
+              ";fill:" +
+              bg +
+              ";}",
+          });
+          for (let i = 0; i < blocks.length; i += 1) {
+            const block = blocks[i];
+            const def = block.textContent || "";
+            const id = "wiki-mermaid-" + i + "-" + Date.now();
+            try {
+              const out = await window.mermaid.render(id, def);
+              block.innerHTML = out.svg;
+            } catch (err) {
+              block.innerHTML =
+                '<pre class="ds-code"><code>' +
+                escapeHtml(def) +
+                "</code></pre>" +
+                '<p class="wiki-error">Mermaid render failed: ' +
+                escapeHtml(err.message || String(err)) +
+                "</p>";
+            }
+          }
+        }
+        function renderInline(src) {
+          let out = escapeHtml(src);
+          out = out.replace(/`([^`]+)`/g, "<code>$1</code>");
+          out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+          out = out.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+          out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+          return out;
+        }
+        function markdownToHtml(md) {
+          const lines = md.replace(/\r\n/g, "\n").split("\n");
+          let html = "";
+          let i = 0;
+          let inCode = false;
+          let codeLang = "";
+          let codeBuffer = [];
+          let listMode = "";
+          function closeList() {
+            if (listMode) {
+              html += listMode === "ol" ? "</ol>" : "</ul>";
+              listMode = "";
+            }
+          }
+          while (i < lines.length) {
+            const line = lines[i];
+            if (/^```/.test(line)) {
+              closeList();
+              if (!inCode) {
+                inCode = true;
+                codeLang = line.replace(/^```/, "").trim().toLowerCase();
+                codeBuffer = [];
+              } else {
+                inCode = false;
+                if (codeLang === "mermaid") {
+                  html += '<div class="mermaid">' + escapeHtml(codeBuffer.join("\n")) + "</div>";
+                } else {
+                  html +=
+                    '<pre class="ds-code"><code' +
+                    (codeLang ? ' class="language-' + escapeHtml(codeLang) + '"' : "") +
+                    ">" +
+                    escapeHtml(codeBuffer.join("\n")) +
+                    "</code></pre>";
+                }
+                codeLang = "";
+                codeBuffer = [];
+              }
+              i += 1;
+              continue;
+            }
+            if (inCode) {
+              codeBuffer.push(line);
+              i += 1;
+              continue;
+            }
+            if (/^\s*$/.test(line)) {
+              closeList();
+              i += 1;
+              continue;
+            }
+            const heading = line.match(/^(#{1,6})\s+(.+)$/);
+            if (heading) {
+              closeList();
+              const level = heading[1].length;
+              html +=
+                "<h" +
+                level +
+                ">" +
+                renderInline(heading[2]) +
+                "</h" +
+                level +
+                ">";
+              i += 1;
+              continue;
+            }
+            if (/^>\s?/.test(line)) {
+              closeList();
+              html += "<blockquote><p>" + renderInline(line.replace(/^>\s?/, "")) + "</p></blockquote>";
+              i += 1;
+              continue;
+            }
+            if (/^---+$/.test(line.trim())) {
+              closeList();
+              html += "<hr />";
+              i += 1;
+              continue;
+            }
+            const ul = line.match(/^\s*[-*]\s+(.+)$/);
+            if (ul) {
+              if (listMode !== "ul") {
+                closeList();
+                listMode = "ul";
+                html += "<ul>";
+              }
+              html += "<li>" + renderInline(ul[1]) + "</li>";
+              i += 1;
+              continue;
+            }
+            const ol = line.match(/^\s*\d+\.\s+(.+)$/);
+            if (ol) {
+              if (listMode !== "ol") {
+                closeList();
+                listMode = "ol";
+                html += "<ol>";
+              }
+              html += "<li>" + renderInline(ol[1]) + "</li>";
+              i += 1;
+              continue;
+            }
+            closeList();
+            html += "<p>" + renderInline(line) + "</p>";
+            i += 1;
+          }
+          closeList();
+          return html;
+        }
+        function validDocPath(path) {
+          return /^[A-Za-z0-9_./-]+\.md$/.test(path || "") && !path.includes("://");
+        }
+        async function loadDoc() {
+          const doc = params.get("doc") || "README.md";
+          if (!validDocPath(doc)) {
+            titleEl.textContent = "Invalid document path";
+            metaEl.textContent = doc;
+            contentEl.innerHTML =
+              '<p class="wiki-error">Only relative .md paths are allowed.</p>';
+            return;
+          }
+          const url = new URL(doc, window.location.href).toString();
+          rawLink.href = url;
+          try {
+            const res = await fetch(url, { cache: "no-cache" });
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            const text = await res.text();
+            const fileName = doc.split("/").pop();
+            titleEl.textContent = fileName;
+            metaEl.textContent = "Rendered from " + doc;
+            contentEl.innerHTML = markdownToHtml(text);
+            await renderMermaidIn(contentEl);
+          } catch (err) {
+            titleEl.textContent = "Failed to load document";
+            metaEl.textContent = doc;
+            contentEl.innerHTML =
+              '<p class="wiki-error">Could not load markdown file. ' +
+              escapeHtml(err.message) +
+              "</p>";
+          }
+        }
+        loadDoc();
+      })();
+    </script>
+  </body>
+</html>

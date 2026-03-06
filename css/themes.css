@@ -42,6 +42,7 @@
   --ds-warning: #9a6b00;
   --ds-danger: #b33651;
   --ds-info: #2b79b4;
+  --ds-btn-primary-text: var(--ds-bg-elevated);
 
   --ds-shadow-sm: 0 2px 10px rgba(20, 38, 29, 0.08);
   --ds-shadow-md: 0 12px 28px rgba(20, 38, 29, 0.12);
@@ -97,7 +98,7 @@
   --ds-btn-primary-bg: linear-gradient(180deg, #ffbf59 0%, #ff9a2e 100%);
   --ds-btn-primary-bg-hover: linear-gradient(180deg, #ffc96f 0%, #ffaa47 100%);
   --ds-btn-primary-border: #f79a2a;
-  --ds-btn-primary-text: #180f03;
+  --ds-btn-primary-text: var(--ds-text);
   --ds-input-bg: #171005;
   --ds-input-border: #6b4517;
   --ds-input-text: #ffc978;
@@ -126,6 +127,7 @@
   --ds-warning: #f7d66a;
   --ds-danger: #ff5f9b;
   --ds-info: #55c8ff;
+  --ds-btn-primary-text: var(--ds-bg-elevated);
 }
 
 :root[data-theme="mono-slate"] {
@@ -149,6 +151,7 @@
   --ds-warning: #cccccc;
   --ds-danger: #f8f8f8;
   --ds-info: #e0e0e0;
+  --ds-btn-primary-text: var(--ds-bg-elevated);
 }
 
 :root[data-theme="tech-grid"] {
@@ -240,7 +243,7 @@
   --ds-btn-primary-bg: linear-gradient(180deg, #7eabe8 0%, #5a8fd8 100%);
   --ds-btn-primary-bg-hover: linear-gradient(180deg, #8ab5ec 0%, #6397dd 100%);
   --ds-btn-primary-border: #4979be;
-  --ds-btn-primary-text: #1a2a42;
+  --ds-btn-primary-text: var(--ds-bg-elevated);
   --ds-input-bg: linear-gradient(180deg, #f3f6fb 0%, #d8e0eb 100%);
   --ds-input-border: #a3afbf;
   --ds-input-shadow: 0 1px 2px rgba(76, 90, 112, 0.3) inset, 0 1px 0 rgba(255, 255, 255, 0.8);
@@ -303,7 +306,7 @@
   --ds-btn-primary-bg: #d6ea60;
   --ds-btn-primary-bg-hover: #e2f171;
   --ds-btn-primary-border: #b8d43a;
-  --ds-btn-primary-text: #11160f;
+  --ds-btn-primary-text: var(--ds-bg-elevated);
   --ds-input-bg: #1a2020;
   --ds-input-border: #596761;
   --ds-input-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
@@ -363,7 +366,7 @@
   --ds-btn-primary-bg: linear-gradient(145deg, #9888e5, #7f6ecf);
   --ds-btn-primary-bg-hover: linear-gradient(145deg, #a494ed, #8675d8);
   --ds-btn-primary-border: #7564c4;
-  --ds-btn-primary-text: #1f2442;
+  --ds-btn-primary-text: var(--ds-bg-elevated);
   --ds-input-bg: linear-gradient(145deg, #d3dced, #ecf2fb);
   --ds-input-border: #c0cbe0;
   --ds-input-shadow: inset 4px 4px 9px rgba(163, 175, 198, 0.5), inset -4px -4px 9px rgba(255, 255, 255, 0.9);
@@ -426,7 +429,7 @@
   --ds-btn-primary-bg: #ff6d1f;
   --ds-btn-primary-bg-hover: #ff7d35;
   --ds-btn-primary-border: #ff4d18;
-  --ds-btn-primary-text: #090d12;
+  --ds-btn-primary-text: var(--ds-bg-elevated);
   --ds-input-bg: #121010;
   --ds-input-border: #8a4127;
   --ds-input-shadow: inset 0 0 0 1px rgba(255, 107, 35, 0.34), 0 0 12px rgba(255, 89, 0, 0.14);
@@ -496,7 +499,7 @@
   --ds-btn-primary-bg: linear-gradient(180deg, #87e8ff 0%, #4bcaf6 48%, #1e9cc9 100%);
   --ds-btn-primary-bg-hover: linear-gradient(180deg, #9beeff 0%, #60d2fa 48%, #29a9d2 100%);
   --ds-btn-primary-border: #66cdec;
-  --ds-btn-primary-text: #05131b;
+  --ds-btn-primary-text: var(--ds-text);
   --ds-input-bg: linear-gradient(180deg, #5b6578 0%, #4d5769 24%, #3e4657 100%);
   --ds-input-border: #adb9cb;
   --ds-input-text: #f1f6ff;
@@ -652,7 +655,7 @@
   --ds-btn-primary-bg: linear-gradient(180deg, #36f1ff 0%, #00b9da 100%);
   --ds-btn-primary-bg-hover: linear-gradient(180deg, #53f5ff 0%, #18cce6 100%);
   --ds-btn-primary-border: #ffe77a;
-  --ds-btn-primary-text: #11213a;
+  --ds-btn-primary-text: var(--ds-text);
   --ds-input-bg: linear-gradient(180deg, #0e1e4d 0%, #0b1740 100%);
   --ds-input-border: #56dfff;
   --ds-input-text: #fff8d5;
@@ -771,7 +774,7 @@
   --ds-btn-primary-bg: linear-gradient(135deg, #ff49d1 0%, #44d9ff 100%);
   --ds-btn-primary-bg-hover: linear-gradient(135deg, #ff6ee0 0%, #66e2ff 100%);
   --ds-btn-primary-border: #54bfff;
-  --ds-btn-primary-text: #2a0f44;
+  --ds-btn-primary-text: var(--ds-text);
   --ds-input-bg: linear-gradient(180deg, rgba(45, 26, 102, 0.9), rgba(33, 20, 77, 0.92));
   --ds-input-border: #8d62ff;
   --ds-input-text: #f8f2ff;
@@ -926,4 +929,24 @@
   --ds-input-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
   --ds-body-bg-image: linear-gradient(180deg, #eeeeec 0%, #e7e7e5 100%);
   --ds-card-bg-image: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.06));
+}
+
+:root[data-theme="paper-mint"],
+:root[data-theme="skeuo-panel"],
+:root[data-theme="velvet-touch"],
+:root[data-theme="candy-spectrum"],
+:root[data-theme="complementary-wave"],
+:root[data-theme="signal-poster"] {
+  --ds-native-color-scheme: light;
+  --ds-native-icon-filter: none;
+  --ds-native-icon-opacity: 0.86;
+}
+
+:root[data-theme="amber-terminal"],
+:root[data-theme="saturn-alloy"],
+:root[data-theme="old-web-portal"],
+:root[data-theme="sunset-pop"] {
+  --ds-native-color-scheme: dark;
+  --ds-native-icon-filter: invert(1) brightness(1.06);
+  --ds-native-icon-opacity: 0.92;
 }

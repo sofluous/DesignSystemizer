@@ -34,3 +34,23 @@
 - Focus state must be visible on keyboard navigation.
 - Touch targets should remain usable at compact scale.
 - Critical states must not rely on color alone.
+
+## Primary Button Contrast Policy
+- `primaryTextMode: contrast` (default): use generated contrast-safe text from color family + hue bundle.
+- `primaryTextMode: text`: force `--ds-btn-primary-text: var(--ds-text)`.
+- `primaryTextMode: inverse`: force `--ds-btn-primary-text: var(--ds-text-inverse)`.
+- `primaryTextMode: surface`: force `--ds-btn-primary-text: var(--ds-bg-elevated)`.
+
+### Current Theme Overrides
+- `mono-slate`: `surface`
+- `paper-mint`: `surface`
+- `neon-grid`: `surface`
+- `skeuo-panel`: `surface`
+- `industrial-terminal`: `surface`
+- `velvet-touch`: `surface`
+- `eva-wireframe`: `surface`
+
+## Style Composability Rule
+- Style presets should primarily define shape, type, spacing, and effects.
+- Style presets should avoid hardcoding core palette tokens (`--ds-bg*`, `--ds-text*`, `--ds-accent*`) unless the style is intentionally palette-locked.
+- `graphic-signal` has been updated to be composable with family/hue/texture presets.
