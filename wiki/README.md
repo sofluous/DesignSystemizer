@@ -6,6 +6,7 @@ This folder contains the design guide source files used as the Studio wiki index
 - `FOUNDATIONS.md`
 - `PATTERNS.md`
 - `COMPONENT_SPEC.md`
+- `CROSS_APP_UI_RULES.md`
 - `THEME_ARCHITECTURE_DIAGRAM.md`
 - `THEME_PRESET_MAP.md`
 - `ICONOGRAPHY.md`

@@ -754,6 +754,7 @@
             <option value="oilslick-nacre">Oilslick Nacre</option>
             <option value="holo-nocturne">Holo Nocturne</option>
             <option value="signal-poster">Signal Poster</option>
+            <option value="signal-diagram">Signal Diagram</option>
           </select>
         </div>
         <nav class="studio-nav" role="tablist" aria-label="Studio sections">
@@ -897,24 +898,80 @@
             <div class="ds-grid ds-grid-2">
               <article class="ds-card ds-stack">
                 <h3 class="ds-card-title">Buttons and States</h3>
-                <div class="ds-toolbar">
-                  <button class="ds-btn ds-btn-primary" type="button">
-                    Primary</button
-                  ><button class="ds-btn" type="button">Secondary</button
-                  ><button class="ds-btn ds-btn-tertiary" type="button">
-                    Tertiary</button
-                  ><button class="ds-btn ds-btn-danger" type="button">
-                    Danger</button
-                  ><button class="ds-btn ds-btn-ghost" type="button">
-                    Ghost</button
-                  ><button class="ds-btn ds-btn-text" type="button">
-                    Borderless Action</button
-                  ><button class="ds-btn ds-btn-sm" type="button">Small</button
-                  ><button class="ds-btn" type="button" disabled>
-                    Disabled</button
-                  ><button class="ds-btn is-loading" type="button">
-                    Loading...
-                  </button>
+                <p class="ds-muted">
+                  Forced state matrixes per button variant for contrast and token diagnosis.
+                </p>
+                <div class="ds-grid ds-grid-2">
+                  <div class="ds-card ds-stack">
+                    <strong class="ds-label ds-label-block">Primary Matrix</strong>
+                    <div class="ds-toolbar">
+                      <button class="ds-btn ds-btn-primary" type="button">Default</button>
+                      <button class="ds-btn ds-btn-primary is-force-hover" type="button">Hover</button>
+                      <button class="ds-btn ds-btn-primary is-force-active" type="button">Active</button>
+                      <button class="ds-btn ds-btn-primary is-force-focus" type="button">Focus</button>
+                      <button class="ds-btn ds-btn-primary" type="button" aria-pressed="true">Selected</button>
+                      <button class="ds-btn ds-btn-primary" type="button" disabled>Disabled</button>
+                    </div>
+                  </div>
+                  <div class="ds-card ds-stack">
+                    <strong class="ds-label ds-label-block">Secondary Matrix</strong>
+                    <div class="ds-toolbar">
+                      <button class="ds-btn" type="button">Default</button>
+                      <button class="ds-btn is-force-hover" type="button">Hover</button>
+                      <button class="ds-btn is-force-active" type="button">Active</button>
+                      <button class="ds-btn is-force-focus" type="button">Focus</button>
+                      <button class="ds-btn" type="button" aria-pressed="true">Selected</button>
+                      <button class="ds-btn" type="button" disabled>Disabled</button>
+                    </div>
+                  </div>
+                  <div class="ds-card ds-stack">
+                    <strong class="ds-label ds-label-block">Tertiary Matrix</strong>
+                    <div class="ds-toolbar">
+                      <button class="ds-btn ds-btn-tertiary" type="button">Default</button>
+                      <button class="ds-btn ds-btn-tertiary is-force-hover" type="button">Hover</button>
+                      <button class="ds-btn ds-btn-tertiary is-force-active" type="button">Active</button>
+                      <button class="ds-btn ds-btn-tertiary is-force-focus" type="button">Focus</button>
+                      <button class="ds-btn ds-btn-tertiary" type="button" aria-pressed="true">Selected</button>
+                      <button class="ds-btn ds-btn-tertiary" type="button" disabled>Disabled</button>
+                    </div>
+                  </div>
+                  <div class="ds-card ds-stack">
+                    <strong class="ds-label ds-label-block">Danger Matrix</strong>
+                    <div class="ds-toolbar">
+                      <button class="ds-btn ds-btn-danger" type="button">Default</button>
+                      <button class="ds-btn ds-btn-danger is-force-hover" type="button">Hover</button>
+                      <button class="ds-btn ds-btn-danger is-force-active" type="button">Active</button>
+                      <button class="ds-btn ds-btn-danger is-force-focus" type="button">Focus</button>
+                      <button class="ds-btn ds-btn-danger" type="button" aria-pressed="true">Selected</button>
+                      <button class="ds-btn ds-btn-danger" type="button" disabled>Disabled</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="ds-grid ds-grid-halves">
+                  <div class="ds-card ds-stack">
+                    <strong class="ds-label ds-label-block">Borderless and Icon Actions</strong>
+                    <div class="ds-toolbar">
+                      <button class="ds-btn ds-btn-text" type="button">Borderless</button>
+                      <button class="ds-btn ds-btn-text is-force-focus" type="button">Focus</button>
+                      <button class="ds-btn ds-btn-sm ds-btn-icon" type="button" title="Icon action">i</button>
+                      <button class="ds-btn ds-btn-ghost" type="button">Ghost</button>
+                      <button class="ds-btn is-loading" type="button">Loading...</button>
+                    </div>
+                  </div>
+                  <div class="ds-card ds-stack">
+                    <strong class="ds-label ds-label-block">Grouped Actions</strong>
+                    <div class="ds-toolbar">
+                      <div class="ds-btn-group" role="group" aria-label="Button group demo">
+                        <button class="ds-btn ds-btn-sm" type="button">Left</button>
+                        <button class="ds-btn ds-btn-sm" type="button">Center</button>
+                        <button class="ds-btn ds-btn-sm" type="button">Right</button>
+                      </div>
+                      <div class="ds-btn-split" role="group" aria-label="Split button demo">
+                        <button class="ds-btn ds-btn-primary ds-btn-sm" type="button">Create</button>
+                        <button class="ds-btn ds-btn-primary ds-btn-sm" type="button" aria-label="Open create menu">v</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="pill-row">
                   <span class="pill">Pill</span
@@ -935,7 +992,7 @@
                     placeholder="Project name"
                   />
                 </div>
-                <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                <div class="ds-grid ds-grid-halves">
                   <div class="ds-field">
                     <label class="ds-label" for="demoEmail">Email</label
                     ><div class="ds-input-icon-wrap">
@@ -1049,18 +1106,7 @@
                   <div class="ds-chip">Scrollable item 9</div>
                   <div class="ds-chip">Scrollable item 10</div>
                 </div>
-                <div
-                  class="ds-scroll"
-                  style="
-                    overflow-x: auto;
-                    overflow-y: hidden;
-                    border: var(--ds-border-w) var(--ds-border-style)
-                      var(--ds-border);
-                    border-radius: var(--ds-radius-2);
-                    padding: var(--ds-space-2);
-                    white-space: nowrap;
-                  "
-                >
+                <div class="ds-scroll ds-scroll-inline-strip">
                   <span class="ds-chip">Horizontal 01</span>
                   <span class="ds-chip">Horizontal 02</span>
                   <span class="ds-chip">Horizontal 03</span>
@@ -1175,8 +1221,218 @@
                 </div>
               </article>
               <article class="ds-card ds-stack">
+                <h3 class="ds-card-title">Custom App Components (Source of Truth)</h3>
+                <p class="ds-muted">
+                  Canonical patterns used across apps: sidebar shell, camera control pad, and production toolbars.
+                </p>
+                <div class="custom-components-grid">
+                  <section class="custom-demo ds-card ds-stack">
+                    <div class="ds-toolbar">
+                      <strong>Sidebar Shell</strong>
+                      <button class="ds-btn ds-btn-sm ds-btn-text" id="sidebarCollapseBtn" type="button" aria-pressed="false">Collapse</button>
+                    </div>
+                    <div class="ds-app-shell-demo" id="appShellDemo">
+                      <aside class="ds-sidebar-demo">
+                        <div class="ds-sidebar-demo-title">Workspace</div>
+                        <button class="ds-sidebar-nav-item is-active" type="button">Overview</button>
+                        <button class="ds-sidebar-nav-item" type="button">Assets</button>
+                        <button class="ds-sidebar-nav-item" type="button">Exports</button>
+                        <button class="ds-sidebar-nav-item" type="button">History</button>
+                      </aside>
+                      <div class="ds-shell-main-demo">
+                        <p class="ds-muted">Use fixed-width sidebars for persistent navigation and settings context.</p>
+                        <div class="ds-toolbar ds-toolbar-end">
+                          <button class="ds-btn ds-btn-sm" type="button">Discard</button>
+                          <button class="ds-btn ds-btn-primary ds-btn-sm" type="button">Apply</button>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="custom-demo ds-card ds-stack">
+                    <div class="ds-toolbar">
+                      <strong>Camera Controls Pad</strong>
+                      <span class="ds-muted mono" id="cameraPadReadout">mode:grid x:0 y:0 z:1.0</span>
+                    </div>
+                    <div class="camera-pad-shell">
+                      <div class="camera-pad-grid">
+                        <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="viewGrid" type="button" title="Grid view">G</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="up" type="button" title="Pan up">^</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="viewColumn" type="button" title="Column view">3</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="left" type="button" title="Pan left">&lt;</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-primary" data-cam="home" type="button" title="Home">H</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="right" type="button" title="Pan right">&gt;</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="viewIso" type="button" title="Iso view">C</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="down" type="button" title="Pan down">v</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="snapFrame" type="button" title="Frame view">F</button>
+                      </div>
+                      <div class="camera-pad-actions">
+                        <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="zoomIn" type="button" title="Zoom in">+</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="zoomOut" type="button" title="Zoom out">-</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="reset" type="button" title="Reset camera">R</button>
+                      </div>
+                    </div>
+                    <p class="ds-muted">
+                      Pattern: 3x3 camera pad + zoom/action strip with persistent mode/position readout.
+                    </p>
+                  </section>
+                  <section class="custom-demo ds-card ds-stack">
+                    <div class="ds-toolbar">
+                      <strong>Gizmo Widget</strong>
+                      <span class="ds-muted mono" id="gizmoReadout">x:0 y:0 z:0 s:1.0</span>
+                    </div>
+                    <div class="gizmo-layout">
+                      <div class="gizmo-shell">
+                        <div class="gizmo-grid" aria-label="Directional gizmo">
+                          <button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="zUp" type="button" title="Move Z up">Z+</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="up" type="button" title="Move up">^</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="scaleUp" type="button" title="Scale up">S+</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="left" type="button" title="Move left">&lt;</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-primary" data-gizmo="center" type="button" title="Center gizmo">O</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="right" type="button" title="Move right">&gt;</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="zDown" type="button" title="Move Z down">Z-</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="down" type="button" title="Move down">v</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="scaleDown" type="button" title="Scale down">S-</button>
+                        </div>
+                        <div class="gizmo-actions">
+                          <button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="stepFine" type="button" title="Fine step">f</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="stepCoarse" type="button" title="Coarse step">c</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="reset" type="button" title="Reset gizmo">R</button>
+                        </div>
+                      </div>
+                      <div class="gizmo-stage" aria-label="3D gizmo model demo">
+                        <svg class="gizmo-svg" viewBox="0 0 220 170" role="img" aria-label="3D gizmo axis model">
+                          <path class="gizmo-gridline" d="M14 140H206M14 100H206M14 60H206"></path>
+                          <line id="gizmoAxisX" class="gizmo-axis axis-x" x1="110" y1="130" x2="180" y2="130"></line>
+                          <line id="gizmoAxisY" class="gizmo-axis axis-y" x1="110" y1="130" x2="110" y2="56"></line>
+                          <line id="gizmoAxisZ" class="gizmo-axis axis-z" x1="110" y1="130" x2="62" y2="152"></line>
+                          <g id="gizmoModel" transform="translate(110 100) scale(1)">
+                            <polygon class="gizmo-face top" points="0,-28 26,-14 0,0 -26,-14"></polygon>
+                            <polygon class="gizmo-face right" points="0,0 26,-14 26,14 0,28"></polygon>
+                            <polygon class="gizmo-face left" points="0,0 -26,-14 -26,14 0,28"></polygon>
+                            <circle class="gizmo-core" cx="0" cy="0" r="6"></circle>
+                          </g>
+                        </svg>
+                        <div class="gizmo-stage-meta">
+                          <span class="ds-muted mono" id="gizmoStepLabel">step:1.0</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="ds-muted">
+                      Pattern: directional XY + Z axis + scale controls with fine/coarse stepping for precision edits.
+                    </p>
+                  </section>
+                  <section class="custom-demo ds-card ds-stack">
+                    <strong>Production Toolbar</strong>
+                    <div class="ds-production-toolbar">
+                      <div class="ds-btn-group" role="group" aria-label="Tool actions">
+                        <button class="ds-btn ds-btn-sm" type="button">Select</button>
+                        <button class="ds-btn ds-btn-sm" type="button">Measure</button>
+                        <button class="ds-btn ds-btn-sm" type="button">Annotate</button>
+                      </div>
+                      <div class="ds-chip-strip">
+                        <span class="ds-chip">Draft</span>
+                        <span class="ds-chip ds-chip-accent">Synced</span>
+                        <span class="ds-chip">v2.4</span>
+                      </div>
+                      <div class="ds-toolbar ds-toolbar-end">
+                        <button class="ds-btn ds-btn-sm ds-btn-danger" type="button">Delete</button>
+                        <button class="ds-btn ds-btn-sm" type="button">Save</button>
+                        <button class="ds-btn ds-btn-sm ds-btn-primary" type="button">Publish</button>
+                      </div>
+                    </div>
+                    <p class="ds-muted">
+                      Rule: low-risk tools left, context center, destructive left of primary on the right-side action cluster.
+                    </p>
+                  </section>
+                  <section class="custom-demo ds-card ds-stack">
+                    <strong>Master Control Panel Template</strong>
+                    <div class="ds-master-panel">
+                      <nav class="ds-master-rail" aria-label="Control panel sections">
+                        <button class="ds-btn ds-btn-icon ds-btn-sm is-active" type="button" data-master-tab="masterRender" aria-selected="true" title="Render">R</button>
+                        <button class="ds-btn ds-btn-icon ds-btn-sm" type="button" data-master-tab="masterCamera" aria-selected="false" title="Camera">C</button>
+                        <button class="ds-btn ds-btn-icon ds-btn-sm" type="button" data-master-tab="masterData" aria-selected="false" title="Data">D</button>
+                      </nav>
+                      <div class="ds-master-body">
+                        <section class="ds-master-pane" id="masterRender">
+                          <div class="ds-master-group">
+                            <div class="ds-master-group-head">
+                              <h4>Rendering</h4>
+                              <button class="ds-btn ds-btn-icon ds-btn-sm ds-btn-text" type="button" title="Section help">?</button>
+                            </div>
+                            <div class="ds-master-row">
+                              <span class="ds-master-icon" aria-hidden="true">E</span>
+                              <label class="ds-label" for="masterExposure">Exposure</label>
+                              <input id="masterExposure" class="ds-input" type="range" min="0" max="100" value="58" />
+                              <output class="mono" id="masterExposureValue">58</output>
+                            </div>
+                            <div class="ds-master-row">
+                              <span class="ds-master-icon" aria-hidden="true">G</span>
+                              <label class="ds-label" for="masterGlow">Glow</label>
+                              <input id="masterGlow" class="ds-input" type="range" min="0" max="100" value="32" />
+                              <output class="mono" id="masterGlowValue">32</output>
+                            </div>
+                          </div>
+                        </section>
+                        <section class="ds-master-pane" id="masterCamera" hidden>
+                          <div class="ds-master-group">
+                            <div class="ds-master-group-head">
+                              <h4>Camera</h4>
+                              <button class="ds-btn ds-btn-icon ds-btn-sm ds-btn-text" type="button" title="Section help">?</button>
+                            </div>
+                            <div class="ds-master-row">
+                              <span class="ds-master-icon" aria-hidden="true">X</span>
+                              <label class="ds-label" for="masterPanX">Pan X</label>
+                              <input id="masterPanX" class="ds-input" type="range" min="-100" max="100" value="0" />
+                              <output class="mono" id="masterPanXValue">0</output>
+                            </div>
+                            <div class="ds-master-row">
+                              <span class="ds-master-icon" aria-hidden="true">Y</span>
+                              <label class="ds-label" for="masterPanY">Pan Y</label>
+                              <input id="masterPanY" class="ds-input" type="range" min="-100" max="100" value="0" />
+                              <output class="mono" id="masterPanYValue">0</output>
+                            </div>
+                          </div>
+                        </section>
+                        <section class="ds-master-pane" id="masterData" hidden>
+                          <div class="ds-master-group">
+                            <div class="ds-master-group-head">
+                              <h4>Data</h4>
+                              <button class="ds-btn ds-btn-icon ds-btn-sm ds-btn-text" type="button" title="Section help">?</button>
+                            </div>
+                            <div class="ds-master-row">
+                              <span class="ds-master-icon" aria-hidden="true">I</span>
+                              <label class="ds-label" for="masterDataset">Dataset</label>
+                              <select id="masterDataset" class="ds-select">
+                                <option>Global</option>
+                                <option>Regional</option>
+                                <option>Custom</option>
+                              </select>
+                              <output class="mono">live</output>
+                            </div>
+                            <div class="ds-master-row">
+                              <span class="ds-master-icon" aria-hidden="true">S</span>
+                              <label class="ds-label" for="masterSync">Sync</label>
+                              <label class="ds-switch"><input id="masterSync" type="checkbox" checked /><span class="ds-switch-track"></span></label>
+                              <output class="mono">on</output>
+                            </div>
+                          </div>
+                        </section>
+                        <div class="ds-master-actions">
+                          <button class="ds-btn ds-btn-sm ds-btn-danger" type="button">Reset</button>
+                          <button class="ds-btn ds-btn-sm" type="button">Cancel</button>
+                          <button class="ds-btn ds-btn-sm ds-btn-primary" type="button">Apply</button>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="ds-muted">
+                      Template rule: rail tabs + compact icon/label/control/readout rows + right-side commit actions.
+                    </p>
+                  </section>
+                </div>
+              </article>
+              <article class="ds-card ds-stack">
                 <h3 class="ds-card-title">Layout Tokens Preview</h3>
-                <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                <div class="ds-grid ds-grid-halves">
                   <div class="ds-note">
                     <strong class="ds-label ds-label-block">Rail Width</strong
                     ><code>--ds-layout-rail-w</code>
@@ -1212,7 +1468,7 @@
                     <button class="ds-btn ds-btn-primary ds-btn-sm" type="button" aria-label="Open create options">v</button>
                   </div>
                 </div>
-                <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                <div class="ds-grid ds-grid-halves">
                   <div class="ds-field is-valid">
                     <label class="ds-label" for="validName">Valid Field</label>
                     <input id="validName" class="ds-input" type="text" value="Vector set v2" />
@@ -1233,6 +1489,17 @@
               </article>
               <article class="ds-card ds-stack">
                 <h3 class="ds-card-title">Tabs, Skeleton, and Command Palette</h3>
+                <div class="ds-stack">
+                  <strong class="ds-label ds-label-block">Tab State Matrix</strong>
+                  <div class="ds-tablist" role="tablist" aria-label="Tab state matrix">
+                    <button class="ds-tab" type="button" aria-selected="false">Tab Default</button>
+                    <button class="ds-tab" type="button" aria-selected="true">Tab Selected</button>
+                  </div>
+                  <div class="ds-subtablist" role="tablist" aria-label="Subtab state matrix">
+                    <button class="ds-subtab" type="button" aria-selected="false">Subtab Default</button>
+                    <button class="ds-subtab" type="button" aria-selected="true">Subtab Selected</button>
+                  </div>
+                </div>
                 <div class="ds-tabs demo-tabset">
                   <div class="ds-tablist" role="tablist" aria-label="Primary tabs">
                     <button class="ds-tab" type="button" aria-selected="true" data-tab-target="tabOverview">Overview</button>
@@ -1271,7 +1538,7 @@
             <div class="ds-grid ds-grid-2">
               <article class="ds-card ds-stack">
                 <h3 class="ds-card-title">Date and Time</h3>
-                <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                <div class="ds-grid ds-grid-halves">
                   <div class="ds-field">
                     <label class="ds-label" for="demoDate">Date</label
                     ><input id="demoDate" class="ds-input" type="date" />
@@ -1281,7 +1548,7 @@
                     ><input id="demoTime" class="ds-input" type="time" />
                   </div>
                 </div>
-                <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                <div class="ds-grid ds-grid-halves">
                   <div class="ds-field">
                     <label class="ds-label" for="demoWeek">Week</label
                     ><input id="demoWeek" class="ds-input" type="week" />
@@ -1630,12 +1897,7 @@
               This repository gives you a reusable tokenized design system with
               composable theme presets.
             </p>
-            <div
-              class="ds-grid"
-              style="
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-              "
-            >
+            <div class="ds-grid ds-grid-auto-280">
               <div class="ds-note">
                 <strong>Introduction</strong>
                 <p class="ds-muted">
@@ -1740,6 +2002,25 @@ Preset combo examples:
 - paper + emerald + skeuo + standard + paper-grain (premium productivity)
 - monochrome + gray + technical + compact + clean (ops console)
 - pastel + rose + material + comfortable + soft-gradient (friendly SaaS)</pre
+                >
+              </article>
+              <article class="ds-card ds-stack">
+                <h3>Button Contrast Logic Matrix</h3>
+                <p class="ds-muted">
+                  Source-of-truth logic for primary/selected/readability issues.
+                </p>
+                <pre class="ds-code mono">
+Case                         | Token/Rule Source                               | Expected Text Logic
+Primary default              | --ds-btn-primary-text                           | Theme text strategy (semantic)
+Primary hover (global)       | --ds-btn-primary-bg-hover + primary text token  | Keep readable against hover fill
+Primary selected             | .ds-btn-primary[aria-pressed="true"]            | Use primary token stack (not generic selected)
+Secondary selected           | .ds-btn[aria-pressed] (non-primary variants)     | Accent-leaning selected treatment
+Checkbox/radio checked mark  | --ds-check-mark                                  | Contrast against --ds-check-checked-bg
+Tab selected label           | --ds-tab-active-fg / --ds-tab-active-bg          | Contrast independent of primary button text
+
+Theme-specific exception policy:
+- If a theme's highlight states lose contrast, patch at theme token level first.
+- Add component-level theme-scoped override only when semantic tokens are not enough.</pre
                 >
               </article>
               <article class="ds-card ds-stack">
@@ -2027,6 +2308,7 @@ Do not occlude the trigger element when contextual help opens.</pre
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="FOUNDATIONS.md">Foundations</button>
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="PATTERNS.md">Patterns</button>
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="CONTENT_UX.md">Content UX</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="CROSS_APP_UI_RULES.md">Cross-App Rules</button>
                   </div>
                 </article>
                 <article class="ds-card ds-stack">
@@ -2070,12 +2352,10 @@ Do not occlude the trigger element when contextual help opens.</pre
             </div>
             <div class="preset-grid ds-card">
               <h3 class="ds-card-title">Preset Loader</h3>
-              <div
-                class="ds-grid"
-                style="
-                  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-                "
-              >
+              <p class="ds-muted">
+                Base Theme uses canonical tokens from <code>css/themes.css</code>. Presets are optional overlays applied only when you click <em>Apply Preset</em>.
+              </p>
+              <div class="ds-grid ds-grid-auto-220">
                 <div class="ds-field">
                   <label class="ds-label" for="familyPresetSelect"
                     >Color Family</label
@@ -2172,7 +2452,7 @@ Do not occlude the trigger element when contextual help opens.</pre
                   open
                 >
                   <summary>Layout + Geometry</summary>
-                  <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                  <div class="ds-grid ds-grid-halves">
                     <article class="ds-card ds-stack">
                       <h5 class="ds-card-title">Panel A</h5>
                       <p class="ds-muted">Spacing rhythm and corner shape.</p>
@@ -2209,7 +2489,7 @@ Do not occlude the trigger element when contextual help opens.</pre
                   </div>
                   <div class="ds-popover-wrap is-open">
                     <button class="ds-btn" type="button">Context Trigger</button>
-                    <div class="ds-popover" style="position: static">
+                    <div class="ds-popover ds-popover-static">
                       Surface/material and overlay depth preview.
                     </div>
                   </div>
@@ -2232,7 +2512,7 @@ Do not occlude the trigger element when contextual help opens.</pre
                     </div>
                     <button class="ds-btn ds-btn-tertiary ds-btn-sm" type="button">Tertiary</button>
                   </div>
-                  <div class="ds-grid" style="grid-template-columns: 1fr 1fr">
+                  <div class="ds-grid ds-grid-halves">
                     <div class="ds-field is-valid">
                       <label class="ds-label" for="builderValidField">Valid</label>
                       <input id="builderValidField" class="ds-input" type="text" value="Ready" />
@@ -3368,6 +3648,20 @@ Do not occlude the trigger element when contextual help opens.</pre
             accentL: 60,
             accentSat: 72,
           },
+          "signal-paper": {
+            mode: "light",
+            sat: 10,
+            bgL: 92,
+            elevL: 97,
+            raisedL: 88,
+            softL: 82,
+            textL: 10,
+            mutedL: 32,
+            borderL: 18,
+            borderStrongL: 10,
+            accentL: 52,
+            accentSat: 92,
+          },
         });
         Object.assign(stylePresets, {
           "terminal-amber": {
@@ -3411,6 +3705,7 @@ Do not occlude the trigger element when contextual help opens.</pre
               "linear-gradient(180deg, #ffc96f 0%, #ffaa47 100%)",
             "--ds-btn-primary-border": "#f79a2a",
             "--ds-btn-primary-text": "var(--ds-text)",
+            "--ds-check-mark": "var(--ds-btn-bg)",
             "--ds-input-bg": "#171005",
             "--ds-input-border": "#6b4517",
             "--ds-input-text": "#ffc978",
@@ -3931,22 +4226,13 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-border-style": "solid",
             "--ds-label-transform": "uppercase",
             "--ds-label-spacing": "0.14em",
-            "--ds-bg": "#ebebea",
-            "--ds-bg-elevated": "#f7f7f4",
-            "--ds-bg-raised": "#dfe0de",
-            "--ds-bg-soft": "#d3d4d2",
-            "--ds-text": "#111215",
-            "--ds-text-muted": "#515255",
-            "--ds-border": "#111215",
-            "--ds-border-strong": "#000000",
-            "--ds-bg-overlay": "rgba(16,16,18,0.2)",
             "--ds-card-shadow":
-              "0 10px 22px color-mix(in oklab,var(--ds-bg) 62%, transparent)",
+              "0 10px 22px color-mix(in oklab,var(--ds-border) 18%, transparent)",
             "--ds-card-bg-image":
-              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 3%, transparent), color-mix(in oklab,var(--ds-bg) 9%, transparent))",
-            "--ds-btn-bg": "var(--ds-bg)",
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 3%, white), color-mix(in oklab,var(--ds-bg) 8%, transparent))",
+            "--ds-btn-bg": "var(--ds-text)",
             "--ds-btn-bg-hover":
-              "color-mix(in oklab, var(--ds-bg) 88%, var(--ds-accent) 12%)",
+              "color-mix(in oklab, var(--ds-text) 88%, var(--ds-accent) 12%)",
             "--ds-btn-border": "transparent",
             "--ds-btn-text": "var(--ds-bg-elevated)",
             "--ds-btn-primary-bg": "var(--ds-accent)",
@@ -3959,7 +4245,50 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-input-text": "var(--ds-text)",
             "--ds-input-placeholder": "var(--ds-text-muted)",
             "--ds-input-shadow":
-              "inset 0 0 0 1px color-mix(in oklab,var(--ds-bg) 10%, transparent)",
+              "inset 0 0 0 1px color-mix(in oklab,var(--ds-text) 10%, transparent)",
+            "--ds-body-bg-image":
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 2%, white), var(--ds-bg))",
+          },
+          "graphic-diagram": {
+            "--ds-font-sans":
+              '"Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "15px",
+            "--ds-fs-3": "18px",
+            "--ds-fs-4": "26px",
+            "--ds-fs-5": "36px",
+            "--ds-lh-base": "1.34",
+            "--ds-radius-1": "0px",
+            "--ds-radius-2": "0px",
+            "--ds-radius-3": "2px",
+            "--ds-radius-4": "4px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.14em",
+            "--ds-card-shadow":
+              "0 10px 22px color-mix(in oklab,var(--ds-border) 18%, transparent)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 3%, white), color-mix(in oklab,var(--ds-bg) 8%, transparent))",
+            "--ds-btn-bg": "var(--ds-accent)",
+            "--ds-btn-bg-hover":
+              "color-mix(in oklab, var(--ds-accent) 88%, white 12%)",
+            "--ds-btn-border": "var(--ds-text)",
+            "--ds-btn-text": "var(--ds-bg-elevated)",
+            "--ds-btn-primary-bg": "var(--ds-text)",
+            "--ds-btn-primary-bg-hover":
+              "color-mix(in oklab, var(--ds-text) 88%, var(--ds-accent) 12%)",
+            "--ds-btn-primary-border": "var(--ds-text)",
+            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
+            "--ds-input-bg": "var(--ds-bg-elevated)",
+            "--ds-input-border": "color-mix(in oklab, var(--ds-text) 22%, var(--ds-border))",
+            "--ds-input-text": "var(--ds-text)",
+            "--ds-input-placeholder": "var(--ds-text-muted)",
+            "--ds-input-shadow":
+              "inset 0 0 0 1px color-mix(in oklab,var(--ds-text) 10%, transparent)",
             "--ds-body-bg-image":
               "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 2%, white), var(--ds-bg))",
           },
@@ -4036,9 +4365,16 @@ Do not occlude the trigger element when contextual help opens.</pre
             texture: "nacre-flow",
           },
           "signal-poster": {
-            family: "bold",
+            family: "signal-paper",
             hue: "orange",
             style: "graphic-signal",
+            scale: "standard",
+            texture: "clean",
+          },
+          "signal-diagram": {
+            family: "signal-paper",
+            hue: "orange",
+            style: "graphic-diagram",
             scale: "standard",
             texture: "clean",
           },
@@ -4050,54 +4386,16 @@ Do not occlude the trigger element when contextual help opens.</pre
         const scalePresetSelect = document.getElementById("scalePresetSelect");
         const texturePresetSelect =
           document.getElementById("texturePresetSelect");
-        const themePrimaryTextMode = {
-          "mono-slate": "surface",
-          "paper-mint": "surface",
-          "neon-grid": "surface",
-          "skeuo-panel": "surface",
-          "industrial-terminal": "surface",
-          "velvet-touch": "surface",
-          "eva-wireframe": "surface",
-        };
-        const baseThemeVisualOverrides = {
-          "signal-poster": {
-            "--ds-bg": "#ebebea",
-            "--ds-bg-elevated": "#f7f7f4",
-            "--ds-bg-raised": "#dfe0de",
-            "--ds-bg-soft": "#d3d4d2",
-            "--ds-text": "#111215",
-            "--ds-text-muted": "#515255",
-            "--ds-border": "#000000",
-            "--ds-border-strong": "#000000",
-            "--ds-accent": "#ff5b00",
-            "--ds-accent-strong": "#d94d00",
-            "--ds-focus": "#ff8f54",
-            "--ds-success": "#7ed6a6",
-            "--ds-warning": "#ff8f30",
-            "--ds-danger": "#e8432e",
-            "--ds-info": "#8dbdff",
-            "--ds-card-shadow": "0 12px 24px rgba(0,0,0,0.16)",
-            "--ds-card-bg-image":
-              "linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.06))",
-            "--ds-btn-bg": "#111215",
-            "--ds-btn-bg-hover": "#1a1c20",
-            "--ds-btn-border": "#111215",
-            "--ds-btn-text": "#f7f7f4",
-            "--ds-btn-primary-bg":
-              "linear-gradient(180deg, #ff6a14 0%, #d74c00 100%)",
-            "--ds-btn-primary-bg-hover":
-              "linear-gradient(180deg, #ff7a2b 0%, #e65a0e 100%)",
-            "--ds-btn-primary-border": "#d74c00",
-            "--ds-btn-primary-text": "#101114",
-            "--ds-input-bg": "#f7f7f4",
-            "--ds-input-border": "#111215",
-            "--ds-input-text": "#111215",
-            "--ds-input-placeholder": "#67686d",
-            "--ds-input-shadow": "inset 0 0 0 1px rgba(0,0,0,0.08)",
-            "--ds-body-bg-image":
-              "linear-gradient(180deg, #eeeeec 0%, #e7e7e5 100%)",
-          },
-        };
+        familyPresetSelect.title =
+          "Color family controls the tonal system (light/dark bias, contrast, saturation model).";
+        huePresetSelect.title =
+          "Hue controls the primary color identity applied to accent/state tokens.";
+        stylePresetSelect.title =
+          "Style controls geometry, typography, and material behavior.";
+        scalePresetSelect.title =
+          "Scale controls spacing, control heights, and typographic density.";
+        texturePresetSelect.title =
+          "Texture controls noise/gradient/blur dynamics layered over surfaces.";
         function fillPresetSelect(el, dict) {
           Object.keys(dict).forEach((k) => {
             const o = document.createElement("option");
@@ -4137,6 +4435,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             "holo-nocturne": "clean",
             "oilslick-organic": "nacre-flow",
             "graphic-signal": "clean",
+            "graphic-diagram": "clean",
           };
           return map[styleKey] || "clean";
         }
@@ -4184,22 +4483,29 @@ Do not occlude the trigger element when contextual help opens.</pre
           return issues;
         }
         function auditStyleComposability() {
-          const corePalettePrefixes = [
+          const corePaletteTokens = new Set([
             "--ds-bg",
+            "--ds-bg-elevated",
+            "--ds-bg-raised",
+            "--ds-bg-soft",
             "--ds-text",
+            "--ds-text-muted",
+            "--ds-text-inverse",
             "--ds-accent",
+            "--ds-accent-strong",
             "--ds-border",
+            "--ds-border-strong",
             "--ds-focus",
             "--ds-success",
             "--ds-warning",
             "--ds-danger",
             "--ds-info",
-          ];
+          ]);
           const issues = [];
           Object.entries(stylePresets).forEach(([styleName, bundle]) => {
             if (paletteLockedStyles.has(styleName)) return;
             Object.keys(bundle).forEach((token) => {
-              if (corePalettePrefixes.some((prefix) => token.startsWith(prefix))) {
+              if (corePaletteTokens.has(token)) {
                 issues.push(
                   styleName + " hardcodes core palette token: " + token,
                 );
@@ -4718,19 +5024,7 @@ Do not occlude the trigger element when contextual help opens.</pre
           texturePresetSelect.value =
             combo.texture || inferTexturePreset(combo.style);
         }
-        function comboMatchesBaseTheme(themeKey) {
-          const combo = baseThemePresetMap[themeKey];
-          if (!combo) return false;
-          return (
-            familyPresetSelect.value === combo.family &&
-            huePresetSelect.value === combo.hue &&
-            stylePresetSelect.value === combo.style &&
-            scalePresetSelect.value === combo.scale &&
-            texturePresetSelect.value ===
-              (combo.texture || inferTexturePreset(combo.style))
-          );
-        }
-        function applySelectedPresetCombo(themeKey) {
+        function applySelectedPresetCombo() {
           root.removeAttribute("data-theme");
           setTokenBundle(
             buildColorBundle(familyPresetSelect.value, huePresetSelect.value),
@@ -4738,21 +5032,6 @@ Do not occlude the trigger element when contextual help opens.</pre
           setTokenBundle(stylePresets[stylePresetSelect.value]);
           setTokenBundle(scalePresets[scalePresetSelect.value]);
           setTokenBundle(texturePresets[texturePresetSelect.value]);
-          const activeTheme = themeKey || themeSelect.value;
-          if (
-            baseThemeVisualOverrides[activeTheme] &&
-            comboMatchesBaseTheme(activeTheme)
-          ) {
-            setTokenBundle(baseThemeVisualOverrides[activeTheme]);
-          }
-          const primaryTextMode = themePrimaryTextMode[activeTheme] || "contrast";
-          if (primaryTextMode === "surface") {
-            root.style.setProperty("--ds-btn-primary-text", "var(--ds-bg-elevated)");
-          } else if (primaryTextMode === "text") {
-            root.style.setProperty("--ds-btn-primary-text", "var(--ds-text)");
-          } else if (primaryTextMode === "inverse") {
-            root.style.setProperty("--ds-btn-primary-text", "var(--ds-text-inverse)");
-          }
         }
         function syncControlsFromComputed() {
           const cs = getComputedStyle(root);
@@ -5257,6 +5536,63 @@ Do not occlude the trigger element when contextual help opens.</pre
           return String(meta.main.value).trim();
         }
         function tokenUsageHint(token) {
+          const specificHints = {
+            "--ds-bg":
+              "Global app background. Keep this stable for predictable contrast.",
+            "--ds-bg-elevated":
+              "Primary panel/card surface used by most containers.",
+            "--ds-bg-raised":
+              "Nested group surface for subsections and grouped controls.",
+            "--ds-bg-soft":
+              "Soft separator surface for low-emphasis blocks.",
+            "--ds-text":
+              "Default content text color for body and primary labels.",
+            "--ds-text-muted":
+              "Secondary text for metadata, helper copy, and passive labels.",
+            "--ds-text-inverse":
+              "Text on strong fills (accent buttons, badges, highlighted chips).",
+            "--ds-accent":
+              "Primary interaction color for key actions and highlights.",
+            "--ds-accent-strong":
+              "High-contrast accent state for active/hover emphasis.",
+            "--ds-focus":
+              "Keyboard focus ring and focus-visible affordance color.",
+            "--ds-btn-primary-bg":
+              "Primary action background. Keep one primary per action region.",
+            "--ds-btn-primary-text":
+              "Primary label color. Set for contrast against primary background; for some themes this intentionally maps to --ds-btn-primary-border.",
+            "--ds-btn-bg":
+              "Secondary/neutral button background token.",
+            "--ds-btn-text":
+              "Secondary/neutral button label color token.",
+            "--ds-input-bg":
+              "Input field surface token for text-entry controls.",
+            "--ds-input-text":
+              "Input value text color.",
+            "--ds-input-placeholder":
+              "Placeholder hint text tone (muted but readable).",
+            "--ds-border":
+              "Default control/card border token.",
+            "--ds-border-strong":
+              "High-emphasis border for selected or structural edges.",
+            "--ds-card-shadow":
+              "Card elevation token. Keep depth subtle enough for readability.",
+            "--ds-layout-gap":
+              "Primary layout rhythm between major sections.",
+            "--ds-control-h":
+              "Standard control height for inputs and buttons.",
+            "--ds-control-h-sm":
+              "Compact control height for dense panels.",
+            "--ds-body-texture-image":
+              "Global texture overlay. Keep low-contrast to avoid noise.",
+            "--ds-card-texture-image":
+              "Card texture layer for material feel.",
+            "--ds-control-texture-image":
+              "Control texture layer for inputs/buttons.",
+            "--ds-native-icon-filter":
+              "Adjusts native input/date/time icons for theme contrast.",
+          };
+          if (specificHints[token]) return specificHints[token];
           if (
             token.indexOf("--ds-bg") === 0 ||
             token.indexOf("--ds-text") === 0 ||
@@ -5366,7 +5702,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             infoBtn.type = "button";
             infoBtn.className = "ds-btn builder-help-btn";
             infoBtn.textContent = "Info";
-            infoBtn.title = labelText + " (" + token + ")";
+            infoBtn.title = tokenUsageHint(token) + " [" + token + "]";
             infoBtn.setAttribute(
               "aria-label",
               "Show details for " + labelText + " (" + token + ")",
@@ -5404,8 +5740,6 @@ Do not occlude the trigger element when contextual help opens.</pre
         const initialCombo = baseThemePresetMap[initialTheme];
         if (initialCombo) {
           setPresetSelectors(initialCombo);
-          clearOverrides();
-          applySelectedPresetCombo();
         }
         syncControlsFromComputed();
         function sanitizeThemeName(raw) {
@@ -5443,10 +5777,12 @@ Do not occlude the trigger element when contextual help opens.</pre
           return { name, block };
         }
         function performReset() {
+          const theme = themeSelect.value;
           clearOverrides();
-          const combo = baseThemePresetMap[themeSelect.value];
+          root.setAttribute("data-theme", theme);
+          localStorage.setItem(storageKey, theme);
+          const combo = baseThemePresetMap[theme];
           if (combo) setPresetSelectors(combo);
-          applySelectedPresetCombo();
           syncControlsFromComputed();
         }
         function downloadBlob(filename, blob) {
@@ -5598,7 +5934,6 @@ Do not occlude the trigger element when contextual help opens.</pre
           const combo = baseThemePresetMap[theme];
           if (combo) {
             setPresetSelectors(combo);
-            applySelectedPresetCombo();
           }
           syncControlsFromComputed();
           const activeWikiBtn = wikiNavButtons.find(
@@ -6071,6 +6406,44 @@ Do not occlude the trigger element when contextual help opens.</pre
             }),
           );
         });
+        const masterPanel = document.querySelector(".ds-master-panel");
+        if (masterPanel) {
+          const masterTabBtns = Array.from(
+            masterPanel.querySelectorAll("[data-master-tab]"),
+          );
+          const masterPanes = Array.from(
+            masterPanel.querySelectorAll(".ds-master-pane"),
+          );
+          masterTabBtns.forEach((btn) =>
+            btn.addEventListener("click", function () {
+              const targetId = btn.getAttribute("data-master-tab");
+              masterTabBtns.forEach((peer) => {
+                const active = peer === btn;
+                peer.classList.toggle("is-active", active);
+                peer.setAttribute("aria-selected", String(active));
+              });
+              masterPanes.forEach((pane) => {
+                pane.hidden = pane.id !== targetId;
+              });
+            }),
+          );
+        }
+        const readoutMap = [
+          ["masterExposure", "masterExposureValue"],
+          ["masterGlow", "masterGlowValue"],
+          ["masterPanX", "masterPanXValue"],
+          ["masterPanY", "masterPanYValue"],
+        ];
+        readoutMap.forEach(([inputId, outputId]) => {
+          const input = document.getElementById(inputId);
+          const output = document.getElementById(outputId);
+          if (!input || !output) return;
+          const sync = () => {
+            output.textContent = input.value;
+          };
+          input.addEventListener("input", sync);
+          sync();
+        });
         let arrowValue = 0;
         const arrowOut = document.getElementById("arrowValue");
         document
@@ -6085,6 +6458,130 @@ Do not occlude the trigger element when contextual help opens.</pre
             arrowValue -= 1;
             arrowOut.textContent = String(arrowValue);
           });
+        const sidebarCollapseBtn = document.getElementById("sidebarCollapseBtn");
+        const appShellDemo = document.getElementById("appShellDemo");
+        if (sidebarCollapseBtn && appShellDemo) {
+          sidebarCollapseBtn.addEventListener("click", function () {
+            const collapsed = appShellDemo.classList.toggle("is-collapsed");
+            sidebarCollapseBtn.setAttribute("aria-pressed", String(collapsed));
+            sidebarCollapseBtn.textContent = collapsed ? "Expand" : "Collapse";
+          });
+        }
+        const cameraPadReadout = document.getElementById("cameraPadReadout");
+        const cameraPadState = { x: 0, y: 0, z: 1, mode: "grid" };
+        function renderCameraPadState() {
+          if (!cameraPadReadout) return;
+          cameraPadReadout.textContent =
+            "mode:" +
+            cameraPadState.mode +
+            " x:" +
+            cameraPadState.x +
+            " y:" +
+            cameraPadState.y +
+            " z:" +
+            cameraPadState.z.toFixed(1);
+        }
+        document.querySelectorAll("[data-cam]").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const action = btn.getAttribute("data-cam");
+            if (action === "up") cameraPadState.y += 1;
+            else if (action === "down") cameraPadState.y -= 1;
+            else if (action === "left") cameraPadState.x -= 1;
+            else if (action === "right") cameraPadState.x += 1;
+            else if (action === "zoomIn")
+              cameraPadState.z = Math.min(3, cameraPadState.z + 0.1);
+            else if (action === "zoomOut")
+              cameraPadState.z = Math.max(0.2, cameraPadState.z - 0.1);
+            else if (action === "viewGrid") cameraPadState.mode = "grid";
+            else if (action === "viewColumn") cameraPadState.mode = "column";
+            else if (action === "viewIso") cameraPadState.mode = "iso";
+            else if (action === "snapFrame") cameraPadState.mode = "frame";
+            else if (action === "home") {
+              cameraPadState.mode = "home";
+              cameraPadState.x = 0;
+              cameraPadState.y = 0;
+            }
+            else if (action === "reset") {
+              cameraPadState.mode = "grid";
+              cameraPadState.x = 0;
+              cameraPadState.y = 0;
+              cameraPadState.z = 1;
+            }
+            renderCameraPadState();
+          });
+        });
+        renderCameraPadState();
+        const gizmoReadout = document.getElementById("gizmoReadout");
+        const gizmoStepLabel = document.getElementById("gizmoStepLabel");
+        const gizmoModel = document.getElementById("gizmoModel");
+        const gizmoAxisY = document.getElementById("gizmoAxisY");
+        const gizmoState = { x: 0, y: 0, z: 0, scale: 1, step: 1 };
+        function renderGizmoState() {
+          if (!gizmoReadout) return;
+          gizmoReadout.textContent =
+            "x:" +
+            gizmoState.x +
+            " y:" +
+            gizmoState.y +
+            " z:" +
+            gizmoState.z +
+            " s:" +
+            gizmoState.scale.toFixed(1);
+          if (gizmoStepLabel) {
+            gizmoStepLabel.textContent = "step:" + gizmoState.step.toFixed(1);
+          }
+          if (gizmoModel) {
+            const tx = 110 + gizmoState.x * 6;
+            const ty = 100 - gizmoState.y * 6 - gizmoState.z * 2;
+            gizmoModel.setAttribute(
+              "transform",
+              "translate(" +
+                tx +
+                " " +
+                ty +
+                ") scale(" +
+                gizmoState.scale.toFixed(2) +
+                ")",
+            );
+          }
+          if (gizmoAxisY) {
+            gizmoAxisY.setAttribute(
+              "y2",
+              String(56 - Math.round(gizmoState.z * 4)),
+            );
+          }
+        }
+        document.querySelectorAll("[data-gizmo]").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const action = btn.getAttribute("data-gizmo");
+            const step = gizmoState.step;
+            if (action === "up") gizmoState.y += step;
+            else if (action === "down") gizmoState.y -= step;
+            else if (action === "left") gizmoState.x -= step;
+            else if (action === "right") gizmoState.x += step;
+            else if (action === "zUp") gizmoState.z += step;
+            else if (action === "zDown") gizmoState.z -= step;
+            else if (action === "scaleUp")
+              gizmoState.scale = Math.min(5, gizmoState.scale + step * 0.1);
+            else if (action === "scaleDown")
+              gizmoState.scale = Math.max(0.2, gizmoState.scale - step * 0.1);
+            else if (action === "stepFine") gizmoState.step = 0.5;
+            else if (action === "stepCoarse") gizmoState.step = 2;
+            else if (action === "center") {
+              gizmoState.x = 0;
+              gizmoState.y = 0;
+              gizmoState.z = 0;
+            } else if (action === "reset") {
+              gizmoState.x = 0;
+              gizmoState.y = 0;
+              gizmoState.z = 0;
+              gizmoState.scale = 1;
+              gizmoState.step = 1;
+            }
+            renderGizmoState();
+          });
+        });
+        renderGizmoState();
         const inspector = document.getElementById("componentInspector");
         const inspectorTitle = document.getElementById("inspectorTitle");
         const inspectorElement = document.getElementById("inspectorElement");

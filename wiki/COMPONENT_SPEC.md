@@ -80,6 +80,15 @@ Use this template for new components.
 - Tooltip/title recommended for ambiguous symbols.
 - Token Mapping:
 - `--ds-btn-icon-size*`, `--ds-btn-icon-font-size`, button base tokens.
+- For square icon-action highlight behavior (lock/collapse/show-hide), use `.ds-icon-action` with:
+  - `--ds-icon-action-size`
+  - `--ds-icon-action-radius`
+  - `--ds-icon-action-fg`
+  - `--ds-icon-action-fg-hover`
+  - `--ds-icon-action-fg-active`
+  - `--ds-icon-action-hover-bg`
+  - `--ds-icon-action-active-bg`
+  - `--ds-icon-action-border*`
 
 ## 3) Text Input / Textarea / Select
 - Intent: Capture user-entered or selected values.
@@ -191,3 +200,128 @@ Use this template for new components.
 - Tabs / Accordion
 - Table / Data grid
 - Date and time controls
+
+---
+
+## 11) Custom App Components (Cross-App Canonical)
+
+### Field Row (`.ds-field-row`)
+- Intent: Stable dense property control layout for generator panels.
+- Use When: `label + control + optional action` rows in inspector/panel UIs.
+- Anatomy:
+- Label column (`.ds-label` or `.control-label`).
+- Control column (`.control-input` or `.ds-field-control`).
+- Action slot (`.control-icons` or `.ds-field-actions`), always reserved.
+- Token Mapping:
+- `--ds-field-label-w`
+- `--ds-field-action-w`
+- `--ds-field-row-gap`
+- `--ds-control-h-sm`
+
+### Section Header (`.ds-section-header`)
+- Intent: Standardized section title/action row with predictable collapse affordance.
+- Use When: Collapsible control sections with terminal icon actions.
+- Token Mapping:
+- `--ds-section-head-h`
+- `--ds-space-2`
+- icon action tokens (`--ds-icon-action-*`)
+
+### Tab Active Contrast
+- Intent: Ensure active tab text/icon readability across all themes.
+- Use When: Any selected tab/subtab state.
+- Token Mapping:
+- `--ds-tab-active-fg`
+- `--ds-tab-active-bg`
+- `--ds-tab-active-border`
+- `--ds-tab-active-icon`
+
+### Shell Frame + Toast Placement
+- Intent: Keep app-level frame spacing and toast placement consistent across apps.
+- Token Mapping:
+- `--ds-shell-gap`
+- `--ds-shell-pad`
+- `--ds-shell-border`
+- `--ds-shell-shadow`
+- `--ds-toast-inset-x`
+- `--ds-toast-inset-y`
+- `--ds-toast-gap`
+
+### Sidebar Shell
+- Intent: Persistent navigation + contextual utility actions for tool-centric apps.
+- Use When: App sections remain stable and users need constant quick switching.
+- Avoid When: Workflow is linear or modal-only.
+- Anatomy:
+- Sidebar region (fixed width or collapsed width).
+- Main content region.
+- Optional right-aligned action group in main region.
+- Interaction:
+- Collapsible state must preserve keyboard access.
+- Active nav item should remain visually distinct.
+- Token Mapping:
+- `--ds-layout-panel-w`, `--ds-bg-raised`, `--ds-border`, button/nav tokens.
+
+### Camera Controls Pad
+- Intent: Compact directional + zoom control cluster for canvas/map/viewport interactions.
+- Use When: Fine movement and zoom need quick repeated access.
+- Avoid When: Gesture-only interaction is sufficient.
+- Anatomy:
+- 3x3 pad:
+  - Top row view presets.
+  - Middle row left/home/right navigation.
+  - Bottom row alternate view/snap actions.
+- Secondary action row: zoom in, zoom out, reset.
+- Numeric/coordinate readout.
+- Interaction:
+- Buttons support keyboard activation.
+- Reset always returns known baseline.
+- Readout updates immediately after each action.
+- Token Mapping:
+- button tokens, compact size tokens, spacing tokens, muted/readout text tokens.
+
+### Production Toolbar
+- Intent: Stable top-level command strip for creation/review/publish workflows.
+- Use When: Users perform repeated task switching with clear action hierarchy.
+- Avoid When: Fewer than 2 actions or highly contextual controls (use popover/drawer).
+- Anatomy:
+- Left: low-risk utility tools.
+- Center: context/status chips.
+- Right: commit actions (destructive left of primary).
+- Interaction:
+- One primary action in the right cluster.
+- Destructive action immediately left of primary.
+- Token Mapping:
+- `--ds-btn-*`, `--ds-chip-*`, surface/border/layout gap tokens.
+
+### Master Control Panel Template
+- Intent: Canonical compact control layout for tool-heavy apps (Trekulate/Bonsai/KataCart style).
+- Anatomy:
+- Left rail tabs (icon buttons).
+- Group cards with `icon + label + control + readout` rows.
+- Footer action bar with destructive-left / primary-right alignment.
+- Icon Rules:
+- Use one icon family per app surface (do not mix line styles in one panel).
+- Each icon-only control must have `title` and `aria-label` when text is absent.
+- Keep icon slot width fixed to avoid row jitter.
+- Interaction:
+- Rail tab switch updates visible pane without layout shift.
+- Slider/readout pairs update in real time.
+
+### Gizmo Widget
+- Intent: Standardized directional transform controls for object/viewport manipulation.
+- Anatomy:
+- 3x3 directional grid:
+  - XY arrows (`up/down/left/right`)
+  - Z-axis controls (`z+/z-`)
+  - Scale controls (`s+/s-`)
+  - Center anchor button.
+- Secondary action row:
+  - Fine step toggle
+  - Coarse step toggle
+  - Reset
+- Live readout (`x/y/z/scale`).
+- Interaction:
+- Every action updates readout immediately.
+- Fine/coarse mode changes transform step size.
+- Reset restores `x:0 y:0 z:0 scale:1`.
+- Token Mapping:
+- compact control-size tokens, button tokens, spacing tokens, mono readout text tokens.

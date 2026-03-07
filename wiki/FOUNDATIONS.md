@@ -35,20 +35,24 @@
 - Touch targets should remain usable at compact scale.
 - Critical states must not rely on color alone.
 
-## Primary Button Contrast Policy
-- `primaryTextMode: contrast` (default): use generated contrast-safe text from color family + hue bundle.
-- `primaryTextMode: text`: force `--ds-btn-primary-text: var(--ds-text)`.
-- `primaryTextMode: inverse`: force `--ds-btn-primary-text: var(--ds-text-inverse)`.
-- `primaryTextMode: surface`: force `--ds-btn-primary-text: var(--ds-bg-elevated)`.
+## Button Contrast Logic Matrix
+- Primary default:
+  `--ds-btn-primary-text` must be readable on `--ds-btn-primary-bg`.
+- Primary hover:
+  `--ds-btn-primary-text` must remain readable on `--ds-btn-primary-bg-hover`.
+- Primary selected:
+  Uses `.ds-btn-primary[aria-pressed="true"]` token stack (not generic secondary selected rule).
+- Secondary selected:
+  Uses generic selected state treatment for non-primary variants.
+- Checkbox/radio checked:
+  `--ds-check-mark` must contrast against `--ds-check-checked-bg`.
+- Tab selected:
+  `--ds-tab-active-fg` must contrast against `--ds-tab-active-bg`, independent from primary button text logic.
 
-### Current Theme Overrides
-- `mono-slate`: `surface`
-- `paper-mint`: `surface`
-- `neon-grid`: `surface`
-- `skeuo-panel`: `surface`
-- `industrial-terminal`: `surface`
-- `velvet-touch`: `surface`
-- `eva-wireframe`: `surface`
+### Contrast Remediation Order
+1. Fix with theme tokens first (`--ds-btn-primary-*`, `--ds-check-*`, `--ds-tab-active-*`).
+2. If needed, add a scoped theme-specific component override.
+3. Avoid global component hacks for single-theme contrast issues.
 
 ## Style Composability Rule
 - Style presets should primarily define shape, type, spacing, and effects.
