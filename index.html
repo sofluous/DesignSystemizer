@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="app-version" content="0.4" />
+    <meta name="app-version" content="0.5" />
     <title>Design System Studio</title>
     <script>
       (function () {
@@ -110,19 +110,45 @@
       .builder-grid {
         display: grid;
         gap: var(--ds-space-4);
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       }
       .builder-mode-bar {
         display: flex;
         align-items: center;
         gap: var(--ds-space-2);
         flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .builder-mode-tools {
+        display: flex;
+        align-items: center;
+        gap: var(--ds-space-2);
+        flex-wrap: wrap;
+        margin-left: auto;
+      }
+      .builder-search {
+        min-width: min(280px, 100%);
       }
       .builder-group-tabs {
         display: flex;
         flex-wrap: wrap;
         gap: var(--ds-space-2);
         align-items: center;
+      }
+      .component-filter-bar {
+        display: grid;
+        gap: var(--ds-space-3);
+      }
+      .component-filter-head {
+        display: grid;
+        gap: 4px;
+      }
+      .component-filter-hint {
+        margin: 0;
+      }
+      .component-collection[hidden],
+      .component-block[hidden] {
+        display: none;
       }
       .builder-group-tabs .ds-btn {
         min-height: var(--ds-control-h-sm);
@@ -187,8 +213,71 @@
         gap: var(--ds-space-3);
         align-content: start;
       }
+      .builder-group-title-wrap {
+        display: grid;
+        gap: 4px;
+      }
+      .builder-group-subtitle {
+        margin: 0;
+      }
       .builder-group[hidden] {
         display: none;
+      }
+      .builder-section {
+        display: block;
+        padding-top: var(--ds-space-2);
+        border-top: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+      }
+      .builder-section:first-of-type {
+        padding-top: 0;
+        border-top: 0;
+      }
+      .builder-section[hidden] {
+        display: none;
+      }
+      .builder-section-summary {
+        list-style: none;
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: var(--ds-space-3);
+        cursor: pointer;
+        padding: 8px 0;
+      }
+      .builder-section-summary::-webkit-details-marker {
+        display: none;
+      }
+      .builder-section-summary::after {
+        content: "+";
+        color: var(--ds-text-muted);
+        font-size: var(--ds-fs-2);
+        line-height: 1;
+        margin-top: 2px;
+      }
+      .builder-section[open] .builder-section-summary::after {
+        content: "-";
+        color: var(--ds-text);
+      }
+      .builder-section-head {
+        display: grid;
+        gap: 2px;
+      }
+      .builder-section-title {
+        font-size: var(--ds-fs-1);
+        font-weight: 700;
+        letter-spacing: var(--ds-label-spacing);
+        text-transform: uppercase;
+        color: var(--ds-text);
+      }
+      .builder-section-copy {
+        margin: 0;
+        color: var(--ds-text-muted);
+        font-size: var(--ds-fs-1);
+      }
+      .builder-section-body {
+        display: grid;
+        gap: var(--ds-space-2);
+        padding-bottom: var(--ds-space-1);
       }
       .ds-inspector {
         position: fixed;
@@ -239,7 +328,19 @@
       .builder-field {
         display: grid;
         gap: 10px;
-        padding-block-end: 6px;
+        padding: var(--ds-space-3);
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+        border-radius: var(--ds-radius-2);
+        background: color-mix(in oklab, var(--ds-bg-elevated) 86%, transparent);
+        transition: border-color var(--ds-dur-fast) var(--ds-ease-standard),
+          background var(--ds-dur-fast) var(--ds-ease-standard),
+          box-shadow var(--ds-dur-fast) var(--ds-ease-standard);
+      }
+      .builder-field:hover,
+      .builder-field:focus-within {
+        border-color: var(--ds-border-strong);
+        background: color-mix(in oklab, var(--ds-bg-raised) 90%, transparent);
+        box-shadow: var(--ds-shadow-sm);
       }
       .builder-field label {
         font-size: var(--ds-fs-1);
@@ -263,17 +364,32 @@
         margin-left: auto;
         justify-content: flex-end;
         align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-1px);
+        transition: opacity var(--ds-dur-fast) var(--ds-ease-standard),
+          transform var(--ds-dur-fast) var(--ds-ease-standard);
+      }
+      .builder-field:hover .builder-field-actions,
+      .builder-field:focus-within .builder-field-actions {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
       }
       .builder-help-btn {
-        min-width: 46px;
-        min-height: 24px;
-        padding: 0 8px;
+        min-width: 28px;
+        min-height: 28px;
+        padding: 0 6px;
         font-size: 11px;
         line-height: 1;
       }
       .builder-help-btn.is-icon {
         min-width: 28px;
         padding: 0 6px;
+      }
+      .builder-help-btn span[aria-hidden="true"] {
+        font-weight: 700;
+        text-transform: uppercase;
       }
       .builder-field-row {
         display: grid;
@@ -700,6 +816,13 @@
         .builder-workbench {
           grid-template-columns: 1fr;
         }
+        .builder-mode-tools {
+          width: 100%;
+          margin-left: 0;
+        }
+        .builder-search {
+          width: 100%;
+        }
         .builder-live-preview {
           position: static;
         }
@@ -734,28 +857,12 @@
         </div>
         <div class="ds-field">
           <label class="ds-label" for="themeSelect">Base Theme</label>
-          <select id="themeSelect" class="ds-select">
-            <option value="steel-night">Steel Night</option>
-            <option value="paper-mint">Paper Mint</option>
-            <option value="amber-terminal">Amber Terminal</option>
-            <option value="neon-grid">Neon Grid</option>
-            <option value="mono-slate">Mono Slate</option>
-            <option value="tech-grid">Tech Grid</option>
-            <option value="skeuo-panel">Skeuo Panel</option>
-            <option value="industrial-terminal">Industrial Terminal</option>
-            <option value="velvet-touch">Velvet Touch</option>
-            <option value="eva-wireframe">Eva Wireframe</option>
-            <option value="eva-unit-01">Eva Unit-01</option>
-            <option value="saturn-alloy">Saturn Alloy</option>
-            <option value="old-web-portal">Old Web Portal</option>
-            <option value="candy-spectrum">Candy Spectrum</option>
-            <option value="complementary-wave">Complementary Wave</option>
-            <option value="sunset-pop">Sunset Pop</option>
-            <option value="oilslick-nacre">Oilslick Nacre</option>
-            <option value="holo-nocturne">Holo Nocturne</option>
-            <option value="signal-poster">Signal Poster</option>
-            <option value="signal-diagram">Signal Diagram</option>
-          </select>
+          <select
+            id="themeSelect"
+            class="ds-select"
+            data-ds-theme-select
+            data-ds-theme-storage="ds-theme"
+          ></select>
         </div>
         <nav class="studio-nav" role="tablist" aria-label="Studio sections">
           <button
@@ -895,8 +1002,20 @@
                 Preview how tokens affect common UI patterns.
               </p>
             </div>
-            <div class="ds-grid ds-grid-2">
-              <article class="ds-card ds-stack">
+            <div class="ds-card component-filter-bar">
+              <div class="component-filter-head">
+                <strong class="ds-label ds-label-block">Browse by Category</strong>
+                <p class="ds-muted component-filter-hint" id="componentFilterHint">
+                  Showing the full component library.
+                </p>
+              </div>
+              <div id="componentFilterTabs" class="builder-group-tabs"></div>
+            </div>
+            <div class="ds-grid ds-grid-2 component-collection">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Actions,Feedback"
+              >
                 <h3 class="ds-card-title">Buttons and States</h3>
                 <p class="ds-muted">
                   Forced state matrixes per button variant for contrast and token diagnosis.
@@ -981,7 +1100,10 @@
                   ><span class="ds-chip ds-chip-alt">Alt Accent Chip</span>
                 </div>
               </article>
-              <article class="ds-card ds-stack">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Inputs"
+              >
                 <h3 class="ds-card-title">Inputs and Fields</h3>
                 <div class="ds-field">
                   <label class="ds-label" for="demoName">Name</label
@@ -1024,8 +1146,11 @@
                 </div>
               </article>
             </div>
-            <div class="ds-grid ds-grid-2">
-              <article class="ds-card ds-stack">
+            <div class="ds-grid ds-grid-2 component-collection">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Inputs,Selection"
+              >
                 <h3 class="ds-card-title">Controls</h3>
                 <div class="control-grid">
                   <div class="control-box">
@@ -1092,7 +1217,10 @@
                 </div>
               </article>
 
-              <article class="ds-card ds-stack">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Overlays,Actions"
+              >
                 <h3 class="ds-card-title">Scrollbars and Popouts</h3>
                 <div class="scroll-demo ds-scroll" id="scrollDemo">
                   <div class="ds-chip">Scrollable item 1</div>
@@ -1173,8 +1301,11 @@
               </article>
             </div>
 
-            <div class="ds-grid ds-grid-2">
-              <article class="ds-card ds-stack">
+            <div class="ds-grid ds-grid-2 component-collection">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Layout,Custom"
+              >
                 <h3 class="ds-card-title">App Patterns</h3>
                 <div class="ds-switch-inline">
                   <label class="ds-label" for="patternSync">Inline Sync</label>
@@ -1220,7 +1351,10 @@
                   </article>
                 </div>
               </article>
-              <article class="ds-card ds-stack">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Custom,Layout,Actions"
+              >
                 <h3 class="ds-card-title">Custom App Components (Source of Truth)</h3>
                 <p class="ds-muted">
                   Canonical patterns used across apps: sidebar shell, camera control pad, and production toolbars.
@@ -1430,7 +1564,10 @@
                   </section>
                 </div>
               </article>
-              <article class="ds-card ds-stack">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Layout"
+              >
                 <h3 class="ds-card-title">Layout Tokens Preview</h3>
                 <div class="ds-grid ds-grid-halves">
                   <div class="ds-note">
@@ -1454,8 +1591,11 @@
               </article>
             </div>
 
-            <div class="ds-grid ds-grid-2">
-              <article class="ds-card ds-stack">
+            <div class="ds-grid ds-grid-2 component-collection">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Actions,Feedback"
+              >
                 <h3 class="ds-card-title">Actions and Validation</h3>
                 <div class="ds-toolbar">
                   <div class="ds-btn-group" role="group" aria-label="Batch actions">
@@ -1487,7 +1627,10 @@
                   <button class="ds-btn ds-btn-tertiary ds-btn-sm" type="button">Clear Filters</button>
                 </article>
               </article>
-              <article class="ds-card ds-stack">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Navigation,Feedback"
+              >
                 <h3 class="ds-card-title">Tabs, Skeleton, and Command Palette</h3>
                 <div class="ds-stack">
                   <strong class="ds-label ds-label-block">Tab State Matrix</strong>
@@ -1535,8 +1678,11 @@
               </article>
             </div>
 
-            <div class="ds-grid ds-grid-2">
-              <article class="ds-card ds-stack">
+            <div class="ds-grid ds-grid-2 component-collection">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Inputs"
+              >
                 <h3 class="ds-card-title">Date and Time</h3>
                 <div class="ds-grid ds-grid-halves">
                   <div class="ds-field">
@@ -1567,7 +1713,10 @@
                   />
                 </div>
               </article>
-              <article class="ds-card ds-stack">
+              <article
+                class="ds-card ds-stack component-block"
+                data-component-groups="Data,Inputs"
+              >
                 <h3 class="ds-card-title">Mini Calendar and Progress</h3>
                 <div class="calendar-grid" aria-label="Mini calendar">
                   <span class="head">Su</span><span class="head">Mo</span
@@ -1606,7 +1755,10 @@
               </article>
             </div>
 
-            <article class="ds-card ds-stack">
+            <article
+              class="ds-card ds-stack component-block"
+              data-component-groups="Data"
+            >
               <h3 class="ds-card-title">Table</h3>
               <div class="ds-table-wrap">
                 <table class="ds-table">
@@ -1642,7 +1794,10 @@
               </div>
             </article>
 
-            <article class="ds-card ds-stack">
+            <article
+              class="ds-card ds-stack component-block"
+              data-component-groups="Data"
+            >
               <h3 class="ds-card-title">Charts and Diagrams</h3>
               <div class="viz-grid">
                 <div class="viz-panel">
@@ -2273,10 +2428,17 @@ Do not occlude the trigger element when contextual help opens.</pre
 2. Copy _DesignSystem into your app repo
 3. Link your app HTML:
    &lt;link rel="stylesheet" href="./_DesignSystem/theme.css"&gt;
-4. Set the theme on root:
+4. Add theme package scripts:
+   &lt;script src="./_DesignSystem/js/theme-registry.js"&gt;&lt;/script&gt;
+   &lt;script src="./_DesignSystem/js/theme-selector.js"&gt;&lt;/script&gt;
+5. Add a selector:
+   &lt;select data-ds-theme-select data-ds-theme-storage="app-theme"&gt;&lt;/select&gt;
+6. Set the theme on root:
    &lt;html data-theme="steel-night"&gt;
-5. Append custom exported themes to:
-   _DesignSystem/css/themes.css</pre
+7. Append custom exported themes to:
+   _DesignSystem/css/themes.css
+8. Add new theme metadata to:
+   _DesignSystem/js/theme-registry.js</pre
                 >
               </article>
               <article class="ds-card ds-stack">
@@ -2287,6 +2449,27 @@ Do not occlude the trigger element when contextual help opens.</pre
 3. Click Download Theme Package
 4. Drag extracted files into your project folder
 5. Follow INSTALL.md in the package</pre
+                >
+              </article>
+              <article class="ds-card ds-stack">
+                <h3>App Integration Snippet</h3>
+                <pre class="ds-code mono">
+&lt;html lang="en" data-theme="steel-night"&gt;
+&lt;head&gt;
+  &lt;link rel="stylesheet" href="./_DesignSystem/theme.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;label for="themeSelectApp"&gt;Theme&lt;/label&gt;
+  &lt;select
+    id="themeSelectApp"
+    data-ds-theme-select
+    data-ds-theme-storage="projektik-theme"
+  &gt;&lt;/select&gt;
+
+  &lt;script src="./_DesignSystem/js/theme-registry.js"&gt;&lt;/script&gt;
+  &lt;script src="./_DesignSystem/js/theme-selector.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre
                 >
               </article>
             </div>
@@ -2316,6 +2499,7 @@ Do not occlude the trigger element when contextual help opens.</pre
                   <div class="wiki-nav-list">
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="THEME_ARCHITECTURE_DIAGRAM.md">Theme Architecture Diagram</button>
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="THEME_PRESET_MAP.md">Theme Preset Map</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="THEME_PACKAGE.md">Theme Package</button>
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="COMPONENT_SPEC.md">Component Spec</button>
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="ICONOGRAPHY.md">Iconography</button>
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="VALIDATION_CHECKLIST.md">Validation Checklist</button>
@@ -2415,6 +2599,17 @@ Do not occlude the trigger element when contextual help opens.</pre
             </div>
             <div class="builder-mode-bar ds-card">
               <div id="builderGroupTabs" class="builder-group-tabs"></div>
+              <div class="builder-mode-tools">
+                <div class="ds-field builder-search">
+                  <label class="ds-label" for="builderTokenSearch">Token Search</label>
+                  <input
+                    id="builderTokenSearch"
+                    class="ds-input"
+                    type="search"
+                    placeholder="Search token name, label, or section"
+                  />
+                </div>
+              </div>
             </div>
             <div class="builder-workbench">
               <div class="builder-workbench-controls">
@@ -2702,12 +2897,23 @@ Do not occlude the trigger element when contextual help opens.</pre
       </div>
     </aside>
 
+    <script src="./js/theme-registry.js"></script>
+    <script src="./js/theme-selector.js"></script>
     <script>
       (function () {
         const root = document.documentElement;
         const storageKey = "ds-theme";
         const resetConfirmKey = "ds-skip-reset-confirm";
         const themeSelect = document.getElementById("themeSelect");
+        const defaultTheme = root.getAttribute("data-theme") || "steel-night";
+        const themeSelectorController =
+          window.DesignSystemThemeSelector && themeSelect
+            ? window.DesignSystemThemeSelector.initThemeSelector(themeSelect, {
+                root,
+                storageKey,
+                defaultTheme,
+              })
+            : null;
         const controlMap = new Map();
         const tokenGroups = [
           {
@@ -4758,9 +4964,12 @@ Do not occlude the trigger element when contextual help opens.</pre
         }
         const savedTheme = localStorage.getItem(storageKey);
         const initialTheme =
-          savedTheme || root.getAttribute("data-theme") || "steel-night";
+          (themeSelectorController && themeSelectorController.currentTheme) ||
+          savedTheme ||
+          root.getAttribute("data-theme") ||
+          "steel-night";
         root.setAttribute("data-theme", initialTheme);
-        themeSelect.value = initialTheme;
+        if (themeSelect) themeSelect.value = initialTheme;
         function normalizeHex(v) {
           const raw = (v || "").trim();
           if (!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(raw)) return null;
@@ -5121,6 +5330,230 @@ Do not occlude the trigger element when contextual help opens.</pre
           } else value = meta.main.value;
           root.style.setProperty(meta.token, value);
         }
+        const builderGroupDescriptions = {
+          "Semantic Colors":
+            "Core semantic tokens for surfaces, text, borders, accent, and feedback colors.",
+          Typography:
+            "Font families, scale, line-height, and label behavior that shape readability.",
+          "Geometry and Borders":
+            "Corner shape, border weight, and line treatment across components.",
+          "Density and Layout":
+            "Spacing rhythm, control sizing, and structural layout cadence.",
+          "Surface and Depth":
+            "Material treatment, shadows, textures, blur, and layered surface behavior.",
+          "Buttons and Inputs":
+            "Direct component tokens for buttons, fields, and interactive form elements.",
+          "Motion and Layers":
+            "Animation timing, motion behavior, and elevation ordering.",
+          "App Layout and Utility":
+            "Shell-level layout primitives, rails, panels, and shared utility surfaces.",
+          "Native Controls":
+            "Browser-native inputs, indicators, and control-specific styling hooks.",
+          "Chips and Scrollbars":
+            "Compact status tokens, chips, badges, and scrolling affordances.",
+        };
+        const builderSectionDefinitions = {
+          "Semantic Colors": [
+            {
+              title: "Surfaces",
+              description: "Global app and panel backgrounds.",
+              match: (token) => token.indexOf("--ds-bg") === 0,
+            },
+            {
+              title: "Text",
+              description: "Readable foreground, muted, and inverse text.",
+              match: (token) => token.indexOf("--ds-text") === 0,
+            },
+            {
+              title: "Accent and Focus",
+              description: "Primary highlight and keyboard focus language.",
+              match: (token) =>
+                token.indexOf("--ds-accent") === 0 || token === "--ds-focus",
+            },
+            {
+              title: "Feedback",
+              description: "Success, warning, danger, and info states.",
+              match: (token) =>
+                ["--ds-success", "--ds-warning", "--ds-danger", "--ds-info"].includes(
+                  token,
+                ),
+            },
+            {
+              title: "Borders and Native Icons",
+              description: "Structural borders and browser-supplied indicator contrast.",
+              match: (token) =>
+                token.indexOf("--ds-border") === 0 ||
+                token.indexOf("--ds-native") === 0,
+            },
+          ],
+          Typography: [
+            {
+              title: "Font Families",
+              description: "Brand voice for primary, mono, and heading styles.",
+              match: (token) => token.indexOf("--ds-font") === 0,
+            },
+            {
+              title: "Type Scale",
+              description: "Font sizes and line-height rhythm.",
+              match: (token) =>
+                token.indexOf("--ds-fs") === 0 || token.indexOf("--ds-lh") === 0,
+            },
+            {
+              title: "Labels and Case",
+              description: "Uppercase behavior and spacing for metadata labels.",
+              match: (token) => token.indexOf("--ds-label") === 0,
+            },
+          ],
+          "Geometry and Borders": [
+            {
+              title: "Radius",
+              description: "How soft or technical corners feel.",
+              match: (token) => token.indexOf("--ds-radius") === 0,
+            },
+            {
+              title: "Border Construction",
+              description: "Weight and style of outlines across the system.",
+              match: (token) =>
+                token === "--ds-border-w" || token === "--ds-border-style",
+            },
+          ],
+          "Density and Layout": [
+            {
+              title: "Spacing Rhythm",
+              description: "The base spatial cadence used between elements.",
+              match: (token) => token.indexOf("--ds-space") === 0,
+            },
+            {
+              title: "Layout Structure",
+              description: "Panel widths, grid gaps, and shell spacing.",
+              match: (token) =>
+                token.indexOf("--ds-layout") === 0 ||
+                token.indexOf("--ds-hud-card") === 0,
+            },
+            {
+              title: "Control Sizing",
+              description: "Core control heights and card padding.",
+              match: (token) =>
+                token.indexOf("--ds-control-h") === 0 ||
+                token === "--ds-card-pad",
+            },
+          ],
+          "Surface and Depth": [
+            {
+              title: "Shadows",
+              description: "Elevation, inset depth, and hover/press feedback.",
+              match: (token) => token.indexOf("--ds-shadow") === 0,
+            },
+            {
+              title: "Material Layers",
+              description: "Surface overlays, blur, and texture behavior.",
+              match: (token) =>
+                token.indexOf("--ds-body-") === 0 ||
+                token.indexOf("--ds-card-") === 0 ||
+                token.indexOf("--ds-control-") === 0 ||
+                token.indexOf("--ds-texture-") === 0,
+            },
+          ],
+          "Buttons and Inputs": [
+            {
+              title: "Buttons",
+              description: "Primary, secondary, tertiary, and icon action tokens.",
+              match: (token) => token.indexOf("--ds-btn") === 0,
+            },
+            {
+              title: "Inputs",
+              description: "Field surfaces, text, icons, and placeholder behavior.",
+              match: (token) => token.indexOf("--ds-input") === 0,
+            },
+            {
+              title: "Selection and Form Controls",
+              description: "Checks, radios, switches, ranges, and helper controls.",
+              match: (token) =>
+                token.indexOf("--ds-check") === 0 ||
+                token.indexOf("--ds-radio") === 0 ||
+                token.indexOf("--ds-switch") === 0 ||
+                token.indexOf("--ds-range") === 0 ||
+                token.indexOf("--ds-spin") === 0,
+            },
+          ],
+          "Motion and Layers": [
+            {
+              title: "Timing and Easing",
+              description: "Motion duration and easing curves.",
+              match: (token) =>
+                token.indexOf("--ds-dur") === 0 || token.indexOf("--ds-ease") === 0,
+            },
+            {
+              title: "Interaction Motion",
+              description: "Transforms and movement on press or hover.",
+              match: (token) =>
+                token.indexOf("--ds-btn-press") === 0 ||
+                token.indexOf("--ds-popover-offset") === 0 ||
+                token.indexOf("--ds-toast-offset") === 0,
+            },
+            {
+              title: "Layer Order",
+              description: "Z-index and stacking behavior for overlays.",
+              match: (token) => token.indexOf("--ds-z-") === 0,
+            },
+          ],
+          "App Layout and Utility": [
+            {
+              title: "App Shell",
+              description: "Rail, side panel, toolbar, and shell behavior.",
+              match: (token) =>
+                token.indexOf("--ds-rail") === 0 ||
+                token.indexOf("--ds-sidebar") === 0 ||
+                token.indexOf("--ds-toolbar") === 0 ||
+                token.indexOf("--ds-app") === 0,
+            },
+            {
+              title: "Cards and Utility Surfaces",
+              description: "Reusable shell components and utility overlays.",
+              match: (token) =>
+                token.indexOf("--ds-card") === 0 ||
+                token.indexOf("--ds-modal") === 0 ||
+                token.indexOf("--ds-drawer") === 0 ||
+                token.indexOf("--ds-toast") === 0 ||
+                token.indexOf("--ds-popover") === 0 ||
+                token.indexOf("--ds-dropdown") === 0,
+            },
+          ],
+          "Native Controls": [
+            {
+              title: "Date and Time",
+              description: "Native field icons and built-in browser affordances.",
+              match: (token) =>
+                token.indexOf("--ds-native") === 0 ||
+                token.indexOf("--ds-spin") === 0,
+            },
+          ],
+          "Chips and Scrollbars": [
+            {
+              title: "Chips and Badges",
+              description: "Compact status, tags, and low-footprint indicators.",
+              match: (token) =>
+                token.indexOf("--ds-chip") === 0 ||
+                token.indexOf("--ds-badge") === 0 ||
+                token.indexOf("--ds-pill") === 0,
+            },
+            {
+              title: "Scrollbars",
+              description: "Track and thumb behavior for horizontal and vertical scrolling.",
+              match: (token) => token.indexOf("--ds-scroll") === 0,
+            },
+          ],
+        };
+        function getBuilderSectionDefinition(groupName, token) {
+          const defs = builderSectionDefinitions[groupName] || [];
+          for (let i = 0; i < defs.length; i++) {
+            if (defs[i].match(token)) return defs[i];
+          }
+          return {
+            title: "Additional Tokens",
+            description: "Supporting tokens for this property set.",
+          };
+        }
         function renderBuilder() {
           const host = document.getElementById("builderGroups");
           host.innerHTML = "";
@@ -5129,13 +5562,74 @@ Do not occlude the trigger element when contextual help opens.</pre
             card.className = "ds-card builder-group";
             card.setAttribute("data-group-name", group.name);
             card.id = "builder-group-" + builderGroupId(group.name);
+            const titleWrap = document.createElement("div");
+            titleWrap.className = "builder-group-title-wrap";
             const title = document.createElement("h3");
             title.className = "ds-card-title";
             title.textContent = group.name;
-            card.appendChild(title);
+            titleWrap.appendChild(title);
+            const subtitle = document.createElement("p");
+            subtitle.className = "ds-muted builder-group-subtitle";
+            subtitle.textContent =
+              builderGroupDescriptions[group.name] ||
+              "Token controls for this area of the system.";
+            titleWrap.appendChild(subtitle);
+            card.appendChild(titleWrap);
+            const sections = new Map();
+            let firstSection = true;
             group.controls.forEach((control) => {
+              const sectionDef = getBuilderSectionDefinition(group.name, control.token);
+              let sectionParts = sections.get(sectionDef.title);
+              if (!sectionParts) {
+                const sectionHost = document.createElement("details");
+                sectionHost.className = "builder-section";
+                sectionHost.setAttribute("data-builder-section", sectionDef.title);
+                sectionHost.open = firstSection;
+                firstSection = false;
+                sectionHost.addEventListener("toggle", function () {
+                  if (!sectionHost.open) return;
+                  const searchActive = builderState.searchQuery.trim().length > 0;
+                  if (searchActive) return;
+                  card
+                    .querySelectorAll(".builder-section")
+                    .forEach((otherSection) => {
+                      if (otherSection !== sectionHost) otherSection.open = false;
+                    });
+                });
+                const summary = document.createElement("summary");
+                summary.className = "builder-section-summary";
+                const sectionHead = document.createElement("div");
+                sectionHead.className = "builder-section-head";
+                const sectionTitle = document.createElement("div");
+                sectionTitle.className = "builder-section-title";
+                sectionTitle.textContent = sectionDef.title;
+                sectionHead.appendChild(sectionTitle);
+                if (sectionDef.description) {
+                  const sectionCopy = document.createElement("p");
+                  sectionCopy.className = "builder-section-copy";
+                  sectionCopy.textContent = sectionDef.description;
+                  sectionHead.appendChild(sectionCopy);
+                }
+                summary.appendChild(sectionHead);
+                sectionHost.appendChild(summary);
+                const sectionBody = document.createElement("div");
+                sectionBody.className = "builder-section-body";
+                sectionHost.appendChild(sectionBody);
+                sectionParts = { host: sectionHost, body: sectionBody };
+                sections.set(sectionDef.title, sectionParts);
+                card.appendChild(sectionHost);
+              }
               const field = document.createElement("div");
               field.className = "builder-field";
+              field.dataset.searchText = (
+                humanLabel(control.token) +
+                " " +
+                control.token +
+                " " +
+                sectionDef.title +
+                " " +
+                group.name
+              ).toLowerCase();
               const label = document.createElement("label");
               label.textContent = humanLabel(control.token);
               field.appendChild(label);
@@ -5434,14 +5928,32 @@ Do not occlude the trigger element when contextual help opens.</pre
                 main.addEventListener("input", () => applyControl(meta));
               }
               controlMap.set(control.token, meta);
-              card.appendChild(field);
+              sectionParts.body.appendChild(field);
             });
             host.appendChild(card);
           });
         }
         const builderGroupTabs = document.getElementById("builderGroupTabs");
         const builderPreviewHint = document.getElementById("builderPreviewHint");
+        const builderTokenSearch = document.getElementById("builderTokenSearch");
         const builderState = {
+          activeGroup: "__all__",
+          searchQuery: "",
+        };
+        const componentFilterTabs = document.getElementById("componentFilterTabs");
+        const componentFilterHint = document.getElementById("componentFilterHint");
+        const componentCategories = [
+          { key: "__all__", label: "All" },
+          { key: "Actions", label: "Actions" },
+          { key: "Inputs", label: "Inputs" },
+          { key: "Navigation", label: "Navigation" },
+          { key: "Data", label: "Data" },
+          { key: "Feedback", label: "Feedback" },
+          { key: "Layout", label: "Layout" },
+          { key: "Custom", label: "Custom" },
+          { key: "Overlays", label: "Overlays" },
+        ];
+        const componentFilterState = {
           activeGroup: "__all__",
         };
         function renderBuilderGroupTabs() {
@@ -5483,14 +5995,39 @@ Do not occlude the trigger element when contextual help opens.</pre
         }
         function applyBuilderPresentation() {
           const grouped = builderState.activeGroup !== "__all__";
+          const searching = builderState.searchQuery.trim().length > 0;
           document.querySelectorAll("#builderGroups .builder-group").forEach((card) => {
             const groupName = card.getAttribute("data-group-name");
-            card.hidden = grouped && groupName !== builderState.activeGroup;
+            const groupFiltered = grouped && groupName !== builderState.activeGroup;
+            if (groupFiltered) {
+              card.hidden = true;
+              return;
+            }
+            let cardHasVisibleField = false;
+            card.querySelectorAll(".builder-section").forEach((section, index) => {
+              let sectionHasVisibleField = false;
+              section.querySelectorAll(".builder-field").forEach((field) => {
+                const haystack = (field.dataset.searchText || "").toLowerCase();
+                const match = !searching || haystack.indexOf(builderState.searchQuery) > -1;
+                field.hidden = !match;
+                if (match) {
+                  sectionHasVisibleField = true;
+                  cardHasVisibleField = true;
+                }
+              });
+              section.hidden = !sectionHasVisibleField;
+              if (searching) {
+                section.open = sectionHasVisibleField;
+              } else if (sectionHasVisibleField && index === 0) {
+                section.open = true;
+              }
+            });
+            card.hidden = !cardHasVisibleField;
           });
           const sections = document.querySelectorAll(".preview-section");
           let anyVisible = false;
           sections.forEach((section) => {
-            if (!grouped) {
+            if (!grouped && !searching) {
               section.hidden = false;
               anyVisible = true;
               return;
@@ -5498,7 +6035,9 @@ Do not occlude the trigger element when contextual help opens.</pre
             const groups = (section.getAttribute("data-preview-groups") || "")
               .split(",")
               .map((s) => s.trim());
-            const match = groups.indexOf(builderState.activeGroup) > -1;
+            const match = searching
+              ? true
+              : groups.indexOf(builderState.activeGroup) > -1;
             section.hidden = !match;
             if (match) {
               anyVisible = true;
@@ -5516,11 +6055,78 @@ Do not occlude the trigger element when contextual help opens.</pre
             ),
           );
           if (builderPreviewHint) {
-            builderPreviewHint.textContent = grouped
+            builderPreviewHint.textContent = searching
+              ? 'Search active: showing matching tokens for "' +
+                builderState.searchQuery +
+                '".'
+              : grouped
               ? "Editing group: " +
                 builderState.activeGroup +
                 ". Preview filtered to relevant component samples."
               : "Edit tokens and preview realistic component outcomes in real time.";
+          }
+        }
+        function renderComponentFilterTabs() {
+          if (!componentFilterTabs) return;
+          componentFilterTabs.innerHTML = "";
+          componentCategories.forEach((category, index) => {
+            if (index === 1) {
+              const divider = document.createElement("span");
+              divider.className = "builder-tabs-divider";
+              divider.setAttribute("aria-hidden", "true");
+              componentFilterTabs.appendChild(divider);
+            }
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "ds-btn ds-btn-sm";
+            btn.textContent = category.label;
+            btn.setAttribute("data-component-group", category.key);
+            btn.setAttribute(
+              "aria-pressed",
+              String(category.key === componentFilterState.activeGroup),
+            );
+            btn.addEventListener("click", function () {
+              componentFilterState.activeGroup = category.key;
+              applyComponentFilter();
+            });
+            componentFilterTabs.appendChild(btn);
+          });
+        }
+        function applyComponentFilter() {
+          const grouped = componentFilterState.activeGroup !== "__all__";
+          document.querySelectorAll(".component-block").forEach((block) => {
+            if (!grouped) {
+              block.hidden = false;
+              return;
+            }
+            const groups = (block.getAttribute("data-component-groups") || "")
+              .split(",")
+              .map((value) => value.trim())
+              .filter(Boolean);
+            block.hidden = groups.indexOf(componentFilterState.activeGroup) === -1;
+          });
+          document.querySelectorAll(".component-collection").forEach((collection) => {
+            collection.hidden = !collection.querySelector(".component-block:not([hidden])");
+          });
+          if (componentFilterTabs) {
+            componentFilterTabs
+              .querySelectorAll("button[data-component-group]")
+              .forEach((btn) =>
+                btn.setAttribute(
+                  "aria-pressed",
+                  String(
+                    btn.getAttribute("data-component-group") ===
+                      componentFilterState.activeGroup,
+                  ),
+                ),
+              );
+          }
+          if (componentFilterHint) {
+            componentFilterHint.textContent = grouped
+              ? "Showing " +
+                componentFilterState.activeGroup.toLowerCase() +
+                " components only."
+              : "Showing the full component library.";
           }
         }
         function getRawTokenValue(meta) {
@@ -5701,7 +6307,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             const infoBtn = document.createElement("button");
             infoBtn.type = "button";
             infoBtn.className = "ds-btn builder-help-btn";
-            infoBtn.textContent = "Info";
+            infoBtn.innerHTML = '<span aria-hidden="true">i</span>';
             infoBtn.title = tokenUsageHint(token) + " [" + token + "]";
             infoBtn.setAttribute(
               "aria-label",
@@ -5712,7 +6318,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             copyBtn.type = "button";
             copyBtn.className = "ds-btn builder-help-btn";
             copyBtn.classList.add("is-icon");
-            copyBtn.textContent = "⧉";
+            copyBtn.innerHTML = '<span aria-hidden="true">cp</span>';
             copyBtn.title = "Copy " + token + " assignment";
             copyBtn.setAttribute(
               "aria-label",
@@ -5733,10 +6339,20 @@ Do not occlude the trigger element when contextual help opens.</pre
             field.dataset.enhanced = "1";
           });
         }
+        if (builderTokenSearch) {
+          builderTokenSearch.addEventListener("input", function () {
+            builderState.searchQuery = (builderTokenSearch.value || "")
+              .trim()
+              .toLowerCase();
+            applyBuilderPresentation();
+          });
+        }
         renderBuilder();
         attachBuilderLearningTools();
         renderBuilderGroupTabs();
         applyBuilderPresentation();
+        renderComponentFilterTabs();
+        applyComponentFilter();
         const initialCombo = baseThemePresetMap[initialTheme];
         if (initialCombo) {
           setPresetSelectors(initialCombo);
@@ -5908,9 +6524,9 @@ Do not occlude the trigger element when contextual help opens.</pre
               content:
                 "1. Copy `" +
                 themeName +
-                '.css` into your project styles folder.\n2. Append the block into your theme file (or import it).\n3. Set `<html data-theme=\\"' +
+                '.css` into your project styles folder.\n2. Append the block into your theme file (or import it).\n3. Add a matching entry to `_DesignSystem/js/theme-registry.js`.\n4. Ensure your app includes `<script src=\\"./_DesignSystem/js/theme-registry.js\\"><\\/script>` and `<script src=\\"./_DesignSystem/js/theme-selector.js\\"><\\/script>`.\n5. Add a selector like `<select data-ds-theme-select data-ds-theme-storage=\\"app-theme\\"></select>`.\n6. Set `<html data-theme=\\"' +
                 themeName +
-                '\\">` in your page.\n4. Ensure your app includes `_DesignSystem/theme.css` (or equivalent token+component files).\n',
+                '\\">` in your page.\n7. Ensure your app includes `_DesignSystem/theme.css` (or equivalent token+component files).\n',
             },
             { name: themeName + ".css", content: themeBlock + "\n" },
             {
@@ -5926,10 +6542,8 @@ Do not occlude the trigger element when contextual help opens.</pre
             applySelectedPresetCombo();
             syncControlsFromComputed();
           });
-        themeSelect.addEventListener("change", function () {
+        themeSelect.addEventListener("ds-theme-change", function () {
           const theme = themeSelect.value;
-          root.setAttribute("data-theme", theme);
-          localStorage.setItem(storageKey, theme);
           clearOverrides();
           const combo = baseThemePresetMap[theme];
           if (combo) {
@@ -6852,3 +7466,4 @@ Do not occlude the trigger element when contextual help opens.</pre
     </script>
   </body>
 </html>
+

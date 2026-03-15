@@ -9,6 +9,7 @@ This folder contains the design guide source files used as the Studio wiki index
 - `CROSS_APP_UI_RULES.md`
 - `THEME_ARCHITECTURE_DIAGRAM.md`
 - `THEME_PRESET_MAP.md`
+- `THEME_PACKAGE.md`
 - `ICONOGRAPHY.md`
 - `CONTENT_UX.md`
 - `VALIDATION_CHECKLIST.md`
