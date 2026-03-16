@@ -13,6 +13,7 @@ This folder contains the design guide source files used as the Studio wiki index
 - `ICONOGRAPHY.md`
 - `CONTENT_UX.md`
 - `VALIDATION_CHECKLIST.md`
+- `../_docs/QA.md` (live audit workflow surfaced through the Studio wiki)
 - `viewer.html` (styled markdown renderer for wiki documents)
 
 Use these files as source-of-truth references for implementation and review.

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="app-version" content="0.5" />
+    <meta name="app-version" content="0.6" />
     <title>Design System Studio</title>
     <script>
       (function () {
@@ -162,12 +162,6 @@
         width: 1px;
         height: 18px;
         background: var(--ds-border);
-      }
-      .preset-actions {
-        align-self: end;
-      }
-      .preset-actions .ds-toolbar {
-        justify-content: flex-end;
       }
       .builder-workbench {
         display: grid;
@@ -474,6 +468,9 @@
       .wiki-pane {
         min-width: 0;
       }
+      .wiki-qa-panel {
+        margin-top: var(--ds-space-4);
+      }
       .wiki-frame {
         width: 100%;
         min-height: 78vh;
@@ -668,6 +665,30 @@
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
+      }
+      .preset-loader-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        align-items: end;
+      }
+      .preset-loader-grid .ds-field {
+        min-width: 0;
+      }
+      .preset-loader-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .preset-loader-actions .ds-switch {
+        margin-right: auto;
+        min-height: 32px;
+      }
+      .preset-loader-actions .ds-switch .ds-muted {
+        font-size: var(--ds-fs-1);
       }
       .builder-preset-row .ds-btn {
         min-height: 26px;
@@ -2057,8 +2078,9 @@
                 <strong>Introduction</strong>
                 <p class="ds-muted">
                   Choose a base theme for orientation, then use the Theme
-                  Builder to compose Color Family + Hue + Style + Scale. Export
-                  your theme and add it to your projects.
+                  Builder to compose Color Family + Hue + Scheme + Style +
+                  Typography + Scale + Texture. Export your theme and add it
+                  to your projects.
                 </p>
               </div>
               <div class="ds-note">
@@ -2116,11 +2138,13 @@ Avoid token when:
                 </p>
                 <pre class="ds-code mono">
 Color Family + Hue -> full semantic palette behavior
-Style Preset (terminal|technical|paper|skeuo|glassmorph|material)
-  -> geometry + depth language
-Scale Preset -> size + spacing density
+Scheme -> component-level color logic and emphasis behavior
+Style -> geometry, borders, shadows, and interaction language
+Typography -> font voice, type scale, and reading rhythm
+Scale -> spacing + control density
+Texture -> optional dynamic material layer
 
-Final custom theme = Color Family + Hue + Style + Scale + manual edits</pre
+Final custom theme = Family + Hue + Scheme + Style + Typography + Scale + Texture + manual edits</pre
                 >
               </article>
               <article class="ds-card ds-stack">
@@ -2138,11 +2162,18 @@ Hue:
 - combines with family behavior to generate semantic palette
 
 Style:
-- shape, border language, shadows, textures
-- component token overrides (button/input/card)
+- shape, border language, shadows, interaction depth
+
+Scheme:
+- component color behavior (button/input/chip treatments)
+- expressive palette logic for poster, terminal, EVA, alloy, etc.
+
+Typography:
+- font family pairings
+- typographic scale and line-height behavior
 
 Scale:
-- density, control height, spacing cadence
+- density, control height, spacing cadence only
 
 Texture:
 - optional dynamic layer (grain, metal, glass, wire)
@@ -2153,10 +2184,18 @@ component token -> semantic token -> foundation token
 ex: --ds-btn-bg -> --ds-bg-raised -> --ds-bg
 
 Preset combo examples:
-- electric + cyan + hud-glow + compact + wire-grid (cyber HUD)
-- paper + emerald + skeuo + standard + paper-grain (premium productivity)
-- monochrome + gray + technical + compact + clean (ops console)
-- pastel + rose + material + comfortable + soft-gradient (friendly SaaS)</pre
+- paper + green + mint-ink + paper + neutral-ui + standard + clean (paper mint)
+- cathode + amber + amber-glow + terminal-amber + terminal-glow + compact + amber-screen (amber terminal)
+- signal-paper + orange + signal-poster + graphic-signal + poster-grotesk + standard + poster-paper (signal poster)
+- signal-paper + orange + signal-diagram + graphic-diagram + poster-grotesk + standard + poster-paper (signal diagram)
+- signal + violet + eva-unit01 + eva-unit01 + eva-unit-sans + compact + eva-unit-base (eva unit-01)
+
+Modularization note:
+- amber terminal keeps its CRT identity through scheme/style/typography/texture while alias tokens derive from semantic tokens, so hue swaps can recolor it cleanly.
+
+Fidelity rule:
+- if changing one preset category alters unrelated properties, fix the preset layer that owns the drifting token.
+- ex: scale should change density and sizing tokens, not palette tokens.</pre
                 >
               </article>
               <article class="ds-card ds-stack">
@@ -2174,6 +2213,7 @@ Checkbox/radio checked mark  | --ds-check-mark                                  
 Tab selected label           | --ds-tab-active-fg / --ds-tab-active-bg          | Contrast independent of primary button text
 
 Theme-specific exception policy:
+- Bright-primary themes should use a negative-space label strategy: map primary text and checked marks to a dark surface token such as --ds-bg-elevated.
 - If a theme's highlight states lose contrast, patch at theme token level first.
 - Add component-level theme-scoped override only when semantic tokens are not enough.</pre
                 >
@@ -2503,6 +2543,7 @@ Do not occlude the trigger element when contextual help opens.</pre
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="COMPONENT_SPEC.md">Component Spec</button>
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="ICONOGRAPHY.md">Iconography</button>
                     <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="VALIDATION_CHECKLIST.md">Validation Checklist</button>
+                    <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="../_docs/QA.md">QA Audit</button>
                   </div>
                 </article>
                 <article class="ds-card ds-stack">
@@ -2521,6 +2562,17 @@ Do not occlude the trigger element when contextual help opens.</pre
                   title="Design System Wiki Content"
                   src="./wiki/viewer.html?doc=FOUNDATIONS.md&embed=1"
                 ></iframe>
+                <section class="wiki-qa-panel ds-stack" id="wikiQaPanel" hidden>
+                  <article class="ds-card ds-stack" id="presetDomainAuditCard">
+                    <div>
+                      <h3 class="ds-card-title">Preset Domain Audit</h3>
+                      <p class="ds-card-subtitle" id="presetDomainAuditHint">
+                        Checking whether family and hue bundles plus each preset layer stay inside their intended token domains.
+                      </p>
+                    </div>
+                    <pre class="ds-code mono" id="presetDomainAuditOutput">Running domain audit...</pre>
+                  </article>
+                </section>
               </section>
             </div>
           </article>
@@ -2530,16 +2582,17 @@ Do not occlude the trigger element when contextual help opens.</pre
             <div>
               <h2 class="ds-card-title">Theme Builder</h2>
               <p class="ds-card-subtitle">
-                Load modular presets (Color Family + Hue + Style + Scale +
-                Texture), then tune tokens and export a custom theme block.
+                Load modular presets (Color Family + Hue + Scheme + Style +
+                Typography + Scale + Texture), then tune tokens and export a
+                custom theme block.
               </p>
             </div>
             <div class="preset-grid ds-card">
               <h3 class="ds-card-title">Preset Loader</h3>
               <p class="ds-muted">
-                Base Theme uses canonical tokens from <code>css/themes.css</code>. Presets are optional overlays applied only when you click <em>Apply Preset</em>.
+                Base Theme uses canonical tokens from <code>css/themes.css</code>. Presets are optional overlays, and auto apply can be toggled during testing.
               </p>
-              <div class="ds-grid ds-grid-auto-220">
+              <div class="preset-loader-grid">
                 <div class="ds-field">
                   <label class="ds-label" for="familyPresetSelect"
                     >Color Family</label
@@ -2550,41 +2603,61 @@ Do not occlude the trigger element when contextual help opens.</pre
                   ><select id="huePresetSelect" class="ds-select"></select>
                 </div>
                 <div class="ds-field">
+                  <label class="ds-label" for="schemePresetSelect"
+                    >Scheme</label
+                  ><select id="schemePresetSelect" class="ds-select"></select>
+                </div>
+                <div class="ds-field">
                   <label class="ds-label" for="stylePresetSelect"
-                    >Style Preset</label
+                    >Style</label
                   ><select id="stylePresetSelect" class="ds-select"></select>
                 </div>
                 <div class="ds-field">
+                  <label class="ds-label" for="typographyPresetSelect"
+                    >Typography</label
+                  ><select id="typographyPresetSelect" class="ds-select"></select>
+                </div>
+                <div class="ds-field">
                   <label class="ds-label" for="scalePresetSelect"
-                    >Scale Preset</label
+                    >Scale</label
                   ><select id="scalePresetSelect" class="ds-select"></select>
                 </div>
                 <div class="ds-field">
                   <label class="ds-label" for="texturePresetSelect"
-                    >Texture Preset</label
+                    >Texture</label
                   ><select id="texturePresetSelect" class="ds-select"></select>
                 </div>
-                <div class="ds-field preset-actions">
-                  <label class="ds-label" aria-hidden="true">&nbsp;</label>
-                  <div class="ds-toolbar">
-                    <button
-                      class="ds-btn ds-btn-primary"
-                      id="applyPresetBtn"
-                      type="button"
-                    >
-                      Apply
-                    </button>
-                    <button
-                      class="ds-btn ds-btn-danger ds-btn-icon"
-                      id="resetOverridesBtn"
-                      type="button"
-                      aria-label="Reset custom overrides"
-                      title="Reset custom overrides"
-                    >
-                      ↺
-                    </button>
-                  </div>
-                </div>
+              </div>
+              <div class="preset-loader-actions">
+                <label
+                  class="ds-switch"
+                  for="autoApplyPresetToggle"
+                  title="Automatically apply the selected preset stack"
+                >
+                  <span class="ds-muted">Auto Apply</span>
+                  <input
+                    id="autoApplyPresetToggle"
+                    type="checkbox"
+                    checked
+                  />
+                  <span class="ds-switch-track"></span>
+                </label>
+                <button
+                  class="ds-btn ds-btn-danger ds-btn-icon"
+                  id="resetOverridesBtn"
+                  type="button"
+                  aria-label="Reset custom overrides"
+                  title="Reset custom overrides"
+                >
+                  ↺
+                </button>
+                <button
+                  class="ds-btn ds-btn-primary"
+                  id="applyPresetBtn"
+                  type="button"
+                >
+                  Apply
+                </button>
               </div>
             </div>
             <div class="ds-field">
@@ -2597,6 +2670,15 @@ Do not occlude the trigger element when contextual help opens.</pre
                 placeholder="custom-theme"
               />
             </div>
+            <article class="ds-card ds-stack" id="presetRecipeCard">
+              <div>
+                <h3 class="ds-card-title">Active Preset Recipe</h3>
+                <p class="ds-card-subtitle" id="presetRecipeHint">
+                  This shows how the selected base theme or current preset stack is composed.
+                </p>
+              </div>
+              <pre class="ds-code mono" id="presetRecipeOutput">Loading preset recipe...</pre>
+            </article>
             <div class="builder-mode-bar ds-card">
               <div id="builderGroupTabs" class="builder-group-tabs"></div>
               <div class="builder-mode-tools">
@@ -2904,6 +2986,7 @@ Do not occlude the trigger element when contextual help opens.</pre
         const root = document.documentElement;
         const storageKey = "ds-theme";
         const resetConfirmKey = "ds-skip-reset-confirm";
+        const autoApplyPresetKey = "ds-auto-apply-presets";
         const themeSelect = document.getElementById("themeSelect");
         const defaultTheme = root.getAttribute("data-theme") || "steel-night";
         const themeSelectorController =
@@ -3340,9 +3423,8 @@ Do not occlude the trigger element when contextual help opens.</pre
           },
         };
         const stylePresets = {
+          "base-default": {},
           terminal: {
-            "--ds-font-sans":
-              '"Space Mono", Consolas, "Courier New", monospace',
             "--ds-radius-1": "2px",
             "--ds-radius-2": "2px",
             "--ds-radius-3": "4px",
@@ -3360,14 +3442,8 @@ Do not occlude the trigger element when contextual help opens.</pre
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 45%, transparent)",
             "--ds-input-shadow":
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 25%, transparent)",
-            "--ds-body-bg-image":
-              "repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 2px, transparent 2px, transparent 6px)",
-            "--ds-card-bg-image":
-              "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05))",
           },
           technical: {
-            "--ds-font-sans":
-              '"Space Mono", Consolas, "Courier New", monospace',
             "--ds-radius-1": "0px",
             "--ds-radius-2": "0px",
             "--ds-radius-3": "0px",
@@ -3380,8 +3456,6 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-shadow-hover": "inset 0 0 0 1px var(--ds-accent)",
             "--ds-btn-shadow-active": "inset 0 0 0 1px var(--ds-accent-strong)",
             "--ds-input-shadow": "none",
-            "--ds-body-bg-image": "none",
-            "--ds-card-bg-image": "none",
             "--ds-label-transform": "uppercase",
             "--ds-label-spacing": "0.12em",
           },
@@ -3393,13 +3467,13 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-radius-pill": "999px",
             "--ds-border-w": "1px",
             "--ds-border-style": "solid",
+            "--ds-shadow-sm": "0 2px 10px rgba(20, 38, 29, 0.08)",
+            "--ds-shadow-md": "0 12px 28px rgba(20, 38, 29, 0.12)",
             "--ds-card-shadow": "0 2px 10px rgba(40,45,35,0.08)",
             "--ds-btn-shadow": "none",
             "--ds-btn-shadow-hover": "none",
             "--ds-btn-shadow-active": "none",
             "--ds-input-shadow": "none",
-            "--ds-body-bg-image": "none",
-            "--ds-card-bg-image": "none",
             "--ds-label-transform": "uppercase",
             "--ds-label-spacing": "0.06em",
           },
@@ -3411,6 +3485,10 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-radius-pill": "999px",
             "--ds-border-w": "1px",
             "--ds-border-style": "solid",
+            "--ds-shadow-sm":
+              "0 1px 0 rgba(255,255,255,0.65) inset, 0 4px 10px rgba(72,88,114,0.2)",
+            "--ds-shadow-md":
+              "0 1px 0 rgba(255,255,255,0.7) inset, 0 12px 20px rgba(70,83,104,0.28)",
             "--ds-card-shadow":
               "0 1px 0 rgba(255,255,255,0.7) inset, 0 10px 18px rgba(73,86,108,0.2)",
             "--ds-btn-shadow":
@@ -3420,8 +3498,6 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-shadow-active": "0 1px 2px rgba(67,77,96,0.35) inset",
             "--ds-input-shadow":
               "0 1px 2px rgba(76,90,112,0.3) inset, 0 1px 0 rgba(255,255,255,0.8)",
-            "--ds-body-bg-image": "none",
-            "--ds-card-bg-image": "none",
             "--ds-btn-press-transform": "translateY(1px)",
           },
           glassmorph: {
@@ -3436,11 +3512,6 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-shadow": "0 1px 0 rgba(255,255,255,0.25) inset",
             "--ds-btn-shadow-hover": "0 1px 0 rgba(255,255,255,0.35) inset",
             "--ds-input-shadow": "0 1px 0 rgba(255,255,255,0.2) inset",
-            "--ds-body-bg-image":
-              "radial-gradient(circle at 15% 10%, rgba(255,255,255,0.15), transparent 45%)",
-            "--ds-card-bg-image":
-              "linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.04))",
-            "--ds-bg-overlay": "rgba(10,18,34,0.45)",
           },
           material: {
             "--ds-radius-1": "4px",
@@ -3455,12 +3526,8 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-shadow-hover": "0 1px 0 rgba(255,255,255,0.12) inset",
             "--ds-btn-shadow-active": "0 1px 2px rgba(0,0,0,0.2) inset",
             "--ds-input-shadow": "none",
-            "--ds-body-bg-image": "none",
-            "--ds-card-bg-image": "none",
           },
           "hud-glow": {
-            "--ds-font-sans":
-              '"Space Mono", Consolas, "Courier New", monospace',
             "--ds-radius-1": "2px",
             "--ds-radius-2": "3px",
             "--ds-radius-3": "4px",
@@ -3480,10 +3547,6 @@ Do not occlude the trigger element when contextual help opens.</pre
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 55%, transparent)",
             "--ds-input-shadow":
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 28%, transparent)",
-            "--ds-body-bg-image":
-              "repeating-linear-gradient(-45deg, color-mix(in oklab, var(--ds-accent) 8%, transparent) 0 1px, transparent 1px 11px)",
-            "--ds-card-bg-image":
-              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg-elevated) 92%, var(--ds-accent) 8%), var(--ds-bg-elevated))",
           },
           "neo-brutal": {
             "--ds-radius-1": "0px",
@@ -3502,12 +3565,9 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-shadow-active":
               "1px 1px 0 color-mix(in oklab,var(--ds-accent) 40%, var(--ds-bg))",
             "--ds-input-shadow": "none",
-            "--ds-body-bg-image": "none",
-            "--ds-card-bg-image": "none",
             "--ds-btn-press-transform": "translateY(1px)",
           },
           arcade: {
-            "--ds-font-sans": '"Trebuchet MS", "Segoe UI", sans-serif',
             "--ds-radius-1": "6px",
             "--ds-radius-2": "12px",
             "--ds-radius-3": "16px",
@@ -3524,13 +3584,8 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-shadow-active": "inset 0 1px 2px rgba(0,0,0,0.25)",
             "--ds-input-shadow":
               "0 0 0 1px color-mix(in oklab,var(--ds-accent) 24%, transparent) inset",
-            "--ds-body-bg-image":
-              "radial-gradient(circle at 20% 12%, color-mix(in oklab, var(--ds-accent) 20%, transparent), transparent 45%)",
-            "--ds-card-bg-image":
-              "linear-gradient(160deg, color-mix(in oklab,var(--ds-accent) 16%, transparent), transparent 50%)",
           },
           editorial: {
-            "--ds-font-sans": '"Georgia", "Times New Roman", serif',
             "--ds-radius-1": "2px",
             "--ds-radius-2": "4px",
             "--ds-radius-3": "6px",
@@ -3544,8 +3599,6 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-btn-shadow-hover": "none",
             "--ds-btn-shadow-active": "none",
             "--ds-input-shadow": "none",
-            "--ds-body-bg-image": "none",
-            "--ds-card-bg-image": "none",
             "--ds-label-transform": "none",
             "--ds-label-spacing": "0.02em",
           },
@@ -3561,13 +3614,34 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-space-8": "26px",
             "--ds-layout-gap": "12px",
             "--ds-card-pad": "12px",
-            "--ds-control-h": "32px",
+            "--ds-control-h": "34px",
             "--ds-control-h-sm": "28px",
-            "--ds-fs-1": "11px",
-            "--ds-fs-2": "13px",
-            "--ds-fs-3": "15px",
-            "--ds-fs-4": "18px",
-            "--ds-fs-5": "24px",
+          },
+          "soft-comfort": {
+            "--ds-space-1": "4px",
+            "--ds-space-2": "8px",
+            "--ds-space-3": "12px",
+            "--ds-space-4": "16px",
+            "--ds-space-5": "20px",
+            "--ds-space-6": "24px",
+            "--ds-space-8": "32px",
+            "--ds-layout-gap": "16px",
+            "--ds-card-pad": "16px",
+            "--ds-control-h": "42px",
+            "--ds-control-h-sm": "34px",
+          },
+          "saturn-density": {
+            "--ds-space-1": "4px",
+            "--ds-space-2": "8px",
+            "--ds-space-3": "12px",
+            "--ds-space-4": "16px",
+            "--ds-space-5": "20px",
+            "--ds-space-6": "24px",
+            "--ds-space-8": "32px",
+            "--ds-layout-gap": "16px",
+            "--ds-card-pad": "16px",
+            "--ds-control-h": "40px",
+            "--ds-control-h-sm": "32px",
           },
           standard: {
             "--ds-space-1": "4px",
@@ -3581,11 +3655,6 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-card-pad": "16px",
             "--ds-control-h": "38px",
             "--ds-control-h-sm": "32px",
-            "--ds-fs-1": "12px",
-            "--ds-fs-2": "14px",
-            "--ds-fs-3": "16px",
-            "--ds-fs-4": "20px",
-            "--ds-fs-5": "28px",
           },
           comfortable: {
             "--ds-space-1": "5px",
@@ -3599,15 +3668,12 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-card-pad": "20px",
             "--ds-control-h": "44px",
             "--ds-control-h-sm": "36px",
-            "--ds-fs-1": "13px",
-            "--ds-fs-2": "15px",
-            "--ds-fs-3": "18px",
-            "--ds-fs-4": "22px",
-            "--ds-fs-5": "32px",
           },
         };
         const texturePresets = {
           clean: {
+            "--ds-body-bg-image": "none",
+            "--ds-card-bg-image": "none",
             "--ds-body-texture-image": "none",
             "--ds-card-texture-image": "none",
             "--ds-control-texture-image": "none",
@@ -3644,6 +3710,10 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-control-backdrop-blur": "0px",
           },
           "frosted-glass": {
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 15% 10%, rgba(255,255,255,0.15), transparent 45%)",
+            "--ds-card-bg-image":
+              "linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.04))",
             "--ds-body-texture-image":
               "radial-gradient(circle at 20% 12%, rgba(255,255,255,0.16), transparent 42%)",
             "--ds-card-texture-image":
@@ -3657,6 +3727,10 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-control-backdrop-blur": "4px",
           },
           "wire-grid": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 2px, transparent 2px, transparent 6px)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05))",
             "--ds-body-texture-image":
               "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-accent) 14%, transparent) 0 1px, transparent 1px 18px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-accent-strong) 10%, transparent) 0 1px, transparent 1px 14px)",
             "--ds-card-texture-image":
@@ -3670,6 +3744,8 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-control-backdrop-blur": "0px",
           },
           "noise-film": {
+            "--ds-body-bg-image": "none",
+            "--ds-card-bg-image": "none",
             "--ds-body-texture-image":
               "repeating-radial-gradient(circle at 0 0, rgba(255,255,255,0.025) 0 1px, transparent 1px 3px), repeating-radial-gradient(circle at 100% 100%, rgba(0,0,0,0.06) 0 1px, transparent 1px 4px)",
             "--ds-card-texture-image":
@@ -3696,6 +3772,8 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-control-backdrop-blur": "0px",
           },
           "soft-gradient": {
+            "--ds-body-bg-image": "none",
+            "--ds-card-bg-image": "none",
             "--ds-body-texture-image":
               "radial-gradient(circle at 84% 10%, color-mix(in oklab,var(--ds-accent) 16%, transparent), transparent 40%), radial-gradient(circle at 14% 90%, color-mix(in oklab,var(--ds-focus) 14%, transparent), transparent 42%)",
             "--ds-card-texture-image":
@@ -3709,6 +3787,8 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-control-backdrop-blur": "0px",
           },
           "pixel-grid": {
+            "--ds-body-bg-image": "none",
+            "--ds-card-bg-image": "none",
             "--ds-body-texture-image":
               "repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 8px), repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 8px)",
             "--ds-card-texture-image":
@@ -3722,6 +3802,8 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-control-backdrop-blur": "0px",
           },
           "spectrum-wash": {
+            "--ds-body-bg-image": "none",
+            "--ds-card-bg-image": "none",
             "--ds-body-texture-image":
               "radial-gradient(circle at 8% 12%, color-mix(in oklab,var(--ds-danger) 32%, transparent), transparent 34%), radial-gradient(circle at 88% 18%, color-mix(in oklab,var(--ds-info) 28%, transparent), transparent 38%), radial-gradient(circle at 30% 84%, color-mix(in oklab,var(--ds-warning) 26%, transparent), transparent 42%)",
             "--ds-card-texture-image":
@@ -3735,6 +3817,8 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-control-backdrop-blur": "0px",
           },
           "nacre-flow": {
+            "--ds-body-bg-image": "none",
+            "--ds-card-bg-image": "none",
             "--ds-body-texture-image":
               "radial-gradient(62% 46% at 11% 10%, color-mix(in oklab,var(--ds-accent) 20%, transparent), transparent 58%), radial-gradient(58% 44% at 87% 13%, color-mix(in oklab,var(--ds-focus) 16%, transparent), transparent 60%), radial-gradient(72% 52% at 48% 92%, color-mix(in oklab,var(--ds-info) 14%, transparent), transparent 64%)",
             "--ds-card-texture-image":
@@ -3747,63 +3831,974 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-card-backdrop-blur": "1px",
             "--ds-control-backdrop-blur": "0px",
           },
+          "poster-paper": {
+            "--ds-body-bg-image": "linear-gradient(180deg, #eeeeec 0%, #e7e7e5 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.06))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "amber-screen": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, color-mix(in oklab, var(--ds-accent) 6%, transparent) 0 1px, transparent 1px 6px), radial-gradient(circle at 16% 10%, color-mix(in oklab, var(--ds-accent) 12%, transparent), transparent 28%), linear-gradient(180deg, color-mix(in oklab, var(--ds-bg) 96%, black 4%) 0%, var(--ds-bg) 50%, color-mix(in oklab, var(--ds-bg) 93%, black 7%) 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 7%, transparent), rgba(0,0,0,0.22))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "industrial-screen": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 6px)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.04))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "velvet-soft": {
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 20% 10%, rgba(255,255,255,0.55), transparent 40%)",
+            "--ds-card-bg-image":
+              "linear-gradient(150deg, rgba(255,255,255,0.28), rgba(203,214,233,0.22))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "eva-wire-base": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, rgba(255, 96, 24, 0.06) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, rgba(255, 59, 22, 0.05) 0 1px, transparent 1px 16px)",
+            "--ds-card-bg-image": "none",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "eva-unit-base": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, rgba(151, 88, 255, 0.065) 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, rgba(82, 246, 169, 0.05) 0 1px, transparent 1px 18px)",
+            "--ds-card-bg-image": "none",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "saturn-space": {
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 50% -18%, rgba(140,163,196,0.22), transparent 42%), radial-gradient(circle at 50% 118%, rgba(15,24,46,0.78), transparent 56%), radial-gradient(circle at 6% 8%, rgba(188,214,255,0.1), transparent 22%), linear-gradient(180deg, #090c14 0%, #141a28 46%, #080a10 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.26), rgba(26,30,38,0.24))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "portal-classic": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 6px), repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px), radial-gradient(circle at 88% 10%, rgba(44,236,255,0.24), transparent 30%), radial-gradient(circle at 12% 84%, rgba(255,120,210,0.16), transparent 36%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.2))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "candy-bloom": {
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 12% 12%, rgba(255,99,197,0.22), transparent 34%), radial-gradient(circle at 88% 18%, rgba(71,216,255,0.22), transparent 36%), linear-gradient(180deg, #fff4fd 0%, #ffe9fb 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(155deg, rgba(255,255,255,0.65), rgba(255,205,241,0.45))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "wave-paper": {
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 12% 10%, rgba(63,124,255,0.13), transparent 34%), radial-gradient(circle at 90% 16%, rgba(255,166,93,0.16), transparent 34%), linear-gradient(180deg, #f9fbff 0%, #eef4fc 54%, #e8effa 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(160deg, rgba(100,132,224,0.14), rgba(55,85,171,0.08), rgba(255,166,92,0.12))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "sunset-grid": {
+            "--ds-body-bg-image":
+              "linear-gradient(180deg, #100926 0%, #170d34 44%, #0f0823 100%), radial-gradient(circle at 14% 12%, rgba(255,72,208,0.22), transparent 30%), radial-gradient(circle at 84% 16%, rgba(56,220,255,0.2), transparent 30%), repeating-linear-gradient(0deg, rgba(72,220,255,0.16) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, rgba(255,74,216,0.12) 0 1px, transparent 1px 16px)",
+            "--ds-card-bg-image":
+              "linear-gradient(160deg, rgba(255,86,213,0.18), rgba(107,107,255,0.14), rgba(80,206,255,0.16))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "holo-dark": {
+            "--ds-body-bg-image":
+              "radial-gradient(90% 90% at 12% 12%, rgba(117,224,255,0.14), transparent 22%), radial-gradient(90% 90% at 86% 16%, rgba(255,138,200,0.13), transparent 24%), radial-gradient(120% 100% at 44% 94%, rgba(124,158,255,0.12), transparent 28%), linear-gradient(180deg, #05070c 0%, #090e15 52%, #06080e 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "oilslick-dark": {
+            "--ds-body-bg-image":
+              "radial-gradient(74% 56% at 14% 12%, rgba(110,235,255,0.15), transparent 44%), radial-gradient(70% 52% at 84% 18%, rgba(255,118,216,0.14), transparent 42%), conic-gradient(from 206deg at 56% 84%, rgba(86,120,255,0.13), rgba(110,255,214,0.09), rgba(255,128,210,0.1), rgba(86,120,255,0.13)), linear-gradient(180deg, #04070b 0%, #090e15 54%, #05080d 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(146deg, rgba(255,255,255,0.05), rgba(114,233,255,0.08), rgba(255,143,210,0.08), rgba(255,255,255,0.03))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image": "none",
+            "--ds-control-texture-image": "none",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "terminal-screen": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 2px, transparent 2px, transparent 6px)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05))",
+            "--ds-body-texture-image":
+              "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-accent) 14%, transparent) 0 1px, transparent 1px 18px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-accent-strong) 10%, transparent) 0 1px, transparent 1px 14px)",
+            "--ds-card-texture-image":
+              "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-accent) 10%, transparent) 0 1px, transparent 1px 12px)",
+            "--ds-control-texture-image":
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-accent) 10%, transparent), transparent)",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0.45",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "cathode-screen": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, color-mix(in oklab, var(--ds-accent) 6%, transparent) 0 1px, transparent 1px 6px), radial-gradient(circle at 16% 10%, color-mix(in oklab, var(--ds-accent) 12%, transparent), transparent 28%), linear-gradient(180deg, color-mix(in oklab, var(--ds-bg) 96%, black 4%) 0%, var(--ds-bg) 50%, color-mix(in oklab, var(--ds-bg) 93%, black 7%) 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 7%, transparent), rgba(0,0,0,0.22))",
+            "--ds-body-texture-image":
+              "repeating-radial-gradient(circle at 0 0, rgba(255,255,255,0.025) 0 1px, transparent 1px 3px), repeating-radial-gradient(circle at 100% 100%, rgba(0,0,0,0.06) 0 1px, transparent 1px 4px)",
+            "--ds-card-texture-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, rgba(0,0,0,0.035) 1px 2px)",
+            "--ds-control-texture-image":
+              "repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, rgba(0,0,0,0.03) 1px 3px)",
+            "--ds-texture-blend": "overlay",
+            "--ds-texture-strength": "0.32",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "saturn-metal": {
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 50% -18%, rgba(140,163,196,0.22), transparent 42%), radial-gradient(circle at 50% 118%, rgba(15,24,46,0.78), transparent 56%), radial-gradient(circle at 6% 8%, rgba(188,214,255,0.1), transparent 22%), linear-gradient(180deg, #090c14 0%, #141a28 46%, #080a10 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.26), rgba(26,30,38,0.24))",
+            "--ds-body-texture-image":
+              "repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0 1px, rgba(0,0,0,0.06) 1px 3px)",
+            "--ds-card-texture-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.15))",
+            "--ds-control-texture-image":
+              "repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, rgba(0,0,0,0.08) 1px 2px)",
+            "--ds-texture-blend": "overlay",
+            "--ds-texture-strength": "0.35",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "portal-grid": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 6px), repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px), radial-gradient(circle at 88% 10%, rgba(44,236,255,0.24), transparent 30%), radial-gradient(circle at 12% 84%, rgba(255,120,210,0.16), transparent 36%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.28))",
+            "--ds-body-texture-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 8px), repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 8px)",
+            "--ds-card-texture-image":
+              "repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0 1px, transparent 1px 6px)",
+            "--ds-control-texture-image":
+              "repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0 1px, transparent 1px 5px)",
+            "--ds-texture-blend": "overlay",
+            "--ds-texture-strength": "0.38",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "candy-frost": {
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 12% 12%, rgba(255,99,197,0.22), transparent 34%), radial-gradient(circle at 88% 18%, rgba(71,216,255,0.22), transparent 36%), linear-gradient(180deg, #fff4fd 0%, #ffe9fb 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(155deg, rgba(255,255,255,0.65), rgba(255,205,241,0.45))",
+            "--ds-body-texture-image":
+              "radial-gradient(circle at 8% 12%, color-mix(in oklab,var(--ds-danger) 32%, transparent), transparent 34%), radial-gradient(circle at 88% 18%, color-mix(in oklab,var(--ds-info) 28%, transparent), transparent 38%), radial-gradient(circle at 30% 84%, color-mix(in oklab,var(--ds-warning) 26%, transparent), transparent 42%)",
+            "--ds-card-texture-image":
+              "linear-gradient(135deg, color-mix(in oklab,var(--ds-accent) 18%, transparent), color-mix(in oklab,var(--ds-focus) 12%, transparent), transparent)",
+            "--ds-control-texture-image":
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-accent) 16%, transparent), transparent)",
+            "--ds-texture-blend": "screen",
+            "--ds-texture-strength": "0.34",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "complementary-paper": {
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 12% 10%, rgba(63,124,255,0.13), transparent 34%), radial-gradient(circle at 90% 16%, rgba(255,166,93,0.16), transparent 34%), linear-gradient(180deg, #f9fbff 0%, #eef4fc 54%, #e8effa 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(160deg, rgba(100,132,224,0.14), rgba(55,85,171,0.08), rgba(255,166,92,0.12))",
+            "--ds-body-texture-image":
+              "radial-gradient(circle at 8% 12%, color-mix(in oklab,var(--ds-danger) 32%, transparent), transparent 34%), radial-gradient(circle at 88% 18%, color-mix(in oklab,var(--ds-info) 28%, transparent), transparent 38%), radial-gradient(circle at 30% 84%, color-mix(in oklab,var(--ds-warning) 26%, transparent), transparent 42%)",
+            "--ds-card-texture-image":
+              "linear-gradient(135deg, color-mix(in oklab,var(--ds-accent) 18%, transparent), color-mix(in oklab,var(--ds-focus) 12%, transparent), transparent)",
+            "--ds-control-texture-image":
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-accent) 16%, transparent), transparent)",
+            "--ds-texture-blend": "screen",
+            "--ds-texture-strength": "0.34",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "vaporwave-sky": {
+            "--ds-body-bg-image":
+              "linear-gradient(180deg, #100926 0%, #170d34 44%, #0f0823 100%), radial-gradient(circle at 14% 12%, rgba(255,72,208,0.22), transparent 30%), radial-gradient(circle at 84% 16%, rgba(56,220,255,0.2), transparent 30%)",
+            "--ds-card-bg-image":
+              "linear-gradient(160deg, rgba(255,86,213,0.18), rgba(107,107,255,0.14), rgba(80,206,255,0.16))",
+            "--ds-body-texture-image":
+              "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-focus) 16%, transparent) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-accent) 12%, transparent) 0 1px, transparent 1px 16px)",
+            "--ds-card-texture-image":
+              "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-accent) 10%, transparent) 0 1px, transparent 1px 12px)",
+            "--ds-control-texture-image":
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-accent) 10%, transparent), transparent)",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0.45",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "holo-sheen": {
+            "--ds-body-bg-image":
+              "radial-gradient(90% 90% at 12% 12%, rgba(117,224,255,0.14), transparent 22%), radial-gradient(90% 90% at 86% 16%, rgba(255,138,200,0.13), transparent 24%), radial-gradient(120% 100% at 44% 94%, rgba(124,158,255,0.12), transparent 28%), linear-gradient(180deg, #05070c 0%, #090e15 52%, #06080e 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(146deg, rgba(255,255,255,0.03), rgba(111,228,255,0.04), rgba(255,141,208,0.04), rgba(255,255,255,0.015))",
+            "--ds-body-texture-image": "none",
+            "--ds-card-texture-image":
+              "linear-gradient(132deg, rgba(255,255,255,0.08), rgba(132,236,255,0.05), rgba(255,140,202,0.05), rgba(255,255,255,0.03))",
+            "--ds-control-texture-image":
+              "linear-gradient(170deg, rgba(255,255,255,0.08), rgba(94,222,255,0.05), rgba(255,141,212,0.04))",
+            "--ds-texture-blend": "screen",
+            "--ds-texture-strength": "0.26",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "1px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "oilslick-sheen": {
+            "--ds-body-bg-image":
+              "radial-gradient(74% 56% at 14% 12%, rgba(110,235,255,0.15), transparent 44%), radial-gradient(70% 52% at 84% 18%, rgba(255,118,216,0.14), transparent 42%), conic-gradient(from 206deg at 56% 84%, rgba(86,120,255,0.13), rgba(110,255,214,0.09), rgba(255,128,210,0.1), rgba(86,120,255,0.13)), linear-gradient(180deg, #04070b 0%, #090e15 54%, #05080d 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(146deg, rgba(255,255,255,0.05), rgba(114,233,255,0.08), rgba(255,143,210,0.08), rgba(255,255,255,0.03))",
+            "--ds-body-texture-image":
+              "radial-gradient(62% 46% at 11% 10%, color-mix(in oklab,var(--ds-accent) 20%, transparent), transparent 58%), radial-gradient(58% 44% at 87% 13%, color-mix(in oklab,var(--ds-focus) 16%, transparent), transparent 60%), radial-gradient(72% 52% at 48% 92%, color-mix(in oklab,var(--ds-info) 14%, transparent), transparent 64%)",
+            "--ds-card-texture-image":
+              "linear-gradient(132deg, rgba(255,255,255,0.08), rgba(132,236,255,0.05), rgba(255,140,202,0.05), rgba(255,255,255,0.03))",
+            "--ds-control-texture-image":
+              "linear-gradient(170deg, rgba(255,255,255,0.08), rgba(94,222,255,0.05), rgba(255,141,212,0.04))",
+            "--ds-texture-blend": "screen",
+            "--ds-texture-strength": "0.26",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "1px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "soft-ambient": {
+            "--ds-body-bg-image":
+              "radial-gradient(circle at 20% 10%, rgba(255,255,255,0.55), transparent 40%)",
+            "--ds-card-bg-image":
+              "linear-gradient(150deg, rgba(255,255,255,0.28), rgba(203,214,233,0.22))",
+            "--ds-body-texture-image":
+              "radial-gradient(circle at 84% 10%, color-mix(in oklab,var(--ds-accent) 16%, transparent), transparent 40%), radial-gradient(circle at 14% 90%, color-mix(in oklab,var(--ds-focus) 14%, transparent), transparent 42%)",
+            "--ds-card-texture-image":
+              "linear-gradient(145deg, color-mix(in oklab,var(--ds-accent) 8%, transparent), transparent 58%)",
+            "--ds-control-texture-image":
+              "linear-gradient(180deg, color-mix(in oklab,var(--ds-accent) 7%, transparent), transparent)",
+            "--ds-texture-blend": "normal",
+            "--ds-texture-strength": "0.15",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "eva-wire-grid": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-accent) 12%, transparent) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-accent-strong) 10%, transparent) 0 1px, transparent 1px 16px)",
+            "--ds-card-bg-image": "none",
+            "--ds-body-texture-image":
+              "repeating-radial-gradient(circle at 0 0, rgba(255,255,255,0.025) 0 1px, transparent 1px 3px), repeating-radial-gradient(circle at 100% 100%, rgba(0,0,0,0.06) 0 1px, transparent 1px 4px)",
+            "--ds-card-texture-image":
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, rgba(0,0,0,0.035) 1px 2px)",
+            "--ds-control-texture-image":
+              "repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, rgba(0,0,0,0.03) 1px 3px)",
+            "--ds-texture-blend": "overlay",
+            "--ds-texture-strength": "0.32",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "eva-unit-grid": {
+            "--ds-body-bg-image":
+              "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-accent) 11%, transparent) 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-focus) 10%, transparent) 0 1px, transparent 1px 18px)",
+            "--ds-card-bg-image": "none",
+            "--ds-body-texture-image":
+              "repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 2px, rgba(0,0,0,0.12) 2px 4px), repeating-linear-gradient(-45deg, rgba(0,0,0,0.16) 0 2px, rgba(255,255,255,0.02) 2px 4px)",
+            "--ds-card-texture-image":
+              "repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0 2px, rgba(0,0,0,0.12) 2px 4px)",
+            "--ds-control-texture-image":
+              "repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 2px, rgba(0,0,0,0.09) 2px 4px)",
+            "--ds-texture-blend": "multiply",
+            "--ds-texture-strength": "0.28",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+        };
+        const schemePresets = {
+          standard: {},
+          "bright-primary-dark": {
+            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
+            "--ds-check-mark": "var(--ds-bg-elevated)",
+          },
+          "mint-ink": {
+            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
+            "--ds-btn-primary-border": "var(--ds-accent-strong)",
+            "--ds-focus": "var(--ds-accent-strong)",
+          },
+          "amber-glow": {
+            "--ds-text":
+              "color-mix(in oklab, var(--ds-accent) 74%, white 26%)",
+            "--ds-text-muted":
+              "color-mix(in oklab, var(--ds-accent) 58%, white 42%)",
+            "--ds-btn-bg":
+              "color-mix(in oklab, var(--ds-bg-elevated) 90%, var(--ds-accent) 10%)",
+            "--ds-btn-bg-hover":
+              "color-mix(in oklab, var(--ds-bg-elevated) 84%, var(--ds-accent) 16%)",
+            "--ds-btn-border":
+              "color-mix(in oklab, var(--ds-border) 76%, var(--ds-accent) 24%)",
+            "--ds-btn-text": "var(--ds-text)",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 72%, white 28%) 0%, var(--ds-accent) 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 62%, white 38%) 0%, color-mix(in oklab, var(--ds-accent) 88%, white 12%) 100%)",
+            "--ds-btn-primary-border": "var(--ds-accent-strong)",
+            "--ds-btn-primary-text": "var(--ds-text)",
+            "--ds-check-mark": "var(--ds-btn-bg)",
+            "--ds-input-bg":
+              "color-mix(in oklab, var(--ds-bg-elevated) 91%, var(--ds-accent) 9%)",
+            "--ds-input-border":
+              "color-mix(in oklab, var(--ds-border) 72%, var(--ds-accent) 28%)",
+            "--ds-input-text": "var(--ds-text)",
+            "--ds-input-placeholder": "var(--ds-text-muted)",
+          },
+          "industrial-lime": {
+            "--ds-text": "#d7e0dc",
+            "--ds-text-muted": "#8d9b95",
+            "--ds-accent": "#d6ea60",
+            "--ds-accent-strong": "#b8d43a",
+            "--ds-focus": "#e5f67f",
+            "--ds-success": "#95db7d",
+            "--ds-warning": "#efc678",
+            "--ds-danger": "#e88386",
+            "--ds-info": "#88bec6",
+            "--ds-btn-bg": "#202727",
+            "--ds-btn-bg-hover": "#273030",
+            "--ds-btn-border": "#5c6a66",
+            "--ds-btn-text": "#d7e0dc",
+            "--ds-btn-primary-bg": "#d6ea60",
+            "--ds-btn-primary-bg-hover": "#e2f171",
+            "--ds-btn-primary-border": "#b8d43a",
+            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
+            "--ds-input-bg": "#1a2020",
+            "--ds-input-border": "#596761",
+          },
+          "skeuo-sky": {
+            "--ds-btn-bg": "linear-gradient(180deg, #e5eaf1 0%, #c5cedb 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(180deg, #edf2f8 0%, #cdd6e2 100%)",
+            "--ds-btn-border": "#9eaab9",
+            "--ds-btn-text": "#2c3749",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, #7eabe8 0%, #5a8fd8 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, #8ab5ec 0%, #6397dd 100%)",
+            "--ds-btn-primary-border": "#4979be",
+            "--ds-btn-primary-text": "var(--ds-text)",
+            "--ds-focus": "var(--ds-accent-strong)",
+            "--ds-input-bg": "linear-gradient(180deg, #f3f6fb 0%, #d8e0eb 100%)",
+            "--ds-input-border": "#a3afbf",
+            "--ds-card-border": "#aeb8c7",
+          },
+          "velvet-violet": {
+            "--ds-btn-bg": "linear-gradient(145deg, #ecf1fa, #cfd9ea)",
+            "--ds-btn-bg-hover": "linear-gradient(145deg, #f2f6fd, #d5dff0)",
+            "--ds-btn-border": "#c1cbdf",
+            "--ds-btn-text": "#344057",
+            "--ds-btn-primary-bg": "linear-gradient(145deg, #9888e5, #7f6ecf)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(145deg, #a494ed, #8675d8)",
+            "--ds-btn-primary-border": "#7564c4",
+            "--ds-btn-primary-text": "var(--ds-btn-primary-border)",
+            "--ds-input-bg": "linear-gradient(145deg, #d3dced, #ecf2fb)",
+            "--ds-input-border": "#c0cbe0",
+            "--ds-chip-bg": "linear-gradient(145deg, #dbe2ef, #eef3fb)",
+            "--ds-chip-border": "#c4cedf",
+            "--ds-chip-text": "#3a4760",
+          },
+          "signal-poster": {
+            "--ds-btn-bg": "var(--ds-text)",
+            "--ds-btn-bg-hover": "#1a1c20",
+            "--ds-btn-border": "var(--ds-text)",
+            "--ds-btn-text": "var(--ds-bg-elevated)",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 74%, white 26%) 0%, var(--ds-accent) 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 64%, white 36%) 0%, color-mix(in oklab, var(--ds-accent) 88%, white 12%) 100%)",
+            "--ds-btn-primary-border": "var(--ds-accent-strong)",
+            "--ds-btn-primary-text": "var(--ds-text)",
+            "--ds-input-bg": "var(--ds-bg-elevated)",
+            "--ds-input-border": "var(--ds-text)",
+            "--ds-input-text": "var(--ds-text)",
+            "--ds-input-placeholder": "#67686d",
+          },
+          "signal-diagram": {
+            "--ds-btn-bg":
+              "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 74%, white 26%) 0%, var(--ds-accent) 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 64%, white 36%) 0%, color-mix(in oklab, var(--ds-accent) 88%, white 12%) 100%)",
+            "--ds-btn-border": "var(--ds-text)",
+            "--ds-btn-text": "#101114",
+            "--ds-btn-primary-bg": "var(--ds-text)",
+            "--ds-btn-primary-bg-hover":
+              "color-mix(in oklab, var(--ds-text) 88%, var(--ds-accent) 12%)",
+            "--ds-btn-primary-border":
+              "color-mix(in oklab, var(--ds-text) 72%, var(--ds-accent) 28%)",
+            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
+            "--ds-input-bg": "var(--ds-bg-elevated)",
+            "--ds-input-border": "var(--ds-text)",
+            "--ds-input-text": "var(--ds-text)",
+            "--ds-input-placeholder": "#67686d",
+          },
+          "eva-wire-alert": {
+            "--ds-text":
+              "color-mix(in oklab, var(--ds-accent) 88%, white 12%)",
+            "--ds-text-muted":
+              "color-mix(in oklab, var(--ds-accent) 72%, white 28%)",
+            "--ds-btn-bg": "#141111",
+            "--ds-btn-bg-hover": "#1a1312",
+            "--ds-btn-border":
+              "color-mix(in oklab, var(--ds-border) 48%, var(--ds-accent) 52%)",
+            "--ds-btn-text": "var(--ds-text)",
+            "--ds-btn-primary-bg":
+              "color-mix(in oklab, var(--ds-accent) 92%, white 8%)",
+            "--ds-btn-primary-bg-hover":
+              "color-mix(in oklab, var(--ds-accent) 82%, white 18%)",
+            "--ds-btn-primary-border": "var(--ds-accent-strong)",
+            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
+            "--ds-input-bg": "#121010",
+            "--ds-input-border":
+              "color-mix(in oklab, var(--ds-border) 44%, var(--ds-accent) 56%)",
+            "--ds-chip-bg": "#171211",
+            "--ds-chip-border":
+              "color-mix(in oklab, var(--ds-border) 42%, var(--ds-accent) 58%)",
+            "--ds-chip-text": "var(--ds-text)",
+          },
+          "eva-unit01": {
+            "--ds-bg": "#0b0b0f",
+            "--ds-bg-elevated": "#121218",
+            "--ds-bg-raised": "#191923",
+            "--ds-bg-soft": "#222230",
+            "--ds-text": "#f3f0ff",
+            "--ds-text-muted": "#ac9dc5",
+            "--ds-accent": "#9a58ff",
+            "--ds-accent-strong": "#7b3ae0",
+            "--ds-focus": "#52f6a9",
+            "--ds-success": "#52f6a9",
+            "--ds-warning": "#ffad3a",
+            "--ds-danger": "#c86df0",
+            "--ds-info": "#66b8ff",
+            "--ds-btn-bg": "#1a1826",
+            "--ds-btn-bg-hover": "#211d30",
+            "--ds-btn-primary-bg": "#965dff",
+            "--ds-btn-primary-bg-hover": "#aa79ff",
+            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
+            "--ds-input-bg": "#17152a",
+          },
+          "saturn-alloy": {
+            "--ds-bg": "#111117",
+            "--ds-bg-elevated": "#343947",
+            "--ds-bg-raised": "#3f4756",
+            "--ds-bg-soft": "#475061",
+            "--ds-bg-overlay": "rgba(9,10,14,0.72)",
+            "--ds-text": "#ecf3ff",
+            "--ds-text-muted": "#b5c2d6",
+            "--ds-accent": "#5ed0ff",
+            "--ds-accent-strong": "#2ab4f0",
+            "--ds-focus": "#8de1ff",
+            "--ds-success": "#7dd6aa",
+            "--ds-warning": "#f2be6f",
+            "--ds-danger": "#db7d84",
+            "--ds-info": "#7bc5ff",
+            "--ds-btn-bg":
+              "linear-gradient(180deg, #5d687b 0%, #525d70 16%, #444d5e 62%, #394252 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(180deg, #677388 0%, #5a667b 16%, #4c5669 62%, #404a5d 100%)",
+            "--ds-btn-border": "#bcc8d9",
+            "--ds-btn-text": "#f2f7ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, #87e8ff 0%, #4bcaf6 48%, #1e9cc9 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, #9beeff 0%, #60d2fa 48%, #29a9d2 100%)",
+            "--ds-btn-primary-border": "#66cdec",
+            "--ds-btn-primary-text": "var(--ds-text)",
+            "--ds-input-bg":
+              "linear-gradient(180deg, #5b6578 0%, #4d5769 24%, #3e4657 100%)",
+            "--ds-input-border": "#adb9cb",
+            "--ds-input-text": "#f1f6ff",
+            "--ds-input-placeholder": "#c2cede",
+            "--ds-chip-bg": "linear-gradient(180deg, #556275, #455064)",
+            "--ds-chip-border": "#93a2ba",
+            "--ds-chip-text": "#eaf2ff",
+            "--ds-card-border": "#9ba9c0",
+          },
+          "web-portal": {
+            "--ds-btn-bg":
+              "linear-gradient(180deg, #4a66c4 0%, #2c438f 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(180deg, #5b77d5 0%, #3854a5 100%)",
+            "--ds-btn-border": "#ffd95f",
+            "--ds-btn-text": "#f5f9ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(180deg, #36f1ff 0%, #00b9da 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(180deg, #53f5ff 0%, #18cce6 100%)",
+            "--ds-btn-primary-border": "#ffe77a",
+            "--ds-btn-primary-text": "var(--ds-text)",
+            "--ds-input-bg": "linear-gradient(180deg, #0e1e4d 0%, #0b1740 100%)",
+            "--ds-input-border": "#56dfff",
+            "--ds-input-text": "#fff8d5",
+            "--ds-input-placeholder": "#c5d1f1",
+          },
+          "candy-spectrum": {
+            "--ds-btn-bg":
+              "linear-gradient(135deg, #ff64c2 0%, #ff90d9 48%, #66cfff 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(135deg, #ff7ace 0%, #ffa4e1 48%, #7ed9ff 100%)",
+            "--ds-btn-border": "#b95aa8",
+            "--ds-btn-text": "#31123a",
+            "--ds-btn-primary-bg":
+              "linear-gradient(135deg, #ff2fa8 0%, #874cff 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(135deg, #ff4ab6 0%, #9a65ff 100%)",
+            "--ds-btn-primary-border": "#6f3fcd",
+            "--ds-btn-primary-text": "#18081f",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,231,249,0.95))",
+            "--ds-input-border": "#e2a7d7",
+            "--ds-input-text": "#4e2258",
+            "--ds-input-placeholder": "#a06bad",
+          },
+          "complementary-wave": {
+            "--ds-btn-bg":
+              "linear-gradient(135deg, #4f84ff 0%, #6dc6ff 56%, #ffbb69 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(135deg, #6595ff 0%, #84d0ff 56%, #ffc985 100%)",
+            "--ds-btn-border": "#6f90cf",
+            "--ds-btn-text": "#10213b",
+            "--ds-btn-primary-bg":
+              "linear-gradient(135deg, #ff8b46 0%, #ffb25c 48%, #4aa8f2 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(135deg, #ffa05e 0%, #ffc473 48%, #61b6ff 100%)",
+            "--ds-btn-primary-border": "#d2824f",
+            "--ds-btn-primary-text": "#18233a",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(239,236,228,0.94))",
+            "--ds-input-border": "#9eb1de",
+            "--ds-input-text": "#2a3553",
+            "--ds-input-placeholder": "#7584ab",
+          },
+          "vaporwave-neon": {
+            "--ds-btn-bg":
+              "linear-gradient(135deg, #6f45ff 0%, #ff49d4 56%, #3fd5ff 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(135deg, #8460ff 0%, #ff66de 56%, #67ddff 100%)",
+            "--ds-btn-border": "#a55bff",
+            "--ds-btn-text": "#fdf8ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(135deg, #ff49d1 0%, #44d9ff 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(135deg, #ff6ee0 0%, #66e2ff 100%)",
+            "--ds-btn-primary-border": "#54bfff",
+            "--ds-btn-primary-text": "var(--ds-text)",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(45,26,102,0.9), rgba(33,20,77,0.92))",
+            "--ds-input-border": "#8d62ff",
+            "--ds-input-text": "#f8f2ff",
+            "--ds-input-placeholder": "#bfabec",
+          },
+          "holo-nocturne": {
+            "--ds-btn-bg":
+              "linear-gradient(140deg, #161d28 0%, #1a2230 78%, #2d3550 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(140deg, #1b2431 0%, #1f2b3b 78%, #3a4464 100%)",
+            "--ds-btn-border": "#425c7d",
+            "--ds-btn-text": "#edf4ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(132deg, #226792 0%, #8b45a3 52%, #2b8775 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(132deg, #2d79a8 0%, #a15cbc 52%, #39a08c 100%)",
+            "--ds-btn-primary-border": "#7f9fca",
+            "--ds-btn-primary-text": "#ecf5ff",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(19,27,38,0.96), rgba(13,20,30,0.97))",
+            "--ds-input-border": "#476280",
+            "--ds-input-text": "#edf4ff",
+            "--ds-input-placeholder": "#93a7c4",
+          },
+          "oilslick-organic": {
+            "--ds-btn-bg":
+              "linear-gradient(136deg, #131925 0%, #1d2432 68%, #3a3350 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(136deg, #1b2434 0%, #2a3449 68%, #4a4268 100%)",
+            "--ds-btn-border": "#4e627c",
+            "--ds-btn-text": "#eaf3ff",
+            "--ds-btn-primary-bg":
+              "linear-gradient(132deg, #2a6f8d 0%, #8f3f8a 48%, #2c8a78 100%)",
+            "--ds-btn-primary-bg-hover":
+              "linear-gradient(132deg, #3c83a5 0%, #a0509f 48%, #3ba08b 100%)",
+            "--ds-btn-primary-border": "#7f9ac4",
+            "--ds-btn-primary-text": "#eaf6ff",
+            "--ds-input-bg":
+              "linear-gradient(180deg, rgba(22,29,40,0.95), rgba(16,22,31,0.96))",
+            "--ds-input-border": "#445c77",
+            "--ds-input-text": "#edf4ff",
+            "--ds-input-placeholder": "#95a7c3",
+          },
+        };
+        const typographyPresets = {
+          "neutral-ui": {
+            "--ds-font-sans":
+              '"Segoe UI", "Helvetica Neue", Arial, sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+            "--ds-lh-base": "1.5",
+          },
+          "mint-humanist": {
+            "--ds-font-sans":
+              '"Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+            "--ds-lh-base": "1.52",
+          },
+          "portal-ui": {
+            "--ds-font-sans":
+              '"Tahoma", "Verdana", "MS Sans Serif", "Segoe UI", sans-serif',
+          },
+          "technical-sans": {
+            "--ds-font-sans":
+              '"Space Mono", Consolas, "Courier New", monospace',
+          },
+          "velvet-sans": {
+            "--ds-font-sans": '"Inter", "Segoe UI", Roboto, Arial, sans-serif',
+          },
+          "display-scale": {
+            "--ds-fs-1": "11px",
+            "--ds-fs-2": "13px",
+            "--ds-fs-3": "16px",
+            "--ds-fs-4": "22px",
+            "--ds-fs-5": "30px",
+            "--ds-lh-base": "1.38",
+          },
+          "oilslick-scale": {
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "14px",
+            "--ds-fs-3": "17px",
+            "--ds-fs-4": "24px",
+            "--ds-fs-5": "34px",
+            "--ds-lh-base": "1.42",
+          },
+          "eva-wire-sans": {
+            "--ds-font-sans":
+              '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
+          },
+          "eva-unit-sans": {
+            "--ds-font-sans":
+              '"Arial Narrow", "Bahnschrift", "Space Mono", "Segoe UI", sans-serif',
+          },
+          "terminal-glow": {
+            "--ds-font-sans":
+              '"Space Mono", "OCR A Std", Consolas, "Courier New", monospace',
+            "--ds-font-mono":
+              '"Space Mono", "OCR A Std", Consolas, "Courier New", monospace',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "14px",
+            "--ds-fs-3": "16px",
+            "--ds-fs-4": "21px",
+            "--ds-fs-5": "28px",
+            "--ds-lh-base": "1.42",
+          },
+          "technical-mono": {
+            "--ds-font-sans":
+              '"Space Mono", Consolas, "Courier New", monospace',
+            "--ds-font-mono":
+              '"Space Mono", Consolas, "Courier New", monospace',
+            "--ds-fs-1": "11px",
+            "--ds-fs-2": "13px",
+            "--ds-fs-3": "15px",
+            "--ds-fs-4": "18px",
+            "--ds-fs-5": "24px",
+            "--ds-lh-base": "1.42",
+          },
+          "poster-grotesk": {
+            "--ds-font-sans":
+              '"Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "15px",
+            "--ds-fs-3": "18px",
+            "--ds-fs-4": "26px",
+            "--ds-fs-5": "36px",
+            "--ds-lh-base": "1.34",
+          },
+          "soft-display": {
+            "--ds-font-sans": '"Inter", "Segoe UI", Roboto, Arial, sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+            "--ds-fs-1": "13px",
+            "--ds-fs-2": "15px",
+            "--ds-fs-3": "18px",
+            "--ds-fs-4": "22px",
+            "--ds-fs-5": "32px",
+            "--ds-lh-base": "1.46",
+          },
+          "velvet-ui": {
+            "--ds-font-sans": '"Inter", "Segoe UI", Roboto, Arial, sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+          },
+          "eva-digital": {
+            "--ds-font-sans":
+              '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
+            "--ds-font-mono":
+              '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
+            "--ds-fs-1": "11px",
+            "--ds-fs-2": "13px",
+            "--ds-fs-3": "16px",
+            "--ds-fs-4": "22px",
+            "--ds-fs-5": "30px",
+            "--ds-lh-base": "1.35",
+          },
+          "eva-unit-display": {
+            "--ds-font-sans":
+              '"Arial Narrow", "Bahnschrift", "Space Mono", "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
+            "--ds-lh-base": "1.35",
+          },
+          "saturn-euro": {
+            "--ds-font-sans":
+              '"Eurostile", "Trebuchet MS", "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"OCR A Std", "Consolas", "Lucida Console", monospace',
+            "--ds-fs-1": "11px",
+            "--ds-fs-2": "13px",
+            "--ds-fs-3": "16px",
+            "--ds-fs-4": "22px",
+            "--ds-fs-5": "30px",
+            "--ds-lh-base": "1.35",
+          },
+          "portal-arcade": {
+            "--ds-font-sans":
+              '"Verdana", "Tahoma", "Trebuchet MS", sans-serif',
+            "--ds-font-mono":
+              '"Lucida Console", "Courier New", monospace',
+            "--ds-fs-1": "11px",
+            "--ds-fs-2": "13px",
+            "--ds-fs-3": "15px",
+            "--ds-fs-4": "20px",
+            "--ds-fs-5": "28px",
+            "--ds-lh-base": "1.4",
+          },
+          "playful-rounded": {
+            "--ds-font-sans":
+              '"Baloo 2", "Nunito", "Trebuchet MS", "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "14px",
+            "--ds-fs-3": "17px",
+            "--ds-fs-4": "24px",
+            "--ds-fs-5": "34px",
+            "--ds-lh-base": "1.45",
+          },
+          "vapor-display": {
+            "--ds-font-sans":
+              '"Space Mono", "Eurostile", "Trebuchet MS", "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"Space Mono", Consolas, "Courier New", monospace',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "14px",
+            "--ds-fs-3": "16px",
+            "--ds-fs-4": "24px",
+            "--ds-fs-5": "34px",
+            "--ds-lh-base": "1.4",
+          },
+          "holo-sans": {
+            "--ds-font-sans":
+              '"Sora", "Inter", "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+            "--ds-fs-1": "11px",
+            "--ds-fs-2": "13px",
+            "--ds-fs-3": "16px",
+            "--ds-fs-4": "22px",
+            "--ds-fs-5": "30px",
+            "--ds-lh-base": "1.38",
+          },
+          "organic-sans": {
+            "--ds-font-sans":
+              '"Outfit", "Sora", "Inter", "Segoe UI", sans-serif',
+            "--ds-font-mono":
+              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "14px",
+            "--ds-fs-3": "17px",
+            "--ds-fs-4": "24px",
+            "--ds-fs-5": "34px",
+            "--ds-lh-base": "1.42",
+          },
         };
         const baseThemePresetMap = {
           "steel-night": {
             family: "bold",
             hue: "steel",
-            style: "technical",
+            scheme: "standard",
+            style: "base-default",
+            typography: "neutral-ui",
             scale: "standard",
-            texture: "brushed-metal",
+            texture: "clean",
           },
           "paper-mint": {
             family: "paper",
             hue: "green",
+            scheme: "mint-ink",
             style: "paper",
+            typography: "neutral-ui",
             scale: "standard",
-            texture: "paper-grain",
+            texture: "clean",
           },
           "amber-terminal": {
             family: "cathode",
             hue: "amber",
+            scheme: "amber-glow",
             style: "terminal-amber",
+            typography: "terminal-glow",
             scale: "compact",
-            texture: "noise-film",
+            texture: "amber-screen",
           },
           "neon-grid": {
             family: "cathode",
             hue: "cyan",
-            style: "terminal",
+            scheme: "bright-primary-dark",
+            style: "base-default",
+            typography: "neutral-ui",
             scale: "standard",
-            texture: "wire-grid",
+            texture: "clean",
           },
           "mono-slate": {
             family: "monochrome",
             hue: "gray",
-            style: "technical",
+            scheme: "bright-primary-dark",
+            style: "base-default",
+            typography: "neutral-ui",
             scale: "standard",
             texture: "clean",
           },
           "tech-grid": {
             family: "bold",
             hue: "blue",
+            scheme: "standard",
             style: "technical",
+            typography: "technical-sans",
             scale: "compact",
-            texture: "wire-grid",
+            texture: "clean",
           },
           "skeuo-panel": {
             family: "paper",
             hue: "blue",
+            scheme: "skeuo-sky",
             style: "skeuo",
+            typography: "neutral-ui",
             scale: "standard",
-            texture: "soft-gradient",
+            texture: "clean",
           },
           "industrial-terminal": {
             family: "cathode",
             hue: "lime",
-            style: "technical",
+            scheme: "industrial-lime",
+            style: "industrial-frame",
+            typography: "technical-sans",
             scale: "compact",
-            texture: "carbon-fiber",
+            texture: "industrial-screen",
           },
         };
         Object.assign(huePresets, {
@@ -3871,16 +4866,6 @@ Do not occlude the trigger element when contextual help opens.</pre
         });
         Object.assign(stylePresets, {
           "terminal-amber": {
-            "--ds-font-sans":
-              '"Space Mono", "OCR A Std", Consolas, "Courier New", monospace',
-            "--ds-font-mono":
-              '"Space Mono", "OCR A Std", Consolas, "Courier New", monospace',
-            "--ds-fs-1": "12px",
-            "--ds-fs-2": "14px",
-            "--ds-fs-3": "16px",
-            "--ds-fs-4": "21px",
-            "--ds-fs-5": "28px",
-            "--ds-lh-base": "1.42",
             "--ds-radius-1": "1px",
             "--ds-radius-2": "2px",
             "--ds-radius-3": "3px",
@@ -3890,41 +4875,16 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-border-style": "solid",
             "--ds-label-transform": "uppercase",
             "--ds-label-spacing": "0.12em",
-            "--ds-text": "#ffc978",
-            "--ds-text-muted": "#ffac4a",
-            "--ds-accent": "#ffb347",
-            "--ds-accent-strong": "#ff9b22",
-            "--ds-focus": "#ffd889",
             "--ds-card-shadow":
               "0 0 0 1px color-mix(in oklab,var(--ds-accent) 28%, transparent) inset, 0 0 20px color-mix(in oklab,var(--ds-accent) 24%, transparent)",
-            "--ds-btn-bg": "#1a1205",
-            "--ds-btn-bg-hover": "#211707",
-            "--ds-btn-border": "#6a4618",
-            "--ds-btn-text": "#ffc978",
             "--ds-btn-shadow":
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 38%, transparent), 0 0 10px color-mix(in oklab,var(--ds-accent) 16%, transparent)",
             "--ds-btn-shadow-hover":
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 52%, transparent), 0 0 16px color-mix(in oklab,var(--ds-accent) 24%, transparent)",
-            "--ds-btn-primary-bg":
-              "linear-gradient(180deg, #ffbf59 0%, #ff9a2e 100%)",
-            "--ds-btn-primary-bg-hover":
-              "linear-gradient(180deg, #ffc96f 0%, #ffaa47 100%)",
-            "--ds-btn-primary-border": "#f79a2a",
-            "--ds-btn-primary-text": "var(--ds-text)",
-            "--ds-check-mark": "var(--ds-btn-bg)",
-            "--ds-input-bg": "#171005",
-            "--ds-input-border": "#6b4517",
-            "--ds-input-text": "#ffc978",
-            "--ds-input-placeholder": "#d49546",
             "--ds-input-shadow":
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 34%, transparent), 0 0 10px color-mix(in oklab,var(--ds-accent) 14%, transparent)",
-            "--ds-body-bg-image":
-              "repeating-linear-gradient(0deg, rgba(255,206,124,0.032) 0 1px, transparent 1px 6px), radial-gradient(circle at 16% 10%, rgba(255,170,60,0.16), transparent 28%), linear-gradient(180deg, #0f0b03 0%, #130e04 50%, #0c0802 100%)",
-            "--ds-card-bg-image":
-              "linear-gradient(180deg, rgba(255,190,96,0.08), rgba(0,0,0,0.2))",
           },
           neumorph: {
-            "--ds-font-sans": '"Inter", "Segoe UI", Roboto, Arial, sans-serif',
             "--ds-radius-1": "10px",
             "--ds-radius-2": "16px",
             "--ds-radius-3": "22px",
@@ -3944,15 +4904,9 @@ Do not occlude the trigger element when contextual help opens.</pre
               "inset 4px 4px 8px rgba(157,169,190,0.5), inset -4px -4px 8px rgba(255,255,255,0.82)",
             "--ds-input-shadow":
               "inset 4px 4px 9px rgba(163,175,198,0.5), inset -4px -4px 9px rgba(255,255,255,0.9)",
-            "--ds-body-bg-image":
-              "radial-gradient(circle at 20% 10%, rgba(255,255,255,0.55), transparent 40%)",
-            "--ds-card-bg-image":
-              "linear-gradient(150deg, rgba(255,255,255,0.28), rgba(203,214,233,0.22))",
             "--ds-btn-press-transform": "none",
           },
           "eva-wire": {
-            "--ds-font-sans":
-              '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
             "--ds-radius-1": "0px",
             "--ds-radius-2": "2px",
             "--ds-radius-3": "4px",
@@ -3961,12 +4915,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-border-w": "1px",
             "--ds-border-style": "solid",
             "--ds-label-transform": "uppercase",
-            "--ds-label-spacing": "0.18em",
-            "--ds-text": "#ff6a1e",
-            "--ds-text-muted": "#ff9a4b",
-            "--ds-accent": "#ff5a14",
-            "--ds-accent-strong": "#ff3d12",
-            "--ds-focus": "#ffb86a",
+            "--ds-label-spacing": "0.16em",
             "--ds-card-shadow":
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 52%, transparent), 0 0 0 1px color-mix(in oklab,var(--ds-focus) 28%, transparent), 0 0 18px color-mix(in oklab,var(--ds-accent) 24%, transparent)",
             "--ds-btn-shadow":
@@ -3977,17 +4926,26 @@ Do not occlude the trigger element when contextual help opens.</pre
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 72%, transparent)",
             "--ds-input-shadow":
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 44%, transparent), 0 0 12px color-mix(in oklab,var(--ds-accent) 18%, transparent)",
-            "--ds-body-bg-image":
-              "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-accent) 12%, transparent) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-accent-strong) 10%, transparent) 0 1px, transparent 1px 16px)",
-            "--ds-card-bg-image": "none",
-            "--ds-btn-bg": "#141111",
-            "--ds-btn-bg-hover": "#1a1312",
-            "--ds-input-bg": "#121010",
+            "--ds-btn-press-transform": "none",
+          },
+          "industrial-frame": {
+            "--ds-radius-1": "2px",
+            "--ds-radius-2": "2px",
+            "--ds-radius-3": "4px",
+            "--ds-radius-4": "6px",
+            "--ds-radius-pill": "4px",
+            "--ds-border-w": "2px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.14em",
+            "--ds-card-shadow": "0 0 0 1px rgba(255,255,255,0.04) inset",
+            "--ds-btn-shadow": "none",
+            "--ds-btn-shadow-hover": "none",
+            "--ds-btn-shadow-active": "inset 0 0 0 2px rgba(0,0,0,0.35)",
+            "--ds-input-shadow": "inset 0 1px 0 rgba(255,255,255,0.03)",
             "--ds-btn-press-transform": "none",
           },
           "eva-unit01": {
-            "--ds-font-sans":
-              '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
             "--ds-radius-1": "0px",
             "--ds-radius-2": "2px",
             "--ds-radius-3": "4px",
@@ -3997,19 +4955,6 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-border-style": "solid",
             "--ds-label-transform": "uppercase",
             "--ds-label-spacing": "0.16em",
-            "--ds-bg": "#0b0b0f",
-            "--ds-bg-elevated": "#121218",
-            "--ds-bg-raised": "#191923",
-            "--ds-bg-soft": "#222230",
-            "--ds-text": "#f3f0ff",
-            "--ds-text-muted": "#ac9dc5",
-            "--ds-accent": "#9a58ff",
-            "--ds-accent-strong": "#7b3ae0",
-            "--ds-focus": "#52f6a9",
-            "--ds-success": "#52f6a9",
-            "--ds-warning": "#ffad3a",
-            "--ds-danger": "#c86df0",
-            "--ds-info": "#66b8ff",
             "--ds-card-shadow":
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-accent) 42%, transparent), 0 0 0 1px color-mix(in oklab,var(--ds-focus) 28%, transparent), 0 0 20px color-mix(in oklab,var(--ds-accent) 20%, transparent)",
             "--ds-btn-shadow":
@@ -4020,27 +4965,9 @@ Do not occlude the trigger element when contextual help opens.</pre
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-warning) 65%, transparent)",
             "--ds-input-shadow":
               "inset 0 0 0 1px color-mix(in oklab,var(--ds-focus) 40%, transparent), 0 0 12px color-mix(in oklab,var(--ds-accent) 14%, transparent)",
-            "--ds-body-bg-image":
-              "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-accent) 11%, transparent) 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-focus) 10%, transparent) 0 1px, transparent 1px 18px)",
-            "--ds-card-bg-image": "none",
-            "--ds-btn-bg": "#1a1826",
-            "--ds-btn-bg-hover": "#211d30",
-            "--ds-btn-primary-bg": "#965dff",
-            "--ds-btn-primary-bg-hover": "#aa79ff",
-            "--ds-input-bg": "#17152a",
             "--ds-btn-press-transform": "none",
           },
           "saturn-skeuo": {
-            "--ds-font-sans":
-              '"Eurostile", "Trebuchet MS", "Segoe UI", sans-serif',
-            "--ds-font-mono":
-              '"OCR A Std", "Consolas", "Lucida Console", monospace',
-            "--ds-fs-1": "11px",
-            "--ds-fs-2": "13px",
-            "--ds-fs-3": "16px",
-            "--ds-fs-4": "22px",
-            "--ds-fs-5": "30px",
-            "--ds-lh-base": "1.35",
             "--ds-radius-1": "4px",
             "--ds-radius-2": "10px",
             "--ds-radius-3": "14px",
@@ -4050,6 +4977,8 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-border-style": "solid",
             "--ds-label-transform": "uppercase",
             "--ds-label-spacing": "0.1em",
+            "--ds-shadow-sm": "0 10px 20px rgba(6, 8, 12, 0.42)",
+            "--ds-shadow-md": "0 20px 36px rgba(6, 8, 12, 0.52)",
             "--ds-card-shadow":
               "inset 0 1px 0 rgba(255,255,255,0.66), inset 0 -3px 12px rgba(18,22,30,0.66), 0 18px 32px rgba(5,8,12,0.58)",
             "--ds-btn-shadow":
@@ -4058,371 +4987,11 @@ Do not occlude the trigger element when contextual help opens.</pre
               "inset 0 2px 0 rgba(255,255,255,0.96), inset 0 -3px 8px rgba(15,18,26,0.62), 0 6px 14px rgba(8,10,14,0.56)",
             "--ds-btn-shadow-active":
               "inset 0 4px 10px rgba(19,23,30,0.62), inset 0 -1px 0 rgba(255,255,255,0.3)",
-            "--ds-btn-bg":
-              "linear-gradient(180deg, #5d687b 0%, #525d70 16%, #444d5e 62%, #394252 100%)",
-            "--ds-btn-bg-hover":
-              "linear-gradient(180deg, #677388 0%, #5a667b 16%, #4c5669 62%, #404a5d 100%)",
-            "--ds-btn-border": "#b7c4d7",
-            "--ds-btn-text": "#f2f7ff",
-            "--ds-btn-primary-bg":
-              "linear-gradient(180deg, #87e8ff 0%, #4bcaf6 48%, #1e9cc9 100%)",
-            "--ds-btn-primary-bg-hover":
-              "linear-gradient(180deg, #9beeff 0%, #60d2fa 48%, #29a9d2 100%)",
-            "--ds-btn-primary-border": "#66cdec",
-            "--ds-btn-primary-text": "var(--ds-text)",
-            "--ds-input-bg":
-              "linear-gradient(180deg, #5b6578 0%, #4d5769 24%, #3e4657 100%)",
-            "--ds-input-border": "#adb9cb",
-            "--ds-input-text": "#f1f6ff",
-            "--ds-input-placeholder": "#c2cede",
             "--ds-input-shadow":
               "inset 0 2px 4px rgba(11,14,21,0.45), inset 0 1px 0 rgba(233,241,255,0.26)",
-            "--ds-body-bg-image":
-              "radial-gradient(circle at 50% -18%, rgba(140, 163, 196, 0.22), transparent 42%), radial-gradient(circle at 50% 118%, rgba(15, 24, 46, 0.78), transparent 56%), radial-gradient(circle at 6% 8%, rgba(188, 214, 255, 0.1), transparent 22%), linear-gradient(180deg, #090c14 0%, #141a28 46%, #080a10 100%)",
-            "--ds-card-bg-image":
-              "linear-gradient(180deg, rgba(255,255,255,0.26), rgba(26,30,38,0.24))",
             "--ds-btn-press-transform": "translateY(1px)",
           },
-          "old-web": {
-            "--ds-font-sans":
-              '"Tahoma", "Verdana", "MS Sans Serif", "Segoe UI", sans-serif',
-            "--ds-font-mono": '"Lucida Console", "Courier New", monospace',
-            "--ds-radius-1": "0px",
-            "--ds-radius-2": "0px",
-            "--ds-radius-3": "0px",
-            "--ds-radius-4": "0px",
-            "--ds-radius-pill": "0px",
-            "--ds-border-w": "2px",
-            "--ds-border-style": "solid",
-            "--ds-label-transform": "uppercase",
-            "--ds-label-spacing": "0.08em",
-            "--ds-bg": "#081436",
-            "--ds-bg-elevated": "#10214a",
-            "--ds-bg-raised": "#18306a",
-            "--ds-bg-soft": "#224388",
-            "--ds-text": "#f3f8ff",
-            "--ds-text-muted": "#bed1f3",
-            "--ds-border": "#4fd8ff",
-            "--ds-border-strong": "#ffd95f",
-            "--ds-accent": "#2cecff",
-            "--ds-accent-strong": "#00bddf",
-            "--ds-focus": "#ffe77a",
-            "--ds-success": "#80fcb4",
-            "--ds-warning": "#ffd95f",
-            "--ds-danger": "#ff5ca9",
-            "--ds-info": "#7dbbff",
-            "--ds-card-shadow":
-              "0 0 0 2px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.16) inset, 0 0 0 2px color-mix(in oklab,var(--ds-border) 45%, transparent)",
-            "--ds-btn-bg": "linear-gradient(180deg, #4a66c4 0%, #2c438f 100%)",
-            "--ds-btn-bg-hover":
-              "linear-gradient(180deg, #5b77d5 0%, #3854a5 100%)",
-            "--ds-btn-border": "#ffd95f",
-            "--ds-btn-text": "#f5f9ff",
-            "--ds-btn-primary-bg":
-              "linear-gradient(180deg, #36f1ff 0%, #00b9da 100%)",
-            "--ds-btn-primary-bg-hover":
-              "linear-gradient(180deg, #53f5ff 0%, #18cce6 100%)",
-            "--ds-btn-primary-border": "#ffe77a",
-            "--ds-btn-primary-text": "var(--ds-text)",
-            "--ds-input-bg": "linear-gradient(180deg, #0e1e4d 0%, #0b1740 100%)",
-            "--ds-input-border": "#56dfff",
-            "--ds-input-text": "#fff8d5",
-            "--ds-input-placeholder": "#c5d1f1",
-            "--ds-input-shadow":
-              "inset 0 0 0 1px rgba(255,255,255,0.11), inset 0 -1px 0 rgba(0,0,0,0.35)",
-            "--ds-body-bg-image":
-              "repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 6px), repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px), radial-gradient(circle at 88% 10%, rgba(44,236,255,0.24), transparent 30%), radial-gradient(circle at 12% 84%, rgba(255,120,210,0.16), transparent 36%)",
-            "--ds-card-bg-image":
-              "linear-gradient(180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.28))",
-          },
-          "candy-pop": {
-            "--ds-font-sans":
-              '"Baloo 2", "Nunito", "Trebuchet MS", "Segoe UI", sans-serif',
-            "--ds-radius-1": "8px",
-            "--ds-radius-2": "14px",
-            "--ds-radius-3": "20px",
-            "--ds-radius-4": "26px",
-            "--ds-radius-pill": "999px",
-            "--ds-border-w": "1px",
-            "--ds-border-style": "solid",
-            "--ds-label-transform": "none",
-            "--ds-label-spacing": "0.03em",
-            "--ds-bg": "#fff2fb",
-            "--ds-bg-elevated": "#ffffff",
-            "--ds-bg-raised": "#ffe8f7",
-            "--ds-bg-soft": "#ffe0ff",
-            "--ds-text": "#4a1f52",
-            "--ds-text-muted": "#7b4f89",
-            "--ds-border": "#f0b5de",
-            "--ds-border-strong": "#d98ad0",
-            "--ds-accent": "#ff4fc0",
-            "--ds-accent-strong": "#e63fa7",
-            "--ds-focus": "#47d8ff",
-            "--ds-success": "#47d78f",
-            "--ds-warning": "#ffb84d",
-            "--ds-danger": "#ff5a92",
-            "--ds-info": "#3dbbff",
-            "--ds-card-shadow":
-              "0 10px 24px rgba(170,96,164,0.18), inset 0 1px 0 rgba(255,255,255,0.75)",
-            "--ds-btn-bg":
-              "linear-gradient(135deg, #ff64c2 0%, #ff90d9 48%, #66cfff 100%)",
-            "--ds-btn-bg-hover":
-              "linear-gradient(135deg, #ff7ace 0%, #ffa4e1 48%, #7ed9ff 100%)",
-            "--ds-btn-border": "#b95aa8",
-            "--ds-btn-text": "#31123a",
-            "--ds-btn-primary-bg":
-              "linear-gradient(135deg, #ff2fa8 0%, #874cff 100%)",
-            "--ds-btn-primary-bg-hover":
-              "linear-gradient(135deg, #ff4ab6 0%, #9a65ff 100%)",
-            "--ds-btn-primary-border": "#6f3fcd",
-            "--ds-btn-primary-text": "#18081f",
-            "--ds-input-bg":
-              "linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,231,249,0.95))",
-            "--ds-input-border": "#e2a7d7",
-            "--ds-input-text": "#4e2258",
-            "--ds-input-placeholder": "#a06bad",
-            "--ds-input-shadow":
-              "inset 0 1px 2px rgba(207,138,193,0.24), 0 0 0 1px rgba(255,255,255,0.6)",
-            "--ds-body-bg-image":
-              "radial-gradient(circle at 12% 12%, rgba(255,99,197,0.22), transparent 34%), radial-gradient(circle at 88% 18%, rgba(71,216,255,0.22), transparent 36%), linear-gradient(180deg, #fff4fd 0%, #ffe9fb 100%)",
-            "--ds-card-bg-image":
-              "linear-gradient(155deg, rgba(255,255,255,0.65), rgba(255,205,241,0.45))",
-          },
-          "complimentary-gradient": {
-            "--ds-font-sans":
-              '"Sora", "Inter", "Segoe UI", sans-serif',
-            "--ds-radius-1": "6px",
-            "--ds-radius-2": "12px",
-            "--ds-radius-3": "16px",
-            "--ds-radius-4": "22px",
-            "--ds-radius-pill": "999px",
-            "--ds-border-w": "1px",
-            "--ds-border-style": "solid",
-            "--ds-label-transform": "uppercase",
-            "--ds-label-spacing": "0.07em",
-            "--ds-bg": "#f6f8fc",
-            "--ds-bg-elevated": "#ffffff",
-            "--ds-bg-raised": "#edf2fb",
-            "--ds-bg-soft": "#e3ecfa",
-            "--ds-text": "#1c2944",
-            "--ds-text-muted": "#4b628a",
-            "--ds-border": "#a6bbdf",
-            "--ds-border-strong": "#7d9fd5",
-            "--ds-accent": "#2a7fff",
-            "--ds-accent-strong": "#1f67d8",
-            "--ds-focus": "#ff9a45",
-            "--ds-success": "#1fa77f",
-            "--ds-warning": "#e28b2f",
-            "--ds-danger": "#d34b67",
-            "--ds-info": "#2889e4",
-            "--ds-card-shadow":
-              "0 12px 26px rgba(44,58,99,0.14), 0 0 0 1px rgba(124,147,211,0.24) inset",
-            "--ds-btn-bg":
-              "linear-gradient(135deg, #4f84ff 0%, #6dc6ff 56%, #ffbb69 100%)",
-            "--ds-btn-bg-hover":
-              "linear-gradient(135deg, #6595ff 0%, #84d0ff 56%, #ffc985 100%)",
-            "--ds-btn-border": "#6f90cf",
-            "--ds-btn-text": "#10213b",
-            "--ds-btn-primary-bg":
-              "linear-gradient(135deg, #ff8b46 0%, #ffb25c 48%, #4aa8f2 100%)",
-            "--ds-btn-primary-bg-hover":
-              "linear-gradient(135deg, #ffa05e 0%, #ffc473 48%, #61b6ff 100%)",
-            "--ds-btn-primary-border": "#d2824f",
-            "--ds-btn-primary-text": "#18233a",
-            "--ds-input-bg":
-              "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(239,236,228,0.94))",
-            "--ds-input-border": "#9eb1de",
-            "--ds-input-text": "#2a3553",
-            "--ds-input-placeholder": "#7584ab",
-            "--ds-input-shadow":
-              "inset 0 1px 2px rgba(50,62,99,0.18), 0 0 0 1px rgba(176,191,235,0.3)",
-            "--ds-body-bg-image":
-              "radial-gradient(circle at 12% 10%, rgba(63,124,255,0.13), transparent 34%), radial-gradient(circle at 90% 16%, rgba(255,166,93,0.16), transparent 34%), linear-gradient(180deg, #f9fbff 0%, #eef4fc 54%, #e8effa 100%)",
-            "--ds-card-bg-image":
-              "linear-gradient(160deg, rgba(100,132,224,0.14), rgba(55,85,171,0.08), rgba(255,166,92,0.12))",
-          },
-          "vaporwave-neon": {
-            "--ds-font-sans":
-              '"Space Mono", "Eurostile", "Trebuchet MS", "Segoe UI", sans-serif',
-            "--ds-radius-1": "2px",
-            "--ds-radius-2": "8px",
-            "--ds-radius-3": "12px",
-            "--ds-radius-4": "16px",
-            "--ds-radius-pill": "999px",
-            "--ds-border-w": "1px",
-            "--ds-border-style": "solid",
-            "--ds-label-transform": "uppercase",
-            "--ds-label-spacing": "0.11em",
-            "--ds-bg": "#0f0926",
-            "--ds-bg-elevated": "#180f38",
-            "--ds-bg-raised": "#22134f",
-            "--ds-bg-soft": "#2e1a64",
-            "--ds-text": "#f8f2ff",
-            "--ds-text-muted": "#ccb9ef",
-            "--ds-border": "#6a63d8",
-            "--ds-border-strong": "#a44fff",
-            "--ds-accent": "#ff4ad8",
-            "--ds-accent-strong": "#e12ac8",
-            "--ds-focus": "#48dcff",
-            "--ds-success": "#5ff8c4",
-            "--ds-warning": "#ffd36c",
-            "--ds-danger": "#ff6aa4",
-            "--ds-info": "#62c6ff",
-            "--ds-card-shadow":
-              "0 0 0 1px color-mix(in oklab,var(--ds-accent) 35%, transparent) inset, 0 0 22px color-mix(in oklab,var(--ds-focus) 18%, transparent)",
-            "--ds-btn-bg":
-              "linear-gradient(135deg, #6f45ff 0%, #ff49d4 56%, #3fd5ff 100%)",
-            "--ds-btn-bg-hover":
-              "linear-gradient(135deg, #8460ff 0%, #ff66de 56%, #67ddff 100%)",
-            "--ds-btn-border": "#a55bff",
-            "--ds-btn-text": "#fdf8ff",
-            "--ds-btn-primary-bg":
-              "linear-gradient(135deg, #ff49d1 0%, #44d9ff 100%)",
-            "--ds-btn-primary-bg-hover":
-              "linear-gradient(135deg, #ff6ee0 0%, #66e2ff 100%)",
-            "--ds-btn-primary-border": "#54bfff",
-            "--ds-btn-primary-text": "var(--ds-text)",
-            "--ds-input-bg":
-              "linear-gradient(180deg, rgba(45,26,102,0.9), rgba(33,20,77,0.92))",
-            "--ds-input-border": "#8d62ff",
-            "--ds-input-text": "#f8f2ff",
-            "--ds-input-placeholder": "#bfabec",
-            "--ds-input-shadow":
-              "inset 0 0 0 1px rgba(255,255,255,0.06), 0 0 12px color-mix(in oklab,var(--ds-accent) 24%, transparent)",
-            "--ds-body-bg-image":
-              "linear-gradient(180deg, #100926 0%, #170d34 44%, #0f0823 100%), radial-gradient(circle at 14% 12%, rgba(255,72,208,0.22), transparent 30%), radial-gradient(circle at 84% 16%, rgba(56,220,255,0.2), transparent 30%), repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-focus) 16%, transparent) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-accent) 12%, transparent) 0 1px, transparent 1px 16px)",
-            "--ds-card-bg-image":
-              "linear-gradient(160deg, rgba(255,86,213,0.18), rgba(107,107,255,0.14), rgba(80,206,255,0.16))",
-          },
-          "holo-nocturne": {
-            "--ds-font-sans":
-              '"Sora", "Inter", "Segoe UI", sans-serif',
-            "--ds-fs-1": "11px",
-            "--ds-fs-2": "13px",
-            "--ds-fs-3": "16px",
-            "--ds-fs-4": "22px",
-            "--ds-fs-5": "30px",
-            "--ds-lh-base": "1.38",
-            "--ds-radius-1": "9px",
-            "--ds-radius-2": "14px",
-            "--ds-radius-3": "20px",
-            "--ds-radius-4": "26px",
-            "--ds-radius-pill": "999px",
-            "--ds-border-w": "1px",
-            "--ds-border-style": "solid",
-            "--ds-label-transform": "uppercase",
-            "--ds-label-spacing": "0.08em",
-            "--ds-bg": "#06080d",
-            "--ds-bg-elevated": "#0c1118",
-            "--ds-bg-raised": "#121924",
-            "--ds-bg-soft": "#1a2331",
-            "--ds-text": "#edf3ff",
-            "--ds-text-muted": "#9baac4",
-            "--ds-border": "#30465f",
-            "--ds-border-strong": "#456589",
-            "--ds-accent": "#74dcff",
-            "--ds-accent-strong": "#54bddf",
-            "--ds-focus": "#ff8ac8",
-            "--ds-success": "#71efc5",
-            "--ds-warning": "#ffd188",
-            "--ds-danger": "#ff7ca8",
-            "--ds-info": "#7eafff",
-            "--ds-card-shadow":
-              "0 20px 36px rgba(1,3,8,0.7), inset 0 0 0 1px rgba(255,255,255,0.05)",
-            "--ds-btn-bg":
-              "linear-gradient(140deg, #161d28 0%, #1a2230 78%, #2d3550 100%)",
-            "--ds-btn-bg-hover":
-              "linear-gradient(140deg, #1b2431 0%, #1f2b3b 78%, #3a4464 100%)",
-            "--ds-btn-border": "#425c7d",
-            "--ds-btn-text": "#edf4ff",
-            "--ds-btn-primary-bg":
-              "linear-gradient(132deg, #226792 0%, #8b45a3 52%, #2b8775 100%)",
-            "--ds-btn-primary-bg-hover":
-              "linear-gradient(132deg, #2d79a8 0%, #a15cbc 52%, #39a08c 100%)",
-            "--ds-btn-primary-border": "#7f9fca",
-            "--ds-btn-primary-text": "#ecf5ff",
-            "--ds-input-bg":
-              "linear-gradient(180deg, rgba(19,27,38,0.96), rgba(13,20,30,0.97))",
-            "--ds-input-border": "#476280",
-            "--ds-input-text": "#edf4ff",
-            "--ds-input-placeholder": "#93a7c4",
-            "--ds-input-shadow":
-              "inset 0 1px 2px rgba(0,0,0,0.6), 0 0 0 1px rgba(117,173,218,0.18)",
-            "--ds-body-bg-image":
-              "radial-gradient(90% 90% at 12% 12%, rgba(117,224,255,0.14), transparent 22%), radial-gradient(90% 90% at 86% 16%, rgba(255,138,200,0.13), transparent 24%), radial-gradient(120% 100% at 44% 94%, rgba(124,158,255,0.12), transparent 28%), linear-gradient(180deg, #05070c 0%, #090e15 52%, #06080e 100%)",
-            "--ds-card-bg-image":
-              "linear-gradient(146deg, rgba(255,255,255,0.03), rgba(111,228,255,0.04), rgba(255,141,208,0.04), rgba(255,255,255,0.015))",
-          },
-          "oilslick-organic": {
-            "--ds-font-sans":
-              '"Outfit", "Sora", "Inter", "Segoe UI", sans-serif',
-            "--ds-fs-1": "12px",
-            "--ds-fs-2": "14px",
-            "--ds-fs-3": "17px",
-            "--ds-fs-4": "24px",
-            "--ds-fs-5": "34px",
-            "--ds-lh-base": "1.42",
-            "--ds-radius-1": "10px",
-            "--ds-radius-2": "16px",
-            "--ds-radius-3": "22px",
-            "--ds-radius-4": "28px",
-            "--ds-radius-pill": "999px",
-            "--ds-border-w": "1px",
-            "--ds-border-style": "solid",
-            "--ds-label-transform": "uppercase",
-            "--ds-label-spacing": "0.08em",
-            "--ds-bg": "#05080c",
-            "--ds-bg-elevated": "#0b1017",
-            "--ds-bg-raised": "#121924",
-            "--ds-bg-soft": "#1a2230",
-            "--ds-text": "#eff4ff",
-            "--ds-text-muted": "#9eabc3",
-            "--ds-border": "#34465d",
-            "--ds-border-strong": "#4a6280",
-            "--ds-accent": "#7de8ff",
-            "--ds-accent-strong": "#5cc9e7",
-            "--ds-focus": "#ff9ad8",
-            "--ds-success": "#79f2c8",
-            "--ds-warning": "#ffd186",
-            "--ds-danger": "#ff7fa8",
-            "--ds-info": "#7ab6ff",
-            "--ds-card-shadow":
-              "0 16px 34px rgba(2,4,8,0.62), inset 0 0 0 1px rgba(255,255,255,0.05)",
-            "--ds-btn-bg":
-              "linear-gradient(136deg, #131925 0%, #1d2432 68%, #3a3350 100%)",
-            "--ds-btn-bg-hover":
-              "linear-gradient(136deg, #1b2434 0%, #2a3449 68%, #4a4268 100%)",
-            "--ds-btn-border": "#4e627c",
-            "--ds-btn-text": "#eaf3ff",
-            "--ds-btn-primary-bg":
-              "linear-gradient(132deg, #2a6f8d 0%, #8f3f8a 48%, #2c8a78 100%)",
-            "--ds-btn-primary-bg-hover":
-              "linear-gradient(132deg, #3c83a5 0%, #a0509f 48%, #3ba08b 100%)",
-            "--ds-btn-primary-border": "#7f9ac4",
-            "--ds-btn-primary-text": "#eaf6ff",
-            "--ds-input-bg":
-              "linear-gradient(180deg, rgba(22,29,40,0.95), rgba(16,22,31,0.96))",
-            "--ds-input-border": "#445c77",
-            "--ds-input-text": "#edf4ff",
-            "--ds-input-placeholder": "#95a7c3",
-            "--ds-input-shadow":
-              "inset 0 1px 2px rgba(0,0,0,0.52), 0 0 0 1px rgba(104,149,183,0.16)",
-            "--ds-body-bg-image":
-              "radial-gradient(74% 56% at 14% 12%, rgba(110,235,255,0.15), transparent 44%), radial-gradient(70% 52% at 84% 18%, rgba(255,118,216,0.14), transparent 42%), conic-gradient(from 206deg at 56% 84%, rgba(86,120,255,0.13), rgba(110,255,214,0.09), rgba(255,128,210,0.1), rgba(86,120,255,0.13)), linear-gradient(180deg, #04070b 0%, #090e15 54%, #05080d 100%)",
-            "--ds-card-bg-image":
-              "linear-gradient(146deg, rgba(255,255,255,0.05), rgba(114,233,255,0.08), rgba(255,143,210,0.08), rgba(255,255,255,0.03))",
-          },
           "graphic-signal": {
-            "--ds-font-sans":
-              '"Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif',
-            "--ds-font-mono":
-              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
-            "--ds-fs-1": "12px",
-            "--ds-fs-2": "15px",
-            "--ds-fs-3": "18px",
-            "--ds-fs-4": "26px",
-            "--ds-fs-5": "36px",
-            "--ds-lh-base": "1.34",
             "--ds-radius-1": "0px",
             "--ds-radius-2": "0px",
             "--ds-radius-3": "2px",
@@ -4432,40 +5001,10 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-border-style": "solid",
             "--ds-label-transform": "uppercase",
             "--ds-label-spacing": "0.14em",
-            "--ds-card-shadow":
-              "0 10px 22px color-mix(in oklab,var(--ds-border) 18%, transparent)",
-            "--ds-card-bg-image":
-              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 3%, white), color-mix(in oklab,var(--ds-bg) 8%, transparent))",
-            "--ds-btn-bg": "var(--ds-text)",
-            "--ds-btn-bg-hover":
-              "color-mix(in oklab, var(--ds-text) 88%, var(--ds-accent) 12%)",
-            "--ds-btn-border": "transparent",
-            "--ds-btn-text": "var(--ds-bg-elevated)",
-            "--ds-btn-primary-bg": "var(--ds-accent)",
-            "--ds-btn-primary-bg-hover":
-              "color-mix(in oklab, var(--ds-accent) 88%, white 12%)",
-            "--ds-btn-primary-border": "var(--ds-accent-strong)",
-            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
-            "--ds-input-bg": "var(--ds-bg-elevated)",
-            "--ds-input-border": "var(--ds-bg)",
-            "--ds-input-text": "var(--ds-text)",
-            "--ds-input-placeholder": "var(--ds-text-muted)",
-            "--ds-input-shadow":
-              "inset 0 0 0 1px color-mix(in oklab,var(--ds-text) 10%, transparent)",
-            "--ds-body-bg-image":
-              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 2%, white), var(--ds-bg))",
+            "--ds-card-shadow": "0 12px 24px rgba(0,0,0,0.16)",
+            "--ds-input-shadow": "inset 0 0 0 1px rgba(0,0,0,0.08)",
           },
           "graphic-diagram": {
-            "--ds-font-sans":
-              '"Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif',
-            "--ds-font-mono":
-              '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
-            "--ds-fs-1": "12px",
-            "--ds-fs-2": "15px",
-            "--ds-fs-3": "18px",
-            "--ds-fs-4": "26px",
-            "--ds-fs-5": "36px",
-            "--ds-lh-base": "1.34",
             "--ds-radius-1": "0px",
             "--ds-radius-2": "0px",
             "--ds-radius-3": "2px",
@@ -4475,131 +5014,239 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-border-style": "solid",
             "--ds-label-transform": "uppercase",
             "--ds-label-spacing": "0.14em",
+            "--ds-card-shadow": "0 12px 24px rgba(0,0,0,0.16)",
+            "--ds-input-shadow": "inset 0 0 0 1px rgba(0,0,0,0.08)",
+          },
+        });
+        Object.assign(stylePresets, {
+          "old-web": {
+            "--ds-radius-1": "0px",
+            "--ds-radius-2": "0px",
+            "--ds-radius-3": "0px",
+            "--ds-radius-4": "0px",
+            "--ds-radius-pill": "0px",
+            "--ds-border-w": "2px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.08em",
             "--ds-card-shadow":
-              "0 10px 22px color-mix(in oklab,var(--ds-border) 18%, transparent)",
-            "--ds-card-bg-image":
-              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 3%, white), color-mix(in oklab,var(--ds-bg) 8%, transparent))",
-            "--ds-btn-bg": "var(--ds-accent)",
-            "--ds-btn-bg-hover":
-              "color-mix(in oklab, var(--ds-accent) 88%, white 12%)",
-            "--ds-btn-border": "var(--ds-text)",
-            "--ds-btn-text": "var(--ds-bg-elevated)",
-            "--ds-btn-primary-bg": "var(--ds-text)",
-            "--ds-btn-primary-bg-hover":
-              "color-mix(in oklab, var(--ds-text) 88%, var(--ds-accent) 12%)",
-            "--ds-btn-primary-border": "var(--ds-text)",
-            "--ds-btn-primary-text": "var(--ds-bg-elevated)",
-            "--ds-input-bg": "var(--ds-bg-elevated)",
-            "--ds-input-border": "color-mix(in oklab, var(--ds-text) 22%, var(--ds-border))",
-            "--ds-input-text": "var(--ds-text)",
-            "--ds-input-placeholder": "var(--ds-text-muted)",
+              "0 0 0 2px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.16) inset, 0 0 0 2px color-mix(in oklab,var(--ds-border) 45%, transparent)",
             "--ds-input-shadow":
-              "inset 0 0 0 1px color-mix(in oklab,var(--ds-text) 10%, transparent)",
-            "--ds-body-bg-image":
-              "linear-gradient(180deg, color-mix(in oklab,var(--ds-bg) 2%, white), var(--ds-bg))",
+              "inset 0 0 0 1px rgba(255,255,255,0.11), inset 0 -1px 0 rgba(0,0,0,0.35)",
+          },
+          "candy-pop": {
+            "--ds-radius-1": "8px",
+            "--ds-radius-2": "14px",
+            "--ds-radius-3": "20px",
+            "--ds-radius-4": "26px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "none",
+            "--ds-label-spacing": "0.03em",
+            "--ds-card-shadow":
+              "0 10px 24px rgba(170,96,164,0.18), inset 0 1px 0 rgba(255,255,255,0.75)",
+            "--ds-input-shadow":
+              "inset 0 1px 2px rgba(207,138,193,0.24), 0 0 0 1px rgba(255,255,255,0.6)",
+          },
+          "complimentary-gradient": {
+            "--ds-radius-1": "6px",
+            "--ds-radius-2": "12px",
+            "--ds-radius-3": "16px",
+            "--ds-radius-4": "22px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.07em",
+            "--ds-card-shadow":
+              "0 12px 26px rgba(44,58,99,0.14), 0 0 0 1px rgba(124,147,211,0.24) inset",
+            "--ds-input-shadow":
+              "inset 0 1px 2px rgba(50,62,99,0.18), 0 0 0 1px rgba(176,191,235,0.3)",
+          },
+          "vaporwave-neon": {
+            "--ds-radius-1": "2px",
+            "--ds-radius-2": "8px",
+            "--ds-radius-3": "12px",
+            "--ds-radius-4": "16px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.11em",
+            "--ds-card-shadow":
+              "0 0 0 1px color-mix(in oklab,var(--ds-accent) 35%, transparent) inset, 0 0 22px color-mix(in oklab,var(--ds-focus) 18%, transparent)",
+            "--ds-input-shadow":
+              "inset 0 0 0 1px rgba(255,255,255,0.06), 0 0 12px color-mix(in oklab,var(--ds-accent) 24%, transparent)",
+          },
+          "holo-nocturne": {
+            "--ds-radius-1": "9px",
+            "--ds-radius-2": "14px",
+            "--ds-radius-3": "20px",
+            "--ds-radius-4": "26px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.08em",
+            "--ds-card-shadow":
+              "0 20px 36px rgba(1,3,8,0.7), inset 0 0 0 1px rgba(255,255,255,0.05)",
+            "--ds-input-shadow":
+              "inset 0 1px 2px rgba(0,0,0,0.6), 0 0 0 1px rgba(117,173,218,0.18)",
+          },
+          "oilslick-organic": {
+            "--ds-radius-1": "10px",
+            "--ds-radius-2": "16px",
+            "--ds-radius-3": "22px",
+            "--ds-radius-4": "28px",
+            "--ds-radius-pill": "999px",
+            "--ds-border-w": "1px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.08em",
+            "--ds-card-shadow":
+              "0 16px 34px rgba(2,4,8,0.62), inset 0 0 0 1px rgba(255,255,255,0.05)",
+            "--ds-input-shadow":
+              "inset 0 1px 2px rgba(0,0,0,0.52), 0 0 0 1px rgba(104,149,183,0.16)",
           },
         });
         Object.assign(baseThemePresetMap, {
           "velvet-touch": {
             family: "neumorph",
             hue: "violet",
+            scheme: "velvet-violet",
             style: "neumorph",
-            scale: "comfortable",
-            texture: "soft-gradient",
+            typography: "velvet-sans",
+            scale: "soft-comfort",
+            texture: "velvet-soft",
           },
           "eva-wireframe": {
-            family: "signal",
+            family: "cathode",
             hue: "signal-red",
+            scheme: "eva-wire-alert",
             style: "eva-wire",
+            typography: "eva-wire-sans",
             scale: "compact",
-            texture: "noise-film",
+            texture: "eva-wire-base",
           },
           "eva-unit-01": {
             family: "signal",
             hue: "violet",
+            scheme: "eva-unit01",
             style: "eva-unit01",
+            typography: "eva-unit-sans",
             scale: "compact",
-            texture: "carbon-fiber",
+            texture: "eva-unit-base",
           },
           "saturn-alloy": {
             family: "alloy",
             hue: "platinum",
+            scheme: "saturn-alloy",
             style: "saturn-skeuo",
-            scale: "standard",
-            texture: "brushed-metal",
+            typography: "saturn-euro",
+            scale: "saturn-density",
+            texture: "saturn-space",
           },
           "old-web-portal": {
             family: "electric",
             hue: "ultraviolet",
+            scheme: "web-portal",
             style: "old-web",
+            typography: "portal-ui",
             scale: "compact",
-            texture: "pixel-grid",
+            texture: "portal-classic",
           },
           "candy-spectrum": {
             family: "pastel",
             hue: "magenta",
+            scheme: "candy-spectrum",
             style: "candy-pop",
+            typography: "neutral-ui",
             scale: "comfortable",
-            texture: "spectrum-wash",
+            texture: "candy-bloom",
           },
           "complementary-wave": {
             family: "bold",
             hue: "cobalt",
+            scheme: "complementary-wave",
             style: "complimentary-gradient",
+            typography: "neutral-ui",
             scale: "standard",
-            texture: "spectrum-wash",
+            texture: "wave-paper",
           },
           "sunset-pop": {
             family: "sunset",
             hue: "magenta",
+            scheme: "vaporwave-neon",
             style: "vaporwave-neon",
+            typography: "neutral-ui",
             scale: "comfortable",
-            texture: "wire-grid",
+            texture: "sunset-grid",
           },
           "holo-nocturne": {
             family: "alloy",
             hue: "ultraviolet",
+            scheme: "holo-nocturne",
             style: "holo-nocturne",
+            typography: "display-scale",
             scale: "standard",
-            texture: "clean",
+            texture: "holo-dark",
           },
           "oilslick-nacre": {
             family: "alloy",
             hue: "teal",
+            scheme: "oilslick-organic",
             style: "oilslick-organic",
+            typography: "oilslick-scale",
             scale: "standard",
-            texture: "nacre-flow",
+            texture: "oilslick-dark",
           },
           "signal-poster": {
             family: "signal-paper",
             hue: "orange",
+            scheme: "signal-poster",
             style: "graphic-signal",
+            typography: "poster-grotesk",
             scale: "standard",
-            texture: "clean",
+            texture: "poster-paper",
           },
           "signal-diagram": {
             family: "signal-paper",
             hue: "orange",
+            scheme: "signal-diagram",
             style: "graphic-diagram",
+            typography: "poster-grotesk",
             scale: "standard",
-            texture: "clean",
+            texture: "poster-paper",
           },
         });
         const familyPresetSelect =
           document.getElementById("familyPresetSelect");
         const huePresetSelect = document.getElementById("huePresetSelect");
+        const schemePresetSelect =
+          document.getElementById("schemePresetSelect");
         const stylePresetSelect = document.getElementById("stylePresetSelect");
+        const typographyPresetSelect = document.getElementById(
+          "typographyPresetSelect",
+        );
         const scalePresetSelect = document.getElementById("scalePresetSelect");
         const texturePresetSelect =
           document.getElementById("texturePresetSelect");
+        const autoApplyPresetToggle = document.getElementById(
+          "autoApplyPresetToggle",
+        );
         familyPresetSelect.title =
           "Color family controls the tonal system (light/dark bias, contrast, saturation model).";
         huePresetSelect.title =
           "Hue controls the primary color identity applied to accent/state tokens.";
+        schemePresetSelect.title =
+          "Scheme controls component-level color behavior and expressive accent logic.";
         stylePresetSelect.title =
-          "Style controls geometry, typography, and material behavior.";
+          "Style controls geometry, borders, depth, and interaction language.";
+        typographyPresetSelect.title =
+          "Typography controls font voice, type scale, and reading rhythm.";
         scalePresetSelect.title =
-          "Scale controls spacing, control heights, and typographic density.";
+          "Scale controls spacing and control heights only.";
         texturePresetSelect.title =
           "Texture controls noise/gradient/blur dynamics layered over surfaces.";
         function fillPresetSelect(el, dict) {
@@ -4612,40 +5259,73 @@ Do not occlude the trigger element when contextual help opens.</pre
         }
         fillPresetSelect(familyPresetSelect, colorFamilyPresets);
         fillPresetSelect(huePresetSelect, huePresets);
+        fillPresetSelect(schemePresetSelect, schemePresets);
         fillPresetSelect(stylePresetSelect, stylePresets);
+        fillPresetSelect(typographyPresetSelect, typographyPresets);
         fillPresetSelect(scalePresetSelect, scalePresets);
         fillPresetSelect(texturePresetSelect, texturePresets);
         familyPresetSelect.value = "bold";
         huePresetSelect.value = "cyan";
+        schemePresetSelect.value = "standard";
         stylePresetSelect.value = "material";
+        typographyPresetSelect.value = "neutral-ui";
         scalePresetSelect.value = "standard";
         texturePresetSelect.value = "clean";
         function inferTexturePreset(styleKey) {
           const map = {
-            terminal: "wire-grid",
+            "base-default": "clean",
+            terminal: "terminal-screen",
             technical: "clean",
             paper: "paper-grain",
             skeuo: "soft-gradient",
             glassmorph: "frosted-glass",
             material: "clean",
             "hud-glow": "wire-grid",
-            neumorph: "soft-gradient",
-            "eva-wire": "noise-film",
-            "eva-unit01": "carbon-fiber",
+            neumorph: "soft-ambient",
+            "eva-wire": "eva-wire-base",
+            "eva-unit01": "eva-unit-base",
             "saturn-skeuo": "brushed-metal",
-            "old-web": "pixel-grid",
-            "terminal-amber": "noise-film",
+            "old-web": "portal-classic",
+            "terminal-amber": "amber-screen",
             "candy-pop": "spectrum-wash",
             "complimentary-gradient": "spectrum-wash",
             "vaporwave-neon": "wire-grid",
-            "holo-nocturne": "clean",
-            "oilslick-organic": "nacre-flow",
-            "graphic-signal": "clean",
-            "graphic-diagram": "clean",
+            "holo-nocturne": "holo-dark",
+            "oilslick-organic": "oilslick-dark",
+            "graphic-signal": "poster-paper",
+            "graphic-diagram": "poster-paper",
           };
           return map[styleKey] || "clean";
         }
+        function inferTypographyPreset(styleKey) {
+          const map = {
+            "base-default": "neutral-ui",
+            terminal: "terminal-glow",
+            "terminal-amber": "terminal-glow",
+            technical: "technical-mono",
+            paper: "mint-humanist",
+            skeuo: "mint-humanist",
+            glassmorph: "neutral-ui",
+            material: "neutral-ui",
+            neumorph: "soft-display",
+            "eva-wire": "eva-wire-sans",
+            "eva-unit01": "eva-unit-sans",
+            "saturn-skeuo": "saturn-euro",
+            "old-web": "portal-ui",
+            "graphic-signal": "poster-grotesk",
+            "graphic-diagram": "poster-grotesk",
+          };
+          return map[styleKey] || "neutral-ui";
+        }
         Object.keys(baseThemePresetMap).forEach((k) => {
+          if (!baseThemePresetMap[k].scheme) {
+            baseThemePresetMap[k].scheme = "standard";
+          }
+          if (!baseThemePresetMap[k].typography) {
+            baseThemePresetMap[k].typography = inferTypographyPreset(
+              baseThemePresetMap[k].style,
+            );
+          }
           if (!baseThemePresetMap[k].texture) {
             baseThemePresetMap[k].texture = inferTexturePreset(
               baseThemePresetMap[k].style,
@@ -4653,16 +5333,6 @@ Do not occlude the trigger element when contextual help opens.</pre
           }
         });
         const paletteLockedStyles = new Set([
-          "terminal-amber",
-          "eva-wire",
-          "eva-unit01",
-          "saturn-skeuo",
-          "old-web",
-          "candy-pop",
-          "complimentary-gradient",
-          "vaporwave-neon",
-          "holo-nocturne",
-          "oilslick-organic",
         ]);
         function auditPresetConnectivity() {
           const issues = [];
@@ -4675,6 +5345,14 @@ Do not occlude the trigger element when contextual help opens.</pre
             }
             if (!stylePresets[combo.style]) {
               issues.push(themeName + " missing style preset: " + combo.style);
+            }
+            if (!schemePresets[combo.scheme]) {
+              issues.push(themeName + " missing scheme preset: " + combo.scheme);
+            }
+            if (!typographyPresets[combo.typography]) {
+              issues.push(
+                themeName + " missing typography preset: " + combo.typography,
+              );
             }
             if (!scalePresets[combo.scale]) {
               issues.push(themeName + " missing scale preset: " + combo.scale);
@@ -4822,9 +5500,17 @@ Do not occlude the trigger element when contextual help opens.</pre
             100,
           );
           const isLight = fam.mode === "light";
-          const textSat = isLight
+          let textSat = isLight
             ? Math.max(6, sat * 0.18)
             : Math.max(8, sat * 0.24);
+          let mutedTextSat = clamp(sat * 0.2, 8, 30);
+          if (familyKey === "cathode" || familyKey === "electric") {
+            textSat = clamp(sat * 0.74, 34, 92);
+            mutedTextSat = clamp(sat * 0.52, 20, 68);
+          } else if (familyKey === "signal") {
+            textSat = clamp(sat * 0.52, 24, 82);
+            mutedTextSat = clamp(sat * 0.36, 16, 56);
+          }
           const textColor = hsl(h, textSat, fam.textL);
           const textInverseColor = isLight ? "#0f1216" : "#f6fbff";
           const primaryBgColor = hsl(h, aSat, fam.accentL);
@@ -4844,7 +5530,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-bg-raised": hsl(h, clamp(sat * 0.3, 8, 40), fam.raisedL),
             "--ds-bg-soft": hsl(h, clamp(sat * 0.36, 10, 46), fam.softL),
             "--ds-text": textColor,
-            "--ds-text-muted": hsl(h, clamp(sat * 0.2, 8, 30), fam.mutedL),
+            "--ds-text-muted": hsl(h, mutedTextSat, fam.mutedL),
             "--ds-text-inverse": textInverseColor,
             "--ds-border": hsl(h, clamp(sat * 0.26, 8, 36), fam.borderL),
             "--ds-border-strong": hsl(
@@ -4914,15 +5600,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-bg-overlay": isLight
               ? "rgba(24,26,30,0.15)"
               : "rgba(5,9,15,0.72)",
-            "--ds-body-bg-image": "none",
-            "--ds-card-bg-image": "none",
           };
-          if (familyKey === "cathode" || familyKey === "electric") {
-            bundle["--ds-body-bg-image"] =
-              "radial-gradient(circle at 20% 8%, color-mix(in oklab, var(--ds-accent) 26%, transparent), transparent 45%), repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 2px, transparent 2px, transparent 6px)";
-            bundle["--ds-card-bg-image"] =
-              "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05))";
-          }
           if (familyKey === "electric") {
             bundle["--ds-bg-overlay"] = "rgba(2,7,14,0.8)";
             bundle["--ds-focus"] = hsl(h, 100, 82);
@@ -4935,23 +5613,12 @@ Do not occlude the trigger element when contextual help opens.</pre
           }
           if (familyKey === "neumorph") {
             bundle["--ds-bg-overlay"] = "rgba(73,84,104,0.24)";
-            bundle["--ds-body-bg-image"] =
-              "radial-gradient(circle at 20% 10%, rgba(255,255,255,0.55), transparent 40%)";
-            bundle["--ds-card-bg-image"] =
-              "linear-gradient(150deg, rgba(255,255,255,0.28), rgba(203,214,233,0.22))";
           }
           if (familyKey === "signal") {
             bundle["--ds-bg-overlay"] = "rgba(2,3,6,0.84)";
-            bundle["--ds-body-bg-image"] =
-              "repeating-linear-gradient(0deg, color-mix(in oklab,var(--ds-focus) 14%, transparent) 0 1px, transparent 1px 22px), repeating-linear-gradient(90deg, color-mix(in oklab,var(--ds-accent) 10%, transparent) 0 1px, transparent 1px 18px)";
-            bundle["--ds-card-bg-image"] = "none";
           }
           if (familyKey === "alloy") {
             bundle["--ds-bg-overlay"] = "rgba(9,10,14,0.66)";
-            bundle["--ds-body-bg-image"] =
-              "linear-gradient(150deg, rgba(255,255,255,0.08), transparent 30%), repeating-linear-gradient(110deg, rgba(255,255,255,0.035) 0 2px, rgba(0,0,0,0.02) 2px 4px)";
-            bundle["--ds-card-bg-image"] =
-              "linear-gradient(180deg, rgba(255,255,255,0.18), rgba(26,30,38,0.14))";
           }
           // Keep status tones constrained for monochrome/noir families.
           if (familyKey === "monochrome" || familyKey === "noir") {
@@ -5224,23 +5891,293 @@ Do not occlude the trigger element when contextual help opens.</pre
         function setTokenBundle(b) {
           Object.keys(b).forEach((t) => root.style.setProperty(t, b[t]));
         }
+        function describePresetValue(value) {
+          return String(value || "")
+            .replace(/-/g, " ")
+            .replace(/\b\w/g, (m) => m.toUpperCase());
+        }
+        function applyPresetComboBundle(combo) {
+          root.removeAttribute("data-theme");
+          setTokenBundle(buildColorBundle(combo.family, combo.hue));
+          setTokenBundle(schemePresets[combo.scheme || "standard"]);
+          setTokenBundle(stylePresets[combo.style]);
+          setTokenBundle(scalePresets[combo.scale]);
+          setTokenBundle(
+            typographyPresets[
+              combo.typography || inferTypographyPreset(combo.style)
+            ],
+          );
+          setTokenBundle(
+            texturePresets[combo.texture || inferTexturePreset(combo.style)],
+          );
+        }
+        const presetDomainAllowList = {
+          family: ["semantic", "component"],
+          hue: ["semantic", "component"],
+          scheme: ["semantic", "component"],
+          style: ["geometry", "effects"],
+          typography: ["typography"],
+          scale: ["density"],
+          texture: ["texture"],
+        };
+        const presetDomainCollections = {
+          scheme: schemePresets,
+          style: stylePresets,
+          typography: typographyPresets,
+          scale: scalePresets,
+          texture: texturePresets,
+        };
+        function classifyPresetTokenDomain(token) {
+          if (
+            /^--ds-(bg($|-)|text($|-)|border($|-strong$)|accent($|-)|focus$|success$|warning$|danger$|info$|bg-overlay$)/.test(
+              token,
+            )
+          ) {
+            return "semantic";
+          }
+          if (/^--ds-(btn|input|chip|tab|check)-/.test(token)) {
+            return "component";
+          }
+          if (/^--ds-native-/.test(token)) {
+            return "component";
+          }
+          if (/^--ds-card-border$/.test(token)) {
+            return "component";
+          }
+          if (
+            /^--ds-(radius-|border-w$|border-style$|label-transform$|label-spacing$)/.test(
+              token,
+            )
+          ) {
+            return "geometry";
+          }
+          if (
+            /^--ds-(space-|layout-gap$|card-pad$|control-h($|-sm$)|size-header-control$)/.test(
+              token,
+            )
+          ) {
+            return "density";
+          }
+          if (/^--ds-(font-|fs-|lh-base$)/.test(token)) {
+            return "typography";
+          }
+          if (
+            /^--ds-((body|card|control)-bg-image$|(body|card|control)-texture-image$|texture-blend$|texture-strength$|.*backdrop-blur$)/.test(
+              token,
+            )
+          ) {
+            return "texture";
+          }
+          if (/^--ds-btn-press-transform$/.test(token)) {
+            return "effects";
+          }
+          if (/^--ds-(shadow-|card-shadow$|btn-shadow|input-shadow$)/.test(token)) {
+            return "effects";
+          }
+          return "other";
+        }
+        function auditPresetBundleDomains(type, presetName, bundle) {
+          const allowedDomains = presetDomainAllowList[type] || [];
+          if (!bundle) return [];
+          return Object.keys(bundle)
+            .filter((token) => token.indexOf("--ds-") === 0)
+            .map((token) => {
+              const domain = classifyPresetTokenDomain(token);
+              return {
+                presetType: type,
+                presetName: presetName,
+                token: token,
+                domain: domain,
+                allowedDomains: allowedDomains,
+              };
+            })
+            .filter(
+              (entry) =>
+                entry.domain === "other" ||
+                entry.allowedDomains.indexOf(entry.domain) === -1,
+            );
+        }
+        function auditAllPresetDefinitionDomains() {
+          const issues = [];
+          Object.entries(presetDomainCollections).forEach(([type, collection]) => {
+            Object.entries(collection).forEach(([presetName, bundle]) => {
+              issues.push(
+                ...auditPresetBundleDomains(type, presetName, bundle),
+              );
+            });
+          });
+          return issues;
+        }
+        function auditThemePresetDomainUsage(theme) {
+          const combo = baseThemePresetMap[theme];
+          if (!combo) return [];
+          const colorBundleIssues = auditPresetBundleDomains(
+            "family",
+            combo.family + " + " + combo.hue,
+            buildColorBundle(combo.family, combo.hue),
+          ).map((issue) => ({
+            ...issue,
+            presetType: "family/hue",
+          }));
+          return colorBundleIssues.concat([
+            ["scheme", combo.scheme || "standard"],
+            ["style", combo.style],
+            ["typography", combo.typography || inferTypographyPreset(combo.style)],
+            ["scale", combo.scale],
+            ["texture", combo.texture || inferTexturePreset(combo.style)],
+          ].flatMap(([type, presetName]) =>
+            auditPresetBundleDomains(
+              type,
+              presetName,
+              presetDomainCollections[type][presetName],
+            ),
+          ));
+        }
+        function updatePresetDomainAuditReadout() {
+          const output = document.getElementById("presetDomainAuditOutput");
+          const hint = document.getElementById("presetDomainAuditHint");
+          if (!output || !hint || !themeSelect) return;
+          const currentTheme = themeSelect.value;
+          const themeIssues = auditThemePresetDomainUsage(currentTheme);
+          const globalIssues = auditAllPresetDefinitionDomains();
+          if (!globalIssues.length) {
+            hint.textContent =
+              "No preset-domain leaks detected in the currently defined scheme, style, typography, scale, or texture presets.";
+            output.textContent = "No domain leaks detected.";
+            return;
+          }
+          const globalSummary = Object.entries(
+            globalIssues.reduce((acc, issue) => {
+              const key = issue.presetType + ":" + issue.presetName;
+              acc[key] = (acc[key] || 0) + 1;
+              return acc;
+            }, {}),
+          )
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 8)
+            .map(
+              ([key, count]) =>
+                key.replace(":", " -> ") + " (" + count + " leak" + (count === 1 ? "" : "s") + ")",
+            );
+          if (!themeIssues.length) {
+            hint.textContent =
+              "The selected base theme recipe is staying inside its intended preset domains. Global preset leaks still exist elsewhere.";
+            output.textContent =
+              "Current theme recipe: clean.\n\nGlobal leak hotspots:\n" +
+              globalSummary.join("\n");
+            return;
+          }
+          hint.textContent =
+            themeIssues.length +
+            " domain leak" +
+            (themeIssues.length === 1 ? "" : "s") +
+            " found in the selected base theme recipe.";
+          output.textContent = themeIssues
+            .slice(0, 12)
+            .map(
+              (issue) =>
+                issue.presetType +
+                " / " +
+                issue.presetName +
+                "\n  token:   " +
+                issue.token +
+                "\n  domain:  " +
+                issue.domain +
+                "\n  allowed: " +
+                issue.allowedDomains.join(", "),
+            )
+            .join("\n\n");
+          if (globalSummary.length) {
+            output.textContent +=
+              "\n\nGlobal leak hotspots:\n" + globalSummary.join("\n");
+          }
+        }
+        function currentPresetSelection() {
+          return {
+            family: familyPresetSelect.value,
+            hue: huePresetSelect.value,
+            scheme: schemePresetSelect.value,
+            style: stylePresetSelect.value,
+            typography: typographyPresetSelect.value,
+            scale: scalePresetSelect.value,
+            texture: texturePresetSelect.value,
+          };
+        }
+        function selectionMatchesBaseTheme(theme, selection) {
+          const base = baseThemePresetMap[theme];
+          const current = selection || currentPresetSelection();
+          if (!base) return false;
+          return (
+            base.family === current.family &&
+            base.hue === current.hue &&
+            (base.scheme || "standard") === current.scheme &&
+            base.style === current.style &&
+            (base.typography || inferTypographyPreset(base.style)) ===
+              current.typography &&
+            base.scale === current.scale &&
+            (base.texture || inferTexturePreset(base.style)) === current.texture
+          );
+        }
+        function updatePresetRecipeReadout() {
+          const output = document.getElementById("presetRecipeOutput");
+          const hint = document.getElementById("presetRecipeHint");
+          if (!output || !hint) return;
+          const theme = themeSelect ? themeSelect.value : root.getAttribute("data-theme");
+          const base = baseThemePresetMap[theme];
+          const current = currentPresetSelection();
+          const lines = [
+            "Base Theme: " + describePresetValue(theme || "custom"),
+            "",
+            "Family     " + describePresetValue(current.family),
+            "Hue        " + describePresetValue(current.hue),
+            "Scheme     " + describePresetValue(current.scheme),
+            "Style      " + describePresetValue(current.style),
+            "Typography " + describePresetValue(current.typography),
+            "Scale      " + describePresetValue(current.scale),
+            "Texture    " + describePresetValue(current.texture),
+          ];
+          if (base) {
+            const matchesBase = selectionMatchesBaseTheme(theme, current);
+            hint.textContent = matchesBase
+              ? "This stack matches the selected base theme recipe. Apply will restore the exact base theme."
+              : "This stack currently diverges from the selected base theme recipe.";
+          } else {
+            hint.textContent =
+              "This stack reflects the current custom preset selection.";
+          }
+          output.textContent = lines.join("\n");
+        }
         function setPresetSelectors(combo) {
           if (!combo) return;
           familyPresetSelect.value = combo.family;
           huePresetSelect.value = combo.hue;
+          schemePresetSelect.value = combo.scheme || "standard";
           stylePresetSelect.value = combo.style;
+          typographyPresetSelect.value =
+            combo.typography || inferTypographyPreset(combo.style);
           scalePresetSelect.value = combo.scale;
           texturePresetSelect.value =
             combo.texture || inferTexturePreset(combo.style);
+          updatePresetRecipeReadout();
+          updatePresetDomainAuditReadout();
         }
         function applySelectedPresetCombo() {
-          root.removeAttribute("data-theme");
-          setTokenBundle(
-            buildColorBundle(familyPresetSelect.value, huePresetSelect.value),
-          );
-          setTokenBundle(stylePresets[stylePresetSelect.value]);
-          setTokenBundle(scalePresets[scalePresetSelect.value]);
-          setTokenBundle(texturePresets[texturePresetSelect.value]);
+          const theme = themeSelect ? themeSelect.value : "";
+          if (selectionMatchesBaseTheme(theme)) {
+            clearOverrides();
+            root.setAttribute("data-theme", theme);
+            updatePresetRecipeReadout();
+            updatePresetDomainAuditReadout();
+            return;
+          }
+          applyPresetComboBundle(currentPresetSelection());
+          updatePresetRecipeReadout();
+          updatePresetDomainAuditReadout();
+        }
+        function applyPresetSelectionFromLoader() {
+          clearOverrides();
+          applySelectedPresetCombo();
+          syncControlsFromComputed();
         }
         function syncControlsFromComputed() {
           const cs = getComputedStyle(root);
@@ -6212,7 +7149,7 @@ Do not occlude the trigger element when contextual help opens.</pre
             token.indexOf("--ds-card-pad") === 0 ||
             token.indexOf("--ds-control-h") === 0
           )
-            return "Layout token for spacing, density, and component sizing.";
+            return "Layout token for spacing, density, and component sizing only.";
           if (
             token.indexOf("--ds-font") === 0 ||
             token.indexOf("--ds-fs") === 0 ||
@@ -6347,6 +7284,38 @@ Do not occlude the trigger element when contextual help opens.</pre
             applyBuilderPresentation();
           });
         }
+        if (autoApplyPresetToggle) {
+          autoApplyPresetToggle.checked =
+            localStorage.getItem(autoApplyPresetKey) !== "0";
+          autoApplyPresetToggle.addEventListener("change", function () {
+            localStorage.setItem(
+              autoApplyPresetKey,
+              this.checked ? "1" : "0",
+            );
+          });
+        }
+        [
+          familyPresetSelect,
+          huePresetSelect,
+          schemePresetSelect,
+          stylePresetSelect,
+          typographyPresetSelect,
+          scalePresetSelect,
+          texturePresetSelect,
+        ].forEach((el) => {
+          if (!el) return;
+          el.addEventListener("input", () => {
+            updatePresetRecipeReadout();
+            updatePresetDomainAuditReadout();
+          });
+          el.addEventListener("change", () => {
+            updatePresetRecipeReadout();
+            updatePresetDomainAuditReadout();
+            if (autoApplyPresetToggle && autoApplyPresetToggle.checked) {
+              applyPresetSelectionFromLoader();
+            }
+          });
+        });
         renderBuilder();
         attachBuilderLearningTools();
         renderBuilderGroupTabs();
@@ -6357,6 +7326,8 @@ Do not occlude the trigger element when contextual help opens.</pre
         if (initialCombo) {
           setPresetSelectors(initialCombo);
         }
+        updatePresetRecipeReadout();
+        updatePresetDomainAuditReadout();
         syncControlsFromComputed();
         function sanitizeThemeName(raw) {
           return (
@@ -6393,13 +7364,7 @@ Do not occlude the trigger element when contextual help opens.</pre
           return { name, block };
         }
         function performReset() {
-          const theme = themeSelect.value;
-          clearOverrides();
-          root.setAttribute("data-theme", theme);
-          localStorage.setItem(storageKey, theme);
-          const combo = baseThemePresetMap[theme];
-          if (combo) setPresetSelectors(combo);
-          syncControlsFromComputed();
+          applyPresetSelectionFromLoader();
         }
         function downloadBlob(filename, blob) {
           const url = URL.createObjectURL(blob);
@@ -6506,7 +7471,9 @@ Do not occlude the trigger element when contextual help opens.</pre
             baseTheme: themeSelect.value,
             colorFamily: familyPresetSelect.value,
             hue: huePresetSelect.value,
+            scheme: schemePresetSelect.value,
             style: stylePresetSelect.value,
+            typography: typographyPresetSelect.value,
             scale: scalePresetSelect.value,
             texture: texturePresetSelect.value,
             generatedAt: new Date().toISOString(),
@@ -6538,9 +7505,7 @@ Do not occlude the trigger element when contextual help opens.</pre
         document
           .getElementById("applyPresetBtn")
           .addEventListener("click", function () {
-            clearOverrides();
-            applySelectedPresetCombo();
-            syncControlsFromComputed();
+            applyPresetSelectionFromLoader();
           });
         themeSelect.addEventListener("ds-theme-change", function () {
           const theme = themeSelect.value;
@@ -6550,9 +7515,9 @@ Do not occlude the trigger element when contextual help opens.</pre
             setPresetSelectors(combo);
           }
           syncControlsFromComputed();
-          const activeWikiBtn = wikiNavButtons.find(
-            (btn) => btn.getAttribute("aria-pressed") === "true",
-          );
+          const activeWikiBtn = Array.from(
+            document.querySelectorAll(".wiki-nav button[data-doc]"),
+          ).find((btn) => btn.getAttribute("aria-pressed") === "true");
           if (activeWikiBtn) {
             setActiveWikiDoc(activeWikiBtn.getAttribute("data-doc"));
           }
@@ -6808,6 +7773,7 @@ Do not occlude the trigger element when contextual help opens.</pre
           }),
         );
         const wikiFrame = document.getElementById("wikiFrame");
+        const wikiQaPanel = document.getElementById("wikiQaPanel");
         const wikiNavButtons = Array.from(
           document.querySelectorAll(".wiki-nav-btn"),
         );
@@ -6834,6 +7800,12 @@ Do not occlude the trigger element when contextual help opens.</pre
             iframeRoot.style.setProperty(prop, src.getPropertyValue(prop));
           }
         }
+        function syncWikiQaPanel(docPath) {
+          if (!wikiQaPanel) return;
+          const showQa =
+            String(docPath || "").toLowerCase() === "../_docs/qa.md";
+          wikiQaPanel.hidden = !showQa;
+        }
         function setActiveWikiDoc(docPath) {
           if (!wikiFrame || !docPath) return;
           wikiNavButtons.forEach((btn) => {
@@ -6848,6 +7820,7 @@ Do not occlude the trigger element when contextual help opens.</pre
           } else {
             syncWikiThemeTokens();
           }
+          syncWikiQaPanel(docPath);
         }
         if (wikiFrame && wikiNavButtons.length) {
           wikiFrame.addEventListener("load", function () {
@@ -7466,4 +8439,5 @@ Do not occlude the trigger element when contextual help opens.</pre
     </script>
   </body>
 </html>
+
 
