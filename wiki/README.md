@@ -11,6 +11,7 @@ This folder contains the design guide source files used as the Studio wiki index
 - `THEME_PRESET_MAP.md`
 - `THEME_PACKAGE.md`
 - `ICONOGRAPHY.md`
+- `ICON_LIBRARY_WORKFLOW.md`
 - `CONTENT_UX.md`
 - `VALIDATION_CHECKLIST.md`
 - `../_docs/QA.md` (live audit workflow surfaced through the Studio wiki)

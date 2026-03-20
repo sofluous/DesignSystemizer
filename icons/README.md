@@ -14,6 +14,9 @@ This folder stores SVG source icons used across apps.
 
 ## Workflow
 1. Track needed icon situations in Studio `Icons` tab.
-2. Prioritize via Hitlist score.
-3. Replace placeholders with final SVGs here.
-4. Re-export and consume in apps via inline SVG or symbol sprites.
+2. Review the semantic alias, default guess, and candidate sources from `js/icon-registry.js`.
+3. Prioritize via Hitlist score.
+4. Override the default selection if a better source icon is found.
+5. Export the alias manifest to preserve the chosen mapping.
+6. Replace placeholders or vendor picks with final SVGs here.
+7. Consume in apps via DS semantic aliases rather than vendor icon names directly.

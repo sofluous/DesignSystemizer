@@ -30,3 +30,11 @@ Create a coherent in-house icon library with consistent visual grammar and usage
 - Source: SVG
 - Component wrapping strategy (future): sprite or inline helpers
 - Versioning by changelog entry
+
+## Semantic Library Workflow
+1. Track icon situations by DS semantic alias first, not vendor icon name.
+2. Maintain candidate options in `js/icon-registry.js`.
+3. Assign a `defaultCandidateId` as the first-pass best guess.
+4. Override the choice when a better semantic fit is found.
+5. Export the alias manifest from Studio so apps can consume stable DS mappings.
+6. Replace vendor selections with local DS SVGs over time without changing the alias contract.
