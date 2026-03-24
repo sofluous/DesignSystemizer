@@ -3973,6 +3973,19 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-control-h": "44px",
             "--ds-control-h-sm": "36px",
           },
+          "rr4-compact": {
+            "--ds-space-1": "3px",
+            "--ds-space-2": "6px",
+            "--ds-space-3": "10px",
+            "--ds-space-4": "14px",
+            "--ds-space-5": "18px",
+            "--ds-space-6": "22px",
+            "--ds-space-8": "28px",
+            "--ds-layout-gap": "12px",
+            "--ds-card-pad": "14px",
+            "--ds-control-h": "34px",
+            "--ds-control-h-sm": "28px",
+          },
         };
         const texturePresets = {
           clean: {
@@ -4071,6 +4084,23 @@ Do not occlude the trigger element when contextual help opens.</pre
               "repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 2px, rgba(0,0,0,0.09) 2px 4px)",
             "--ds-texture-blend": "multiply",
             "--ds-texture-strength": "0.28",
+            "--ds-body-backdrop-blur": "0px",
+            "--ds-card-backdrop-blur": "0px",
+            "--ds-control-backdrop-blur": "0px",
+          },
+          "rr4-slipstream": {
+            "--ds-body-bg-image":
+              "linear-gradient(145deg, rgba(255,214,79,0.68) 0%, rgba(233,164,5,0.14) 34%, rgba(255,255,255,0) 66%), radial-gradient(circle at 78% 14%, rgba(255,236,170,0.3), transparent 30%), linear-gradient(180deg, #f4bf1b 0%, #e9ab07 100%)",
+            "--ds-card-bg-image":
+              "linear-gradient(180deg, rgba(255,255,255,0.2), rgba(0,0,0,0.03))",
+            "--ds-body-texture-image":
+              "linear-gradient(90deg, transparent 0 18%, rgba(255,255,255,0.14) 18% 18.4%, transparent 18.4% 42%, rgba(0,0,0,0.08) 42% 42.5%, transparent 42.5% 100%), radial-gradient(circle at 50% 100%, rgba(255,255,255,0.08) 0 1px, transparent 1px 8px)",
+            "--ds-card-texture-image":
+              "linear-gradient(90deg, rgba(255,255,255,0.08), transparent 20%, transparent 80%, rgba(0,0,0,0.06))",
+            "--ds-control-texture-image":
+              "linear-gradient(90deg, rgba(255,255,255,0.12), transparent 18%), linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.04))",
+            "--ds-texture-blend": "overlay",
+            "--ds-texture-strength": "0.24",
             "--ds-body-backdrop-blur": "0px",
             "--ds-card-backdrop-blur": "0px",
             "--ds-control-backdrop-blur": "0px",
@@ -4641,6 +4671,28 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-input-text": "var(--ds-text)",
             "--ds-input-placeholder": "#67686d",
           },
+          "rr4-sprint": {
+            "--ds-btn-bg":
+              "linear-gradient(180deg, color-mix(in oklab, white 76%, var(--ds-bg-elevated) 24%) 0%, color-mix(in oklab, var(--ds-bg-elevated) 82%, black 18%) 100%)",
+            "--ds-btn-bg-hover":
+              "linear-gradient(180deg, color-mix(in oklab, white 84%, var(--ds-bg-elevated) 16%) 0%, color-mix(in oklab, var(--ds-bg-elevated) 76%, black 24%) 100%)",
+            "--ds-btn-border": "var(--ds-text)",
+            "--ds-btn-text": "var(--ds-text)",
+            "--ds-btn-primary-bg": "var(--ds-text)",
+            "--ds-btn-primary-bg-hover":
+              "color-mix(in oklab, var(--ds-text) 88%, black 12%)",
+            "--ds-btn-primary-border": "var(--ds-text)",
+            "--ds-btn-primary-text": "var(--ds-text-inverse)",
+            "--ds-input-bg":
+              "linear-gradient(180deg, color-mix(in oklab, white 62%, var(--ds-bg-elevated) 38%) 0%, color-mix(in oklab, var(--ds-bg-elevated) 70%, black 30%) 100%)",
+            "--ds-input-border": "var(--ds-text)",
+            "--ds-input-text": "var(--ds-text)",
+            "--ds-input-placeholder":
+              "color-mix(in oklab, var(--ds-text) 48%, var(--ds-bg-elevated) 52%)",
+            "--ds-chip-bg": "var(--ds-text)",
+            "--ds-chip-border": "var(--ds-text)",
+            "--ds-chip-text": "var(--ds-text-inverse)",
+          },
           "eva-wire-alert": {
             "--ds-text":
               "color-mix(in oklab, var(--ds-accent) 88%, white 12%)",
@@ -5030,6 +5082,18 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-fs-5": "34px",
             "--ds-lh-base": "1.42",
           },
+          "rr4-arcade": {
+            "--ds-font-sans":
+              '"Arial Black", Impact, "Arial Narrow", "Helvetica Neue", Arial, sans-serif',
+            "--ds-font-mono":
+              '"Lucida Console", "OCR A Std", Consolas, monospace',
+            "--ds-fs-1": "12px",
+            "--ds-fs-2": "15px",
+            "--ds-fs-3": "18px",
+            "--ds-fs-4": "28px",
+            "--ds-fs-5": "38px",
+            "--ds-lh-base": "1.32",
+          },
         };
         const baseThemePresetMap = {
           "steel-night": {
@@ -5166,6 +5230,20 @@ Do not occlude the trigger element when contextual help opens.</pre
             borderStrongL: 10,
             accentL: 52,
             accentSat: 92,
+          },
+          "race-ui": {
+            mode: "light",
+            sat: 78,
+            bgL: 50,
+            elevL: 94,
+            raisedL: 84,
+            softL: 78,
+            textL: 10,
+            mutedL: 34,
+            borderL: 16,
+            borderStrongL: 8,
+            accentL: 50,
+            accentSat: 98,
           },
         });
         Object.assign(stylePresets, {
@@ -5320,6 +5398,25 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-label-spacing": "0.14em",
             "--ds-card-shadow": "0 12px 24px rgba(0,0,0,0.16)",
             "--ds-input-shadow": "inset 0 0 0 1px rgba(0,0,0,0.08)",
+          },
+          "rr4-racing": {
+            "--ds-radius-1": "0px",
+            "--ds-radius-2": "0px",
+            "--ds-radius-3": "2px",
+            "--ds-radius-4": "4px",
+            "--ds-radius-pill": "0px",
+            "--ds-border-w": "2px",
+            "--ds-border-style": "solid",
+            "--ds-label-transform": "uppercase",
+            "--ds-label-spacing": "0.14em",
+            "--ds-shadow-sm": "none",
+            "--ds-shadow-md": "none",
+            "--ds-card-shadow": "none",
+            "--ds-btn-shadow": "none",
+            "--ds-btn-shadow-hover": "none",
+            "--ds-btn-shadow-active": "none",
+            "--ds-input-shadow": "none",
+            "--ds-btn-press-transform": "none",
           },
         });
         Object.assign(stylePresets, {
@@ -5523,6 +5620,15 @@ Do not occlude the trigger element when contextual help opens.</pre
             scale: "standard",
             texture: "poster-paper",
           },
+          "type-four-sprint": {
+            family: "race-ui",
+            hue: "yellow",
+            scheme: "rr4-sprint",
+            style: "rr4-racing",
+            typography: "rr4-arcade",
+            scale: "rr4-compact",
+            texture: "rr4-slipstream",
+          },
         });
         const familyPresetSelect =
           document.getElementById("familyPresetSelect");
@@ -5724,6 +5830,15 @@ Do not occlude the trigger element when contextual help opens.</pre
         function rotate(h, d) {
           return (h + d + 360) % 360;
         }
+        function hueEnergyLift(h) {
+          const hue = ((h % 360) + 360) % 360;
+          if (hue >= 40 && hue <= 72) return 0;
+          if (hue < 20 || hue > 330) return 8;
+          if (hue < 40) return 4;
+          if (hue <= 170) return 5;
+          if (hue <= 260) return 12;
+          return 8;
+        }
         function hslToRgb(h, s, l) {
           const hue = ((h % 360) + 360) % 360;
           const sat = clamp(s, 0, 100) / 100;
@@ -5804,6 +5919,13 @@ Do not occlude the trigger element when contextual help opens.</pre
             100,
           );
           const isLight = fam.mode === "light";
+          let surfaceSatBg = clamp(sat * 0.22, 5, 34);
+          let surfaceSatElevated = clamp(sat * 0.24, 6, 36);
+          let surfaceSatRaised = clamp(sat * 0.3, 8, 40);
+          let surfaceSatSoft = clamp(sat * 0.36, 10, 46);
+          let borderSat = clamp(sat * 0.26, 8, 36);
+          let borderStrongSat = clamp(sat * 0.34, 12, 44);
+          let accentL = fam.accentL;
           let textSat = isLight
             ? Math.max(6, sat * 0.18)
             : Math.max(8, sat * 0.24);
@@ -5814,39 +5936,49 @@ Do not occlude the trigger element when contextual help opens.</pre
           } else if (familyKey === "signal") {
             textSat = clamp(sat * 0.52, 24, 82);
             mutedTextSat = clamp(sat * 0.36, 16, 56);
+          } else if (familyKey === "race-ui") {
+            surfaceSatBg = clamp(sat * 0.9, 64, 96);
+            surfaceSatElevated = clamp(sat * 0.035, 1, 5);
+            surfaceSatRaised = clamp(sat * 0.05, 2, 7);
+            surfaceSatSoft = clamp(sat * 0.07, 3, 9);
+            borderSat = clamp(sat * 0.04, 2, 6);
+            borderStrongSat = clamp(sat * 0.05, 2, 7);
+            textSat = clamp(sat * 0.05, 2, 7);
+            mutedTextSat = clamp(sat * 0.08, 4, 10);
+            accentL = clamp(fam.accentL + hueEnergyLift(h), 28, 66);
           }
           const textColor = hsl(h, textSat, fam.textL);
           const textInverseColor = isLight ? "#0f1216" : "#f6fbff";
-          const primaryBgColor = hsl(h, aSat, fam.accentL);
+          const primaryBgColor = hsl(h, aSat, accentL);
           const textContrast = contrastRatio(
             hslToRgb(h, textSat, fam.textL),
-            hslToRgb(h, aSat, fam.accentL),
+            hslToRgb(h, aSat, accentL),
           );
           const inverseContrast = contrastRatio(
             hexToRgb(textInverseColor),
-            hslToRgb(h, aSat, fam.accentL),
+            hslToRgb(h, aSat, accentL),
           );
           const primaryTextColor =
             inverseContrast >= textContrast ? textInverseColor : textColor;
           const bundle = {
-            "--ds-bg": hsl(h, clamp(sat * 0.22, 5, 34), fam.bgL),
-            "--ds-bg-elevated": hsl(h, clamp(sat * 0.24, 6, 36), fam.elevL),
-            "--ds-bg-raised": hsl(h, clamp(sat * 0.3, 8, 40), fam.raisedL),
-            "--ds-bg-soft": hsl(h, clamp(sat * 0.36, 10, 46), fam.softL),
+            "--ds-bg": hsl(h, surfaceSatBg, fam.bgL),
+            "--ds-bg-elevated": hsl(h, surfaceSatElevated, fam.elevL),
+            "--ds-bg-raised": hsl(h, surfaceSatRaised, fam.raisedL),
+            "--ds-bg-soft": hsl(h, surfaceSatSoft, fam.softL),
             "--ds-text": textColor,
             "--ds-text-muted": hsl(h, mutedTextSat, fam.mutedL),
             "--ds-text-inverse": textInverseColor,
-            "--ds-border": hsl(h, clamp(sat * 0.26, 8, 36), fam.borderL),
+            "--ds-border": hsl(h, borderSat, fam.borderL),
             "--ds-border-strong": hsl(
               h,
-              clamp(sat * 0.34, 12, 44),
+              borderStrongSat,
               fam.borderStrongL,
             ),
-            "--ds-accent": hsl(h, aSat, fam.accentL),
+            "--ds-accent": hsl(h, aSat, accentL),
             "--ds-accent-strong": hsl(
               h,
               aSat,
-              clamp(fam.accentL + (isLight ? -9 : 8), 6, 94),
+              clamp(accentL + (isLight ? -9 : 8), 6, 94),
             ),
             "--ds-accent-alt":
               "color-mix(in oklab, var(--ds-accent) 68%, var(--ds-focus) 32%)",
@@ -5855,38 +5987,38 @@ Do not occlude the trigger element when contextual help opens.</pre
             "--ds-focus": hsl(
               h,
               clamp(aSat * 0.92, 0, 100),
-              clamp(fam.accentL + (isLight ? -5 : 16), 6, 96),
+              clamp(accentL + (isLight ? -5 : 16), 6, 96),
             ),
             "--ds-success": hsl(
               rotate(h, 118),
               clamp(aSat * 0.74, 20, 95),
-              clamp(fam.accentL + (isLight ? -8 : 8), 8, 90),
+              clamp(accentL + (isLight ? -8 : 8), 8, 90),
             ),
             "--ds-warning": hsl(
               rotate(h, 54),
               clamp(aSat * 0.78, 20, 95),
-              clamp(fam.accentL + (isLight ? -2 : 10), 8, 90),
+              clamp(accentL + (isLight ? -2 : 10), 8, 90),
             ),
             "--ds-danger": hsl(
               rotate(h, -34),
               clamp(aSat * 0.8, 20, 95),
-              clamp(fam.accentL + (isLight ? -1 : 10), 8, 90),
+              clamp(accentL + (isLight ? -1 : 10), 8, 90),
             ),
             "--ds-info": hsl(
               rotate(h, 18),
               clamp(aSat * 0.72, 20, 95),
-              clamp(fam.accentL + (isLight ? -4 : 9), 8, 90),
+              clamp(accentL + (isLight ? -4 : 9), 8, 90),
             ),
             "--ds-btn-primary-bg": primaryBgColor,
             "--ds-btn-primary-bg-hover": hsl(
               h,
               aSat,
-              clamp(fam.accentL + (isLight ? -7 : 7), 6, 95),
+              clamp(accentL + (isLight ? -7 : 7), 6, 95),
             ),
             "--ds-btn-primary-border": hsl(
               h,
               clamp(aSat * 0.9, 0, 100),
-              clamp(fam.accentL + (isLight ? -13 : 2), 6, 95),
+              clamp(accentL + (isLight ? -13 : 2), 6, 95),
             ),
             "--ds-btn-primary-text": primaryTextColor,
             "--ds-btn-tertiary-bg":
@@ -5923,6 +6055,9 @@ Do not occlude the trigger element when contextual help opens.</pre
           }
           if (familyKey === "alloy") {
             bundle["--ds-bg-overlay"] = "rgba(9,10,14,0.66)";
+          }
+          if (familyKey === "race-ui") {
+            bundle["--ds-bg-overlay"] = "rgba(14,12,8,0.28)";
           }
           // Keep status tones constrained for monochrome/noir families.
           if (familyKey === "monochrome" || familyKey === "noir") {

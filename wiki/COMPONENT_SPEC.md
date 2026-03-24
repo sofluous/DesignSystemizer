@@ -218,6 +218,45 @@ Use this template for new components.
 - `--ds-field-row-gap`
 - `--ds-control-h-sm`
 
+### Compact Toolbar (`.ds-toolbar-compact`)
+- Intent: Dense action row for editors, inspectors, and utility shells.
+- Use When: A tool surface needs several secondary actions in one horizontal row.
+- Avoid When: Primary page-level CTAs need more visual breathing room.
+- Behavior:
+- Keeps controls wrapped but tighter than `.ds-toolbar`.
+- Works with `.ds-btn`, `.ds-select`, and `.ds-input`.
+- Token Mapping:
+- `--ds-toolbar-compact-gap`
+- `--ds-toolbar-compact-pad-x`
+- `--ds-toolbar-compact-pad-y`
+
+### Panel Scroll Shell (`.ds-panel-scroll`)
+- Intent: Standardized inner scroll region for side panels and inspector bodies.
+- Use When: A panel body needs stable padding and scrollbar behavior.
+- Avoid When: The host surface already owns spacing and overflow.
+- Behavior:
+- Applies stable scroll gutter, panel-friendly padding, and min-height safety.
+- Combine with `.ds-stack` when the panel body contains stacked sections.
+- Token Mapping:
+- `--ds-panel-scroll-pad-x`
+- `--ds-panel-scroll-pad-y`
+- `--ds-panel-scroll-gap`
+
+### Dense Table (`.ds-table-dense`)
+- Intent: Compact data/control table for editors and inspector-like UIs.
+- Use When: Rows contain toggles, icon actions, or short mappings.
+- Avoid When: Readability for large data tables matters more than density.
+- Behavior:
+- Smaller cell padding and header text.
+- Supports utility columns via `.ds-table-utility-col` / `.ds-table-utility-cell`.
+- Supports selected-state rows via `.ds-table-row-selected`.
+- Token Mapping:
+- `--ds-table-dense-cell-pad-y`
+- `--ds-table-dense-cell-pad-x`
+- `--ds-table-dense-font-size`
+- `--ds-table-dense-header-font-size`
+- `--ds-table-utility-col-w`
+
 ### Section Header (`.ds-section-header`)
 - Intent: Standardized section title/action row with predictable collapse affordance.
 - Use When: Collapsible control sections with terminal icon actions.
