@@ -3915,20 +3915,23 @@ Do not occlude the trigger element when contextual help opens.</pre
                       <h3>GitHub Workflow</h3>
                       <pre class="ds-code mono">
 1. Clone this repository
-2. Copy _DesignSystem into your app repo
-3. Set the root theme contract:
+2. Work in _DesignSystem as the canonical source
+3. Rebuild the generated app package:
+   _DesignSystem/_package/design-system/
+4. Copy that generated design-system folder into your app
+5. Set the root theme contract:
    &lt;html data-theme="steel-night" data-ds-theme-storage="app-theme" data-ds-theme-default="steel-night"&gt;
-4. Link your app HTML:
-   &lt;link rel="stylesheet" href="./_DesignSystem/theme.css"&gt;
-5. Add theme package scripts:
-   &lt;script src="./_DesignSystem/js/theme-registry.js"&gt;&lt;/script&gt;
-   &lt;script src="./_DesignSystem/js/theme-selector.js"&gt;&lt;/script&gt;
-6. Add a selector where needed:
+6. Link your app HTML:
+   &lt;link rel="stylesheet" href="./design-system/theme.css"&gt;
+7. Add theme package scripts:
+   &lt;script src="./design-system/js/theme-registry.js"&gt;&lt;/script&gt;
+   &lt;script src="./design-system/js/theme-selector.js"&gt;&lt;/script&gt;
+8. Add a selector where needed:
    &lt;select data-ds-theme-select&gt;&lt;/select&gt;
-7. Append custom exported themes to:
+9. When adding a new DS theme, update:
    _DesignSystem/css/themes.css
-8. Add new theme metadata to:
-   _DesignSystem/js/theme-registry.js</pre
+   _DesignSystem/js/theme-registry.js
+10. Rebuild the package before app rollout</pre
                       >
                     </article>
                     <article class="ds-card ds-card-secondary ds-stack">
@@ -3937,8 +3940,11 @@ Do not occlude the trigger element when contextual help opens.</pre
 1. Build your theme in Theme Builder
 2. Click Generate Export
 3. Click Download Theme Package
-4. Copy the packaged _DesignSystem folder into your project
-5. Follow INSTALL.md in the package</pre
+4. Use the package as an exported theme artifact
+5. For full app DS updates, rebuild:
+   _DesignSystem/_package/design-system/
+6. Copy that generated folder into your app
+7. Follow INSTALL.md in the package</pre
                        >
                     </article>
                     <article class="ds-card ds-card-secondary ds-stack">
@@ -3951,9 +3957,9 @@ Do not occlude the trigger element when contextual help opens.</pre
   data-ds-theme-default="steel-night"
 &gt;
 &lt;head&gt;
-  &lt;link rel="stylesheet" href="./_DesignSystem/theme.css"&gt;
-  &lt;script src="./_DesignSystem/js/theme-registry.js"&gt;&lt;/script&gt;
-  &lt;script src="./_DesignSystem/js/theme-selector.js"&gt;&lt;/script&gt;
+  &lt;link rel="stylesheet" href="./design-system/theme.css"&gt;
+  &lt;script src="./design-system/js/theme-registry.js"&gt;&lt;/script&gt;
+  &lt;script src="./design-system/js/theme-selector.js"&gt;&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;label for="themeSelectApp"&gt;Theme&lt;/label&gt;
@@ -9868,13 +9874,13 @@ Loading preset recipe...</pre
             {
               name: "INSTALL.md",
               content:
-                "1. Copy `" +
+                "1. Treat this as an exported theme artifact from Design System Studio.\n2. Copy `" +
                 themeName +
-                '.css` into your project styles folder.\n2. Append the block into your theme file (or import it).\n3. Add a matching entry to `_DesignSystem/js/theme-registry.js`.\n4. Ensure your app includes `<script src=\\"./_DesignSystem/js/theme-registry.js\\"><\\/script>` and `<script src=\\"./_DesignSystem/js/theme-selector.js\\"><\\/script>`.\n5. Set `<html data-theme=\\"' +
+                '.css` into your project styles folder.\n3. Append the block into your theme file (or import it).\n4. Add a matching entry to `design-system/js/theme-registry.js`.\n5. Ensure your app includes `<script src=\\"./design-system/js/theme-registry.js\\"><\\/script>` and `<script src=\\"./design-system/js/theme-selector.js\\"><\\/script>`.\n6. Set `<html data-theme=\\"' +
                 themeName +
                 '\\" data-ds-theme-storage=\\"app-theme\\" data-ds-theme-default=\\"' +
                 themeName +
-                '\\">` in your page.\n6. Add a selector where needed: `<select data-ds-theme-select></select>`.\n7. Ensure your app includes `_DesignSystem/theme.css` (or equivalent token+component files).\n',
+                '\\">` in your page.\n7. Add a selector where needed: `<select data-ds-theme-select></select>`.\n8. Ensure your app includes `design-system/theme.css` (or equivalent token+component files).\n9. For full app-wide DS updates, prefer rebuilding and copying `_DesignSystem/_package/design-system/` instead of manually editing the generated package.\n',
             },
             { name: themeName + ".css", content: themeBlock + "\n" },
             {

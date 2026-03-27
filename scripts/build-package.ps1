@@ -9,7 +9,7 @@ $sourceJs = Join-Path $root "js"
 $sourceIcons = Join-Path $root "icons"
 
 $packageRoot = Join-Path $root "_package"
-$bundleRoot = Join-Path $packageRoot "_DesignSystem"
+$bundleRoot = Join-Path $packageRoot "design-system"
 $bundleJs = Join-Path $bundleRoot "js"
 $bundleIcons = Join-Path $bundleRoot "icons"
 $installPath = Join-Path $bundleRoot "INSTALL.md"
@@ -50,15 +50,15 @@ $install = @(
   'This package is generated from `_DesignSystem`.'
   ''
   '## Recommended App Setup'
-  '1. Delete the old app-local `_DesignSystem` folder.'
-  '2. Copy this generated `_DesignSystem` folder into your app root.'
+  '1. Delete the old app-local `design-system` folder.'
+  '2. Copy this generated `design-system` folder into your app root.'
   '3. Add:'
   ''
   '```html'
   '<html data-theme="steel-night" data-ds-theme-storage="app-theme" data-ds-theme-default="steel-night">'
-  '<link rel="stylesheet" href="./_DesignSystem/theme.css" />'
-  '<script src="./_DesignSystem/js/theme-registry.js"></script>'
-  '<script src="./_DesignSystem/js/theme-selector.js"></script>'
+  '<link rel="stylesheet" href="./design-system/theme.css" />'
+  '<script src="./design-system/js/theme-registry.js"></script>'
+  '<script src="./design-system/js/theme-selector.js"></script>'
   '```'
   ''
   '4. Add a selector where needed:'

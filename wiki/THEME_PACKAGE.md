@@ -15,10 +15,10 @@ powershell -ExecutionPolicy Bypass -File .\_DesignSystem\scripts\build-package.p
 That creates:
 
 ```text
-_DesignSystem/_package/_DesignSystem/
+_DesignSystem/_package/design-system/
 ```
 
-Copy that generated `_DesignSystem` folder into the target app root.
+Copy that generated `design-system` folder into the target app root.
 
 ## Generated Package Files
 - `theme.css`
@@ -44,9 +44,9 @@ Copy that generated `_DesignSystem` folder into the target app root.
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./_DesignSystem/theme.css" />
-  <script src="./_DesignSystem/js/theme-registry.js"></script>
-  <script src="./_DesignSystem/js/theme-selector.js"></script>
+  <link rel="stylesheet" href="./design-system/theme.css" />
+  <script src="./design-system/js/theme-registry.js"></script>
+  <script src="./design-system/js/theme-selector.js"></script>
 </head>
 <body>
   <label for="themeSelectApp">Theme</label>
