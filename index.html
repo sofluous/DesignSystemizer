@@ -246,6 +246,71 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: start;
       }
+      .custom-demo-group-grid > .custom-demo {
+        min-width: 0;
+      }
+      .ds-production-toolbar {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--ds-space-3);
+        align-items: center;
+      }
+      .gizmo-layout {
+        display: grid;
+        gap: var(--ds-space-3);
+      }
+      .gizmo-shell,
+      .gizmo-stage {
+        min-width: 0;
+      }
+      .ds-master-panel {
+        display: grid;
+        gap: var(--ds-space-3);
+        padding: var(--ds-space-3);
+        border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+        border-radius: var(--ds-radius-2);
+        background: var(--ds-bg-soft);
+      }
+      .ds-master-tabs {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .ds-master-tabs .ds-btn[aria-selected="true"] {
+        border-color: var(--ds-accent);
+        background: color-mix(
+          in oklab,
+          var(--ds-accent) 14%,
+          var(--ds-btn-bg)
+        );
+      }
+      .ds-master-pane {
+        display: grid;
+        gap: var(--ds-space-3);
+      }
+      .ds-master-matrix {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--ds-space-3);
+      }
+      .ds-master-readout {
+        display: inline-flex;
+        justify-content: flex-end;
+        min-width: 4ch;
+        font-family: var(--ds-font-mono);
+        color: var(--ds-text-muted);
+      }
+      .ds-master-statusbar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--ds-space-2);
+        padding-top: var(--ds-space-2);
+        border-top: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+      }
+      .custom-demo-group-master {
+        grid-column: 1 / -1;
+      }
       .custom-demo-span {
         grid-column: 1 / -1;
       }
@@ -2402,8 +2467,10 @@
                     <div class="custom-components-grid">
                       <section class="custom-demo-group">
                         <div class="custom-demo-group-head ds-flow-copy">
-                          <h4 class="ds-card-title">Shells and Toolbars</h4>
-                          <p class="ds-muted">Primary chrome patterns for workspace framing and production actions.</p>
+                          <h4 class="ds-card-title">Workspace Chrome</h4>
+                          <p class="ds-muted">
+                            Primary shell framing, rail context, and top-level production actions.
+                          </p>
                         </div>
                         <div class="custom-demo-group-grid">
                           <section class="custom-demo custom-demo-span ds-card ds-stack">
@@ -2420,7 +2487,9 @@
                                 <button class="ds-sidebar-nav-item" type="button">History</button>
                               </aside>
                               <div class="ds-shell-main-demo">
-                                <p class="ds-muted">Use fixed-width sidebars for persistent navigation and settings context.</p>
+                                <p class="ds-muted">
+                                  Use fixed-width sidebars for persistent navigation and settings context.
+                                </p>
                                 <div class="ds-toolbar ds-toolbar-end">
                                   <button class="ds-btn ds-btn-sm" type="button">Discard</button>
                                   <button class="ds-btn ds-btn-primary ds-btn-sm" type="button">Apply</button>
@@ -2428,7 +2497,7 @@
                               </div>
                             </div>
                           </section>
-                          <section class="custom-demo ds-card ds-stack">
+                          <section class="custom-demo custom-demo-span ds-card ds-stack">
                             <strong>Production Toolbar</strong>
                             <div class="ds-production-toolbar">
                               <div class="ds-btn-group" role="group" aria-label="Tool actions">
@@ -2453,35 +2522,169 @@
                       <section class="custom-demo-group">
                         <div class="custom-demo-group-head ds-flow-copy">
                           <h4 class="ds-card-title">Inspector Utilities</h4>
-                          <p class="ds-muted">Compact header actions with persistent state and low-emphasis controls.</p>
+                          <p class="ds-muted">
+                            Compact header actions with persistent state and low-emphasis controls.
+                          </p>
                         </div>
                         <div class="custom-demo-group-grid">
-                          <section class="custom-demo ds-card ds-stack">
+                          <section class="custom-demo custom-demo-span ds-card ds-stack">
                             <header class="ds-card-head-actions">
                               <div class="ds-card-head-copy">
-                                <h4 class="ds-card-title">Inspector Header + Utility Actions</h4>
+                                <h4 class="ds-card-title">Inspector Utility States</h4>
                               </div>
                               <div class="ds-card-head-tools" aria-label="Inspector utility actions">
-                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="Help" aria-label="Help">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M9.4 9.2a2.8 2.8 0 0 1 5.2 1.45c0 1.7-1.82 2.27-2.6 3.32"></path><path d="M12 16.8h.01"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="More actions" aria-label="More actions">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
-                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="Help" aria-label="Help"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M9.4 9.2a2.8 2.8 0 0 1 5.2 1.45c0 1.7-1.82 2.27-2.6 3.32"></path><path d="M12 16.8h.01"></path></svg></button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="More actions" aria-label="More actions"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg></button>
                               </div>
                             </header>
-                            <article class="ds-inspector-header-demo">
-                              <div class="ds-section-header">
-                                <div class="ds-card-head-copy"><h5 class="ds-card-title">Layer: Front Wall</h5></div>
-                                <div class="ds-card-head-tools" aria-label="Layer utility actions">
-                                  <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="Visible" aria-label="Visible" aria-pressed="true"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.6 6-9.5 6-9.5-6-9.5-6z"></path><circle cx="12" cy="12" r="2.8"></circle></svg></button>
-                                  <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="Locked" aria-label="Locked" aria-pressed="true"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="10.5" width="11" height="8" rx="2"></rect><path d="M8.8 10.5V8.6a3.2 3.2 0 1 1 6.4 0v1.9"></path></svg></button>
-                                  <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="Collapse section" aria-label="Collapse section" aria-pressed="false"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-                                </div>
+                            <div class="ds-utility-demo-list" aria-label="Utility action behavior demo">
+                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Reference Overlay</strong><span class="ds-muted">Show or hide a supporting overlay without cluttering the header at rest.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text ds-utility-toggle" type="button" data-utility-toggle="visibility" data-on-label="Hide overlay" data-off-label="Show overlay" aria-label="Hide overlay" aria-pressed="true"></button></div></div>
+                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Warp Controls</strong><span class="ds-muted">Lock state stays visible when active and previews unlock on hover.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text ds-utility-toggle" type="button" data-utility-toggle="lock" data-on-label="Unlock controls" data-off-label="Lock controls" aria-label="Lock controls" aria-pressed="false"></button></div></div>
+                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Section Fold</strong><span class="ds-muted">Collapse toggles are low-emphasis until the row becomes active.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="Collapse section" aria-label="Collapse section" aria-pressed="false"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button></div></div>
+                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Overflow Menu</strong><span class="ds-muted">More-actions stays available without dominating the header layout.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="More actions" aria-label="More actions"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg></button></div></div>
+                            </div>
+                          </section>
+                        </div>
+                      </section>
+                      <section class="custom-demo-group custom-demo-group-master">
+                        <div class="custom-demo-group-head ds-flow-copy">
+                          <h4 class="ds-card-title">Master Control Panel</h4>
+                          <p class="ds-muted">
+                            Wide control surfaces should span the stage so range fields and status blocks have room.
+                          </p>
+                        </div>
+                        <div class="custom-demo-group-grid">
+                          <section class="custom-demo custom-demo-span ds-card ds-stack">
+                            <header class="ds-card-head-actions">
+                              <div class="ds-card-head-copy">
+                                <h4 class="ds-card-title">Master Control Panel</h4>
                               </div>
-                              <div class="ds-utility-demo-list" aria-label="Utility action behavior demo">
-                                <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Reference Overlay</strong><span class="ds-muted">Visibility stays visible when active, but otherwise reveals on row hover.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text ds-utility-toggle" type="button" data-utility-toggle="visibility" data-on-label="Hide overlay" data-off-label="Show overlay" aria-label="Hide overlay" aria-pressed="true"></button></div></div>
-                                <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Warp Controls</strong><span class="ds-muted">Unlocked utilities stay hidden until hover to reduce clutter in dense editors.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text ds-utility-toggle" type="button" data-utility-toggle="lock" data-on-label="Unlock controls" data-off-label="Lock controls" aria-label="Lock controls" aria-pressed="false"></button></div></div>
+                              <div class="ds-card-head-tools" aria-label="Master panel actions">
+                                <button class="ds-btn ds-btn-sm ds-btn-text" type="button">Reset</button>
+                                <button class="ds-btn ds-btn-sm ds-btn-primary" type="button">Commit</button>
+                              </div>
+                            </header>
+                            <article class="ds-master-panel">
+                              <div
+                                class="ds-master-tabs"
+                                role="tablist"
+                                aria-label="Master control sections"
+                              >
+                                <button
+                                  class="ds-btn ds-btn-sm"
+                                  type="button"
+                                  data-master-tab="masterPaneRender"
+                                  aria-selected="true"
+                                >
+                                  Render
+                                </button>
+                                <button
+                                  class="ds-btn ds-btn-sm"
+                                  type="button"
+                                  data-master-tab="masterPaneCamera"
+                                  aria-selected="false"
+                                >
+                                  Camera
+                                </button>
+                                <button
+                                  class="ds-btn ds-btn-sm"
+                                  type="button"
+                                  data-master-tab="masterPaneData"
+                                  aria-selected="false"
+                                >
+                                  Data
+                                </button>
+                              </div>
+                              <section class="ds-master-pane" id="masterPaneRender">
+                                <div class="ds-master-matrix">
+                                  <div class="ds-field">
+                                    <label class="ds-label" for="masterExposure">Exposure</label>
+                                    <div class="builder-field-row">
+                                      <input
+                                        id="masterExposure"
+                                        class="ds-input"
+                                        type="range"
+                                        min="0"
+                                        max="100"
+                                        value="62"
+                                      />
+                                      <span class="ds-master-readout" id="masterExposureValue"
+                                        >62</span
+                                      >
+                                    </div>
+                                  </div>
+                                  <div class="ds-field">
+                                    <label class="ds-label" for="masterGlow">Glow</label>
+                                    <div class="builder-field-row">
+                                      <input
+                                        id="masterGlow"
+                                        class="ds-input"
+                                        type="range"
+                                        min="0"
+                                        max="100"
+                                        value="28"
+                                      />
+                                      <span class="ds-master-readout" id="masterGlowValue"
+                                        >28</span
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                              </section>
+                              <section class="ds-master-pane" id="masterPaneCamera" hidden>
+                                <div class="ds-master-matrix">
+                                  <div class="ds-field">
+                                    <label class="ds-label" for="masterPanX">Pan X</label>
+                                    <div class="builder-field-row">
+                                      <input
+                                        id="masterPanX"
+                                        class="ds-input"
+                                        type="range"
+                                        min="-50"
+                                        max="50"
+                                        value="0"
+                                      />
+                                      <span class="ds-master-readout" id="masterPanXValue"
+                                        >0</span
+                                      >
+                                    </div>
+                                  </div>
+                                  <div class="ds-field">
+                                    <label class="ds-label" for="masterPanY">Pan Y</label>
+                                    <div class="builder-field-row">
+                                      <input
+                                        id="masterPanY"
+                                        class="ds-input"
+                                        type="range"
+                                        min="-50"
+                                        max="50"
+                                        value="0"
+                                      />
+                                      <span class="ds-master-readout" id="masterPanYValue"
+                                        >0</span
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                              </section>
+                              <section class="ds-master-pane" id="masterPaneData" hidden>
+                                <div class="ds-field">
+                                  <label class="ds-label" for="masterDataset">Dataset</label>
+                                  <select id="masterDataset" class="ds-select">
+                                    <option>Studio Assets</option>
+                                    <option>Projection Maps</option>
+                                    <option>Capture Queue</option>
+                                  </select>
+                                </div>
+                                <div class="ds-chip-strip">
+                                  <span class="ds-chip ds-chip-accent">Synced</span>
+                                  <span class="ds-chip">72 items</span>
+                                  <span class="ds-chip">Last import 14m ago</span>
+                                </div>
+                              </section>
+                              <div class="ds-master-statusbar">
+                                <span class="ds-muted">Scene master routing active</span>
+                                <span class="mono ds-muted">render/camera/data</span>
                               </div>
                             </article>
                           </section>
@@ -2490,7 +2693,9 @@
                       <section class="custom-demo-group">
                         <div class="custom-demo-group-head ds-flow-copy">
                           <h4 class="ds-card-title">Spatial Control Pads</h4>
-                          <p class="ds-muted">Dense directional widgets for camera and transform control.</p>
+                          <p class="ds-muted">
+                            Dense directional widgets for camera and transform control.
+                          </p>
                         </div>
                         <div class="custom-demo-group-grid">
                           <section class="custom-demo ds-card ds-stack">
@@ -3711,15 +3916,15 @@ Do not occlude the trigger element when contextual help opens.</pre
                       <pre class="ds-code mono">
 1. Clone this repository
 2. Copy _DesignSystem into your app repo
-3. Link your app HTML:
+3. Set the root theme contract:
+   &lt;html data-theme="steel-night" data-ds-theme-storage="app-theme" data-ds-theme-default="steel-night"&gt;
+4. Link your app HTML:
    &lt;link rel="stylesheet" href="./_DesignSystem/theme.css"&gt;
-4. Add theme package scripts:
+5. Add theme package scripts:
    &lt;script src="./_DesignSystem/js/theme-registry.js"&gt;&lt;/script&gt;
    &lt;script src="./_DesignSystem/js/theme-selector.js"&gt;&lt;/script&gt;
-5. Add a selector:
-   &lt;select data-ds-theme-select data-ds-theme-storage="app-theme"&gt;&lt;/select&gt;
-6. Set the theme on root:
-   &lt;html data-theme="steel-night"&gt;
+6. Add a selector where needed:
+   &lt;select data-ds-theme-select&gt;&lt;/select&gt;
 7. Append custom exported themes to:
    _DesignSystem/css/themes.css
 8. Add new theme metadata to:
@@ -3739,20 +3944,20 @@ Do not occlude the trigger element when contextual help opens.</pre
                     <article class="ds-card ds-card-secondary ds-stack">
                       <h3>App Integration Snippet</h3>
                       <pre class="ds-code mono">
-&lt;html lang="en" data-theme="steel-night"&gt;
+&lt;html
+  lang="en"
+  data-theme="steel-night"
+  data-ds-theme-storage="projektik-theme"
+  data-ds-theme-default="steel-night"
+&gt;
 &lt;head&gt;
   &lt;link rel="stylesheet" href="./_DesignSystem/theme.css"&gt;
+  &lt;script src="./_DesignSystem/js/theme-registry.js"&gt;&lt;/script&gt;
+  &lt;script src="./_DesignSystem/js/theme-selector.js"&gt;&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;label for="themeSelectApp"&gt;Theme&lt;/label&gt;
-  &lt;select
-    id="themeSelectApp"
-    data-ds-theme-select
-    data-ds-theme-storage="projektik-theme"
-  &gt;&lt;/select&gt;
-
-  &lt;script src="./_DesignSystem/js/theme-registry.js"&gt;&lt;/script&gt;
-  &lt;script src="./_DesignSystem/js/theme-selector.js"&gt;&lt;/script&gt;
+  &lt;select id="themeSelectApp" data-ds-theme-select&gt;&lt;/select&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre
                       >
@@ -9665,9 +9870,11 @@ Loading preset recipe...</pre
               content:
                 "1. Copy `" +
                 themeName +
-                '.css` into your project styles folder.\n2. Append the block into your theme file (or import it).\n3. Add a matching entry to `_DesignSystem/js/theme-registry.js`.\n4. Ensure your app includes `<script src=\\"./_DesignSystem/js/theme-registry.js\\"><\\/script>` and `<script src=\\"./_DesignSystem/js/theme-selector.js\\"><\\/script>`.\n5. Add a selector like `<select data-ds-theme-select data-ds-theme-storage=\\"app-theme\\"></select>`.\n6. Set `<html data-theme=\\"' +
+                '.css` into your project styles folder.\n2. Append the block into your theme file (or import it).\n3. Add a matching entry to `_DesignSystem/js/theme-registry.js`.\n4. Ensure your app includes `<script src=\\"./_DesignSystem/js/theme-registry.js\\"><\\/script>` and `<script src=\\"./_DesignSystem/js/theme-selector.js\\"><\\/script>`.\n5. Set `<html data-theme=\\"' +
                 themeName +
-                '\\">` in your page.\n7. Ensure your app includes `_DesignSystem/theme.css` (or equivalent token+component files).\n',
+                '\\" data-ds-theme-storage=\\"app-theme\\" data-ds-theme-default=\\"' +
+                themeName +
+                '\\">` in your page.\n6. Add a selector where needed: `<select data-ds-theme-select></select>`.\n7. Ensure your app includes `_DesignSystem/theme.css` (or equivalent token+component files).\n',
             },
             { name: themeName + ".css", content: themeBlock + "\n" },
             {

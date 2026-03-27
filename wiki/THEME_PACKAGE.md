@@ -35,31 +35,36 @@ Copy that generated `_DesignSystem` folder into the target app root.
 ## Minimal App Setup
 ```html
 <!DOCTYPE html>
-<html lang="en" data-theme="steel-night">
+<html
+  lang="en"
+  data-theme="steel-night"
+  data-ds-theme-storage="my-app-theme"
+  data-ds-theme-default="steel-night"
+>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./_DesignSystem/theme.css" />
+  <script src="./_DesignSystem/js/theme-registry.js"></script>
+  <script src="./_DesignSystem/js/theme-selector.js"></script>
 </head>
 <body>
   <label for="themeSelectApp">Theme</label>
-  <select
-    id="themeSelectApp"
-    data-ds-theme-select
-    data-ds-theme-storage="my-app-theme"
-  ></select>
-
-  <script src="./_DesignSystem/js/theme-registry.js"></script>
-  <script src="./_DesignSystem/js/theme-selector.js"></script>
+  <select id="themeSelectApp" data-ds-theme-select></select>
 </body>
 </html>
 ```
 
 ## Behavior
+- `theme-selector.js` now auto-applies the root theme from:
+  - saved `localStorage` theme, then
+  - `<html data-theme="...">`, then
+  - `<html data-ds-theme-default="...">`
 - The selector options are built automatically from `js/theme-registry.js`.
 - The selected theme is applied to `<html data-theme="...">`.
 - The selected theme is persisted using `data-ds-theme-storage`.
-- If no saved theme exists, the root `data-theme` value is used as fallback.
+- Selectors inherit `data-ds-theme-storage` and `data-ds-theme-default` from `<html>` unless they override them locally.
+- No page-specific theme bootstrapping is required for standard installs.
 
 ## Why This Is Better Than Manual Copying
 - one folder replaces the app-local DS package
@@ -74,7 +79,7 @@ Copy that generated `_DesignSystem` folder into the target app root.
 4. Rebuild the package bundle.
 
 ## Optional Manual Initialization
-Use this if you want to control timing or behavior explicitly:
+Use this only if you need to override the standard root-driven behavior:
 
 ```html
 <script>
