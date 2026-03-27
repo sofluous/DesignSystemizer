@@ -89,6 +89,38 @@ Use this template for new components.
   - `--ds-icon-action-hover-bg`
   - `--ds-icon-action-active-bg`
   - `--ds-icon-action-border*`
+- Geometry Rule:
+- Default icon actions should be square or softly rounded-square.
+- Circular icon buttons are exception-only and should be reserved for cases with a strong platform or media-control reason.
+
+## 2a) Utility Icon Action
+- Intent: Low-emphasis, stateful utility control for shells, rows, rails, and inspector headers.
+- Use When:
+- Show/hide
+- Lock/unlock
+- Info/help
+- Expand/collapse
+- Settings/tune
+- More/overflow
+- Avoid When:
+- The action is the primary commit for a region.
+- The icon meaning is unclear without surrounding context.
+- Anatomy:
+- Compact button surface
+- Single icon glyph
+- Optional persistent selected/toggled state
+- Accessibility:
+- Requires `aria-label`.
+- Use `aria-pressed` for persistent toggles.
+- Add `title` for desktop discoverability when text is absent.
+- Rules:
+- Keep utility icon actions visually lighter than primary/secondary buttons.
+- Place them terminal/right in headers and rows unless the pattern explicitly calls for another position.
+- Active utility state should remain visible even when the surrounding row is not hovered.
+- Token Mapping:
+- Button base tokens
+- icon sizing tokens
+- active/selected button tokens
 
 ## 3) Text Input / Textarea / Select
 - Intent: Capture user-entered or selected values.
@@ -265,6 +297,59 @@ Use this template for new components.
 - `--ds-space-2`
 - icon action tokens (`--ds-icon-action-*`)
 
+### Card Head With Actions (`.ds-card-head-actions`)
+- Intent: Keep card titles/subtitles and utility actions aligned without collapsing the reading rhythm.
+- Use When: A card needs title/subtitle copy on the left and utility/commit actions on the right.
+- Avoid When: The card only needs copy; use `.ds-card-head` instead.
+- Anatomy:
+- `.ds-card-head-actions`
+- `.ds-card-head-copy`
+- `.ds-card-head-tools`
+- Rules:
+- Copy block owns title/subtitle rhythm.
+- Tool cluster should stay visually secondary unless it contains the one primary action for that region.
+- Action cluster should wrap safely without changing the copy rhythm.
+
+### Secondary Card Surface (`.ds-card-secondary`)
+- Intent: Differentiate nested/supporting cards from primary panel cards without making them read like inputs.
+- Use When: A card contains another card-like region and border-only separation is too weak.
+- Avoid When: Nesting exists only for spacing; use layout primitives instead.
+- Token Mapping:
+- `--ds-card-secondary-bg`
+- `--ds-card-secondary-border`
+- `--ds-card-secondary-shadow`
+- Rules:
+- Secondary level is optional, not mandatory.
+- Do not create more than one additional card emphasis level unless the workflow truly requires it.
+- Secondary surfaces must remain clearly different from interactive field surfaces.
+
+### Structural Card Surface (`.ds-card-structural`)
+- Intent: Allow a card container to behave as a layout/scaffolding region without adding another visible surface layer.
+- Use When: Alignment, rhythm, and grouping should provide the structure more than chrome.
+- Avoid When: Users need a clear supporting window or console panel; use `.ds-card-secondary` instead.
+- Token Mapping:
+- `--ds-card-structural-bg`
+- `--ds-card-structural-border`
+- `--ds-card-structural-shadow`
+- Rules:
+- Structural cards should stay visually quiet.
+- Use them to prevent unnecessary card stacking.
+- They should not compete with either primary cards or interactive control surfaces.
+
+### Read-Only Field Surface (`[readonly]`)
+- Intent: Separate non-editable values from interactive inputs without pushing them into the background.
+- Use When: Showing generated IDs, computed outputs, or locked metadata.
+- Token Mapping:
+- `--ds-input-readonly-bg`
+- `--ds-input-readonly-border`
+- `--ds-input-readonly-text`
+- `--ds-input-readonly-placeholder`
+- `--ds-input-readonly-shadow`
+- Rules:
+- Read-only fields should sit between nested support surfaces and active controls in the depth ladder.
+- They must not look identical to editable inputs.
+- They must remain more legible and foregrounded than background/structural surfaces.
+
 ### Tab Active Contrast
 - Intent: Ensure active tab text/icon readability across all themes.
 - Use When: Any selected tab/subtab state.
@@ -298,6 +383,23 @@ Use this template for new components.
 - Active nav item should remain visually distinct.
 - Token Mapping:
 - `--ds-layout-panel-w`, `--ds-bg-raised`, `--ds-border`, button/nav tokens.
+
+### Inspector Header Utilities
+- Intent: Keep title/subtitle copy readable while exposing low-emphasis header actions.
+- Use When: Inspectors, settings groups, layer panels, and contextual subpanels.
+- Anatomy:
+- Left: title/subtitle copy
+- Right: utility icon actions
+- Common actions:
+- show/hide
+- lock/unlock
+- info/help
+- settings/tune
+- collapse/expand
+- Rules:
+- Copy rhythm must remain primary.
+- Utility actions stay compact and terminal/right.
+- Do not substitute full-size buttons for header utilities unless the action is truly primary.
 
 ### Camera Controls Pad
 - Intent: Compact directional + zoom control cluster for canvas/map/viewport interactions.

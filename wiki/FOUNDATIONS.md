@@ -19,12 +19,36 @@
 - Borders: `--ds-border*`
 - States: `--ds-success|warning|danger|info`
 - Focus and accent: `--ds-focus`, `--ds-accent*`
+- Nested card surfaces: `--ds-card-secondary-*`
+- Structural card surfaces: `--ds-card-structural-*`
+- Read-only field surfaces: `--ds-input-readonly-*`
 
 ## Core Rules
 1. No hardcoded colors in app components when equivalent token exists.
 2. Use semantic tokens first; avoid direct foundation token usage in app UI where component tokens exist.
 3. Preserve contrast in all themes (text/background/state).
 4. Keep interaction motion subtle and deterministic.
+
+## Spacing Ownership Baseline
+- `--ds-space-*` defines the universal spacing scale.
+- `--ds-rhythm-*` defines how that scale is applied to reading and layout rhythm.
+- Layout primitives and parent containers own inter-item spacing.
+- Components own internal padding.
+- Cards/panels own edge padding.
+- Shells own gutters.
+- Children should not introduce arbitrary external margins when the parent already defines gap/rhythm.
+
+### Rhythm Hierarchy
+- `content rhythm` = spacing between closely related items in one section.
+- `section rhythm` = spacing before a new heading or section block.
+- `shell rhythm` = spacing between major panels or app regions.
+- Section rhythm must be visually larger than content rhythm or users will lose section boundaries while scanning.
+- Current baseline tokens:
+  - `--ds-rhythm-content-tight`
+  - `--ds-rhythm-content`
+  - `--ds-rhythm-title-body`
+  - `--ds-rhythm-section`
+  - `--ds-rhythm-shell`
 
 ## Theme Dynamics
 - Texture tokens (`--ds-*-texture-*`, blend, blur) are optional identity layers.

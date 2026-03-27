@@ -6,6 +6,11 @@
   --ds-space-5: 20px;
   --ds-space-6: 24px;
   --ds-space-8: 32px;
+  --ds-rhythm-content-tight: var(--ds-space-2);
+  --ds-rhythm-content: var(--ds-space-3);
+  --ds-rhythm-section: var(--ds-space-5);
+  --ds-rhythm-shell: var(--ds-space-6);
+  --ds-rhythm-title-body: var(--ds-space-2);
 
   --ds-radius-1: 4px;
   --ds-radius-2: 8px;
@@ -231,12 +236,47 @@
   --ds-card-border: var(--ds-border);
   --ds-card-radius: var(--ds-radius-3);
   --ds-card-shadow: var(--ds-shadow-sm);
+  --ds-card-top-rule-size: 0px;
+  --ds-card-top-rule-color: transparent;
+  --ds-card-structural-bg: transparent;
+  --ds-card-structural-border: transparent;
+  --ds-card-structural-shadow: none;
+  --ds-card-secondary-bg: color-mix(
+    in oklab,
+    var(--ds-card-bg) 84%,
+    var(--ds-bg-raised) 16%
+  );
+  --ds-card-secondary-border: color-mix(
+    in oklab,
+    var(--ds-card-border) 72%,
+    var(--ds-border-strong) 28%
+  );
+  --ds-card-secondary-shadow: none;
+  --ds-card-text: var(--ds-text);
+  --ds-card-text-muted: var(--ds-text-muted);
+  --ds-card-title-color: var(--ds-card-text);
+  --ds-card-subtitle-color: var(--ds-card-text-muted);
+  --ds-card-secondary-text: inherit;
+  --ds-card-secondary-text-muted: var(--ds-text-muted);
 
   --ds-input-bg: var(--ds-bg-raised);
   --ds-input-border: var(--ds-border);
   --ds-input-text: var(--ds-text);
   --ds-input-placeholder: var(--ds-text-muted);
   --ds-input-shadow: none;
+  --ds-input-readonly-bg: color-mix(
+    in oklab,
+    var(--ds-bg-elevated) 58%,
+    var(--ds-bg-raised) 42%
+  );
+  --ds-input-readonly-border: color-mix(
+    in oklab,
+    var(--ds-border) 74%,
+    var(--ds-border-strong) 26%
+  );
+  --ds-input-readonly-text: var(--ds-text);
+  --ds-input-readonly-placeholder: var(--ds-text-muted);
+  --ds-input-readonly-shadow: none;
   --ds-input-icon-color: color-mix(
     in oklab,
     var(--ds-input-text) 76%,

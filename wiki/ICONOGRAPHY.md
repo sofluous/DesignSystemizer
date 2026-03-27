@@ -18,6 +18,29 @@ Create a coherent in-house icon library with consistent visual grammar and usage
 2. Borderless icons are for low-emphasis utility actions.
 3. Primary actions should not rely on icon-only controls unless space constrained.
 4. Icons inside inputs must inherit tokenized input/icon colors.
+5. Utility action symbols should default to outline icons, not filled silhouettes.
+6. Utility icon buttons should use one family per surface and one stroke logic per app region.
+
+## Utility Symbol Source Of Truth
+- Preferred utility action set:
+  - show/hide
+  - lock/unlock
+  - info/help
+  - settings/tune
+  - more/overflow
+  - collapse/expand
+- Legibility rules:
+  - outline-first
+  - strong stroke contrast
+  - no accidental fill on line icons
+  - readable at compact button sizes
+- Behavior rules:
+  - active state remains visible at rest
+  - inactive state may stay hidden until row/header hover to reduce clutter
+  - hover may preview the next action state when that improves clarity
+- Geometry rules:
+  - square or softly rounded-square icon actions are the baseline
+  - circular utility buttons are exception-only
 
 ## Semantic Categories
 - Navigation

@@ -43,7 +43,7 @@
       }
       .wiki-article {
         display: grid;
-        gap: var(--ds-space-4);
+        gap: var(--ds-rhythm-section, var(--ds-space-4));
       }
       .wiki-header {
         display: flex;
@@ -60,8 +60,7 @@
         font-size: var(--ds-fs-1);
       }
       .wiki-content {
-        display: grid;
-        gap: var(--ds-space-3);
+        display: block;
         color: var(--ds-text, #eaf1ff);
       }
       .wiki-content h1,
@@ -74,6 +73,18 @@
       .wiki-content p {
         margin: 0;
         color: var(--ds-text, #eaf1ff);
+      }
+      .wiki-content > * {
+        margin: 0;
+      }
+      .wiki-content > * + * {
+        margin-top: var(--ds-rhythm-content, var(--ds-space-3));
+      }
+      .wiki-content > :is(h1, h2, h3, h4) + * {
+        margin-top: var(--ds-rhythm-title-body, var(--ds-space-2));
+      }
+      .wiki-content > * + :is(h1, h2, h3, h4) {
+        margin-top: var(--ds-rhythm-section, var(--ds-space-5));
       }
       .wiki-content ul,
       .wiki-content ol {
@@ -165,7 +176,7 @@
             >Open Raw</a
           >
         </header>
-        <section class="wiki-content" id="wikiContent"></section>
+        <section class="wiki-content ds-flow-copy" id="wikiContent"></section>
       </article>
     </main>
     <script>

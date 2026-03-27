@@ -1,15 +1,34 @@
-# [TASK: DesignSystem/Theme Package | Document Auto Theme Selector | v0.1]
+# [TASK: DesignSystem/Theme Package | Document Auto Theme Selector | v0.2]
 
 ## Purpose
 Use the Design System package as a drop-in theme layer for other apps without maintaining manual theme selector entries.
 
-## Package Files
+## Recommended Workflow
+Use the generated package bundle instead of manually copying scattered DS source files.
+
+Build it with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\_DesignSystem\scripts\build-package.ps1
+```
+
+That creates:
+
+```text
+_DesignSystem/_package/_DesignSystem/
+```
+
+Copy that generated `_DesignSystem` folder into the target app root.
+
+## Generated Package Files
 - `theme.css`
 - `js/theme-registry.js`
 - `js/theme-selector.js`
+- `icons/*`
+- `INSTALL.md`
 
 ## What Each File Does
-- `theme.css`: loads tokens, themes, and components.
+- `theme.css`: bundled tokens, themes, and components in one file.
 - `js/theme-registry.js`: stores the list of available themes and labels.
 - `js/theme-selector.js`: builds selectors from the registry, applies the selected theme, and persists it in `localStorage`.
 
@@ -42,10 +61,17 @@ Use the Design System package as a drop-in theme layer for other apps without ma
 - The selected theme is persisted using `data-ds-theme-storage`.
 - If no saved theme exists, the root `data-theme` value is used as fallback.
 
+## Why This Is Better Than Manual Copying
+- one folder replaces the app-local DS package
+- one CSS file reduces copy mistakes and stylesheet import indirection
+- easier diffing when upgrading apps
+- lower chance of partial updates where CSS and JS versions drift apart
+
 ## When Adding A New Theme
 1. Add the theme block to `css/themes.css`.
 2. Add its metadata entry to `js/theme-registry.js`.
 3. If Studio preset mapping is needed, add/update the matching entry in `index.html`.
+4. Rebuild the package bundle.
 
 ## Optional Manual Initialization
 Use this if you want to control timing or behavior explicitly:
@@ -67,3 +93,4 @@ Use this if you want to control timing or behavior explicitly:
 - This avoids parsing CSS to discover themes at runtime.
 - Keep theme values in CSS and theme metadata in the registry.
 - If an app needs a filtered selector, derive it from `window.DesignSystemThemeRegistry.themes`.
+- For your current static/local app setup, this generated single-folder package is the most practical “drag and drop” approach without introducing a full package manager or build pipeline.
