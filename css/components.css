@@ -653,7 +653,27 @@ p {
 
 /* Keep native select popup rows readable under themed text colors. */
 .ds-select {
-  color-scheme: light dark;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  color-scheme: var(--ds-native-color-scheme);
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%),
+    var(--ds-control-texture-image);
+  background-position:
+    calc(100% - 18px) calc(50% - 1px),
+    calc(100% - 12px) calc(50% - 1px),
+    0 0;
+  background-size:
+    6px 6px,
+    6px 6px,
+    auto;
+  background-repeat: no-repeat;
+  padding-right: calc(var(--ds-space-4) + 18px);
+  transition:
+    border-color var(--ds-dur-fast) var(--ds-ease-standard),
+    box-shadow var(--ds-dur-fast) var(--ds-ease-standard);
 }
 
 .ds-select option,
@@ -665,6 +685,15 @@ p {
 .ds-select option:checked {
   background: var(--ds-accent);
   color: var(--ds-text-inverse);
+}
+
+.ds-select:hover {
+  border-color: var(--ds-border-strong);
+}
+
+.ds-select:focus,
+.ds-select:active {
+  background-color: var(--ds-input-bg);
 }
 
 .ds-textarea {

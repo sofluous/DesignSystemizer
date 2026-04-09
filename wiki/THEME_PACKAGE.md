@@ -27,6 +27,17 @@ Copy that generated `design-system` folder into the target app root.
 - `icons/*`
 - `INSTALL.md`
 
+## Source Vs Package CSS
+- `_DesignSystem/theme.css`
+  - source entrypoint for Studio and local authoring
+  - loads split files from:
+    - `css/tokens.css`
+    - `css/themes.css`
+    - `css/components.css`
+- `_DesignSystem/_package/design-system/theme.css`
+  - generated bundled CSS for app consumption
+  - this is the file apps should link
+
 ## What Each File Does
 - `theme.css`: bundled tokens, themes, and components in one file.
 - `js/theme-registry.js`: stores the list of available themes and labels.

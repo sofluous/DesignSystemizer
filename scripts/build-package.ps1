@@ -1,7 +1,6 @@
 $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $PSScriptRoot
-$sourceTheme = Join-Path $root "theme.css"
 $sourceTokens = Join-Path $root "css/tokens.css"
 $sourceThemes = Join-Path $root "css/themes.css"
 $sourceComponents = Join-Path $root "css/components.css"
