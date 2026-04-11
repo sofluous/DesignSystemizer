@@ -181,12 +181,31 @@
   --ds-btn-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
   --ds-btn-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.08) inset;
   --ds-btn-shadow-active: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  --ds-btn-shadow-compact: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  --ds-btn-shadow-compact-hover: 0 1px 0 rgba(255, 255, 255, 0.07) inset;
+  --ds-btn-shadow-compact-active: 0 1px 1px rgba(0, 0, 0, 0.18) inset;
   --ds-btn-press-transform: translateY(1px);
+  --ds-btn-selected-bg: color-mix(in oklab, var(--ds-accent) 62%, var(--ds-bg-raised) 38%);
+  --ds-btn-selected-border: color-mix(in oklab, var(--ds-accent-strong) 78%, var(--ds-border) 22%);
+  --ds-btn-selected-text: var(--ds-text-inverse);
+  --ds-btn-selected-shadow: 0 0 0 1px color-mix(in oklab, var(--ds-accent) 14%, transparent),
+    var(--ds-btn-shadow-hover);
 
   --ds-btn-primary-bg: var(--ds-accent);
   --ds-btn-primary-border: var(--ds-accent-strong);
   --ds-btn-primary-text: var(--ds-text-inverse);
+  --ds-btn-primary-text-hover: var(--ds-btn-primary-text);
+  --ds-btn-primary-text-selected: var(--ds-btn-primary-text-hover);
   --ds-btn-primary-bg-hover: color-mix(in oklab, var(--ds-btn-primary-bg), white 10%);
+  --ds-btn-primary-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 10px 18px color-mix(in oklab, var(--ds-accent) 18%, transparent);
+  --ds-btn-primary-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 12px 22px color-mix(in oklab, var(--ds-accent) 22%, transparent);
+  --ds-btn-primary-shadow-active: 0 1px 2px color-mix(in oklab, var(--ds-accent-strong) 32%, transparent) inset;
+  --ds-btn-primary-shadow-compact: 0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 4px 8px color-mix(in oklab, var(--ds-accent) 14%, transparent);
+  --ds-btn-primary-shadow-compact-hover: 0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 5px 10px color-mix(in oklab, var(--ds-accent) 17%, transparent);
   --ds-tab-active-fg: var(--ds-accent);
   --ds-tab-active-bg: color-mix(
     in oklab,
@@ -207,9 +226,31 @@
     var(--ds-border) 38%
   );
   --ds-btn-tertiary-text: var(--ds-accent-alt);
+  --ds-btn-tertiary-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 12%, transparent);
+  --ds-btn-tertiary-shadow-hover: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 18%, transparent);
+  --ds-btn-tertiary-shadow-compact: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 10%, transparent);
+  --ds-btn-tertiary-shadow-compact-hover: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 14%, transparent);
   --ds-btn-text-quiet: var(--ds-text-muted);
   --ds-btn-text-quiet-hover: var(--ds-text);
   --ds-btn-text-quiet-active: var(--ds-accent);
+  --ds-btn-disabled-bg: color-mix(in oklab, var(--ds-btn-bg) 72%, var(--ds-bg) 28%);
+  --ds-btn-disabled-border: color-mix(in oklab, var(--ds-btn-border) 72%, var(--ds-border) 28%);
+  --ds-btn-disabled-text: color-mix(in oklab, var(--ds-btn-text) 70%, var(--ds-text-muted) 30%);
+  --ds-btn-primary-disabled-bg: color-mix(
+    in oklab,
+    var(--ds-btn-primary-bg) 64%,
+    var(--ds-bg-raised) 36%
+  );
+  --ds-btn-primary-disabled-border: color-mix(
+    in oklab,
+    var(--ds-btn-primary-border) 68%,
+    var(--ds-border) 32%
+  );
+  --ds-btn-primary-disabled-text: var(--ds-btn-disabled-text);
+  --ds-btn-danger-bg: color-mix(in oklab, var(--ds-danger) 20%, var(--ds-bg-raised));
+  --ds-btn-danger-bg-hover: color-mix(in oklab, var(--ds-danger) 28%, var(--ds-bg-raised));
+  --ds-btn-danger-border: color-mix(in oklab, var(--ds-danger) 65%, var(--ds-border));
+  --ds-btn-danger-text: var(--ds-danger);
   --ds-icon-action-size: var(--ds-btn-icon-size-sm);
   --ds-icon-action-radius: var(--ds-radius-1);
   --ds-icon-action-fg: var(--ds-btn-text-quiet);
@@ -236,6 +277,7 @@
   --ds-card-border: var(--ds-border);
   --ds-card-radius: var(--ds-radius-3);
   --ds-card-shadow: var(--ds-shadow-sm);
+  --ds-card-shadow-compact: var(--ds-card-shadow);
   --ds-card-top-rule-size: 0px;
   --ds-card-top-rule-color: transparent;
   --ds-card-structural-bg: transparent;
@@ -252,6 +294,7 @@
     var(--ds-border-strong) 28%
   );
   --ds-card-secondary-shadow: none;
+  --ds-card-secondary-shadow-compact: var(--ds-card-secondary-shadow);
   --ds-card-text: var(--ds-text);
   --ds-card-text-muted: var(--ds-text-muted);
   --ds-card-title-color: var(--ds-card-text);

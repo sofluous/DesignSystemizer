@@ -1,5 +1,5 @@
 /* Design system source entrypoint for Studio and local authoring. */
 /* Packaged apps should consume the generated bundled `design-system/theme.css`. */
-@import url("./css/tokens.css");
-@import url("./css/themes.css");
-@import url("./css/components.css");
+@import url("./css/tokens.css?v=0.6.4");
+@import url("./css/themes.css?v=0.6.4");
+@import url("./css/components.css?v=0.6.4");

@@ -227,11 +227,18 @@ Use this template for new components.
 
 ---
 
-## Coverage Next
-- Chips / Badges / Pills
-- Tabs / Accordion
-- Table / Data grid
-- Date and time controls
+## Coverage Status (Studio Implementation)
+- Base controls: buttons, icon buttons, inputs, textarea, select, checkbox/radio/switch, range.
+- Feedback/status: badges, chips, status text, meter, progress, toast stack, skeleton states.
+- Navigation/structure: tabs/subtabs, rail nav, segmented controls, dropdown menu, popover.
+- Surfaces/layout: cards (`default`, `secondary`, `structural`), drawers, modals, empty states.
+- Dense utilities: toolbar, toolbar-compact, field-row, panel-scroll, dense-table, section headers, utility icon actions.
+- Studio-specific templates: camera pad, production toolbar, master control panel, gizmo widget, snapshot card.
+
+## Remaining Coverage Work
+- Accordion contract normalization.
+- Date/time picker contract and native/themed behavior notes.
+- Expand command palette keyboard-state guidance from demo baseline to full command UX parity.
 
 ---
 
@@ -255,7 +262,8 @@ Use this template for new components.
 - Use When: A tool surface needs several secondary actions in one horizontal row.
 - Avoid When: Primary page-level CTAs need more visual breathing room.
 - Behavior:
-- Keeps controls wrapped but tighter than `.ds-toolbar`.
+- Desktop: keeps controls on a single horizontal row with inline scrolling.
+- Mobile: allows wrapping fallback for narrower layouts.
 - Works with `.ds-btn`, `.ds-select`, and `.ds-input`.
 - Token Mapping:
 - `--ds-toolbar-compact-gap`
@@ -288,6 +296,19 @@ Use this template for new components.
 - `--ds-table-dense-font-size`
 - `--ds-table-dense-header-font-size`
 - `--ds-table-utility-col-w`
+
+### Command Palette (`.ds-command-palette`)
+- Intent: Fast command execution surface with searchable actions and keyboard hints.
+- Use When: Productivity workflows where users trigger frequent actions without navigating full panels.
+- Anatomy:
+- Header row (`.ds-command-palette-head`) with context/count metadata.
+- Search input.
+- Scrollable result list (`.ds-command-palette-list`).
+- Result rows (`.ds-command-item`) with action copy + shortcut hint.
+- Rules:
+- First/high-confidence result may render as active (`.is-active`) by default.
+- Result rows must keep command title and helper copy readable at compact density.
+- Result list should scroll independently when results exceed available height.
 
 ### Section Header (`.ds-section-header`)
 - Intent: Standardized section title/action row with predictable collapse affordance.

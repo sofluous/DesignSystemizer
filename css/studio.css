@@ -1,0 +1,457 @@
+html[data-theme-ready="0"] body {
+  visibility: hidden;
+}
+
+html[data-theme-ready="1"] body {
+  visibility: visible;
+}
+
+.studio {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--ds-bg);
+}
+
+.studio-shell {
+  min-width: 0;
+  min-height: 100vh;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  border-right: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+  background: color-mix(in oklab, var(--ds-bg-elevated) 92%, var(--ds-bg));
+}
+
+.studio-shell-header {
+  display: grid;
+  gap: var(--ds-space-3);
+  align-content: start;
+  padding: var(--ds-space-4);
+  border-bottom: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+}
+
+.studio-shell-header h1 {
+  margin: 0;
+  font-size: var(--ds-fs-3);
+  line-height: 1.05;
+}
+
+.studio-shell-body {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+
+.studio-sidebar {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-right: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+  padding: var(--ds-space-2);
+  display: grid;
+  gap: var(--ds-space-2);
+  grid-template-rows: auto 1fr auto;
+  justify-items: center;
+  align-content: stretch;
+}
+
+.studio-nav {
+  grid-row: 1;
+  display: grid;
+  gap: var(--ds-space-2);
+  justify-items: center;
+  align-content: start;
+}
+
+.studio-context {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  padding: var(--ds-space-3);
+  display: grid;
+  align-content: start;
+  gap: var(--ds-space-2);
+}
+
+.studio-context-body {
+  min-height: 0;
+  height: 100%;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: var(--ds-space-2);
+}
+
+.studio-inspector-dock {
+  border-top: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+  padding-top: var(--ds-space-2);
+  margin-top: var(--ds-space-2);
+  min-height: 0;
+}
+
+.studio-inspector-dock-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-2);
+  margin-bottom: var(--ds-space-2);
+}
+
+.studio-inspector-dock-body {
+  min-height: 0;
+}
+
+.studio-context-panel {
+  display: grid;
+  gap: var(--ds-space-2);
+  align-content: start;
+}
+
+.studio-context-panel[hidden] {
+  display: none;
+}
+
+.studio-context-title {
+  margin: 0;
+  font-size: var(--ds-fs-3);
+  line-height: 1.05;
+  padding-bottom: var(--ds-space-2);
+  border-bottom: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+}
+
+.studio-context-group {
+  display: grid;
+  gap: var(--ds-space-2);
+  align-content: start;
+  padding-top: var(--ds-space-2);
+  border-top: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+}
+
+.studio-context-group:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.studio-context-group-title {
+  margin: 0;
+  font-size: var(--ds-fs-0);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ds-text-muted);
+}
+
+.studio-rail-tools {
+  grid-row: 3;
+  display: grid;
+  gap: var(--ds-space-2);
+  align-content: end;
+  align-self: end;
+  justify-items: center;
+}
+
+.studio-rail-tools .ds-btn {
+  width: 52px;
+  min-width: 52px;
+  padding: 0;
+  min-height: 34px;
+  font-size: 10px;
+}
+
+.studio-divider {
+  margin: 0;
+  border: 0;
+  border-top: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+}
+
+.studio-tab {
+  width: 52px;
+  min-width: 52px;
+  min-height: 52px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.studio-tab-icon {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.studio-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.studio-tab[aria-selected="true"] {
+  border-color: var(--ds-accent);
+  background: color-mix(in oklab, var(--ds-accent) 16%, var(--ds-btn-bg));
+  color: var(--ds-btn-text);
+}
+
+.studio-main {
+  min-width: 0;
+  padding: var(--ds-space-4);
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.studio-main .ds-card {
+  align-content: start;
+  align-items: stretch;
+}
+
+.studio-main .studio-panel > .ds-card {
+  width: 100%;
+  max-width: none;
+  justify-self: stretch;
+}
+
+.studio-panel {
+  min-width: 0;
+  justify-items: stretch;
+  min-height: 0;
+  overflow: auto;
+}
+
+.studio-panel.studio-workspace {
+  overflow: hidden;
+}
+
+.studio-panel[hidden] {
+  display: none;
+}
+
+.studio-workspace {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--ds-space-3);
+  min-height: 0;
+  height: 100%;
+  max-height: none;
+  overflow: hidden;
+}
+
+.studio-workspace.workspace-side-driven {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.studio-workspace-summary {
+  display: grid;
+  gap: var(--ds-space-2);
+  align-content: start;
+}
+
+.studio-workspace-summary .ds-card-title {
+  margin: 0;
+}
+
+.studio-workspace-tools {
+  display: grid;
+  gap: var(--ds-space-3);
+  min-width: 0;
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  padding-bottom: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--ds-bg) 0 88%,
+    color-mix(in oklab, var(--ds-bg) 0%, transparent) 100%
+  );
+}
+
+.studio-workspace-body {
+  display: grid;
+  gap: var(--ds-space-3);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.studio-workspace-body.is-split {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  align-items: start;
+  min-height: 0;
+}
+
+.studio-workspace-main,
+.studio-workspace-side {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.studio-workspace-side {
+  display: grid;
+  gap: var(--ds-space-3);
+  align-content: start;
+}
+
+.studio-scroll-region {
+  min-height: 0;
+  height: 100%;
+  overflow: auto;
+  padding-right: 4px;
+  overscroll-behavior: contain;
+}
+
+.studio-workspace .ds-card {
+  width: 100%;
+  max-width: none;
+}
+
+.workspace-tool-section {
+  display: grid;
+  gap: var(--ds-space-2);
+  min-width: 0;
+}
+
+.wiki-nav {
+  display: grid;
+  gap: var(--ds-space-3);
+  position: sticky;
+  top: var(--ds-space-4);
+}
+
+.wiki-nav-list {
+  display: grid;
+  gap: 6px;
+}
+
+.wiki-nav-btn[aria-pressed="true"] {
+  border-color: var(--ds-accent);
+  background: color-mix(in oklab, var(--ds-accent) 16%, var(--ds-btn-bg));
+  color: var(--ds-btn-text);
+}
+
+.wiki-pane {
+  min-width: 0;
+}
+
+.guide-pane {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  display: grid;
+}
+
+#panel-guide {
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+#panel-guide .studio-workspace-main {
+  padding-top: 0;
+}
+
+#panel-wiki {
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+#panel-wiki .wiki-pane {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  display: grid;
+}
+
+#panel-wiki .wiki-frame {
+  height: 100%;
+  min-height: 100%;
+}
+
+.wiki-frame {
+  width: 100%;
+  min-height: 78vh;
+  border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+  border-radius: var(--ds-radius-2);
+  background: var(--ds-bg-elevated);
+}
+
+@media (max-width: 980px) {
+  .studio {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-shell {
+    min-height: auto;
+    height: auto;
+    border-right: none;
+    border-bottom: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+  }
+
+  .studio-shell-body {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-sidebar {
+    border-right: none;
+    border-bottom: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+    grid-template-rows: auto;
+    grid-template-columns: 1fr auto;
+    justify-items: stretch;
+    align-items: start;
+  }
+
+  .studio-nav {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .studio-context {
+    padding-top: var(--ds-space-3);
+  }
+
+  .studio-main {
+    padding: var(--ds-space-4);
+    height: auto;
+    overflow: visible;
+  }
+
+  .studio-rail-tools {
+    justify-items: end;
+  }
+
+  .studio-workspace {
+    min-height: auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  .studio-workspace-body.is-split {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-scroll-region {
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .wiki-nav {
+    position: static;
+  }
+
+  .wiki-frame {
+    min-height: 60vh;
+  }
+}

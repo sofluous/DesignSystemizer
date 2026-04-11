@@ -1,24 +1,57 @@
 :root[data-theme="steel-night"] {
-  --ds-bg: #0f141c;
-  --ds-bg-elevated: #141b26;
-  --ds-bg-raised: #1b2331;
-  --ds-bg-overlay: rgba(5, 9, 15, 0.72);
+  --ds-bg: #0d131b;
+  --ds-bg-elevated: #131b25;
+  --ds-bg-raised: #1b2633;
+  --ds-bg-soft: #223142;
+  --ds-bg-overlay: rgba(4, 8, 14, 0.76);
+  --ds-body-bg-image: radial-gradient(circle at 18% 12%, rgba(123, 189, 255, 0.1), transparent 34%), linear-gradient(180deg, rgba(10, 16, 24, 0.98) 0%, #0d131b 52%, rgba(6, 10, 16, 0.98) 100%);
+  --ds-card-bg-image: linear-gradient(180deg, rgba(123, 189, 255, 0.05), rgba(0, 0, 0, 0.12));
 
-  --ds-text: #e4ebf8;
-  --ds-text-muted: #9da8bc;
+  --ds-text: #e3edf9;
+  --ds-text-muted: #93a6c2;
   --ds-text-inverse: #081018;
 
-  --ds-border: #2b3950;
-  --ds-border-strong: #3e5475;
+  --ds-border: #31445d;
+  --ds-border-strong: #476487;
 
-  --ds-accent: #7bd0ff;
-  --ds-accent-strong: #3fb7f0;
-  --ds-focus: #94f7dd;
+  --ds-accent: #7bbdff;
+  --ds-accent-strong: #509be2;
+  --ds-focus: #9ad6ff;
 
   --ds-success: #83e9a9;
   --ds-warning: #ffd16f;
   --ds-danger: #ff8198;
   --ds-info: #79c6ff;
+  --ds-font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --ds-font-mono: "Space Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  --ds-lh-base: 1.48;
+  --ds-radius-1: 6px;
+  --ds-radius-2: 10px;
+  --ds-radius-3: 14px;
+  --ds-radius-4: 18px;
+  --ds-radius-pill: 999px;
+  --ds-shadow-sm: 0 8px 18px rgba(6, 11, 19, 0.22);
+  --ds-shadow-md: 0 16px 36px rgba(4, 8, 15, 0.3);
+  --ds-card-shadow: 0 14px 28px rgba(5, 10, 18, 0.24);
+  --ds-btn-bg: linear-gradient(180deg, rgba(23, 33, 46, 0.96) 0%, rgba(30, 43, 58, 0.98) 100%);
+  --ds-btn-bg-hover: linear-gradient(180deg, rgba(31, 45, 62, 0.98) 0%, rgba(40, 57, 76, 0.99) 100%);
+  --ds-btn-border: #3f6187;
+  --ds-btn-text: var(--ds-text);
+  --ds-btn-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  --ds-btn-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  --ds-btn-primary-bg: linear-gradient(180deg, #93d1ff 0%, #6db6ff 100%);
+  --ds-btn-primary-bg-hover: linear-gradient(180deg, #a8dbff 0%, #82c0ff 100%);
+  --ds-btn-primary-border: #509be2;
+  --ds-btn-primary-text: var(--ds-text);
+  --ds-btn-primary-text-hover: #081018;
+  --ds-btn-primary-text-selected: #081018;
+  --ds-input-bg: linear-gradient(180deg, rgba(20, 29, 40, 0.98) 0%, rgba(24, 36, 49, 0.98) 100%);
+  --ds-input-border: #3f6187;
+  --ds-input-text: var(--ds-text);
+  --ds-input-placeholder: #8ca0bc;
+  --ds-input-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+  --ds-card-secondary-bg: color-mix(in oklab, var(--ds-bg-raised) 84%, var(--ds-bg-soft) 16%);
+  --ds-card-secondary-border: color-mix(in oklab, var(--ds-border) 78%, var(--ds-accent) 22%);
 }
 
 :root[data-theme="paper-mint"] {
@@ -42,13 +75,49 @@
   --ds-warning: #9a6b00;
   --ds-danger: #b33651;
   --ds-info: #2b79b4;
-  --ds-btn-primary-text: var(--ds-bg-elevated);
+  --ds-btn-primary-text: var(--ds-text);
 
   --ds-shadow-sm: 0 2px 10px rgba(20, 38, 29, 0.08);
   --ds-shadow-md: 0 12px 28px rgba(20, 38, 29, 0.12);
-  --ds-card-secondary-bg: #edf3ee;
-  --ds-card-secondary-border: #b7cabd;
+  --ds-card-secondary-bg: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--ds-bg-elevated) 88%, var(--ds-accent) 12%) 0%,
+    color-mix(in oklab, var(--ds-bg-raised) 92%, var(--ds-accent) 8%) 100%
+  );
+  --ds-card-secondary-border: color-mix(in oklab, var(--ds-border) 64%, var(--ds-accent) 36%);
   --ds-card-secondary-shadow: 0 1px 0 rgba(255, 255, 255, 0.72) inset;
+  --ds-btn-bg: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 88%, var(--ds-accent) 12%) 0%,
+    color-mix(in oklab, var(--ds-bg-raised) 90%, var(--ds-accent) 10%) 100%
+  );
+  --ds-btn-bg-hover: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 84%, var(--ds-accent) 16%) 0%,
+    color-mix(in oklab, var(--ds-bg-raised) 86%, var(--ds-accent) 14%) 100%
+  );
+  --ds-btn-border: color-mix(in oklab, var(--ds-border) 64%, var(--ds-accent) 36%);
+  --ds-btn-primary-bg: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--ds-accent) 70%, white 30%) 0%,
+    color-mix(in oklab, var(--ds-accent-strong) 82%, white 18%) 100%
+  );
+  --ds-btn-primary-bg-hover: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--ds-accent) 62%, white 38%) 0%,
+    color-mix(in oklab, var(--ds-accent-strong) 76%, white 24%) 100%
+  );
+  --ds-btn-primary-border: color-mix(in oklab, var(--ds-accent-strong) 84%, white 16%);
+  --ds-btn-primary-text-hover: #102318;
+  --ds-btn-primary-text-selected: #102318;
+  --ds-input-bg: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 93%, var(--ds-accent) 7%) 0%,
+    color-mix(in oklab, var(--ds-bg-raised) 94%, var(--ds-accent) 6%) 100%
+  );
+  --ds-input-border: color-mix(in oklab, var(--ds-border) 66%, var(--ds-accent) 34%);
+  --ds-chip-bg: color-mix(in oklab, var(--ds-bg-raised) 80%, var(--ds-accent) 20%);
+  --ds-chip-border: color-mix(in oklab, var(--ds-border) 60%, var(--ds-accent) 40%);
 }
 
 :root[data-theme="amber-terminal"] {
@@ -105,6 +174,8 @@
   --ds-btn-primary-bg-hover: linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 62%, white 38%) 0%, color-mix(in oklab, var(--ds-accent) 88%, white 12%) 100%);
   --ds-btn-primary-border: var(--ds-accent-strong);
   --ds-btn-primary-text: var(--ds-text);
+  --ds-btn-primary-text-hover: var(--ds-btn-bg);
+  --ds-btn-primary-text-selected: var(--ds-btn-bg);
   --ds-check-mark: var(--ds-btn-bg);
   --ds-input-bg: color-mix(in oklab, var(--ds-bg-elevated) 91%, var(--ds-accent) 9%);
   --ds-input-border: color-mix(in oklab, var(--ds-border) 72%, var(--ds-accent) 28%);
@@ -114,51 +185,118 @@
 }
 
 :root[data-theme="neon-grid"] {
-  --ds-bg: #080d12;
-  --ds-bg-elevated: #0d151f;
-  --ds-bg-raised: #132131;
-  --ds-bg-overlay: rgba(3, 7, 12, 0.75);
+  --ds-bg: #071018;
+  --ds-bg-elevated: #0c1722;
+  --ds-bg-raised: #122535;
+  --ds-bg-soft: #183246;
+  --ds-bg-overlay: rgba(2, 6, 10, 0.78);
+  --ds-body-bg-image: radial-gradient(circle at 16% 12%, rgba(61, 229, 208, 0.18), transparent 28%), radial-gradient(circle at 84% 18%, rgba(103, 246, 227, 0.14), transparent 24%), linear-gradient(180deg, rgba(5, 10, 16, 0.98) 0%, #071018 48%, rgba(2, 6, 10, 1) 100%);
+  --ds-card-bg-image: linear-gradient(180deg, rgba(61, 229, 208, 0.09), rgba(0, 0, 0, 0.12));
 
-  --ds-text: #deffff;
-  --ds-text-muted: #87c3cc;
+  --ds-text: #ecffff;
+  --ds-text-muted: #95d9dc;
   --ds-text-inverse: #07161b;
 
-  --ds-border: #254957;
-  --ds-border-strong: #367083;
+  --ds-border: #2b5964;
+  --ds-border-strong: #3da6a9;
 
-  --ds-accent: #3de5d0;
-  --ds-accent-strong: #13b9a5;
-  --ds-focus: #67f6e3;
+  --ds-accent: #47f5df;
+  --ds-accent-strong: #14cfbd;
+  --ds-focus: #89fff0;
 
-  --ds-success: #67f6e3;
+  --ds-success: #74ffe9;
   --ds-warning: #f7d66a;
   --ds-danger: #ff5f9b;
-  --ds-info: #55c8ff;
-  --ds-btn-primary-text: var(--ds-bg-elevated);
+  --ds-info: #66d5ff;
+  --ds-font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --ds-font-mono: "Space Mono", "OCR A Std", Consolas, "Courier New", monospace;
+  --ds-fs-1: 12px;
+  --ds-fs-2: 14px;
+  --ds-fs-3: 17px;
+  --ds-fs-4: 24px;
+  --ds-fs-5: 32px;
+  --ds-lh-base: 1.42;
+  --ds-radius-1: 3px;
+  --ds-radius-2: 6px;
+  --ds-radius-3: 10px;
+  --ds-radius-4: 14px;
+  --ds-radius-pill: 999px;
+  --ds-label-spacing: 0.14em;
+  --ds-card-shadow: 0 0 0 1px color-mix(in oklab, var(--ds-accent) 26%, transparent) inset, 0 0 24px color-mix(in oklab, var(--ds-accent) 18%, transparent);
+  --ds-btn-bg: linear-gradient(180deg, rgba(17, 39, 50, 0.98) 0%, rgba(16, 49, 62, 0.98) 100%);
+  --ds-btn-bg-hover: linear-gradient(180deg, rgba(20, 57, 70, 0.99) 0%, rgba(19, 70, 84, 0.99) 100%);
+  --ds-btn-border: #38bbb2;
+  --ds-btn-text: var(--ds-text);
+  --ds-btn-shadow: inset 0 0 0 1px rgba(71, 245, 223, 0.34), 0 0 10px rgba(71, 245, 223, 0.14);
+  --ds-btn-shadow-hover: inset 0 0 0 1px rgba(71, 245, 223, 0.52), 0 0 16px rgba(71, 245, 223, 0.24);
+  --ds-btn-shadow-active: inset 0 0 0 1px rgba(137, 255, 240, 0.58), 0 0 18px rgba(71, 245, 223, 0.22);
+  --ds-btn-primary-bg: linear-gradient(180deg, #8afff0 0%, #4ff4e0 100%);
+  --ds-btn-primary-bg-hover: linear-gradient(180deg, #a4fff4 0%, #67f7e6 100%);
+  --ds-btn-primary-border: #89fff0;
+  --ds-btn-primary-text: var(--ds-text);
+  --ds-btn-primary-text-hover: #07161b;
+  --ds-btn-primary-text-selected: #07161b;
+  --ds-input-bg: linear-gradient(180deg, rgba(12, 29, 37, 0.98) 0%, rgba(8, 21, 28, 0.99) 100%);
+  --ds-input-border: #36b8b4;
+  --ds-input-text: var(--ds-text);
+  --ds-input-placeholder: #8fd1d5;
+  --ds-input-shadow: inset 0 0 0 1px rgba(71, 245, 223, 0.38), 0 0 12px rgba(71, 245, 223, 0.12);
+  --ds-card-secondary-bg: color-mix(in oklab, var(--ds-bg-raised) 80%, var(--ds-bg-soft) 20%);
+  --ds-card-secondary-border: color-mix(in oklab, var(--ds-border) 54%, var(--ds-accent) 46%);
 }
 
 :root[data-theme="mono-slate"] {
-  --ds-bg: #121212;
-  --ds-bg-elevated: #181818;
-  --ds-bg-raised: #202020;
-  --ds-bg-overlay: rgba(0, 0, 0, 0.72);
+  --ds-bg: #111214;
+  --ds-bg-elevated: #17191c;
+  --ds-bg-raised: #202329;
+  --ds-bg-soft: #292d34;
+  --ds-bg-overlay: rgba(0, 0, 0, 0.74);
 
-  --ds-text: #ededed;
-  --ds-text-muted: #b7b7b7;
+  --ds-text: #f1f1ef;
+  --ds-text-muted: #b6b7b4;
   --ds-text-inverse: #0c0c0c;
 
-  --ds-border: #323232;
-  --ds-border-strong: #4a4a4a;
+  --ds-border: #383b40;
+  --ds-border-strong: #575c63;
 
-  --ds-accent: #ffffff;
-  --ds-accent-strong: #d9d9d9;
-  --ds-focus: #f1f1f1;
+  --ds-accent: #f4f4f2;
+  --ds-accent-strong: #d6d7d2;
+  --ds-focus: #ffffff;
 
   --ds-success: #f0f0f0;
   --ds-warning: #cccccc;
   --ds-danger: #f8f8f8;
   --ds-info: #e0e0e0;
-  --ds-btn-primary-text: var(--ds-bg-elevated);
+  --ds-font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --ds-font-mono: "Space Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  --ds-fs-1: 12px;
+  --ds-fs-2: 14px;
+  --ds-fs-3: 17px;
+  --ds-fs-4: 24px;
+  --ds-fs-5: 34px;
+  --ds-lh-base: 1.58;
+  --ds-radius-1: 3px;
+  --ds-radius-2: 5px;
+  --ds-radius-3: 8px;
+  --ds-radius-4: 12px;
+  --ds-radius-pill: 999px;
+  --ds-shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.12);
+  --ds-shadow-md: 0 18px 42px rgba(0, 0, 0, 0.18);
+  --ds-card-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+  --ds-btn-bg: linear-gradient(180deg, rgba(34, 37, 43, 0.98) 0%, rgba(25, 27, 31, 0.99) 100%);
+  --ds-btn-bg-hover: linear-gradient(180deg, rgba(43, 47, 54, 0.99) 0%, rgba(31, 34, 39, 1) 100%);
+  --ds-btn-border: #5a5e64;
+  --ds-btn-text: var(--ds-text);
+  --ds-btn-primary-bg: var(--ds-text);
+  --ds-btn-primary-bg-hover: color-mix(in oklab, var(--ds-text) 90%, white 10%);
+  --ds-btn-primary-border: var(--ds-text);
+  --ds-btn-primary-text: #17191c;
+  --ds-input-bg: linear-gradient(180deg, rgba(25, 27, 31, 0.99) 0%, rgba(17, 18, 20, 1) 100%);
+  --ds-input-border: #54575c;
+  --ds-input-text: var(--ds-text);
+  --ds-input-placeholder: #a9aaa7;
+  --ds-card-secondary-bg: color-mix(in oklab, var(--ds-bg-raised) 90%, white 10%);
+  --ds-card-secondary-border: color-mix(in oklab, var(--ds-border) 84%, white 16%);
 }
 
 :root[data-theme="tech-grid"] {
@@ -238,25 +376,55 @@
   --ds-shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.65) inset, 0 4px 10px rgba(72, 88, 114, 0.2);
   --ds-shadow-md: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 12px 20px rgba(70, 83, 104, 0.28);
   --ds-card-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 10px 18px rgba(73, 86, 108, 0.2);
-  --ds-card-border: #aeb8c7;
-  --ds-card-secondary-bg: linear-gradient(180deg, #e3e8f0 0%, #cdd6e2 100%);
-  --ds-card-secondary-border: #98a7bb;
+  --ds-card-border: color-mix(in oklab, var(--ds-border) 62%, var(--ds-accent) 38%);
+  --ds-card-secondary-bg: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 86%, var(--ds-accent) 14%) 0%,
+    color-mix(in oklab, var(--ds-bg-raised) 84%, white 10%, var(--ds-accent) 6%) 100%
+  );
+  --ds-card-secondary-border: color-mix(in oklab, var(--ds-border) 58%, var(--ds-accent) 42%);
   --ds-card-secondary-shadow: 0 1px 0 rgba(255, 255, 255, 0.74) inset, 0 4px 8px rgba(80, 94, 116, 0.16);
-  --ds-btn-bg: linear-gradient(180deg, #e5eaf1 0%, #c5cedb 100%);
-  --ds-btn-bg-hover: linear-gradient(180deg, #edf2f8 0%, #cdd6e2 100%);
-  --ds-btn-border: #9eaab9;
-  --ds-btn-text: #2c3749;
+  --ds-btn-bg: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 80%, var(--ds-accent) 20%) 0%,
+    color-mix(in oklab, var(--ds-bg-raised) 86%, white 8%, var(--ds-accent) 6%) 100%
+  );
+  --ds-btn-bg-hover: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 85%, var(--ds-accent) 15%) 0%,
+    color-mix(in oklab, var(--ds-bg-raised) 82%, white 10%, var(--ds-accent) 8%) 100%
+  );
+  --ds-btn-border: color-mix(in oklab, var(--ds-border) 62%, var(--ds-accent) 38%);
+  --ds-btn-text: var(--ds-text);
   --ds-btn-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset, 0 -1px 0 rgba(99, 112, 134, 0.25) inset, 0 2px 4px rgba(71, 85, 107, 0.22);
   --ds-btn-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 -1px 0 rgba(99, 112, 134, 0.3) inset, 0 3px 6px rgba(71, 85, 107, 0.22);
   --ds-btn-shadow-active: 0 1px 2px rgba(67, 77, 96, 0.35) inset;
   --ds-btn-press-transform: translateY(1px);
-  --ds-btn-primary-bg: linear-gradient(180deg, #7eabe8 0%, #5a8fd8 100%);
-  --ds-btn-primary-bg-hover: linear-gradient(180deg, #8ab5ec 0%, #6397dd 100%);
-  --ds-btn-primary-border: #4979be;
+  --ds-btn-primary-bg: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--ds-accent) 68%, white 32%) 0%,
+    color-mix(in oklab, var(--ds-accent-strong) 82%, white 18%) 100%
+  );
+  --ds-btn-primary-bg-hover: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--ds-accent) 60%, white 40%) 0%,
+    color-mix(in oklab, var(--ds-accent-strong) 76%, white 24%) 100%
+  );
+  --ds-btn-primary-border: color-mix(in oklab, var(--ds-accent-strong) 84%, black 16%);
   --ds-btn-primary-text: var(--ds-text);
-  --ds-input-bg: linear-gradient(180deg, #f3f6fb 0%, #d8e0eb 100%);
-  --ds-input-border: #a3afbf;
+  --ds-input-bg: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 88%, var(--ds-accent) 12%) 0%,
+    color-mix(in oklab, var(--ds-bg-raised) 84%, white 10%, var(--ds-accent) 6%) 100%
+  );
+  --ds-input-border: color-mix(in oklab, var(--ds-border) 60%, var(--ds-accent) 40%);
   --ds-input-shadow: 0 1px 2px rgba(76, 90, 112, 0.3) inset, 0 1px 0 rgba(255, 255, 255, 0.8);
+  --ds-chip-bg: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 84%, var(--ds-accent) 16%) 0%,
+    color-mix(in oklab, var(--ds-bg-raised) 86%, var(--ds-accent) 14%) 100%
+  );
+  --ds-chip-border: color-mix(in oklab, var(--ds-border) 58%, var(--ds-accent) 42%);
 }
 
 :root[data-theme="industrial-terminal"] {
@@ -364,28 +532,32 @@
   --ds-card-pad: var(--ds-space-4);
   --ds-label-transform: uppercase;
   --ds-label-spacing: 0.04em;
-  --ds-shadow-sm: 7px 7px 16px rgba(163, 177, 198, 0.5), -6px -6px 16px rgba(255, 255, 255, 0.85);
-  --ds-shadow-md: 14px 14px 26px rgba(154, 167, 190, 0.48), -10px -10px 24px rgba(255, 255, 255, 0.88);
-  --ds-card-shadow: 10px 10px 24px rgba(156, 169, 191, 0.5), -9px -9px 22px rgba(255, 255, 255, 0.9);
+  --ds-shadow-sm: 6px 6px 12px rgba(163, 177, 198, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.62);
+  --ds-shadow-md: 11px 11px 20px rgba(154, 167, 190, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.66);
+  --ds-card-shadow: 8px 8px 18px rgba(156, 169, 191, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --ds-card-shadow-compact: 6px 6px 12px rgba(156, 169, 191, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.62);
   --ds-card-border: #c6d1e4;
   --ds-card-secondary-bg: linear-gradient(145deg, #dde4f0, #eef3fb);
   --ds-card-secondary-border: #c8d2e5;
-  --ds-card-secondary-shadow: inset 2px 2px 6px rgba(160, 172, 194, 0.28), inset -2px -2px 6px rgba(255, 255, 255, 0.74);
+  --ds-card-secondary-shadow: inset 1px 1px 4px rgba(160, 172, 194, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.56);
+  --ds-card-secondary-shadow-compact: inset 1px 1px 3px rgba(160, 172, 194, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   --ds-btn-bg: linear-gradient(145deg, #ecf1fa, #cfd9ea);
   --ds-btn-bg-hover: linear-gradient(145deg, #f2f6fd, #d5dff0);
   --ds-btn-border: #c1cbdf;
   --ds-btn-text: #344057;
-  --ds-btn-shadow: 6px 6px 12px rgba(154, 168, 193, 0.5), -6px -6px 12px rgba(255, 255, 255, 0.86);
-  --ds-btn-shadow-hover: 8px 8px 14px rgba(154, 168, 193, 0.54), -7px -7px 14px rgba(255, 255, 255, 0.9);
-  --ds-btn-shadow-active: inset 4px 4px 8px rgba(157, 169, 190, 0.5), inset -4px -4px 8px rgba(255, 255, 255, 0.82);
+  --ds-btn-shadow: 4px 4px 8px rgba(154, 168, 193, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --ds-btn-shadow-hover: 5px 5px 10px rgba(154, 168, 193, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  --ds-btn-shadow-active: inset 3px 3px 6px rgba(157, 169, 190, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.58);
   --ds-btn-press-transform: none;
   --ds-btn-primary-bg: linear-gradient(145deg, #9888e5, #7f6ecf);
   --ds-btn-primary-bg-hover: linear-gradient(145deg, #a494ed, #8675d8);
   --ds-btn-primary-border: #7564c4;
-  --ds-btn-primary-text: var(--ds-btn-primary-border);
+  --ds-btn-primary-text: var(--ds-text);
+  --ds-btn-primary-text-hover: #2b3648;
+  --ds-btn-primary-text-selected: #2b3648;
   --ds-input-bg: linear-gradient(145deg, #d3dced, #ecf2fb);
   --ds-input-border: #c0cbe0;
-  --ds-input-shadow: inset 4px 4px 9px rgba(163, 175, 198, 0.5), inset -4px -4px 9px rgba(255, 255, 255, 0.9);
+  --ds-input-shadow: inset 3px 3px 7px rgba(163, 175, 198, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.62);
   --ds-chip-bg: linear-gradient(145deg, #dbe2ef, #eef3fb);
   --ds-chip-border: #c4cedf;
   --ds-chip-text: #3a4760;
@@ -678,6 +850,18 @@
   --ds-btn-primary-bg-hover: linear-gradient(180deg, #53f5ff 0%, #18cce6 100%);
   --ds-btn-primary-border: #ffe77a;
   --ds-btn-primary-text: var(--ds-text);
+  --ds-btn-primary-text-hover: #081436;
+  --ds-btn-primary-text-selected: #081436;
+  --ds-btn-selected-bg: linear-gradient(180deg, #36509f 0%, #263d80 100%);
+  --ds-btn-selected-border: #ffe77a;
+  --ds-btn-selected-text: #fff6bf;
+  --ds-btn-tertiary-bg: linear-gradient(180deg, #ffe98e 0%, #f7d85d 100%);
+  --ds-btn-tertiary-bg-hover: linear-gradient(180deg, #fff0a8 0%, #fbe172 100%);
+  --ds-btn-tertiary-border: #2b438f;
+  --ds-btn-tertiary-text: #1d2d61;
+  --ds-btn-text-quiet: #ffe77a;
+  --ds-btn-text-quiet-hover: #fff6bf;
+  --ds-btn-text-quiet-active: #36f1ff;
   --ds-input-bg: linear-gradient(180deg, #0e1e4d 0%, #0b1740 100%);
   --ds-input-border: #56dfff;
   --ds-input-text: #fff8d5;
@@ -718,6 +902,16 @@
   --ds-btn-primary-bg-hover: linear-gradient(135deg, #ff4ab6 0%, #9a65ff 100%);
   --ds-btn-primary-border: #6f3fcd;
   --ds-btn-primary-text: #18081f;
+  --ds-btn-selected-bg: linear-gradient(135deg, #ffd2ec 0%, #f7bce5 48%, #d9ecff 100%);
+  --ds-btn-selected-border: #cf6bbb;
+  --ds-btn-selected-text: #7a1f70;
+  --ds-btn-tertiary-bg: linear-gradient(180deg, #fff7fd 0%, #ffeaf8 100%);
+  --ds-btn-tertiary-bg-hover: linear-gradient(180deg, #fffaff 0%, #fff0fb 100%);
+  --ds-btn-tertiary-border: #e49ad0;
+  --ds-btn-tertiary-text: #9a3d8d;
+  --ds-btn-text-quiet: #a54b92;
+  --ds-btn-text-quiet-hover: #7b2f70;
+  --ds-btn-text-quiet-active: #47bfff;
   --ds-input-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 231, 249, 0.95));
   --ds-input-border: #e2a7d7;
   --ds-input-text: #4e2258;
@@ -758,6 +952,16 @@
   --ds-btn-primary-bg-hover: linear-gradient(135deg, #ffa05e 0%, #ffc473 48%, #61b6ff 100%);
   --ds-btn-primary-border: #d2824f;
   --ds-btn-primary-text: #18233a;
+  --ds-btn-selected-bg: linear-gradient(135deg, #dde7fb 0%, #d2ebff 54%, #ffe2bf 100%);
+  --ds-btn-selected-border: #4d86d8;
+  --ds-btn-selected-text: #214d96;
+  --ds-btn-tertiary-bg: linear-gradient(180deg, #ffffff 0%, #f4f7fc 100%);
+  --ds-btn-tertiary-bg-hover: linear-gradient(180deg, #ffffff 0%, #eef4fc 100%);
+  --ds-btn-tertiary-border: #89a9d9;
+  --ds-btn-tertiary-text: #3564b1;
+  --ds-btn-text-quiet: #4f74ae;
+  --ds-btn-text-quiet-hover: #244889;
+  --ds-btn-text-quiet-active: #d97c2a;
   --ds-input-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(239, 236, 228, 0.94));
   --ds-input-border: #9eb1de;
   --ds-input-text: #2a3553;
@@ -797,6 +1001,16 @@
   --ds-btn-primary-bg-hover: linear-gradient(135deg, #ff6ee0 0%, #66e2ff 100%);
   --ds-btn-primary-border: #54bfff;
   --ds-btn-primary-text: var(--ds-text);
+  --ds-btn-selected-bg: linear-gradient(135deg, #4e2bc6 0%, #7f3cd3 56%, #2c8baf 100%);
+  --ds-btn-selected-border: #7dd4ff;
+  --ds-btn-selected-text: #f8f2ff;
+  --ds-btn-tertiary-bg: linear-gradient(180deg, rgba(33, 20, 77, 0.9) 0%, rgba(23, 15, 58, 0.94) 100%);
+  --ds-btn-tertiary-bg-hover: linear-gradient(180deg, rgba(45, 28, 102, 0.92) 0%, rgba(31, 20, 74, 0.96) 100%);
+  --ds-btn-tertiary-border: #6f8cff;
+  --ds-btn-tertiary-text: #9fe3ff;
+  --ds-btn-text-quiet: #bda8ee;
+  --ds-btn-text-quiet-hover: #f8f2ff;
+  --ds-btn-text-quiet-active: #5de1ff;
   --ds-input-bg: linear-gradient(180deg, rgba(45, 26, 102, 0.9), rgba(33, 20, 77, 0.92));
   --ds-input-border: #8d62ff;
   --ds-input-text: #f8f2ff;
@@ -836,24 +1050,34 @@
   --ds-fs-4: 22px;
   --ds-fs-5: 30px;
   --ds-lh-base: 1.38;
-  --ds-card-shadow: 0 20px 36px rgba(1, 3, 8, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  --ds-btn-bg: linear-gradient(140deg, #161d28 0%, #1a2230 78%, #2d3550 100%);
-  --ds-btn-bg-hover: linear-gradient(140deg, #1b2431 0%, #1f2b3b 78%, #3a4464 100%);
-  --ds-btn-border: #425c7d;
+  --ds-card-shadow: 0 20px 36px rgba(1, 3, 8, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --ds-btn-bg: linear-gradient(140deg, color-mix(in oklab, white 10%, var(--ds-bg-elevated) 90%) 0%, color-mix(in oklab, var(--ds-accent) 12%, var(--ds-bg-raised) 88%) 52%, color-mix(in oklab, var(--ds-focus) 12%, var(--ds-bg-soft) 88%) 100%);
+  --ds-btn-bg-hover: linear-gradient(140deg, color-mix(in oklab, white 14%, var(--ds-bg-elevated) 86%) 0%, color-mix(in oklab, var(--ds-accent) 16%, var(--ds-bg-raised) 84%) 52%, color-mix(in oklab, var(--ds-focus) 16%, var(--ds-bg-soft) 84%) 100%);
+  --ds-btn-border: color-mix(in oklab, var(--ds-border) 58%, white 22%, var(--ds-accent) 20%);
   --ds-btn-text: #edf4ff;
-  --ds-btn-primary-bg: linear-gradient(132deg, #226792 0%, #8b45a3 52%, #2b8775 100%);
-  --ds-btn-primary-bg-hover: linear-gradient(132deg, #2d79a8 0%, #a15cbc 52%, #39a08b 100%);
-  --ds-btn-primary-border: #7f9fca;
+  --ds-btn-primary-bg: linear-gradient(132deg, color-mix(in oklab, var(--ds-accent) 68%, white 32%) 0%, color-mix(in oklab, var(--ds-focus) 62%, var(--ds-accent) 38%) 52%, color-mix(in oklab, var(--ds-info) 60%, white 40%) 100%);
+  --ds-btn-primary-bg-hover: linear-gradient(132deg, color-mix(in oklab, var(--ds-accent) 58%, white 42%) 0%, color-mix(in oklab, var(--ds-focus) 54%, var(--ds-accent) 46%) 52%, color-mix(in oklab, var(--ds-info) 52%, white 48%) 100%);
+  --ds-btn-primary-border: color-mix(in oklab, white 34%, var(--ds-accent) 33%, var(--ds-focus) 33%);
   --ds-btn-primary-text: #ecf5ff;
-  --ds-input-bg: linear-gradient(180deg, rgba(19, 27, 38, 0.96), rgba(13, 20, 30, 0.97));
-  --ds-input-border: #476280;
+  --ds-btn-selected-bg: linear-gradient(140deg, color-mix(in oklab, white 8%, var(--ds-bg-elevated) 92%) 0%, color-mix(in oklab, var(--ds-accent) 20%, var(--ds-bg-raised) 80%) 52%, color-mix(in oklab, var(--ds-focus) 18%, var(--ds-bg-soft) 82%) 100%);
+  --ds-btn-selected-border: color-mix(in oklab, white 20%, var(--ds-accent) 42%, var(--ds-focus) 38%);
+  --ds-btn-selected-text: #f3f8ff;
+  --ds-btn-tertiary-bg: linear-gradient(180deg, rgba(15, 21, 31, 0.92), rgba(11, 16, 24, 0.95));
+  --ds-btn-tertiary-bg-hover: linear-gradient(180deg, rgba(21, 28, 40, 0.94), rgba(14, 20, 30, 0.97));
+  --ds-btn-tertiary-border: color-mix(in oklab, var(--ds-border) 48%, white 18%, var(--ds-focus) 34%);
+  --ds-btn-tertiary-text: #a9eeff;
+  --ds-btn-text-quiet: #b9c9df;
+  --ds-btn-text-quiet-hover: #f1f7ff;
+  --ds-btn-text-quiet-active: #9ae3ff;
+  --ds-input-bg: linear-gradient(180deg, color-mix(in oklab, white 10%, var(--ds-bg-elevated) 90%) 0%, color-mix(in oklab, var(--ds-accent) 8%, var(--ds-bg-raised) 92%) 100%);
+  --ds-input-border: color-mix(in oklab, var(--ds-border) 56%, white 18%, var(--ds-accent) 26%);
   --ds-input-text: #edf4ff;
   --ds-input-placeholder: #93a7c4;
-  --ds-body-bg-image: radial-gradient(90% 90% at 12% 12%, rgba(117, 224, 255, 0.14), transparent 22%),
-    radial-gradient(90% 90% at 86% 16%, rgba(255, 138, 200, 0.13), transparent 24%),
-    radial-gradient(120% 100% at 44% 94%, rgba(124, 158, 255, 0.12), transparent 28%),
+  --ds-body-bg-image: radial-gradient(88% 76% at 16% 10%, rgba(141, 232, 255, 0.18), transparent 24%),
+    radial-gradient(84% 72% at 84% 14%, rgba(255, 164, 220, 0.18), transparent 24%),
+    radial-gradient(120% 100% at 48% 88%, rgba(166, 186, 255, 0.16), transparent 30%),
     linear-gradient(180deg, #05070c 0%, #090e15 52%, #06080e 100%);
-  --ds-card-bg-image: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.12));
+  --ds-card-bg-image: linear-gradient(146deg, rgba(255, 255, 255, 0.09), rgba(132, 240, 255, 0.08), rgba(255, 164, 220, 0.08), rgba(176, 196, 255, 0.06), rgba(255, 255, 255, 0.025));
 }
 
 :root[data-theme="oilslick-nacre"] {
@@ -883,24 +1107,34 @@
   --ds-radius-2: 16px;
   --ds-radius-3: 22px;
   --ds-radius-4: 28px;
-  --ds-card-shadow: 0 16px 34px rgba(2, 4, 8, 0.62), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  --ds-btn-bg: linear-gradient(136deg, #131925 0%, #1d2432 68%, #3a3350 100%);
-  --ds-btn-bg-hover: linear-gradient(136deg, #1b2434 0%, #2a3449 68%, #4a4268 100%);
-  --ds-btn-border: #4e627c;
+  --ds-card-shadow: 0 18px 38px rgba(1, 3, 7, 0.72), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --ds-btn-bg: linear-gradient(136deg, color-mix(in oklab, #0d1016 82%, #2f3642 18%) 0%, color-mix(in oklab, #121721 76%, #26303d 24%) 68%, color-mix(in oklab, #171b25 82%, #42374c 18%) 100%);
+  --ds-btn-bg-hover: linear-gradient(136deg, color-mix(in oklab, #11161f 74%, #39404d 26%) 0%, color-mix(in oklab, #161d28 70%, #334152 30%) 68%, color-mix(in oklab, #1b212b 76%, #54485e 24%) 100%);
+  --ds-btn-border: color-mix(in oklab, var(--ds-border) 62%, #7c889a 18%, var(--ds-accent) 20%);
   --ds-btn-text: #eaf3ff;
-  --ds-btn-primary-bg: linear-gradient(132deg, #2a6f8d 0%, #8f3f8a 48%, #2c8a78 100%);
-  --ds-btn-primary-bg-hover: linear-gradient(132deg, #3c83a5 0%, #a0509f 48%, #3ba08b 100%);
-  --ds-btn-primary-border: #7f9ac4;
+  --ds-btn-primary-bg: linear-gradient(132deg, color-mix(in oklab, var(--ds-accent) 42%, #1a2a34 58%) 0%, color-mix(in oklab, var(--ds-focus) 38%, #281f31 62%) 48%, color-mix(in oklab, var(--ds-info) 34%, #18262f 66%) 100%);
+  --ds-btn-primary-bg-hover: linear-gradient(132deg, color-mix(in oklab, var(--ds-accent) 48%, #21323e 52%) 0%, color-mix(in oklab, var(--ds-focus) 44%, #34283d 56%) 48%, color-mix(in oklab, var(--ds-info) 40%, #1e2d37 60%) 100%);
+  --ds-btn-primary-border: color-mix(in oklab, var(--ds-border-strong) 52%, var(--ds-accent) 24%, var(--ds-focus) 24%);
   --ds-btn-primary-text: #eaf6ff;
-  --ds-input-bg: linear-gradient(180deg, rgba(22, 29, 40, 0.95), rgba(16, 22, 31, 0.96));
-  --ds-input-border: #445c77;
+  --ds-btn-selected-bg: linear-gradient(136deg, color-mix(in oklab, #141a23 74%, #41515e 26%) 0%, color-mix(in oklab, #171d28 70%, #2e3a48 30%) 68%, color-mix(in oklab, #1d232c 76%, #53465a 24%) 100%);
+  --ds-btn-selected-border: color-mix(in oklab, var(--ds-border-strong) 46%, var(--ds-accent) 28%, var(--ds-focus) 26%);
+  --ds-btn-selected-text: #f1f6ff;
+  --ds-btn-tertiary-bg: linear-gradient(180deg, #0f141c 0%, #0c1016 100%);
+  --ds-btn-tertiary-bg-hover: linear-gradient(180deg, #151b24 0%, #11161e 100%);
+  --ds-btn-tertiary-border: color-mix(in oklab, var(--ds-border) 58%, #7f8896 18%, var(--ds-focus) 24%);
+  --ds-btn-tertiary-text: #9fd1dc;
+  --ds-btn-text-quiet: #aeb8c8;
+  --ds-btn-text-quiet-hover: #eef4ff;
+  --ds-btn-text-quiet-active: #89e0f6;
+  --ds-input-bg: linear-gradient(180deg, color-mix(in oklab, #121720 82%, #3b404d 18%) 0%, color-mix(in oklab, #0f141c 86%, #252c39 14%) 100%);
+  --ds-input-border: color-mix(in oklab, var(--ds-border) 64%, #808c9c 18%, var(--ds-accent) 18%);
   --ds-input-text: #edf4ff;
   --ds-input-placeholder: #95a7c3;
-  --ds-body-bg-image: radial-gradient(74% 56% at 14% 12%, rgba(110, 235, 255, 0.15), transparent 44%),
-    radial-gradient(70% 52% at 84% 18%, rgba(255, 118, 216, 0.14), transparent 42%),
-    conic-gradient(from 206deg at 56% 84%, rgba(86, 120, 255, 0.13), rgba(110, 255, 214, 0.09), rgba(255, 128, 210, 0.1), rgba(86, 120, 255, 0.13)),
-    linear-gradient(180deg, #04070b 0%, #090e15 54%, #05080d 100%);
-  --ds-card-bg-image: linear-gradient(146deg, rgba(255, 255, 255, 0.05), rgba(114, 233, 255, 0.08), rgba(255, 143, 210, 0.08), rgba(255, 255, 255, 0.03));
+  --ds-body-bg-image: radial-gradient(66% 44% at 14% 10%, rgba(70, 168, 196, 0.12), transparent 40%),
+    radial-gradient(64% 42% at 86% 16%, rgba(153, 86, 144, 0.12), transparent 40%),
+    conic-gradient(from 212deg at 56% 84%, rgba(54, 84, 122, 0.18), rgba(58, 132, 124, 0.12), rgba(122, 74, 117, 0.13), rgba(54, 84, 122, 0.18)),
+    linear-gradient(180deg, #030609 0%, #070b11 50%, #04070b 100%);
+  --ds-card-bg-image: linear-gradient(146deg, rgba(255, 255, 255, 0.035), rgba(88, 112, 156, 0.08), rgba(63, 156, 141, 0.06), rgba(124, 76, 113, 0.07), rgba(255, 255, 255, 0.015));
 }
 
 :root[data-theme="signal-poster"] {
@@ -1000,6 +1234,8 @@
   --ds-btn-primary-bg-hover: color-mix(in oklab, var(--ds-text) 88%, var(--ds-accent) 12%);
   --ds-btn-primary-border: color-mix(in oklab, var(--ds-text) 72%, var(--ds-accent) 28%);
   --ds-btn-primary-text: #f7f7f4;
+  --ds-btn-primary-text-hover: #ffffff;
+  --ds-btn-primary-text-selected: #ffffff;
   --ds-input-bg: #f7f7f4;
   --ds-input-border: #111215;
   --ds-input-text: #111215;
@@ -1090,6 +1326,8 @@
   --ds-btn-primary-bg-hover: #232323;
   --ds-btn-primary-border: #111111;
   --ds-btn-primary-text: #fff7dc;
+  --ds-btn-primary-text-hover: #ffffff;
+  --ds-btn-primary-text-selected: #ffffff;
   --ds-btn-tertiary-bg: linear-gradient(180deg, #d5cec0 0%, #b7af9f 100%);
   --ds-btn-tertiary-bg-hover: linear-gradient(180deg, #dfd8cb 0%, #c0b7a7 100%);
   --ds-btn-tertiary-border: #111111;
@@ -1149,6 +1387,9 @@
 }
 
 :root[data-theme="amber-terminal"],
+:root[data-theme="steel-night"],
+:root[data-theme="neon-grid"],
+:root[data-theme="mono-slate"],
 :root[data-theme="saturn-alloy"],
 :root[data-theme="old-web-portal"],
 :root[data-theme="sunset-pop"] {

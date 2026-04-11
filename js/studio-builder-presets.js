@@ -92,6 +92,13 @@
     });
 
     const paletteLockedStyles = new Set([]);
+    const paletteLockedSchemes = new Set([
+      "industrial-lime",
+      "skeuo-sky",
+      "velvet-violet",
+      "saturn-alloy",
+      "eva-unit01",
+    ]);
 
     function auditPresetConnectivity() {
       const issues = [];
@@ -160,6 +167,42 @@
       });
       if (issues.length) {
         console.warn("[ThemeBuilder] Style composability issues:", issues);
+      }
+      return issues;
+    }
+
+    function auditSchemeComposability() {
+      const corePaletteTokens = new Set([
+        "--ds-bg",
+        "--ds-bg-elevated",
+        "--ds-bg-raised",
+        "--ds-bg-soft",
+        "--ds-text",
+        "--ds-text-muted",
+        "--ds-text-inverse",
+        "--ds-accent",
+        "--ds-accent-strong",
+        "--ds-border",
+        "--ds-border-strong",
+        "--ds-focus",
+        "--ds-success",
+        "--ds-warning",
+        "--ds-danger",
+        "--ds-info",
+      ]);
+      const issues = [];
+      Object.entries(schemePresets).forEach(function (entry) {
+        const schemeName = entry[0];
+        const bundle = entry[1];
+        if (paletteLockedSchemes.has(schemeName)) return;
+        Object.keys(bundle).forEach(function (token) {
+          if (corePaletteTokens.has(token)) {
+            issues.push(schemeName + " hardcodes core palette token: " + token);
+          }
+        });
+      });
+      if (issues.length) {
+        console.warn("[ThemeBuilder] Scheme composability issues:", issues);
       }
       return issues;
     }
@@ -292,6 +335,26 @@
       if (familyKey === "cathode" || familyKey === "electric") {
         textSat = clamp(sat * 0.74, 34, 92);
         mutedTextSat = clamp(sat * 0.52, 20, 68);
+      } else if (familyKey === "paper") {
+        surfaceSatBg = clamp(sat * 0.72, 16, 30);
+        surfaceSatElevated = clamp(sat * 0.82, 18, 34);
+        surfaceSatRaised = clamp(sat * 1.02, 22, 40);
+        surfaceSatSoft = clamp(sat * 1.16, 24, 46);
+        borderSat = clamp(sat * 0.84, 18, 34);
+        borderStrongSat = clamp(sat * 1.02, 24, 42);
+        textSat = clamp(sat * 0.34, 10, 20);
+        mutedTextSat = clamp(sat * 0.44, 14, 28);
+        accentL = clamp(fam.accentL + Math.round(hueEnergyLift(h) * 0.28), 36, 54);
+      } else if (familyKey === "skeuo") {
+        surfaceSatBg = clamp(sat * 0.62, 16, 32);
+        surfaceSatElevated = clamp(sat * 0.72, 18, 38);
+        surfaceSatRaised = clamp(sat * 0.84, 20, 42);
+        surfaceSatSoft = clamp(sat * 0.9, 22, 46);
+        borderSat = clamp(sat * 0.6, 18, 34);
+        borderStrongSat = clamp(sat * 0.74, 22, 40);
+        textSat = clamp(sat * 0.3, 10, 20);
+        mutedTextSat = clamp(sat * 0.36, 12, 26);
+        accentL = clamp(fam.accentL + Math.round(hueEnergyLift(h) * 0.18), 44, 62);
       } else if (familyKey === "signal") {
         textSat = clamp(sat * 0.52, 24, 82);
         mutedTextSat = clamp(sat * 0.36, 16, 56);
@@ -487,6 +550,7 @@
       applyShadowPreset: applyShadowPreset,
       builderGroupId: builderGroupId,
       humanLabel: humanLabel,
+      auditSchemeComposability: auditSchemeComposability,
     };
   }
 
