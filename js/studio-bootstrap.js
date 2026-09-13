@@ -5,6 +5,7 @@
     if (initializedBootstrapApi) return initializedBootstrapApi;
 
     const root = opts.root;
+    const themeSession = opts.themeSession;
     const renderBuilder = opts.renderBuilder;
     const tokenGroups = opts.tokenGroups || [];
     const builderGroupId = opts.builderGroupId;
@@ -187,13 +188,7 @@
     }
 
     function buildThemeBlock(themeName) {
-      const lines = [':root[data-theme="' + themeName + '"] {'];
-      controlMap.forEach(function (meta, token) {
-        const value = getRawTokenValue(meta);
-        lines.push("  " + token + ": " + value + ";");
-      });
-      lines.push("}");
-      return lines.join("\n");
+      return win.DesignSystemThemeComposer.serialize(themeName, themeSession.tokens);
     }
 
     function addToast(kind, text) {
@@ -273,6 +268,7 @@
 
     if (studioBuilderEngineApi) {
       studioBuilderEngineApi.initBuilderEngine({
+        themeSession,
         root: root,
         themeSelect: themeSelect,
         familyPresetSelect: familyPresetSelect,
@@ -294,9 +290,7 @@
         scalePresets: scalePresets,
         typographyPresets: typographyPresets,
         texturePresets: texturePresets,
-        clearOverrides: function () {
-          root.removeAttribute("style");
-        },
+        clearOverrides: function () { themeSession.reset(); },
         syncControlsFromComputed: syncControlsFromComputed,
         sanitizeThemeName: sanitizeThemeName,
         buildThemeBlock: buildThemeBlock,

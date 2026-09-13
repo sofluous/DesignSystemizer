@@ -1,6 +1,10 @@
 (function (win, doc) {
   function initBuilderEngine(opts) {
     const root = opts.root;
+    const session = opts.themeSession;
+    const drafts = new Map();
+    let activeTheme = themeSelectValue();
+    function themeSelectValue() { return opts.themeSelect ? opts.themeSelect.value : root.getAttribute("data-theme"); }
     const themeSelect = opts.themeSelect;
     const familyPresetSelect = opts.familyPresetSelect;
     const huePresetSelect = opts.huePresetSelect;
@@ -13,14 +17,8 @@
     const autoApplyPresetKey = opts.autoApplyPresetKey;
     const resetConfirmKey = opts.resetConfirmKey;
     const baseThemePresetMap = opts.baseThemePresetMap;
-    const buildColorBundle = opts.buildColorBundle;
     const inferTypographyPreset = opts.inferTypographyPreset;
     const inferTexturePreset = opts.inferTexturePreset;
-    const schemePresets = opts.schemePresets;
-    const stylePresets = opts.stylePresets;
-    const scalePresets = opts.scalePresets;
-    const typographyPresets = opts.typographyPresets;
-    const texturePresets = opts.texturePresets;
     const clearOverrides = opts.clearOverrides;
     const syncControlsFromComputed = opts.syncControlsFromComputed;
     const sanitizeThemeName = opts.sanitizeThemeName;
@@ -44,12 +42,6 @@
     const downloadPackageBtn = doc.getElementById("downloadPackageBtn");
 
     let lastAppliedPresetSignature = "";
-
-    function setTokenBundle(bundle) {
-      Object.keys(bundle || {}).forEach(function (token) {
-        root.style.setProperty(token, bundle[token]);
-      });
-    }
 
     function describePresetValue(value) {
       return String(value || "")
@@ -82,66 +74,6 @@
         current.scale,
         current.texture,
       ]);
-    }
-
-    function applyPresetComboBundle(combo, baseThemeName) {
-      const baseTheme = baseThemeName || (themeSelect ? themeSelect.value : "");
-      const baseCombo = baseThemePresetMap[baseTheme];
-      if (!baseCombo) {
-        root.removeAttribute("data-theme");
-        setTokenBundle(buildColorBundle(combo.family, combo.hue));
-        setTokenBundle(schemePresets[combo.scheme || "standard"]);
-        setTokenBundle(stylePresets[combo.style]);
-        setTokenBundle(scalePresets[combo.scale]);
-        setTokenBundle(
-          typographyPresets[
-            combo.typography || inferTypographyPreset(combo.style)
-          ],
-        );
-        setTokenBundle(
-          texturePresets[combo.texture || inferTexturePreset(combo.style)],
-        );
-        return;
-      }
-
-      root.setAttribute("data-theme", baseTheme);
-      const familyChanged = combo.family !== baseCombo.family;
-      const hueChanged = combo.hue !== baseCombo.hue;
-      const schemeChanged =
-        (combo.scheme || "standard") !== (baseCombo.scheme || "standard");
-      const styleChanged = combo.style !== baseCombo.style;
-      const typographyChanged =
-        (combo.typography || inferTypographyPreset(combo.style)) !==
-        (baseCombo.typography || inferTypographyPreset(baseCombo.style));
-      const scaleChanged = combo.scale !== baseCombo.scale;
-      const textureChanged =
-        (combo.texture || inferTexturePreset(combo.style)) !==
-        (baseCombo.texture || inferTexturePreset(baseCombo.style));
-
-      if (familyChanged || hueChanged) {
-        setTokenBundle(buildColorBundle(combo.family, combo.hue));
-      }
-      if (familyChanged || hueChanged || schemeChanged) {
-        setTokenBundle(schemePresets[combo.scheme || "standard"]);
-      }
-      if (styleChanged) {
-        setTokenBundle(stylePresets[combo.style]);
-      }
-      if (scaleChanged) {
-        setTokenBundle(scalePresets[combo.scale]);
-      }
-      if (typographyChanged) {
-        setTokenBundle(
-          typographyPresets[
-            combo.typography || inferTypographyPreset(combo.style)
-          ],
-        );
-      }
-      if (textureChanged) {
-        setTokenBundle(
-          texturePresets[combo.texture || inferTexturePreset(combo.style)],
-        );
-      }
     }
 
     function selectionMatchesBaseTheme(theme, selection) {
@@ -179,6 +111,7 @@
       const current = currentPresetSelection();
       const lines = [
         "Base Theme: " + describePresetValue(theme || "custom"),
+        presetSelectionSignature(current) === presetSelectionSignature(session.recipe || current) ? "Applied recipe" : "Pending selections ? preview and export use the applied recipe",
         "",
         "Family     " + describePresetValue(current.family),
         "Hue        " + describePresetValue(current.hue),
@@ -227,23 +160,11 @@
       updatePresetRecipeReadout();
     }
 
-    function applySelectedPresetCombo() {
-      const theme = themeSelect ? themeSelect.value : "";
-      if (selectionMatchesBaseTheme(theme)) {
-        clearOverrides();
-        root.setAttribute("data-theme", theme);
-        updatePresetRecipeReadout();
-        return;
-      }
-      applyPresetComboBundle(currentPresetSelection());
-      updatePresetRecipeReadout();
-    }
-
     function applyPresetSelectionFromLoader() {
-      clearOverrides();
-      applySelectedPresetCombo();
+      session.select(currentPresetSelection());
       lastAppliedPresetSignature = presetSelectionSignature();
       updatePresetLoaderActions();
+      updatePresetRecipeReadout();
       syncControlsFromComputed();
     }
 
@@ -255,14 +176,18 @@
     }
 
     function performReset() {
-      applyPresetSelectionFromLoader();
+      session.reset();
+      syncControlsFromComputed();
     }
+
+    function readSetting(key) { try { return win.localStorage.getItem(key); } catch (_) { return null; } }
+    function writeSetting(key, value) { try { win.localStorage.setItem(key, value); } catch (_) {} }
 
     if (autoApplyPresetToggle) {
       autoApplyPresetToggle.checked =
-        win.localStorage.getItem(autoApplyPresetKey) !== "0";
+        readSetting(autoApplyPresetKey) !== "0";
       autoApplyPresetToggle.addEventListener("change", function () {
-        win.localStorage.setItem(
+        writeSetting(
           autoApplyPresetKey,
           this.checked ? "1" : "0",
         );
@@ -302,11 +227,11 @@
     if (themeSelect) {
       themeSelect.addEventListener("ds-theme-change", function () {
         const theme = themeSelect.value;
-        clearOverrides();
-        const combo = baseThemePresetMap[theme];
-        if (combo) {
-          setPresetSelectors(combo);
-        }
+        drafts.set(activeTheme, session.snapshot());
+        activeTheme = theme;
+        const draft = drafts.get(theme) || { recipe: baseThemePresetMap[theme], overrides: {} };
+        session.load(draft);
+        setPresetSelectors(draft.recipe);
         syncControlsFromComputed();
         if (typeof onThemeChanged === "function") {
           onThemeChanged(theme);
@@ -316,7 +241,7 @@
 
     if (resetOverridesBtn && resetDialog) {
       resetOverridesBtn.addEventListener("click", function () {
-        if (win.localStorage.getItem(resetConfirmKey) === "1") {
+        if (readSetting(resetConfirmKey) === "1") {
           performReset();
           return;
         }
@@ -334,7 +259,7 @@
     if (confirmResetBtn && resetDialog) {
       confirmResetBtn.addEventListener("click", function () {
         if (skipResetConfirmChk.checked) {
-          win.localStorage.setItem(resetConfirmKey, "1");
+          writeSetting(resetConfirmKey, "1");
         }
         resetDialog.close();
         performReset();
@@ -350,7 +275,7 @@
     if (copyExportBtn) {
       copyExportBtn.addEventListener("click", async function () {
         const out = themeExportOutput;
-        if (!out.value.trim()) exportThemeBlock();
+        exportThemeBlock();
         if (!out.value.trim()) return;
         try {
           await navigator.clipboard.writeText(out.value);
@@ -367,13 +292,11 @@
         const recipe = {
           themeName: exp.name,
           baseTheme: themeSelect.value,
-          colorFamily: familyPresetSelect.value,
-          hue: huePresetSelect.value,
-          scheme: schemePresetSelect.value,
-          style: stylePresetSelect.value,
-          typography: typographyPresetSelect.value,
-          scale: scalePresetSelect.value,
-          texture: texturePresetSelect.value,
+          schemaVersion: 1,
+          layers: session.recipe,
+          overrides: session.overrides,
+          tokens: session.tokens,
+          contrast: win.DesignSystemThemeContrast.audit(session.tokens),
           generatedAt: new Date().toISOString(),
         };
         const files = studioPackagingApi
@@ -396,8 +319,27 @@
     const initialTheme = themeSelect ? themeSelect.value : root.getAttribute("data-theme");
     const initialCombo = baseThemePresetMap[initialTheme];
     if (initialCombo) {
+      session.load({ recipe: initialCombo, overrides: {} });
       setPresetSelectors(initialCombo);
     }
+    const editStatus = doc.getElementById("themeEditStatus");
+    const undoButton = doc.getElementById("undoThemeEditBtn");
+    function updateEditStatus() {
+      const count = Object.keys(session.overrides).length;
+      const issues = win.DesignSystemThemeContrast.audit(session.tokens).filter((item) => item.ratio === null || item.ratio < 4.5);
+      if (editStatus) editStatus.textContent = count + " manual override(s). " +
+        (issues.length ? issues.length + " contrast pair(s) need review: " + issues.map((p) => p.fg).join(", ") : "Checked control contrast pairs pass.") +
+        (session.fixes.length ? " " + session.fixes.length + " preset contrast adjustment(s)." : "");
+      if (undoButton) undoButton.disabled = !session.canUndo;
+      if (themeExportOutput) themeExportOutput.value = "";
+    }
+    session.subscribe(updateEditStatus);
+    if (undoButton) undoButton.addEventListener("click", function () {
+      session.undo();
+      setPresetSelectors(session.recipe);
+      syncControlsFromComputed();
+    });
+    updateEditStatus();
     updatePresetRecipeReadout();
     syncControlsFromComputed();
     updatePresetLoaderActions();

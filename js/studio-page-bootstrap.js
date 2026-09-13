@@ -36,6 +36,7 @@
     const studioBootstrapApi = win.DesignSystemStudioBootstrap || null;
     if (studioBootstrapApi && studioBootstrapApi.initStudioBootstrap) {
       studioBootstrapApi.initStudioBootstrap({
+        themeSession: builderBootstrap.themeSession,
         root,
         renderBuilder,
         tokenGroups: builderBootstrap.tokenGroups || [],

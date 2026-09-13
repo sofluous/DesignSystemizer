@@ -11,7 +11,7 @@ body {
 body {
   background: var(--ds-bg);
   background-image: var(--ds-body-texture-image), var(--ds-body-bg-image);
-  background-blend-mode: var(--ds-texture-blend), normal;
+  background-blend-mode: var(--ds-body-paint-blend, normal);
   color: var(--ds-text);
   font-family: var(--ds-font-sans);
   font-size: var(--ds-fs-2);
@@ -236,9 +236,9 @@ p {
 
 .ds-card {
   position: relative;
-  background: var(--ds-card-bg);
-  background-image: var(--ds-card-texture-image), var(--ds-card-bg-image);
-  background-blend-mode: var(--ds-texture-blend), normal;
+  background-color: var(--ds-card-paint-color, var(--ds-bg-elevated));
+  background-image: var(--ds-card-texture-image), var(--ds-card-bg-image), var(--ds-card-paint-image, none);
+  background-blend-mode: var(--ds-card-paint-blend, normal);
   border: var(--ds-border-w) var(--ds-border-style) var(--ds-card-border);
   border-radius: var(--ds-card-radius);
   box-shadow: var(--ds-card-shadow);
@@ -363,9 +363,9 @@ p {
   min-height: var(--ds-btn-h);
   border-radius: var(--ds-btn-radius);
   border: var(--ds-border-w) var(--ds-border-style) var(--ds-btn-border);
-  background: var(--ds-btn-bg);
-  background-image: var(--ds-control-texture-image);
-  background-blend-mode: var(--ds-texture-blend);
+  background-color: var(--ds-btn-paint-color, var(--ds-bg-raised));
+  background-image: var(--ds-control-texture-image), var(--ds-btn-paint-image, none);
+  background-blend-mode: var(--ds-control-paint-blend, normal);
   box-shadow: var(--ds-btn-shadow);
   backdrop-filter: blur(var(--ds-control-backdrop-blur))
     saturate(calc(1 + var(--ds-texture-strength)));
@@ -415,8 +415,8 @@ p {
 }
 
 .ds-btn-primary {
-  background: var(--ds-btn-primary-bg, var(--ds-btn-primary-bg-hover, var(--ds-btn-bg)));
-  background-image: var(--ds-control-texture-image);
+  background-color: var(--ds-btn-primary-paint-color, var(--ds-accent));
+  background-image: var(--ds-control-texture-image), var(--ds-btn-primary-paint-image, none);
   border-color: var(--ds-btn-primary-border, var(--ds-btn-border));
   box-shadow: var(--ds-btn-primary-shadow, var(--ds-btn-shadow));
   color: var(--ds-btn-primary-text, var(--ds-btn-text));
@@ -775,9 +775,9 @@ p {
   min-height: var(--ds-control-h);
   border: var(--ds-border-w) var(--ds-border-style) var(--ds-input-border);
   border-radius: var(--ds-radius-2);
-  background: var(--ds-input-bg);
-  background-image: var(--ds-control-texture-image);
-  background-blend-mode: var(--ds-texture-blend);
+  background-color: var(--ds-input-paint-color, var(--ds-bg-raised));
+  background-image: var(--ds-control-texture-image), var(--ds-input-paint-image, none);
+  background-blend-mode: var(--ds-control-paint-blend, normal);
   box-shadow: var(--ds-input-shadow);
   backdrop-filter: blur(var(--ds-control-backdrop-blur))
     saturate(calc(1 + var(--ds-texture-strength)));
@@ -788,6 +788,7 @@ p {
 
 /* Keep native select popup rows readable under themed text colors. */
 .ds-select {
+  background-blend-mode: normal, normal, var(--ds-control-paint-blend, normal);
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -795,7 +796,7 @@ p {
   background-image:
     linear-gradient(45deg, transparent 50%, currentColor 50%),
     linear-gradient(135deg, currentColor 50%, transparent 50%),
-    var(--ds-control-texture-image);
+    var(--ds-control-texture-image), var(--ds-input-paint-image, none);
   background-position:
     calc(100% - 18px) calc(50% - 1px),
     calc(100% - 12px) calc(50% - 1px),
@@ -828,7 +829,7 @@ p {
 
 .ds-select:focus,
 .ds-select:active {
-  background-color: var(--ds-input-bg);
+  background-color: var(--ds-input-paint-color, var(--ds-bg-raised));
 }
 
 .ds-textarea {
@@ -1292,19 +1293,17 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .ds-chip-accent {
-  border-color: color-mix(in oklab, var(--ds-accent) 60%, var(--ds-border));
-  background: color-mix(in oklab, var(--ds-accent) 14%, var(--ds-bg-raised));
-  color: var(--ds-accent);
+  border-color: var(--ds-chip-accent-border);
+  background: var(--ds-chip-accent-bg);
+  color: var(--ds-chip-accent-text);
+  -webkit-text-fill-color: currentColor;
 }
 
 .ds-chip-alt {
-  border-color: color-mix(in oklab, var(--ds-accent-alt) 60%, var(--ds-border));
-  background: color-mix(
-    in oklab,
-    var(--ds-accent-alt) 16%,
-    var(--ds-bg-raised)
-  );
-  color: var(--ds-accent-alt);
+  border-color: var(--ds-chip-alt-border);
+  background: var(--ds-chip-alt-bg);
+  color: var(--ds-chip-alt-text);
+  -webkit-text-fill-color: currentColor;
 }
 
 .ds-alert {
@@ -1580,10 +1579,10 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .ds-tab {
-  border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+  border: var(--ds-border-w) var(--ds-border-style) var(--ds-tab-border);
   border-radius: var(--ds-radius-pill);
-  background: transparent;
-  color: var(--ds-text-muted);
+  background: var(--ds-tab-bg);
+  color: var(--ds-tab-fg);
   padding: 6px 12px;
   font: inherit;
   cursor: pointer;

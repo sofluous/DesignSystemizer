@@ -602,6 +602,26 @@
             };
             main.addEventListener("input", () => applyControl(meta));
           }
+          meta.structuredControls = Array.from(field.querySelectorAll("input, select, button"));
+          const inputs = Array.from(field.querySelectorAll("input, select"));
+          inputs.forEach((input, index) => {
+            input.id = "token-" + control.token.slice(2) + "-" + index;
+            input.setAttribute("aria-label", humanLabel(control.token) + " " + (input.placeholder || input.type || "value"));
+          });
+          if (inputs.length) label.htmlFor = inputs[0].id;
+          const rawEditor = doc.createElement("details");
+          const rawSummary = doc.createElement("summary");
+          rawSummary.textContent = "Exact CSS";
+          rawEditor.appendChild(rawSummary);
+          meta.rawHint = doc.createElement("p");
+          meta.rawHint.className = "ds-muted";
+          rawEditor.appendChild(meta.rawHint);
+          meta.rawInput = doc.createElement("input");
+          meta.rawInput.className = "ds-input";
+          meta.rawInput.setAttribute("aria-label", humanLabel(control.token) + " exact CSS value");
+          meta.rawInput.addEventListener("change", () => applyControl(meta, "raw"));
+          rawEditor.appendChild(meta.rawInput);
+          field.appendChild(rawEditor);
           controlMap.set(control.token, meta);
           sectionParts.body.appendChild(field);
         });

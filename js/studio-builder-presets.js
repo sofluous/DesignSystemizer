@@ -223,10 +223,6 @@
       return Math.min(max, Math.max(min, v));
     }
 
-    function rotate(h, d) {
-      return (h + d + 360) % 360;
-    }
-
     function hueEnergyLift(h) {
       const hue = ((h % 360) + 360) % 360;
       if (hue >= 40 && hue <= 72) return 0;
@@ -407,26 +403,10 @@
           clamp(aSat * 0.92, 0, 100),
           clamp(accentL + (isLight ? -5 : 16), 6, 96),
         ),
-        "--ds-success": hsl(
-          rotate(h, 118),
-          clamp(aSat * 0.74, 20, 95),
-          clamp(accentL + (isLight ? -8 : 8), 8, 90),
-        ),
-        "--ds-warning": hsl(
-          rotate(h, 54),
-          clamp(aSat * 0.78, 20, 95),
-          clamp(accentL + (isLight ? -2 : 10), 8, 90),
-        ),
-        "--ds-danger": hsl(
-          rotate(h, -34),
-          clamp(aSat * 0.8, 20, 95),
-          clamp(accentL + (isLight ? -1 : 10), 8, 90),
-        ),
-        "--ds-info": hsl(
-          rotate(h, 18),
-          clamp(aSat * 0.72, 20, 95),
-          clamp(accentL + (isLight ? -4 : 9), 8, 90),
-        ),
+        "--ds-success": isLight ? "#167344" : "#68dea0",
+        "--ds-warning": isLight ? "#885800" : "#f4c563",
+        "--ds-danger": isLight ? "#b42332" : "#ff8391",
+        "--ds-info": isLight ? "#155faa" : "#7fc5ff",
         "--ds-btn-primary-bg": primaryBgColor,
         "--ds-btn-primary-bg-hover": hsl(
           h,
@@ -476,12 +456,6 @@
       }
       if (familyKey === "race-ui") {
         bundle["--ds-bg-overlay"] = "rgba(14,12,8,0.28)";
-      }
-      if (familyKey === "monochrome" || familyKey === "noir") {
-        bundle["--ds-success"] = bundle["--ds-accent"];
-        bundle["--ds-warning"] = bundle["--ds-accent-strong"];
-        bundle["--ds-danger"] = bundle["--ds-accent"];
-        bundle["--ds-info"] = bundle["--ds-accent-strong"];
       }
       return bundle;
     }

@@ -184,8 +184,10 @@
 }
 
 .ds-master-tabs .ds-btn[aria-selected="true"] {
-  border-color: var(--ds-accent);
-  background: color-mix(in oklab, var(--ds-accent) 14%, var(--ds-btn-bg));
+  border-color: var(--ds-tab-active-border);
+  background: var(--ds-tab-active-bg);
+  color: var(--ds-tab-active-fg);
+  -webkit-text-fill-color: var(--ds-tab-active-fg);
 }
 
 .ds-master-pane {

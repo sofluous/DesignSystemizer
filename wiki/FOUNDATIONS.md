@@ -121,6 +121,6 @@ The current modular builder stack is:
 - This keeps primary buttons, checkboxes, and radios aligned under the same contrast rule instead of fixing each component separately.
 
 ## Style Composability Rule
-- Style presets should primarily define shape, type, spacing, and effects.
+- Style presets should primarily define geometry, borders, and effects; typography and density have their own layers.
 - Style presets should avoid hardcoding core palette tokens (`--ds-bg*`, `--ds-text*`, `--ds-accent*`) unless the style is intentionally palette-locked.
 - `graphic-signal` has been updated to be composable with family/hue/texture presets.

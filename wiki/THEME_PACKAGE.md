@@ -110,3 +110,10 @@ Use this only if you need to override the standard root-driven behavior:
 - Keep theme values in CSS and theme metadata in the registry.
 - If an app needs a filtered selector, derive it from `window.DesignSystemThemeRegistry.themes`.
 - For your current static/local app setup, this generated single-folder package is the most practical “drag and drop” approach without introducing a full package manager or build pipeline.
+
+## Studio ZIP exports (schema 1)
+The Studio download includes a complete `design-system/` runtime folder, `example.html`, `INSTALL.md`, standalone custom CSS, and `theme.recipe.json`. The recipe contains the applied seven layers, exact manual overrides, and all final tokens. Pending unapplied selections are excluded.
+
+Load bundled CSS and registry/selector scripts together. No Studio scripts are required by consumers. All default themes remain switchable alongside the custom theme. Optional `fonts.css` loads Inter/Space Mono web fonts; offline/system fallback behavior is documented in INSTALL.md.
+
+`css/themes.css`, `js/theme-foundations.js`, `js/theme-package-assets.js`, and the preset map are generated. Run the package builder after editing foundations, presets, or shared components.

@@ -129,6 +129,12 @@
         : function () {
             return {};
           };
+    const composer = win.DesignSystemThemeComposer.createComposer(
+      builderThemeData, win.DesignSystemThemeFoundations, buildColorBundle,
+    );
+    const themeSession = win.DesignSystemThemeComposer.createSession(composer, root);
+    // Controls are initialized before preset utilities; attach the shared session now.
+    if (builderControls) builderControls.setSession(themeSession);
     const applyShadowPreset =
       builderPresetUtils && builderPresetUtils.applyShadowPreset
         ? builderPresetUtils.applyShadowPreset
@@ -174,6 +180,7 @@
         : function () {};
 
     initializedBuilderBootstrap = {
+      themeSession,
       renderBuilder,
       tokenGroups,
       builderGroupId,

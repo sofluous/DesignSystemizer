@@ -198,9 +198,10 @@ html[data-theme-ready="1"] body {
 }
 
 .studio-tab[aria-selected="true"] {
-  border-color: var(--ds-accent);
-  background: color-mix(in oklab, var(--ds-accent) 16%, var(--ds-btn-bg));
-  color: var(--ds-btn-text);
+  border-color: var(--ds-tab-active-border);
+  background: var(--ds-tab-active-bg);
+  color: var(--ds-tab-active-fg);
+  -webkit-text-fill-color: var(--ds-tab-active-fg);
 }
 
 .studio-main {

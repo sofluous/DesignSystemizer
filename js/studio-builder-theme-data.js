@@ -258,13 +258,13 @@
     "0 1px 2px rgba(76,90,112,0.3) inset, 0 1px 0 rgba(255,255,255,0.8)",
     "--ds-btn-press-transform": "translateY(1px)",
     "--ds-card-secondary-bg":
-    "linear-gradient(180deg, color-mix(in oklab, white 78%, var(--ds-accent) 22%) 0%, color-mix(in oklab, var(--ds-bg-raised) 82%, white 12%, var(--ds-accent) 6%) 100%)",
+    "linear-gradient(180deg, color-mix(in oklab, white 78%, var(--ds-accent) 22%) 0%, color-mix(in oklab, color-mix(in oklab, var(--ds-bg-raised) 87.234043%, white) 94%, var(--ds-accent) 6%) 100%)",
     "--ds-card-secondary-border":
     "color-mix(in oklab, var(--ds-card-border) 56%, var(--ds-accent) 44%)",
     "--ds-card-secondary-shadow":
     "0 1px 0 rgba(255,255,255,0.74) inset, 0 3px 6px rgba(80,94,116,0.14)",
     "--ds-chip-bg":
-    "linear-gradient(180deg, color-mix(in oklab, white 72%, var(--ds-accent) 28%) 0%, color-mix(in oklab, var(--ds-bg-raised) 80%, white 14%, var(--ds-accent) 6%) 100%)",
+    "linear-gradient(180deg, color-mix(in oklab, white 72%, var(--ds-accent) 28%) 0%, color-mix(in oklab, color-mix(in oklab, var(--ds-bg-raised) 85.106383%, white) 94%, var(--ds-accent) 6%) 100%)",
     "--ds-chip-border":
     "color-mix(in oklab, var(--ds-border-strong) 54%, var(--ds-accent) 46%)",
     },
@@ -1038,10 +1038,10 @@
     "--ds-accent": "#d6ea60",
     "--ds-accent-strong": "#b8d43a",
     "--ds-focus": "#e5f67f",
-    "--ds-success": "#95db7d",
-    "--ds-warning": "#efc678",
-    "--ds-danger": "#e88386",
-    "--ds-info": "#88bec6",
+
+
+
+
     "--ds-btn-bg": "#202727",
     "--ds-btn-bg-hover": "#273030",
     "--ds-btn-border": "#5c6a66",
@@ -1055,9 +1055,9 @@
     },
     "skeuo-sky": {
     "--ds-btn-bg":
-    "linear-gradient(180deg, color-mix(in oklab, white 80%, var(--ds-accent) 20%) 0%, color-mix(in oklab, var(--ds-bg-raised) 86%, white 8%, var(--ds-accent) 6%) 100%)",
+    "linear-gradient(180deg, color-mix(in oklab, white 80%, var(--ds-accent) 20%) 0%, color-mix(in oklab, color-mix(in oklab, var(--ds-bg-raised) 91.489362%, white) 94%, var(--ds-accent) 6%) 100%)",
     "--ds-btn-bg-hover":
-    "linear-gradient(180deg, color-mix(in oklab, white 85%, var(--ds-accent) 15%) 0%, color-mix(in oklab, var(--ds-bg-raised) 82%, white 10%, var(--ds-accent) 8%) 100%)",
+    "linear-gradient(180deg, color-mix(in oklab, white 85%, var(--ds-accent) 15%) 0%, color-mix(in oklab, color-mix(in oklab, var(--ds-bg-raised) 89.130435%, white) 92%, var(--ds-accent) 8%) 100%)",
     "--ds-btn-border":
     "color-mix(in oklab, var(--ds-border) 62%, var(--ds-accent) 38%)",
     "--ds-btn-text": "var(--ds-text)",
@@ -1072,7 +1072,7 @@
     "--ds-btn-primary-text-selected": "var(--ds-text-inverse)",
     "--ds-focus": "var(--ds-accent-strong)",
     "--ds-input-bg":
-    "linear-gradient(180deg, color-mix(in oklab, white 88%, var(--ds-accent) 12%) 0%, color-mix(in oklab, var(--ds-bg-raised) 84%, white 10%, var(--ds-accent) 6%) 100%)",
+    "linear-gradient(180deg, color-mix(in oklab, white 88%, var(--ds-accent) 12%) 0%, color-mix(in oklab, color-mix(in oklab, var(--ds-bg-raised) 89.361702%, white) 94%, var(--ds-accent) 6%) 100%)",
     "--ds-input-border":
     "color-mix(in oklab, var(--ds-border) 60%, var(--ds-accent) 40%)",
     "--ds-card-border":
@@ -1224,10 +1224,10 @@
     "--ds-accent": "#9a58ff",
     "--ds-accent-strong": "#7b3ae0",
     "--ds-focus": "#52f6a9",
-    "--ds-success": "#52f6a9",
-    "--ds-warning": "#ffad3a",
-    "--ds-danger": "#c86df0",
-    "--ds-info": "#66b8ff",
+
+
+
+
     "--ds-btn-bg": "#1a1826",
     "--ds-btn-bg-hover": "#211d30",
     "--ds-btn-primary-bg": "#965dff",
@@ -1246,10 +1246,10 @@
     "--ds-accent": "#5ed0ff",
     "--ds-accent-strong": "#2ab4f0",
     "--ds-focus": "#8de1ff",
-    "--ds-success": "#7dd6aa",
-    "--ds-warning": "#f2be6f",
-    "--ds-danger": "#db7d84",
-    "--ds-info": "#7bc5ff",
+
+
+
+
     "--ds-btn-bg":
     "linear-gradient(180deg, #5d687b 0%, #525d70 16%, #444d5e 62%, #394252 100%)",
     "--ds-btn-bg-hover":
@@ -1355,19 +1355,19 @@
     "--ds-btn-bg-hover":
     "linear-gradient(140deg, color-mix(in oklab, white 14%, var(--ds-bg-elevated) 86%) 0%, color-mix(in oklab, var(--ds-accent) 16%, var(--ds-bg-raised) 84%) 52%, color-mix(in oklab, var(--ds-focus) 16%, var(--ds-bg-soft) 84%) 100%)",
     "--ds-btn-border":
-    "color-mix(in oklab, var(--ds-border) 58%, white 22%, var(--ds-accent) 20%)",
+    "color-mix(in oklab, color-mix(in oklab, var(--ds-border) 72.500000%, white) 80%, var(--ds-accent) 20%)",
     "--ds-btn-text": "#edf4ff",
     "--ds-btn-primary-bg":
     "linear-gradient(132deg, color-mix(in oklab, var(--ds-accent) 68%, white 32%) 0%, color-mix(in oklab, var(--ds-focus) 62%, var(--ds-accent) 38%) 52%, color-mix(in oklab, var(--ds-info) 60%, white 40%) 100%)",
     "--ds-btn-primary-bg-hover":
     "linear-gradient(132deg, color-mix(in oklab, var(--ds-accent) 58%, white 42%) 0%, color-mix(in oklab, var(--ds-focus) 54%, var(--ds-accent) 46%) 52%, color-mix(in oklab, var(--ds-info) 52%, white 48%) 100%)",
     "--ds-btn-primary-border":
-    "color-mix(in oklab, white 34%, var(--ds-accent) 33%, var(--ds-focus) 33%)",
+    "color-mix(in oklab, color-mix(in oklab, white 50.746269%, var(--ds-accent)) 67%, var(--ds-focus) 33%)",
     "--ds-btn-primary-text": "#ecf5ff",
     "--ds-input-bg":
     "linear-gradient(180deg, color-mix(in oklab, white 10%, var(--ds-bg-elevated) 90%) 0%, color-mix(in oklab, var(--ds-accent) 8%, var(--ds-bg-raised) 92%) 100%)",
     "--ds-input-border":
-    "color-mix(in oklab, var(--ds-border) 56%, white 18%, var(--ds-accent) 26%)",
+    "color-mix(in oklab, color-mix(in oklab, var(--ds-border) 75.675676%, white) 74%, var(--ds-accent) 26%)",
     "--ds-input-text": "#edf4ff",
     "--ds-input-placeholder": "#93a7c4",
     },
@@ -1377,19 +1377,19 @@
     "--ds-btn-bg-hover":
     "linear-gradient(136deg, color-mix(in oklab, #11161f 74%, #39404d 26%) 0%, color-mix(in oklab, #161d28 70%, #334152 30%) 68%, color-mix(in oklab, #1b212b 76%, #54485e 24%) 100%)",
     "--ds-btn-border":
-    "color-mix(in oklab, var(--ds-border) 62%, #7c889a 18%, var(--ds-accent) 20%)",
+    "color-mix(in oklab, color-mix(in oklab, var(--ds-border) 77.500000%, #7c889a) 80%, var(--ds-accent) 20%)",
     "--ds-btn-text": "#eaf3ff",
     "--ds-btn-primary-bg":
     "linear-gradient(132deg, color-mix(in oklab, var(--ds-accent) 42%, #1a2a34 58%) 0%, color-mix(in oklab, var(--ds-focus) 38%, #281f31 62%) 48%, color-mix(in oklab, var(--ds-info) 34%, #18262f 66%) 100%)",
     "--ds-btn-primary-bg-hover":
     "linear-gradient(132deg, color-mix(in oklab, var(--ds-accent) 48%, #21323e 52%) 0%, color-mix(in oklab, var(--ds-focus) 44%, #34283d 56%) 48%, color-mix(in oklab, var(--ds-info) 40%, #1e2d37 60%) 100%)",
     "--ds-btn-primary-border":
-    "color-mix(in oklab, var(--ds-border-strong) 52%, var(--ds-accent) 24%, var(--ds-focus) 24%)",
+    "color-mix(in oklab, color-mix(in oklab, var(--ds-border-strong) 68.421053%, var(--ds-accent)) 76%, var(--ds-focus) 24%)",
     "--ds-btn-primary-text": "#eaf6ff",
     "--ds-input-bg":
     "linear-gradient(180deg, color-mix(in oklab, #121720 82%, #3b404d 18%) 0%, color-mix(in oklab, #0f141c 86%, #252c39 14%) 100%)",
     "--ds-input-border":
-    "color-mix(in oklab, var(--ds-border) 64%, #808c9c 18%, var(--ds-accent) 18%)",
+    "color-mix(in oklab, color-mix(in oklab, var(--ds-border) 78.048780%, #808c9c) 82%, var(--ds-accent) 18%)",
     "--ds-input-text": "#edf4ff",
     "--ds-input-placeholder": "#95a7c3",
     },
@@ -2421,6 +2421,42 @@
     scale: "compact",
     texture: "rr4-slipstream",
     },
+    });
+
+    // Racing tabs remain legible on both the light shell and grey inset panels.
+    Object.assign(schemePresets["rr4-sprint"], {
+      "--ds-tab-bg": "#c4bbaa",
+      "--ds-tab-fg": "#191712",
+      "--ds-tab-border": "#242018",
+      "--ds-tab-active-bg": "linear-gradient(180deg, #fff1c8 0%, #ded8cb 100%)",
+      "--ds-tab-active-fg": "#191712",
+      "--ds-tab-active-border": "#242018",
+      "--ds-tab-active-icon": "#191712",
+    });
+    // Nacre uses broad spectral color and narrow specular bands on dark readable surfaces.
+    Object.assign(texturePresets["holo-dark"], {
+      "--ds-body-bg-image": "radial-gradient(ellipse at 15% 15%, #23596c 0%, transparent 55%), radial-gradient(ellipse at 85% 35%, #603b75 0%, transparent 60%), linear-gradient(135deg, #080f20, #123335 48%, #23152f)",
+      "--ds-card-bg-image": "linear-gradient(125deg, transparent 28%, rgba(209,255,245,.22) 36%, rgba(251,216,255,.08) 40%, transparent 47%), conic-gradient(from 220deg at 80% 0%, rgba(115,233,255,.19), rgba(200,139,255,.24), rgba(255,170,203,.16), rgba(140,255,219,.20), rgba(115,233,255,.19))",
+      "--ds-card-texture-image": "linear-gradient(180deg, rgba(228,248,255,.16), transparent 12%, transparent 90%, rgba(111,190,237,.12))",
+    });
+    Object.assign(texturePresets["oilslick-dark"], {
+      "--ds-body-bg-image": "conic-gradient(from 205deg at 65% 60%, #071922, #235055, #3e244e, #6b3e50, #284c40, #132740, #071922)",
+      "--ds-card-bg-image": "linear-gradient(145deg, transparent 15%, rgba(245,255,226,.24) 24%, rgba(255,171,217,.08) 29%, transparent 35%), conic-gradient(from 195deg at 15% 80%, rgba(69,235,208,.28), rgba(115,152,255,.22), rgba(255,135,201,.25), rgba(230,206,136,.20), rgba(69,235,208,.28))",
+      "--ds-card-texture-image": "radial-gradient(ellipse at 100% 0%, rgba(237,255,230,.18), transparent 48%)",
+    });
+    Object.assign(schemePresets["holo-nocturne"], {
+      "--ds-bg": "#09121c", "--ds-bg-elevated": "#101c2b",
+      "--ds-bg-raised": "#1b2a3c", "--ds-bg-soft": "#26374d",
+      "--ds-btn-bg": "linear-gradient(125deg, #183f51 0%, #34335a 45%, #4b304f 70%, #204c48 100%)",
+      "--ds-btn-bg-hover": "linear-gradient(125deg, #20576a, #504172 50%, #326559)",
+      "--ds-btn-border": "#92cdd8",
+    });
+    Object.assign(schemePresets["oilslick-organic"], {
+      "--ds-bg": "#081619", "--ds-bg-elevated": "#101f24",
+      "--ds-bg-raised": "#1c3034", "--ds-bg-soft": "#294046",
+      "--ds-btn-bg": "linear-gradient(135deg, #173d3b 0%, #283a58 30%, #513149 65%, #3d4630 100%)",
+      "--ds-btn-bg-hover": "linear-gradient(135deg, #245450, #3b4a71 30%, #70445e 65%, #525b3a)",
+      "--ds-btn-border": "#9ebfae",
     });
 
     initializedBuilderThemeData = {

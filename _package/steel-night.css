@@ -1,0 +1,353 @@
+:root[data-theme="steel-night"] {
+  --color-bg: var(--ds-bg);
+  --color-border: var(--ds-border);
+  --color-card: var(--ds-card-bg);
+  --color-primary: var(--ds-accent);
+  --color-secondary: var(--ds-accent-alt);
+  --color-surface: var(--ds-bg-elevated);
+  --color-text-primary: var(--ds-text);
+  --color-text-secondary: var(--ds-text-muted);
+  --ds-accent: hsl(210 23% 60%);
+  --ds-accent-alt: color-mix(in oklab, var(--ds-accent) 68%, var(--ds-focus) 32%);
+  --ds-accent-alt-strong: color-mix(in oklab, var(--ds-accent-alt) 72%, black 28%);
+  --ds-accent-strong: hsl(210 23% 68%);
+  --ds-arrow-btn-font-size: var(--ds-fs-2);
+  --ds-arrow-btn-radius: var(--ds-radius-1);
+  --ds-arrow-btn-size: var(--ds-control-h-sm);
+  --ds-bg: hsl(210 5% 9%);
+  --ds-bg-elevated: hsl(210 6% 13%);
+  --ds-bg-overlay: rgba(5,9,15,0.72);
+  --ds-bg-raised: hsl(210 8% 18%);
+  --ds-bg-soft: hsl(210 10% 23%);
+  --ds-body-backdrop-blur: 0px;
+  --ds-body-bg-image: radial-gradient(circle at 18% 12%, color-mix(in oklab,var(--ds-accent) 10%, transparent), transparent 34%), linear-gradient(180deg, color-mix(in oklab, var(--ds-bg) 96%, black 4%) 0%, var(--ds-bg) 52%, color-mix(in oklab, var(--ds-bg) 92%, black 8%) 100%);
+  --ds-body-paint-blend: normal, normal, normal;
+  --ds-body-texture-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 18px);
+  --ds-border: hsl(210 8% 31%);
+  --ds-border-strong: hsl(210 12% 50%);
+  --ds-border-style: solid;
+  --ds-border-w: 1px;
+  --ds-btn-bg: linear-gradient(180deg, color-mix(in oklab, var(--ds-bg-elevated) 94%, var(--ds-accent) 6%) 0%, color-mix(in oklab, var(--ds-bg-raised) 92%, var(--ds-accent) 8%) 100%);
+  --ds-btn-bg-hover: linear-gradient(180deg, color-mix(in oklab, var(--ds-bg-elevated) 88%, var(--ds-accent) 12%) 0%, color-mix(in oklab, var(--ds-bg-raised) 84%, var(--ds-accent) 16%) 100%);
+  --ds-btn-border: color-mix(in oklab, var(--ds-border) 76%, var(--ds-accent) 24%);
+  --ds-btn-danger-bg: color-mix(in oklab, var(--ds-danger) 20%, var(--ds-bg-raised));
+  --ds-btn-danger-bg-hover: color-mix(in oklab, var(--ds-danger) 28%, var(--ds-bg-raised));
+  --ds-btn-danger-border: color-mix(in oklab, var(--ds-danger) 65%, var(--ds-border));
+  --ds-btn-danger-text: var(--ds-danger);
+  --ds-btn-disabled-bg: color-mix(in oklab, var(--ds-bg-raised) 72%, var(--ds-bg) 28%);
+  --ds-btn-disabled-border: color-mix(in oklab, var(--ds-btn-border) 72%, var(--ds-border) 28%);
+  --ds-btn-disabled-text: color-mix(in oklab, var(--ds-btn-text) 70%, var(--ds-text-muted) 30%);
+  --ds-btn-h: var(--ds-control-h);
+  --ds-btn-h-sm: var(--ds-control-h-sm);
+  --ds-btn-icon-font-size: 16px;
+  --ds-btn-icon-size: var(--ds-control-hit-min);
+  --ds-btn-icon-size-sm: var(--ds-control-h-sm);
+  --ds-btn-pad-x: var(--ds-space-3);
+  --ds-btn-paint-color: var(--ds-bg-raised);
+  --ds-btn-paint-image: var(--ds-btn-bg);
+  --ds-btn-press-transform: translateY(1px);
+  --ds-btn-primary-bg: linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 72%, white 28%) 0%, color-mix(in oklab, var(--ds-accent) 90%, white 10%) 100%);
+  --ds-btn-primary-bg-hover: linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 62%, white 38%) 0%, color-mix(in oklab, var(--ds-accent) 82%, white 18%) 100%);
+  --ds-btn-primary-border: var(--ds-accent-strong);
+  --ds-btn-primary-disabled-bg: color-mix(
+    in oklab,
+    var(--ds-accent) 64%,
+    var(--ds-bg-raised) 36%
+  );
+  --ds-btn-primary-disabled-border: color-mix(
+    in oklab,
+    var(--ds-btn-primary-border) 68%,
+    var(--ds-border) 32%
+  );
+  --ds-btn-primary-disabled-text: var(--ds-btn-disabled-text);
+  --ds-btn-primary-paint-color: var(--ds-bg-raised);
+  --ds-btn-primary-paint-image: var(--ds-btn-primary-bg);
+  --ds-btn-primary-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 10px 18px color-mix(in oklab, var(--ds-accent) 18%, transparent);
+  --ds-btn-primary-shadow-active: 0 1px 2px color-mix(in oklab, var(--ds-accent-strong) 32%, transparent) inset;
+  --ds-btn-primary-shadow-compact: 0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 4px 8px color-mix(in oklab, var(--ds-accent) 14%, transparent);
+  --ds-btn-primary-shadow-compact-hover: 0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 5px 10px color-mix(in oklab, var(--ds-accent) 17%, transparent);
+  --ds-btn-primary-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 12px 22px color-mix(in oklab, var(--ds-accent) 22%, transparent);
+  --ds-btn-primary-text: #000000;
+  --ds-btn-primary-text-hover: var(--ds-bg);
+  --ds-btn-primary-text-selected: var(--ds-bg);
+  --ds-btn-radius: var(--ds-radius-2);
+  --ds-btn-selected-bg: color-mix(in oklab, var(--ds-accent) 62%, var(--ds-bg-raised) 38%);
+  --ds-btn-selected-border: color-mix(in oklab, var(--ds-accent-strong) 78%, var(--ds-border) 22%);
+  --ds-btn-selected-shadow: 0 0 0 1px color-mix(in oklab, var(--ds-accent) 14%, transparent),
+    var(--ds-btn-shadow-hover);
+  --ds-btn-selected-text: #ffffff;
+  --ds-btn-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+  --ds-btn-shadow-active: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  --ds-btn-shadow-compact: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  --ds-btn-shadow-compact-active: 0 1px 1px rgba(0, 0, 0, 0.18) inset;
+  --ds-btn-shadow-compact-hover: 0 1px 0 rgba(255, 255, 255, 0.07) inset;
+  --ds-btn-shadow-hover: 0 1px 0 rgba(255,255,255,0.08) inset;
+  --ds-btn-tertiary-bg: color-mix(in oklab, var(--ds-accent-alt) 18%, var(--ds-bg-raised));
+  --ds-btn-tertiary-bg-hover: color-mix(in oklab, var(--ds-btn-tertiary-bg) 82%, var(--ds-accent-alt) 18%);
+  --ds-btn-tertiary-border: color-mix(in oklab, var(--ds-accent-alt-strong) 62%, var(--ds-border) 38%);
+  --ds-btn-tertiary-paint-color: var(--ds-btn-tertiary-bg);
+  --ds-btn-tertiary-paint-image: none;
+  --ds-btn-tertiary-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 12%, transparent);
+  --ds-btn-tertiary-shadow-compact: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 10%, transparent);
+  --ds-btn-tertiary-shadow-compact-hover: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 14%, transparent);
+  --ds-btn-tertiary-shadow-hover: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 18%, transparent);
+  --ds-btn-tertiary-text: #ffffff;
+  --ds-btn-text: var(--ds-text);
+  --ds-btn-text-quiet: var(--ds-text-muted);
+  --ds-btn-text-quiet-active: var(--ds-accent);
+  --ds-btn-text-quiet-hover: var(--ds-text);
+  --ds-card-backdrop-blur: 0px;
+  --ds-card-bg: var(--ds-bg-elevated);
+  --ds-card-bg-image: linear-gradient(180deg, color-mix(in oklab,var(--ds-accent) 5%, transparent), rgba(0,0,0,0.12));
+  --ds-card-border: var(--ds-border);
+  --ds-card-pad: 16px;
+  --ds-card-paint-blend: normal, normal, normal;
+  --ds-card-paint-color: var(--ds-card-bg);
+  --ds-card-paint-image: none;
+  --ds-card-radius: var(--ds-radius-3);
+  --ds-card-secondary-bg: color-mix(in oklab, var(--ds-bg-raised) 84%, var(--ds-bg-soft) 16%);
+  --ds-card-secondary-border: color-mix(in oklab, var(--ds-card-border) 78%, var(--ds-accent) 22%);
+  --ds-card-secondary-shadow: none;
+  --ds-card-secondary-shadow-compact: var(--ds-card-secondary-shadow);
+  --ds-card-secondary-text: inherit;
+  --ds-card-secondary-text-muted: var(--ds-text-muted);
+  --ds-card-shadow: 0 14px 28px rgba(5, 10, 18, 0.24);
+  --ds-card-shadow-compact: var(--ds-card-shadow);
+  --ds-card-structural-bg: transparent;
+  --ds-card-structural-border: transparent;
+  --ds-card-structural-shadow: none;
+  --ds-card-subtitle-color: var(--ds-card-text-muted);
+  --ds-card-text: var(--ds-text);
+  --ds-card-text-muted: var(--ds-text-muted);
+  --ds-card-texture-image: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.08));
+  --ds-card-title-color: var(--ds-card-text);
+  --ds-card-top-rule-color: transparent;
+  --ds-card-top-rule-size: 0px;
+  --ds-check-bg: var(--ds-input-bg);
+  --ds-check-border: var(--ds-input-border);
+  --ds-check-checked-bg: var(--ds-accent);
+  --ds-check-mark: var(--ds-btn-primary-text);
+  --ds-check-size: 16px;
+  --ds-chip-accent-bg: color-mix(in oklab, var(--ds-accent) 14%, var(--ds-bg-raised));
+  --ds-chip-accent-border: color-mix(in oklab, var(--ds-accent) 60%, var(--ds-border));
+  --ds-chip-accent-text: #ffffff;
+  --ds-chip-alt-bg: color-mix(in oklab, var(--ds-accent-alt) 16%, var(--ds-bg-raised));
+  --ds-chip-alt-border: color-mix(in oklab, var(--ds-accent-alt) 60%, var(--ds-border));
+  --ds-chip-alt-text: #ffffff;
+  --ds-chip-bg: linear-gradient(180deg, color-mix(in oklab, var(--ds-bg-raised) 94%, var(--ds-accent) 6%), color-mix(in oklab, var(--ds-bg-elevated) 96%, black 4%));
+  --ds-chip-border: color-mix(in oklab, var(--ds-border) 72%, var(--ds-accent) 28%);
+  --ds-chip-text: var(--ds-text);
+  --ds-color-input-bg: var(--ds-btn-bg);
+  --ds-color-input-pad: 3px;
+  --ds-color-input-radius: var(--ds-btn-radius);
+  --ds-color-input-shadow: var(--ds-input-shadow);
+  --ds-control-backdrop-blur: 0px;
+  --ds-control-h: 38px;
+  --ds-control-h-sm: 32px;
+  --ds-control-hit-min: 32px;
+  --ds-control-paint-blend: normal, normal;
+  --ds-control-texture-image: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05));
+  --ds-danger: #ff8391;
+  --ds-dur-fast: 120ms;
+  --ds-dur-med: 180ms;
+  --ds-ease-emphasis: cubic-bezier(0.22, 1, 0.36, 1);
+  --ds-ease-standard: cubic-bezier(.2, .6, .2, 1);
+  --ds-field-action-w: calc(var(--ds-control-h-sm) + 8px);
+  --ds-field-label-w: 124px;
+  --ds-field-row-gap: var(--ds-space-2);
+  --ds-field-row-pad-x: var(--ds-space-2);
+  --ds-field-row-pad-y: var(--ds-space-1);
+  --ds-field-row-radius: var(--ds-radius-2);
+  --ds-focus: hsl(210 21% 76%);
+  --ds-font-mono: "Space Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  --ds-font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --ds-fs-1: 12px;
+  --ds-fs-2: 14px;
+  --ds-fs-3: 16px;
+  --ds-fs-4: 20px;
+  --ds-fs-5: 28px;
+  --ds-fs-micro: 11px;
+  --ds-hud-card-max-w: 360px;
+  --ds-hud-card-min-w: 220px;
+  --ds-hud-marker-size: 110px;
+  --ds-icon-action-active-bg: color-mix(
+    in oklab,
+    var(--ds-accent) 18%,
+    transparent
+  );
+  --ds-icon-action-border: transparent;
+  --ds-icon-action-border-hover: color-mix(
+    in oklab,
+    var(--ds-accent) 32%,
+    var(--ds-border)
+  );
+  --ds-icon-action-fg: var(--ds-btn-text-quiet);
+  --ds-icon-action-fg-active: var(--ds-btn-text-quiet-active);
+  --ds-icon-action-fg-hover: var(--ds-btn-text-quiet-hover);
+  --ds-icon-action-hover-bg: color-mix(
+    in oklab,
+    var(--ds-accent) 12%,
+    transparent
+  );
+  --ds-icon-action-radius: var(--ds-radius-1);
+  --ds-icon-action-size: var(--ds-btn-icon-size-sm);
+  --ds-info: #7fc5ff;
+  --ds-input-bg: linear-gradient(180deg, color-mix(in oklab, var(--ds-bg-elevated) 96%, white 4%) 0%, color-mix(in oklab, var(--ds-bg-raised) 96%, black 4%) 100%);
+  --ds-input-border: color-mix(in oklab, var(--ds-border) 74%, var(--ds-accent) 26%);
+  --ds-input-icon-color: color-mix(
+    in oklab,
+    var(--ds-input-text) 76%,
+    transparent
+  );
+  --ds-input-icon-color-focus: var(--ds-accent);
+  --ds-input-paint-color: var(--ds-bg-raised);
+  --ds-input-paint-image: var(--ds-input-bg);
+  --ds-input-placeholder: color-mix(in oklab, var(--ds-text-muted) 88%, transparent);
+  --ds-input-readonly-bg: color-mix(
+    in oklab,
+    var(--ds-bg-elevated) 58%,
+    var(--ds-bg-raised) 42%
+  );
+  --ds-input-readonly-border: color-mix(
+    in oklab,
+    var(--ds-border) 74%,
+    var(--ds-border-strong) 26%
+  );
+  --ds-input-readonly-placeholder: var(--ds-text-muted);
+  --ds-input-readonly-shadow: none;
+  --ds-input-readonly-text: var(--ds-text);
+  --ds-input-shadow: 0 1px 0 rgba(255,255,255,0.03) inset;
+  --ds-input-text: var(--ds-text);
+  --ds-label-spacing: 0.08em;
+  --ds-label-transform: uppercase;
+  --ds-layout-breakpoint-md: 900px;
+  --ds-layout-col-left: 320px;
+  --ds-layout-col-right: 360px;
+  --ds-layout-gap: 16px;
+  --ds-layout-mobile-rail-h: 52px;
+  --ds-layout-overlay-inset: 12px;
+  --ds-layout-panel-w: 380px;
+  --ds-layout-rail-w: 58px;
+  --ds-lh-base: 1.48;
+  --ds-motion-slow: 260ms;
+  --ds-native-color-scheme: dark;
+  --ds-native-icon-filter: invert(1) brightness(1.06);
+  --ds-native-icon-opacity: 0.92;
+  --ds-number-pad-end: calc(var(--ds-space-2) + 8px);
+  --ds-pane-stack-gap-compact: var(--ds-space-1);
+  --ds-panel-scroll-gap: var(--ds-space-3);
+  --ds-panel-scroll-pad-x: var(--ds-space-3);
+  --ds-panel-scroll-pad-y: var(--ds-space-3);
+  --ds-radius-1: 6px;
+  --ds-radius-2: 10px;
+  --ds-radius-3: 14px;
+  --ds-radius-4: 18px;
+  --ds-radius-pill: 999px;
+  --ds-range-thumb-bg: var(--ds-btn-bg);
+  --ds-range-thumb-border: var(--ds-btn-border);
+  --ds-range-thumb-shadow: var(--ds-btn-shadow);
+  --ds-range-thumb-size: 16px;
+  --ds-range-track-bg: var(--ds-bg-soft);
+  --ds-range-track-border: var(--ds-border);
+  --ds-range-track-h: 8px;
+  --ds-rhythm-content: var(--ds-space-3);
+  --ds-rhythm-content-tight: var(--ds-space-2);
+  --ds-rhythm-section: var(--ds-space-5);
+  --ds-rhythm-shell: var(--ds-space-6);
+  --ds-rhythm-title-body: var(--ds-space-2);
+  --ds-scrollbar-radius: 10px;
+  --ds-scrollbar-size: 10px;
+  --ds-scrollbar-size-x: var(--ds-scrollbar-size);
+  --ds-scrollbar-size-y: var(--ds-scrollbar-size);
+  --ds-scrollbar-thumb: color-mix(in oklab, var(--ds-accent) 55%, var(--ds-bg-raised));
+  --ds-scrollbar-track: transparent;
+  --ds-section-head-h: var(--ds-control-h-sm);
+  --ds-shadow-md: 0 16px 36px rgba(4, 8, 15, 0.3);
+  --ds-shadow-sm: 0 8px 18px rgba(6, 11, 19, 0.22);
+  --ds-shell-border: var(--ds-border-w) var(--ds-border-style) var(--ds-card-border);
+  --ds-shell-gap: var(--ds-space-3);
+  --ds-shell-pad: var(--ds-space-3);
+  --ds-shell-shadow: var(--ds-card-shadow);
+  --ds-size-cam-cell-h: 36px;
+  --ds-size-cam-cell-w: 36px;
+  --ds-size-control-hud: 42px;
+  --ds-size-control-icon: 24px;
+  --ds-size-header-control: 42px;
+  --ds-size-rail-btn-h: 36px;
+  --ds-size-tab-h: 34px;
+  --ds-skeleton-base: color-mix(in oklab, var(--ds-bg-raised), var(--ds-bg-soft) 36%);
+  --ds-skeleton-shimmer: color-mix(in oklab, var(--ds-accent) 18%, white 82%);
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-5: 20px;
+  --ds-space-6: 24px;
+  --ds-space-8: 32px;
+  --ds-spin-bg: var(--ds-bg-soft);
+  --ds-spin-border: var(--ds-input-border);
+  --ds-spin-glyph: var(--ds-text-muted);
+  --ds-spin-opacity: 0;
+  --ds-spin-opacity-active: 0.9;
+  --ds-success: #68dea0;
+  --ds-tab-active-bg: color-mix(
+    in oklab,
+    var(--ds-accent) 18%,
+    var(--ds-bg-raised)
+  );
+  --ds-tab-active-border: #ffffff;
+  --ds-tab-active-fg: #ffffff;
+  --ds-tab-active-icon: var(--ds-tab-active-fg);
+  --ds-tab-bg: var(--ds-bg-raised);
+  --ds-tab-border: #ffffff;
+  --ds-tab-fg: var(--ds-text);
+  --ds-table-dense-cell-pad-x: 8px;
+  --ds-table-dense-cell-pad-y: 6px;
+  --ds-table-dense-font-size: var(--ds-fs-1);
+  --ds-table-dense-header-font-size: var(--ds-fs-micro);
+  --ds-table-utility-col-w: 28px;
+  --ds-text: hsl(210 8% 95%);
+  --ds-text-inverse: #0f1216;
+  --ds-text-muted: hsl(210 8% 76%);
+  --ds-texture-blend: normal;
+  --ds-texture-strength: 0.14;
+  --ds-toast-gap: var(--ds-space-2);
+  --ds-toast-inset-x: var(--ds-space-3);
+  --ds-toast-inset-y: var(--ds-space-3);
+  --ds-toolbar-compact-gap: 6px;
+  --ds-toolbar-compact-pad-x: var(--ds-space-2);
+  --ds-toolbar-compact-pad-y: 6px;
+  --ds-tracking-ui-sm: 0.08em;
+  --ds-validation-danger-bg: color-mix(
+    in oklab,
+    var(--ds-danger) 14%,
+    var(--ds-bg-raised)
+  );
+  --ds-validation-danger-border: color-mix(
+    in oklab,
+    var(--ds-danger) 60%,
+    var(--ds-border)
+  );
+  --ds-validation-danger-text: var(--ds-danger);
+  --ds-validation-success-bg: color-mix(
+    in oklab,
+    var(--ds-success) 14%,
+    var(--ds-bg-raised)
+  );
+  --ds-validation-success-border: color-mix(
+    in oklab,
+    var(--ds-success) 60%,
+    var(--ds-border)
+  );
+  --ds-validation-success-text: var(--ds-success);
+  --ds-warning: #f4c563;
+  --ds-z-drawer: 300;
+  --ds-z-dropdown: 100;
+  --ds-z-modal: 400;
+  --ds-z-sticky: 200;
+  --ds-z-toast: 500;
+}

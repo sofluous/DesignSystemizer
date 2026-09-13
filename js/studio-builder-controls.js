@@ -2,6 +2,7 @@
   function initBuilderControls(options) {
     const root = options.root;
     const controlMap = options.controlMap;
+    let session = null;
 
     function normalizeHex(v) {
       const raw = (v || "").trim();
@@ -58,6 +59,7 @@
       const inset = /\binset\b/i.test(first);
       const noInset = first
         .replace(/\binset\b/gi, " ")
+        .replace(/(^|\s)0(?=\s|$)/g, "$10px")
         .replace(/\s+/g, " ")
         .trim();
       const match = noInset.match(
@@ -151,7 +153,7 @@
     function buildPaint(meta) {
       const mode = meta.mode.value;
       if (mode === "gradient") {
-        const ang = Number(meta.angle.value) || 180;
+        const ang = Number.isFinite(Number(meta.angle.value)) ? Number(meta.angle.value) : 180;
         const c1 = normalizeHex(meta.c1.value) || "#666666";
         const c2 = normalizeHex(meta.c2.value) || "#333333";
         return "linear-gradient(" + ang + "deg, " + c1 + ", " + c2 + ")";
@@ -207,8 +209,15 @@
 
     function syncControlsFromComputed() {
       const cs = getComputedStyle(root);
+      const tokens = session ? session.tokens : null;
       controlMap.forEach((meta, token) => {
         const raw = cs.getPropertyValue(token).trim();
+        meta.rawValue = tokens ? tokens[token] : raw;
+        if (meta.rawInput) meta.rawInput.value = meta.rawValue || "";
+        const complex = (meta.type === "shadow" && (splitTopLevelComma(raw).length > 1 || !parseShadow(raw) || /rgba|color-mix/.test(raw))) ||
+          (meta.type === "paint" && (/color-mix|rgba|radial-gradient|%/.test(raw) || splitTopLevelComma(raw).length > 1));
+        if (meta.structuredControls) meta.structuredControls.forEach((el) => { el.disabled = complex; });
+        if (meta.rawHint) meta.rawHint.textContent = complex ? "Complex value: edit the exact CSS below to preserve all layers and transparency." : "Exact CSS is preserved in export. Structured edits replace this token.";
         if (meta.type === "color") {
           const hex = toHex(raw);
           if (hex) {
@@ -263,11 +272,26 @@
         } else {
           meta.main.value = raw;
         }
+        if (complex && meta.structuredControls) meta.structuredControls.forEach((el) => { el.disabled = true; });
       });
     }
 
     function applyControl(meta, source) {
       let value = "";
+      if (source === "raw") {
+        value = meta.rawInput.value.trim();
+        if (!value) { meta.rawInput.setCustomValidity("Enter a CSS value."); return; }
+        try {
+          const property = { color: "color", rgba: "color", shadow: "box-shadow", paint: "background", length: "width", bezier: "transition-timing-function", translateY: "transform" }[meta.type];
+          const proposed = session ? { ...session.tokens, [meta.token]: value } : {};
+          const resolved = session ? win.DesignSystemThemeContrast.resolve(value, proposed) : value;
+          if (property && win.CSS && !win.CSS.supports(property, resolved)) throw new Error("Invalid " + property + " value.");
+          if (session) session.edit(meta.token, value);
+          meta.rawInput.setCustomValidity("");
+          syncControlsFromComputed();
+        } catch (error) { meta.rawInput.setCustomValidity(error.message); meta.rawInput.reportValidity(); }
+        return;
+      }
       if (meta.type === "color") {
         if (source === "picker") {
           value = normalizeHex(meta.main.value) || meta.main.value;
@@ -275,9 +299,8 @@
         } else {
           const normalized = toHex(meta.extra.value);
           if (!normalized) return;
-          value = normalized;
+          value = meta.extra.value.trim();
           meta.main.value = normalized;
-          meta.extra.value = normalized;
         }
       } else if (meta.type === "shadow") {
         value = buildShadow(meta);
@@ -296,11 +319,14 @@
       } else {
         value = meta.main.value;
       }
-      root.style.setProperty(meta.token, value);
+      if (session) session.edit(meta.token, value);
+      else root.style.setProperty(meta.token, value);
+      if (meta.rawInput) meta.rawInput.value = value;
     }
 
     function getRawTokenValue(meta) {
       if (!meta) return "";
+      if (session) return session.tokens[meta.token] || "";
       if (meta.type === "color") return meta.extra.value.trim();
       if (meta.type === "shadow") return buildShadow(meta);
       if (meta.type === "rgba") return buildRgba(meta);
@@ -314,6 +340,8 @@
     }
 
     return {
+      setSession(value) { session = value; },
+      applyRaw(token, value) { if (session) session.edit(token, value); },
       normalizeHex,
       toHex,
       splitTopLevelComma,

@@ -112,45 +112,49 @@
   }
 
   function buildThemePackageFiles(options) {
-    const themeName = options.themeName;
-    const themeBlock = options.themeBlock;
-    const recipe = options.recipe;
-    const packageFolder = options.packageFolder || "design-system";
-
+    const assets = win.DesignSystemThemePackageAssets;
+    if (!assets) throw new Error("Package assets are unavailable. Rebuild the Design System package.");
+    const name = options.themeName;
+    if (!/^[a-z0-9_-]+$/i.test(name)) throw new Error("Invalid theme name");
+    const folder = options.packageFolder || "design-system";
+    if (!/^[a-z0-9_-]+$/i.test(folder)) throw new Error("Invalid package folder");
+    const registry = { ...assets.registry, defaultTheme: name,
+      themes: assets.registry.themes.filter((theme) => theme.id !== name).concat({ id: name, label: name, group: "Custom" }) };
+    const install = [
+      "# Theme package", "",
+      "Copy the design-system folder into your app. Load theme.css, then theme-registry.js and theme-selector.js.",
+      "Use DS component classes or map your app properties to the --ds-* tokens. See example.html for a working theme switcher.",
+      "The package includes all default themes and the exported custom theme. It does not need the Studio or its composer at runtime.",
+      "Theme tokens and CSS are snapshots; theme.recipe.json records the applied seven layers and exact manual overrides.",
+      "fonts.css optionally loads Inter and Space Mono from Google Fonts. Without network access, the declared system font fallbacks apply.",
+      "Other locally installed font families still depend on the target device. No font binaries are bundled.",
+      "Regenerate the package after changing source presets or components. Keep app styles token-based for theme switching.",
+    ].join("\n");
+    const example = `<!doctype html>
+<html lang="en" data-theme="${name}" data-ds-theme-default="${name}" data-ds-theme-storage="example-theme">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theme package example</title>
+<link rel="stylesheet" href="./${folder}/fonts.css">
+<link rel="stylesheet" href="./${folder}/theme.css">
+<body class="ds-stack" style="padding:var(--ds-space-4)">
+<label>Theme <select class="ds-select" data-ds-theme-select></select></label>
+<main class="ds-card ds-stack"><h1>Portable theme preview</h1><p>Components follow the selected theme.</p>
+<button class="ds-btn ds-btn-primary">Primary action</button>
+<button class="ds-btn" aria-pressed="true">Selected action</button>
+<div role="tablist" aria-label="Example"><button class="ds-tab" role="tab" aria-selected="true" id="sample-tab" aria-controls="sample-panel">Selected tab</button></div>
+<div role="tabpanel" id="sample-panel" aria-labelledby="sample-tab">Theme content</div>
+<label>Text <input class="ds-input" placeholder="Example field"></label></main>
+<script src="./${folder}/js/theme-registry.js"></script>
+<script src="./${folder}/js/theme-selector.js"></script></body></html>`;
     return [
-      {
-        name: "README.md",
-        content:
-          "# " +
-          themeName +
-          " theme package\n\nThis package was exported from Design System Studio.\nUse INSTALL.md for setup steps.\n",
-      },
-      {
-        name: "INSTALL.md",
-        content:
-          "1. Treat this as an exported theme artifact from Design System Studio.\n2. Copy `" +
-          themeName +
-          '.css` into your project styles folder.\n3. Append the block into your theme file (or import it).\n4. Add a matching entry to `' +
-          packageFolder +
-          '/js/theme-registry.js`.\n5. Ensure your app includes `<script src=\\"./' +
-          packageFolder +
-          '/js/theme-registry.js\\"><\\/script>` and `<script src=\\"./' +
-          packageFolder +
-          '/js/theme-selector.js\\"><\\/script>`.\n6. Set `<html data-theme=\\"' +
-          themeName +
-          '\\" data-ds-theme-storage=\\"app-theme\\" data-ds-theme-default=\\"' +
-          themeName +
-          '\\">` in your page.\n7. Add a selector where needed: `<select data-ds-theme-select></select>`.\n8. Ensure your app includes `' +
-          packageFolder +
-          '/theme.css` (or equivalent token+component files).\n9. For full app-wide DS updates, prefer rebuilding and copying `_DesignSystem/_package/' +
-          packageFolder +
-          '/` instead of manually editing the generated package.\n',
-      },
-      { name: themeName + ".css", content: themeBlock + "\n" },
-      {
-        name: "theme.recipe.json",
-        content: JSON.stringify(recipe, null, 2),
-      },
+      { name: "INSTALL.md", content: install },
+      { name: "example.html", content: example },
+      { name: name + ".css", content: options.themeBlock + "\n" },
+      { name: "theme.recipe.json", content: JSON.stringify(options.recipe, null, 2) },
+      { name: folder + "/theme.css", content: assets.css + "\n" + options.themeBlock + "\n" },
+      { name: folder + "/fonts.css", content: assets.fonts },
+      { name: folder + "/js/theme-registry.js", content: "window.DesignSystemThemeRegistry = " + JSON.stringify(registry, null, 2) + ";\n" },
+      { name: folder + "/js/theme-selector.js", content: assets.selector },
     ];
   }
 

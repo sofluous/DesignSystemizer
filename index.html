@@ -359,6 +359,8 @@
                   </div>
                 </div>
               </div>
+              <button class="ds-btn ds-btn-sm" id="undoThemeEditBtn" type="button" disabled>Undo edit</button>
+              <p class="builder-recipe-status" id="themeEditStatus" role="status" aria-live="polite"></p>
               <p class="builder-recipe-status" id="presetRecipeHint">Loading...</p>
               <details class="builder-recipe-details">
                 <summary>Raw Recipe</summary>
@@ -2824,8 +2826,8 @@
         <div>
           <h3 class="ds-card-title">Reset Theme Overrides?</h3>
           <p class="ds-muted">
-            This will clear all manual token edits and reapply the mapped preset
-            recipe for the selected base theme.
+            This clears manual edits from the current draft while keeping the applied
+            seven-layer recipe. You can undo this reset.
           </p>
         </div>
         <label class="ds-check"
@@ -3012,6 +3014,10 @@
     <script src="./js/studio-builder-config.js"></script>
     <script src="./js/studio-builder-theme-data.js"></script>
     <script src="./js/studio-builder-setup.js"></script>
+    <script src="./js/theme-foundations.js"></script>
+    <script src="./js/theme-contrast.js"></script>
+    <script src="./js/theme-composer.js"></script>
+    <script src="./js/theme-package-assets.js"></script>
     <script src="./js/studio-builder-controls.js"></script>
     <script src="./js/studio-builder-presets.js"></script>
     <script src="./js/studio-builder-renderer.js"></script>
