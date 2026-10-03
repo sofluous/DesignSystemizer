@@ -144,6 +144,18 @@ Use drawer for contextual settings/inspectors that should not replace core conte
 - Toolbars carry commands; rails carry location/state.
 - Inspectors carry context and low-emphasis row/header actions.
 
+## Settings Placement Pattern
+- Use a persistent rail/tab entry when settings are a major app mode or users need to revisit them during normal work.
+- Use a drawer or button-triggered panel when settings are occasional global preferences, such as theme, density, export defaults, or shell options.
+- Use an inspector section when settings describe the selected project, document, layer, surface, or other contextual object.
+- Do not hide theme selection behind unrelated content controls; theme is a global preference unless the app has a clear project-level theme model.
+- Settings entry controls should follow icon-action rules:
+  - use `ds-btn ds-btn-icon ds-icon-action` for icon-only settings entries when possible
+  - include `aria-label`
+  - include `title` or tooltip when the label is not visible
+  - use the settings/tune icon consistently within an app surface
+- If an app uses both global and project settings, label and place them separately so global preferences do not compete with project metadata.
+
 ## Field Row Action-Slot Pattern
 - Reserve a fixed right-side action slot width on all property rows, including rows without visible actions.
 - Use that slot for contextual row utilities (lock, visibility, quick reset) without shifting control alignment.

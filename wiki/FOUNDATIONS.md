@@ -29,6 +29,31 @@
 3. Preserve contrast in all themes (text/background/state).
 4. Keep interaction motion subtle and deterministic.
 
+## App Alias Contract
+- App-local aliases are allowed when they improve readability or preserve an app's domain language.
+- App aliases must map one way from DS semantics where they affect UI chrome.
+- Do not redefine DS semantics inside app aliases. Example: `--app-panel-bg: var(--ds-card-bg)` is acceptable; `--app-panel-bg: #10131a` is a migration shim unless it is documented product identity.
+- Classify aliases during audits:
+  - `DS-mapped`: maps directly to DS tokens.
+  - `Product identity`: app-specific expression that should remain.
+  - `Content/model data`: generated output, material, map, simulation, or render palette.
+  - `Migration shim`: temporary compatibility alias that should be removed or mapped.
+- Common mappings:
+  - app shell gap -> `--ds-shell-gap`
+  - panel padding -> `--ds-panel-scroll-pad-*` or `--ds-card-pad`
+  - field row gap -> `--ds-field-row-gap`
+  - compact toolbar gap -> `--ds-toolbar-compact-gap`
+  - icon action size -> `--ds-icon-action-size`
+  - app surface/text/border/accent aliases -> `--ds-bg*`, `--ds-text*`, `--ds-border*`, `--ds-accent*`
+
+## Canvas And Stage Color Ownership
+- UI chrome uses DS semantic tokens: panels, buttons, labels, borders, menus, drawers, HUD cards, and overlay controls.
+- HUD overlays should use DS tokens by default; if an overlay has product-specific identity, map it through documented app aliases.
+- Render-content palettes may be app-specific when they represent generated output, preview content, map layers, simulation state, or material defaults.
+- Model/material defaults may be hardcoded or data-driven, but should not leak into shared UI chrome.
+- UI-adjacent fallbacks should prefer DS semantic fallbacks before raw hex/RGBA values.
+- During audits, keep hardcoded content/model colors only when their ownership is clear.
+
 ## Spacing Ownership Baseline
 - `--ds-space-*` defines the universal spacing scale.
 - `--ds-rhythm-*` defines how that scale is applied to reading and layout rhythm.
