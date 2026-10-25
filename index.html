@@ -2,6 +2,7 @@
 <html
   lang="en"
   data-theme="steel-night"
+  data-ds-theme-auto="off"
   data-ds-theme-storage="ds-theme"
   data-ds-theme-default="steel-night"
   data-theme-ready="0"
@@ -14,8 +15,6 @@
     <script>
       (function () {
         const root = document.documentElement;
-        const storageKey =
-          root.getAttribute("data-ds-theme-storage") || "ds-theme";
         root.setAttribute("data-theme-ready", "0");
         window.addEventListener(
           "load",
@@ -24,10 +23,6 @@
           },
           { once: true },
         );
-        try {
-          const saved = localStorage.getItem(storageKey);
-          if (saved) root.setAttribute("data-theme", saved);
-        } catch (_) {}
       })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -280,6 +275,8 @@
           </section>
           <section class="studio-context-panel" data-context-panel="builder" hidden>
             <h2 class="studio-context-title">Theme Builder</h2>
+            <details id="builderSettings" open>
+              <summary>Theme settings</summary>
             <article
               class="studio-workspace-summary builder-recipe-card"
               id="presetRecipeCard"
@@ -292,6 +289,7 @@
                       id="themeNameInput"
                       class="ds-input"
                       type="text"
+                      maxlength="120"
                       value="custom-theme"
                       placeholder="custom-theme"
                     />
@@ -360,6 +358,17 @@
                 </div>
               </div>
               <button class="ds-btn ds-btn-sm" id="undoThemeEditBtn" type="button" disabled>Undo edit</button>
+              <p id="themeDraftStatus" class="ds-muted" role="status" aria-live="polite"></p>
+              <details class="builder-recipe-details">
+                <summary>Save and reopen</summary>
+                <div class="ds-stack ds-stack-content-tight">
+                <button class="ds-btn ds-btn-sm" id="downloadRecipeBtn" type="button">Download recipe JSON</button>
+                <label class="ds-label" for="importRecipeInput">Import recipe JSON</label>
+                <input class="ds-input" id="importRecipeInput" type="file" accept=".json,application/json" aria-describedby="importRecipeHint" />
+                <p id="importRecipeHint" class="ds-muted">Opens in the current theme slot. Undo restores the previous theme settings. Use theme.recipe.json from an exported package (up to 2 MB).</p>
+                <p id="themeImportStatus" role="status" aria-live="polite"></p>
+                </div>
+              </details>
               <p class="builder-recipe-status" id="themeEditStatus" role="status" aria-live="polite"></p>
               <p class="builder-recipe-status" id="presetRecipeHint">Loading...</p>
               <details class="builder-recipe-details">
@@ -367,6 +376,7 @@
                 <pre class="ds-code mono" id="presetRecipeOutput">Loading preset recipe...</pre>
               </details>
             </article>
+            </details>
           </section>
           <section
             class="studio-context-panel"
@@ -2529,28 +2539,34 @@
           class="studio-panel studio-workspace workspace-side-driven"
           hidden
         >
-          <div class="studio-workspace-tools">
-            <article class="builder-mode-bar ds-card">
-              <div class="workspace-tool-section">
-                <div id="builderPresetTabs" class="builder-preset-tabs"></div>
+          <div class="studio-workspace-tools builder-toolbar-container">
+            <div class="builder-mode-bar" role="group" aria-label="Theme editor controls">
+              <div class="builder-editor-modes" role="group" aria-label="Editor detail">
+                <button type="button" class="ds-btn ds-btn-sm" id="builderQuickBtn" aria-pressed="true">Quick edit</button>
+                <button type="button" class="ds-btn ds-btn-sm" id="builderAdvancedBtn" aria-pressed="false">All tokens</button>
               </div>
-              <div class="workspace-tool-section">
-                <div id="builderGroupTabs" class="builder-group-tabs"></div>
+              <div class="builder-search">
+                <input id="builderTokenSearch" class="ds-input" type="search" aria-label="Search all theme tokens" placeholder="Search all tokens" />
+                <button id="builderClearSearch" class="ds-btn" type="button" aria-label="Clear search" title="Clear search" hidden>&times;</button>
               </div>
-              <div class="builder-mode-tools workspace-tool-section">
-                <div class="ds-field builder-search">
-                  <input
-                    id="builderTokenSearch"
-                    class="ds-input"
-                    type="search"
-                    placeholder="Search token, label, section, or preset owner"
-                  />
-                </div>
+              <button id="builderFiltersToggle" class="ds-btn ds-btn-sm" type="button" aria-expanded="false" aria-controls="builderFilters" hidden>Filters</button>
+              <div id="builderFilters" class="builder-toolbar-filters" role="group" aria-label="Token filters">
+                <div id="builderGroupTabs"></div>
+                <label class="builder-changed-filter"><input type="checkbox" id="builderChangedOnly" /> Changed only</label>
               </div>
-            </article>
+              <p id="builderResultCount" role="status" aria-live="polite" aria-atomic="true"></p>
+              <label class="builder-layout-control" for="builderViewSelect">Layout
+                <select class="ds-select" id="builderViewSelect">
+                  <option value="both">Editor and preview</option>
+                  <option value="editor">Editor only</option>
+                  <option value="preview">Preview only</option>
+                </select>
+              </label>
+            </div>
           </div>
           <div class="studio-workspace-body is-split">
             <div class="studio-workspace-main studio-scroll-region builder-workspace-main">
+              <p id="builderEmptyState" hidden>No matching tokens. Clear the search or change your filters.</p>
               <div class="builder-grid" id="builderGroups"></div>
             </div>
             <aside class="studio-workspace-side studio-scroll-region builder-workspace-side">
@@ -2562,6 +2578,17 @@
                     time.
                   </p>
                 </div>
+                <iframe id="builderPreviewFrame" class="builder-preview-frame" title="Live theme component preview"></iframe>
+                <button class="ds-btn ds-btn-sm" type="button" id="focusPreviewBtn">Focus preview</button>
+                <template id="builderPreviewTemplate">
+                  <section aria-label="Tab contrast sample" class="ds-stack">
+                    <div class="ds-tablist" role="tablist" aria-label="Preview tabs">
+                      <button class="ds-tab" type="button" role="tab" id="previewTabOverview" aria-controls="previewPanelOverview" aria-selected="true">Overview</button>
+                      <button class="ds-tab" type="button" role="tab" id="previewTabDetails" aria-controls="previewPanelDetails" aria-selected="false" tabindex="-1">Details</button>
+                    </div>
+                    <div class="ds-tabpanel" role="tabpanel" id="previewPanelOverview" aria-labelledby="previewTabOverview">Selected and inactive tab contrast.</div>
+                    <div class="ds-tabpanel" role="tabpanel" id="previewPanelDetails" aria-labelledby="previewTabDetails" hidden>Use arrow keys to switch tabs.</div>
+                  </section>
                 <details
                   class="preview-section ds-stack"
                   data-preview-groups="Semantic Colors,Typography"
@@ -2727,6 +2754,7 @@
                       <span class="ds-input-icon" aria-hidden="true">?</span>
                       <input
                         id="builderPreviewSearch"
+                        aria-label="Preview search"
                         class="ds-input"
                         type="text"
                         placeholder="Search tokens"
@@ -2734,13 +2762,13 @@
                     </div>
                   </div>
                   <div class="ds-toolbar">
-                    <input type="range" min="0" max="100" value="58" />
+                    <input type="range" aria-label="Preview level" min="0" max="100" value="58" />
                     <label><input type="checkbox" checked /> Checkbox</label>
                     <label
                       ><input type="radio" checked name="previewPlan" />
                       Radio</label
                     >
-                    <input class="ds-input" type="number" value="12" />
+                    <input class="ds-input" type="number" aria-label="Preview quantity" value="12" />
                   </div>
                   <div class="ds-toolbar">
                     <span class="ds-chip">Chip</span>
@@ -2748,8 +2776,11 @@
                     <span class="ds-chip ds-chip-alt">Alt Accent Chip</span>
                   </div>
                 </details>
+                </template>
               </article>
-              <article class="ds-card ds-stack">
+              <details class="ds-card" id="builderExportDetails">
+                <summary>Export theme</summary>
+                <div class="ds-stack">
                 <label class="ds-label" for="themeExportOutput"
                   >Exported Theme Block</label
                 ><textarea
@@ -2770,7 +2801,8 @@
                     Download Theme Package
                   </button>
                 </div>
-              </article>
+                </div>
+              </details>
             </aside>
           </div>
         </section>
@@ -3022,8 +3054,10 @@
     <script src="./js/studio-builder-presets.js"></script>
     <script src="./js/studio-builder-renderer.js"></script>
     <script src="./js/studio-builder-bootstrap.js"></script>
+    <script src="./js/studio-theme-drafts.js"></script>
     <script src="./js/studio-builder-engine.js"></script>
     <script src="./js/studio-bootstrap.js"></script>
+    <script src="./js/studio-theme-preview.js"></script>
     <script src="./js/studio-page-bootstrap.js"></script>
     <script>
       (function () {

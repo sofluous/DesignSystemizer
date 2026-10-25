@@ -5,6 +5,7 @@
     if (initializedPageBootstrap) return initializedPageBootstrap;
 
     const root = doc.documentElement;
+    const preview = win.DesignSystemStudioThemePreview.initPreview();
     const storageKey = "ds-theme";
     const resetConfirmKey = "ds-skip-reset-confirm";
     const autoApplyPresetKey = "ds-auto-apply-presets";
@@ -13,7 +14,7 @@
 
     if (win.DesignSystemThemeSelector && themeSelect) {
       win.DesignSystemThemeSelector.initThemeSelector(themeSelect, {
-            root,
+            root: preview.root,
             storageKey,
             defaultTheme,
       });
@@ -25,9 +26,11 @@
       studioBuilderBootstrapApi &&
       studioBuilderBootstrapApi.initBuilderBootstrap
         ? studioBuilderBootstrapApi.initBuilderBootstrap({
-            root,
+            root: preview.root,
           })
         : {};
+
+    preview.bindSession(builderBootstrap.themeSession);
 
     const renderBuilder =
       builderBootstrap.renderBuilder ||

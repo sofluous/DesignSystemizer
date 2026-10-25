@@ -315,6 +315,19 @@
       },
     };
 
+    // Keep every authored foundation reachable even when it has no specialized editor.
+    const groups = initializedBuilderConfig.tokenGroups;
+    const known = new Set(groups.flatMap((group) => group.controls.map((control) => control.token)));
+    const remaining = [];
+    Object.keys(win.DesignSystemThemeFoundations || {}).sort().forEach((token) => {
+      if (known.has(token) || win.DesignSystemThemeComposer.isDerived(token)) return;
+      const control = { token, type: "text" };
+      if (/^--ds-tab-/.test(token)) groups.find((group) => group.name === "Buttons and Inputs").controls.push(control);
+      else if (/^--ds-chip-/.test(token)) groups.find((group) => group.name === "Chips and Scrollbars").controls.push(control);
+      else remaining.push(control);
+    });
+    if (remaining.length) groups.push({ name: "Additional Tokens", controls: remaining });
+
     return initializedBuilderConfig;
   }
 

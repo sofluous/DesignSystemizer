@@ -178,6 +178,7 @@
   }
 
   function autoInitThemeSelectors() {
+    if (doc.documentElement.getAttribute("data-ds-theme-auto") === "off") return null;
     const boot = autoApplyRootTheme();
     doc.querySelectorAll("select[data-ds-theme-select]").forEach(function (select) {
       initThemeSelector(select, {

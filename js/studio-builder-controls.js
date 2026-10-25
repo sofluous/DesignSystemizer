@@ -140,7 +140,7 @@
       if (grad) {
         return {
           mode: "gradient",
-          angle: parseFloat(grad[1]) || 180,
+          angle: parseFloat(grad[1]),
           c1: toHex(grad[2].trim()) || "#666666",
           c2: toHex(grad[3].trim()) || "#333333",
         };
@@ -208,16 +208,19 @@
     }
 
     function syncControlsFromComputed() {
-      const cs = getComputedStyle(root);
+      const cs = root.ownerDocument.defaultView.getComputedStyle(root);
       const tokens = session ? session.tokens : null;
       controlMap.forEach((meta, token) => {
         const raw = cs.getPropertyValue(token).trim();
         meta.rawValue = tokens ? tokens[token] : raw;
         if (meta.rawInput) meta.rawInput.value = meta.rawValue || "";
-        const complex = (meta.type === "shadow" && (splitTopLevelComma(raw).length > 1 || !parseShadow(raw) || /rgba|color-mix/.test(raw))) ||
+        const lengthMatch = meta.type === "length" && raw.match(/^(-?(?:\d*\.)?\d+)(px|em|rem|%|vh|vw|s|ms)?$/);
+        meta.currentUnit = lengthMatch ? (lengthMatch[2] || "") : meta.unit;
+        const complex = (meta.type === "length" && !lengthMatch) || (meta.type === "shadow" && (splitTopLevelComma(raw).length > 1 || !parseShadow(raw) || /rgba|color-mix/.test(raw))) ||
           (meta.type === "paint" && (/color-mix|rgba|radial-gradient|%/.test(raw) || splitTopLevelComma(raw).length > 1));
         if (meta.structuredControls) meta.structuredControls.forEach((el) => { el.disabled = complex; });
         if (meta.rawHint) meta.rawHint.textContent = complex ? "Complex value: edit the exact CSS below to preserve all layers and transparency." : "Exact CSS is preserved in export. Structured edits replace this token.";
+        if (meta.rawHint && meta.type === "length" && !complex) meta.rawHint.textContent += " Numeric edits use " + (meta.currentUnit || "unitless values") + ".";
         if (meta.type === "color") {
           const hex = toHex(raw);
           if (hex) {
@@ -276,13 +279,30 @@
       });
     }
 
+    function validationProperty(meta) {
+      return { color: "color", rgba: "color", shadow: "box-shadow", paint: "background",
+        length: meta.unit === "ms" ? "transition-duration" : /tracking|label-spacing/.test(meta.token) ? "letter-spacing" : "width",
+        bezier: "transition-timing-function", translateY: "transform" }[meta.type] ||
+        (/^--ds-font-/.test(meta.token) ? "font-family" :
+          /-(?:text|fg|border|icon)$/.test(meta.token) ? "color" : /-bg$/.test(meta.token) ? "background" : null);
+    }
+    function validateOverrides(tokens, overrides) {
+      for (const token of Object.keys(overrides)) {
+        const meta = controlMap.get(token);
+        const property = meta && validationProperty(meta);
+        if (property && win.CSS && !win.CSS.supports(property, win.DesignSystemThemeContrast.resolve(tokens[token], tokens))) {
+          throw new Error("Invalid " + property + " value for " + token + ".");
+        }
+      }
+    }
+
     function applyControl(meta, source) {
       let value = "";
       if (source === "raw") {
         value = meta.rawInput.value.trim();
         if (!value) { meta.rawInput.setCustomValidity("Enter a CSS value."); return; }
         try {
-          const property = { color: "color", rgba: "color", shadow: "box-shadow", paint: "background", length: "width", bezier: "transition-timing-function", translateY: "transform" }[meta.type];
+          const property = validationProperty(meta);
           const proposed = session ? { ...session.tokens, [meta.token]: value } : {};
           const resolved = session ? win.DesignSystemThemeContrast.resolve(value, proposed) : value;
           if (property && win.CSS && !win.CSS.supports(property, resolved)) throw new Error("Invalid " + property + " value.");
@@ -315,13 +335,15 @@
       } else if (meta.type === "bezier") {
         value = buildBezier(meta);
       } else if (meta.type === "length") {
-        value = String(meta.main.value) + meta.unit;
+        value = String(meta.main.value) + (meta.currentUnit ?? meta.unit);
       } else {
         value = meta.main.value;
       }
-      if (session) session.edit(meta.token, value);
+      if (meta.rawInput) {
+        meta.rawInput.value = value;
+        applyControl(meta, "raw");
+      } else if (session) session.edit(meta.token, value);
       else root.style.setProperty(meta.token, value);
-      if (meta.rawInput) meta.rawInput.value = value;
     }
 
     function getRawTokenValue(meta) {
@@ -341,6 +363,7 @@
 
     return {
       setSession(value) { session = value; },
+      validateOverrides,
       applyRaw(token, value) { if (session) session.edit(token, value); },
       normalizeHex,
       toHex,

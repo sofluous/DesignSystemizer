@@ -14,7 +14,7 @@ const result = composer.compose(recipe);
 const files = context.window.DesignSystemStudioPackaging.buildThemePackageFiles({
   themeName: name,
   themeBlock: context.window.DesignSystemThemeComposer.serialize(name, result.tokens),
-  recipe: { schemaVersion: 1, baseTheme: name, layers: recipe, overrides: {}, tokens: result.tokens },
+  recipe: { schemaVersion: 1, themeName: name, generator: { name: "Design System Studio", contractVersion: 1, presetRevision: context.window.DesignSystemThemePackageAssets.presetRevision }, baseTheme: name, layers: recipe, overrides: {}, tokens: result.tokens },
 });
 const destination = path.join(root, '_package');
 for (const file of files) {

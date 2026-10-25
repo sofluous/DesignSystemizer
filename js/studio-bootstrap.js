@@ -183,7 +183,7 @@
         (raw || "custom-theme")
           .trim()
           .replace(/[^a-z0-9\-_]/gi, "-")
-          .toLowerCase() || "custom-theme"
+          .toLowerCase().slice(0, 120) || "custom-theme"
       );
     }
 
@@ -219,6 +219,7 @@
 
     if (studioBuilderUiApi) {
       studioBuilderUiApi.initBuilderUi({
+        themeSession: themeSession,
         tokenGroups: tokenGroups,
         renderBuilder: renderBuilder,
         builderGroupId: builderGroupId,

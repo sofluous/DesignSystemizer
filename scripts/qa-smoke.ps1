@@ -61,6 +61,8 @@ foreach ($doc in $wikiDocs) {
 Add-Note ("Checked {0} referenced wiki/doc targets." -f $wikiDocs.Count)
 
 $moduleExpectations = @(
+  @{ File = "studio-theme-preview.js"; Pattern = "DesignSystemStudioThemePreview"; Label = "Isolated preview export" },
+  @{ File = "studio-theme-drafts.js"; Pattern = "DesignSystemStudioThemeDrafts"; Label = "Persistent drafts export" },
   @{ File = "studio-shell.js"; Pattern = "DesignSystemStudioShell"; Label = "Shell export" },
   @{ File = "studio-bootstrap.js"; Pattern = "DesignSystemStudioBootstrap"; Label = "Bootstrap export" },
   @{ File = "studio-builder-config.js"; Pattern = "DesignSystemStudioBuilderConfig"; Label = "Builder config export" },

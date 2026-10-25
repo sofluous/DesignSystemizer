@@ -41,7 +41,85 @@
     const copyExportBtn = doc.getElementById("copyExportBtn");
     const downloadPackageBtn = doc.getElementById("downloadPackageBtn");
 
+    const recipeError = doc.createElement("p");
+    recipeError.id = "themeRecipeError";
+    recipeError.setAttribute("role", "alert");
+    if (presetRecipeHint) presetRecipeHint.after(recipeError);
     let lastAppliedPresetSignature = "";
+    const draftApi = win.DesignSystemStudioThemeDrafts;
+    const draftStore = draftApi.createStore(() => win.localStorage);
+    const draftStatus = doc.getElementById("themeDraftStatus");
+    const importStatus = doc.getElementById("themeImportStatus");
+    const importInput = doc.getElementById("importRecipeInput");
+    const invalidDrafts = new Set();
+    let saveTimer;
+    let storageWarning = "";
+    function recipeDocument() {
+      return {
+        schemaVersion: 1, themeName: sanitizeThemeName(themeNameInput.value), baseTheme: activeTheme,
+        generator: { name: "Design System Studio", contractVersion: 1,
+          presetRevision: win.DesignSystemThemePackageAssets.presetRevision },
+        layers: session.recipe, overrides: session.overrides, tokens: session.tokens,
+      };
+    }
+    function persistDraft() {
+      win.clearTimeout(saveTimer);
+      if (!session.recipe) return;
+      drafts.set(activeTheme, { state: session.snapshot(), themeName: themeNameInput.value });
+      try {
+        if (invalidDrafts.has(activeTheme)) throw new Error("This theme has an unreadable saved draft. Download your current recipe; the saved copy has not been overwritten.");
+        draftStore.save(activeTheme, recipeDocument());
+        draftStatus.textContent = storageWarning || "Applied draft saved in this browser. Pending layer selections are not saved.";
+      } catch (error) {
+        draftStatus.textContent = "Draft not saved: " + error.message + " Download recipe JSON to keep your current work.";
+      }
+    }
+    function scheduleSave() {
+      win.clearTimeout(saveTimer);
+      draftStatus.textContent = "Saving applied draft...";
+      saveTimer = win.setTimeout(persistDraft, 250);
+    }
+    try {
+      for (const [id, value] of Object.entries(draftStore.load())) {
+        if (!Object.hasOwn(baseThemePresetMap, id)) continue;
+        try { drafts.set(id, draftApi.decodeRecipe(value, session)); }
+        catch (_) { invalidDrafts.add(id); }
+      }
+      if (invalidDrafts.size) storageWarning = "Some saved drafts could not be opened and remain untouched: " + [...invalidDrafts].join(", ") + ". Download current recipes before repairing browser storage.";
+      draftStatus.textContent = storageWarning || "Drafts save automatically in this browser. Download recipes for a portable backup.";
+    } catch (error) {
+      storageWarning = "Automatic saving unavailable: " + error.message + " Download recipes to keep your work.";
+      draftStatus.textContent = storageWarning;
+    }
+    themeNameInput.addEventListener("input", scheduleSave);
+    win.addEventListener("pagehide", persistDraft);
+    doc.addEventListener("visibilitychange", () => { if (doc.visibilityState === "hidden") persistDraft(); });
+    doc.getElementById("downloadRecipeBtn").addEventListener("click", () => {
+      const recipe = recipeDocument();
+      studioPackagingApi.downloadBlob(recipe.themeName + ".recipe.json", new Blob([JSON.stringify(recipe, null, 2)], { type: "application/json" }));
+    });
+    importInput.addEventListener("change", async () => {
+      const file = importInput.files[0];
+      if (!file) return;
+      const before = JSON.stringify([activeTheme, session.snapshot(), themeNameInput.value]);
+      importInput.disabled = true;
+      try {
+        if (file.size > draftApi.maxFileBytes) throw new Error("Recipe exceeds the 2 MB limit.");
+        const imported = draftApi.decodeRecipe(draftApi.parse(await file.text()), session);
+        if (before !== JSON.stringify([activeTheme, session.snapshot(), themeNameInput.value])) throw new Error("The draft changed while reading the file. Select the file again to import into the current draft.");
+        session.select(imported.state.recipe, imported.state.overrides);
+        themeNameInput.value = imported.themeName;
+        setPresetSelectors(session.recipe);
+        syncControlsFromComputed();
+        recipeError.textContent = "";
+        persistDraft();
+        importStatus.textContent = "Recipe imported. Undo restores the previous settings." +
+          (imported.compatibilityOverrides ? " Preserved the exported appearance with " + imported.compatibilityOverrides + " compatibility override(s)." : "");
+      } catch (error) {
+        importStatus.textContent = "Import was not applied. " + error.message;
+      } finally { importInput.disabled = false; importInput.value = ""; }
+    });
+
 
     function describePresetValue(value) {
       return String(value || "")
@@ -111,7 +189,7 @@
       const current = currentPresetSelection();
       const lines = [
         "Base Theme: " + describePresetValue(theme || "custom"),
-        presetSelectionSignature(current) === presetSelectionSignature(session.recipe || current) ? "Applied recipe" : "Pending selections ? preview and export use the applied recipe",
+        presetSelectionSignature(current) === presetSelectionSignature(session.recipe || current) ? "Applied recipe" : "Pending selections: preview and export use the applied recipe",
         "",
         "Family     " + describePresetValue(current.family),
         "Hue        " + describePresetValue(current.hue),
@@ -161,7 +239,14 @@
     }
 
     function applyPresetSelectionFromLoader() {
-      session.select(currentPresetSelection());
+      try {
+        session.select(currentPresetSelection());
+        recipeError.textContent = "";
+      } catch (error) {
+        setPresetSelectors(session.recipe);
+        recipeError.textContent = "Layer change was not applied. " + error.message + " Your previous recipe and edits are preserved.";
+        return;
+      }
       lastAppliedPresetSignature = presetSelectionSignature();
       updatePresetLoaderActions();
       updatePresetRecipeReadout();
@@ -227,11 +312,12 @@
     if (themeSelect) {
       themeSelect.addEventListener("ds-theme-change", function () {
         const theme = themeSelect.value;
-        drafts.set(activeTheme, session.snapshot());
+        persistDraft();
         activeTheme = theme;
-        const draft = drafts.get(theme) || { recipe: baseThemePresetMap[theme], overrides: {} };
-        session.load(draft);
-        setPresetSelectors(draft.recipe);
+        const draft = drafts.get(theme) || { state: { recipe: baseThemePresetMap[theme], overrides: {} }, themeName: "custom-theme" };
+        themeNameInput.value = draft.themeName;
+        session.load(draft.state);
+        setPresetSelectors(draft.state.recipe);
         syncControlsFromComputed();
         if (typeof onThemeChanged === "function") {
           onThemeChanged(theme);
@@ -289,14 +375,9 @@
     if (downloadPackageBtn) {
       downloadPackageBtn.addEventListener("click", function () {
         const exp = exportThemeBlock();
-        const recipe = {
-          themeName: exp.name,
-          baseTheme: themeSelect.value,
-          schemaVersion: 1,
-          layers: session.recipe,
-          overrides: session.overrides,
-          tokens: session.tokens,
+        const recipe = { ...recipeDocument(),
           contrast: win.DesignSystemThemeContrast.audit(session.tokens),
+          adjustments: session.fixes,
           generatedAt: new Date().toISOString(),
         };
         const files = studioPackagingApi
@@ -319,8 +400,10 @@
     const initialTheme = themeSelect ? themeSelect.value : root.getAttribute("data-theme");
     const initialCombo = baseThemePresetMap[initialTheme];
     if (initialCombo) {
-      session.load({ recipe: initialCombo, overrides: {} });
-      setPresetSelectors(initialCombo);
+      const draft = drafts.get(initialTheme);
+      if (draft) themeNameInput.value = draft.themeName;
+      session.load(draft ? draft.state : { recipe: initialCombo, overrides: {} });
+      setPresetSelectors(session.recipe);
     }
     const editStatus = doc.getElementById("themeEditStatus");
     const undoButton = doc.getElementById("undoThemeEditBtn");
@@ -333,7 +416,24 @@
       if (undoButton) undoButton.disabled = !session.canUndo;
       if (themeExportOutput) themeExportOutput.value = "";
     }
-    session.subscribe(updateEditStatus);
+    const adjustmentDetails = doc.createElement("details");
+    const adjustmentSummary = doc.createElement("summary");
+    adjustmentSummary.textContent = "Preset contrast adjustments";
+    const adjustmentList = doc.createElement("ul");
+    adjustmentDetails.append(adjustmentSummary, adjustmentList);
+    if (editStatus) editStatus.after(adjustmentDetails);
+    function updateAdjustments() {
+      adjustmentList.replaceChildren();
+      adjustmentDetails.hidden = !session.fixes.length;
+      for (const fix of session.fixes) {
+        const item = doc.createElement("li");
+        item.textContent = fix.fg + ": " + fix.before.foreground + " ? " + fix.after.foreground +
+          (fix.backgroundReplaced ? "; " + fix.bg + " replaced: " + fix.before.background + " ? " + fix.after.background : " (background preserved)");
+        adjustmentList.appendChild(item);
+      }
+    }
+    session.subscribe(() => { updateEditStatus(); updateAdjustments(); scheduleSave(); });
+    updateAdjustments();
     if (undoButton) undoButton.addEventListener("click", function () {
       session.undo();
       setPresetSelectors(session.recipe);

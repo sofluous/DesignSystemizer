@@ -117,3 +117,8 @@ The Studio download includes a complete `design-system/` runtime folder, `exampl
 Load bundled CSS and registry/selector scripts together. No Studio scripts are required by consumers. All default themes remain switchable alongside the custom theme. Optional `fonts.css` loads Inter/Space Mono web fonts; offline/system fallback behavior is documented in INSTALL.md.
 
 `css/themes.css`, `js/theme-foundations.js`, `js/theme-package-assets.js`, and the preset map are generated. Run the package builder after editing foundations, presets, or shared components.
+
+## Reopen an exported theme in Studio
+Expand **Save and reopen** in the Builder settings and select the package's extracted `theme.recipe.json` (or a standalone recipe download). Import updates the current theme slot and is undoable for recipe/token settings. The theme name comes from the file. CSS and ZIP files are runtime artifacts, not recipe import inputs.
+
+Applied drafts save automatically in this browser and origin. Download recipe JSON for a portable backup. Pending layer selections and Undo history do not survive reload. See `../_docs/DATA_MIGRATION.md` for compatibility overrides, supported versions, and storage failure behavior.

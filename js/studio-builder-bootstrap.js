@@ -132,7 +132,7 @@
     const composer = win.DesignSystemThemeComposer.createComposer(
       builderThemeData, win.DesignSystemThemeFoundations, buildColorBundle,
     );
-    const themeSession = win.DesignSystemThemeComposer.createSession(composer, root);
+    const themeSession = win.DesignSystemThemeComposer.createSession(composer, root, builderControls && builderControls.validateOverrides);
     // Controls are initialized before preset utilities; attach the shared session now.
     if (builderControls) builderControls.setSession(themeSession);
     const applyShadowPreset =

@@ -53,19 +53,12 @@
     }
 
     function attachBuilderLearningTools() {
-      const tokenList = [];
-      tokenGroups.forEach(function (group) {
-        group.controls.forEach(function (control) {
-          tokenList.push(control.token);
-        });
-      });
-
       doc.querySelectorAll("#builderGroups .builder-field").forEach(function (
         field,
         index
       ) {
         if (field.dataset.enhanced === "1") return;
-        const token = tokenList[index] || "";
+        const token = field.dataset.token || "";
         const label = field.querySelector("label");
         if (!token || !label) return;
 
@@ -119,215 +112,114 @@
       });
     }
 
+    const quickTokens = new Set([
+      "--ds-bg", "--ds-bg-elevated", "--ds-text", "--ds-text-muted", "--ds-accent", "--ds-accent-alt",
+      "--ds-font-sans", "--ds-font-mono", "--ds-fs-3", "--ds-lh-base", "--ds-layout-gap",
+      "--ds-card-pad", "--ds-control-h", "--ds-btn-radius", "--ds-card-radius", "--ds-card-shadow",
+    ]);
+    let advanced = false;
+    const changedOnly = doc.getElementById("builderChangedOnly");
+    const quickButton = doc.getElementById("builderQuickBtn");
+    const advancedButton = doc.getElementById("builderAdvancedBtn");
+    const clearSearch = doc.getElementById("builderClearSearch");
+    const filtersToggle = doc.getElementById("builderFiltersToggle");
+    const filters = doc.getElementById("builderFilters");
+    let filtersOpen = false;
+    let narrowToolbar = false;
+    let categorySelect;
+    function syncFilterDisclosure() {
+      if (narrowToolbar && !filtersOpen && filters.contains(doc.activeElement)) filtersOpen = true;
+      if (!narrowToolbar && doc.activeElement === filtersToggle) categorySelect.focus();
+      filtersToggle.hidden = !narrowToolbar;
+      filters.hidden = narrowToolbar && !filtersOpen;
+      filters.closest(".builder-mode-bar").classList.toggle("filters-collapsed", filters.hidden);
+      filtersToggle.setAttribute("aria-expanded", String(!filters.hidden));
+    }
+    filtersToggle.addEventListener("click", () => { filtersOpen = !filtersOpen; syncFilterDisclosure(); });
+    const toolbarObserver = new win.ResizeObserver(([entry]) => {
+      if (entry.contentRect.width <= 0) return;
+      narrowToolbar = entry.contentRect.width <= 600;
+      syncFilterDisclosure();
+    });
+    toolbarObserver.observe(doc.querySelector(".builder-toolbar-container"));
+    clearSearch.addEventListener("click", () => {
+      builderTokenSearch.value = "";
+      builderState.searchQuery = "";
+      builderTokenSearch.focus();
+      applyBuilderPresentation();
+    });
+    const expansionBeforeSearch = new Map();
     function renderBuilderGroupTabs() {
       if (!builderGroupTabs) return;
-      builderGroupTabs.innerHTML = "";
-
-      const allBtn = doc.createElement("button");
-      allBtn.type = "button";
-      allBtn.className = "ds-btn ds-btn-sm";
-      allBtn.textContent = "All";
-      allBtn.setAttribute(
-        "aria-pressed",
-        String(builderState.activeGroup === "__all__"),
-      );
-      allBtn.setAttribute("data-group-key", "__all__");
-      allBtn.addEventListener("click", function () {
-        builderState.activeGroup = "__all__";
+      builderGroupTabs.replaceChildren();
+      const label = doc.createElement("label");
+      label.className = "studio-sr-only";
+      label.textContent = "Category";
+      label.htmlFor = "builderCategorySelect";
+      categorySelect = doc.createElement("select");
+      categorySelect.className = "ds-select";
+      categorySelect.id = "builderCategorySelect";
+      for (const name of ["All categories", ...tokenGroups.map((group) => group.name)]) {
+        const option = doc.createElement("option");
+        option.textContent = name;
+        option.value = name === "All categories" ? "__all__" : name;
+        categorySelect.appendChild(option);
+      }
+      categorySelect.addEventListener("change", () => {
+        builderState.activeGroup = categorySelect.value;
+        advanced = true;
         applyBuilderPresentation();
       });
-      builderGroupTabs.appendChild(allBtn);
-
-      const divider = doc.createElement("span");
-      divider.className = "builder-tabs-divider";
-      divider.setAttribute("aria-hidden", "true");
-      builderGroupTabs.appendChild(divider);
-
-      tokenGroups.forEach(function (group) {
-        const btn = doc.createElement("button");
-        btn.type = "button";
-        btn.className = "ds-btn ds-btn-sm";
-        btn.textContent = group.name;
-        btn.setAttribute("data-group-key", group.name);
-        btn.setAttribute(
-          "data-owner-key",
-          builderGroupOwnerMap[group.name] || "__all__",
-        );
-        btn.setAttribute(
-          "aria-pressed",
-          String(group.name === builderState.activeGroup),
-        );
-        btn.addEventListener("click", function () {
-          builderState.activeGroup = group.name;
-          applyBuilderPresentation();
-        });
-        builderGroupTabs.appendChild(btn);
-      });
+      builderGroupTabs.append(label, categorySelect);
     }
-
-    function renderBuilderPresetTabs() {
-      if (!builderPresetTabs) return;
-      builderPresetTabs.innerHTML = "";
-
-      builderPresetOwners.forEach(function (owner, index) {
-        if (index === 1) {
-          const divider = doc.createElement("span");
-          divider.className = "builder-tabs-divider";
-          divider.setAttribute("aria-hidden", "true");
-          builderPresetTabs.appendChild(divider);
-        }
-
-        const btn = doc.createElement("button");
-        btn.type = "button";
-        btn.className = "ds-btn ds-btn-sm";
-        btn.textContent = owner.label;
-        btn.setAttribute("data-owner-key", owner.key);
-        btn.setAttribute(
-          "aria-pressed",
-          String(owner.key === builderState.activeOwner),
-        );
-        btn.addEventListener("click", function () {
-          builderState.activeOwner = owner.key;
-          if (
-            owner.key !== "__all__" &&
-            builderState.activeGroup !== "__all__" &&
-            (builderGroupOwnerMap[builderState.activeGroup] || "__all__") !==
-              owner.key
-          ) {
-            builderState.activeGroup = "__all__";
-          }
-          applyBuilderPresentation();
-        });
-        builderPresetTabs.appendChild(btn);
-      });
-    }
+    function renderBuilderPresetTabs() {} // Categories replace the ambiguous group-owner filter.
 
     function applyBuilderPresentation() {
-      const grouped = builderState.activeGroup !== "__all__";
-      const ownerFiltered = builderState.activeOwner !== "__all__";
-      const searching = builderState.searchQuery.trim().length > 0;
-
-      doc.querySelectorAll("#builderGroups .builder-group").forEach(function (
-        card
-      ) {
-        const groupName = card.getAttribute("data-group-name");
-        const ownerKey = card.getAttribute("data-group-owner") || "__all__";
-        const groupFiltered =
-          grouped && groupName !== builderState.activeGroup;
-        const ownerMismatch =
-          ownerFiltered && ownerKey !== builderState.activeOwner;
-
-        if (groupFiltered || ownerMismatch) {
-          card.hidden = true;
-          return;
-        }
-
-        let cardHasVisibleField = false;
-        card.querySelectorAll(".builder-section").forEach(function (
-          section,
-          index
-        ) {
-          let sectionHasVisibleField = false;
-          section.querySelectorAll(".builder-field").forEach(function (field) {
-            const haystack = (field.dataset.searchText || "").toLowerCase();
-            const match =
-              !searching || haystack.indexOf(builderState.searchQuery) > -1;
+      const query = builderState.searchQuery.trim().toLowerCase();
+      const searching = !!query;
+      const overrides = opts.themeSession ? opts.themeSession.overrides : {};
+      let visible = 0;
+      quickButton.setAttribute("aria-pressed", String(!advanced));
+      advancedButton.setAttribute("aria-pressed", String(advanced));
+      if (categorySelect) {
+        categorySelect.disabled = searching;
+        categorySelect.title = searching ? "Category is paused while searching all tokens" : "Filter by category";
+      }
+      clearSearch.hidden = !builderTokenSearch.value.length;
+      const filterCount = Number(!searching && builderState.activeGroup !== "__all__") + Number(changedOnly.checked);
+      filtersToggle.textContent = "Filters" + (filterCount ? " (" + filterCount + ")" : "");
+      doc.querySelectorAll("#builderGroups .builder-group").forEach((card) => {
+        let cardVisible = false;
+        const categoryMatches = searching || builderState.activeGroup === "__all__" || card.dataset.groupName === builderState.activeGroup;
+        card.querySelectorAll(".builder-section").forEach((section) => {
+          let sectionVisible = false;
+          section.querySelectorAll(".builder-field").forEach((field) => {
+            const token = field.dataset.token;
+            const match = categoryMatches && (!changedOnly.checked || Object.hasOwn(overrides, token)) &&
+              (searching ? field.dataset.searchText.toLowerCase().includes(query) : advanced || changedOnly.checked || quickTokens.has(token));
             field.hidden = !match;
-            if (match) {
-              sectionHasVisibleField = true;
-              cardHasVisibleField = true;
-            }
+            if (match) { visible++; sectionVisible = true; cardVisible = true; }
           });
-
-          section.hidden = !sectionHasVisibleField;
+          section.hidden = !sectionVisible;
           if (searching) {
-            section.open = sectionHasVisibleField;
-          } else if (sectionHasVisibleField && index === 0) {
-            section.open = true;
-          }
+            if (!expansionBeforeSearch.has(section)) expansionBeforeSearch.set(section, section.open);
+            section.open = sectionVisible;
+          } else if (expansionBeforeSearch.has(section)) {
+            section.open = expansionBeforeSearch.get(section);
+            expansionBeforeSearch.delete(section);
+          } else if (!advanced || changedOnly.checked) section.open = sectionVisible;
         });
-
-        card.hidden = !cardHasVisibleField;
+        card.hidden = !cardVisible;
       });
-
-      const sections = doc.querySelectorAll(".preview-section");
-      let anyVisible = false;
-      sections.forEach(function (section) {
-        if (!grouped && !searching) {
-          section.hidden = false;
-          anyVisible = true;
-          return;
-        }
-        const groups = (section.getAttribute("data-preview-groups") || "")
-          .split(",")
-          .map(function (value) {
-            return value.trim();
-          });
-        const match = searching
-          ? true
-          : groups.indexOf(builderState.activeGroup) > -1;
-        section.hidden = !match;
-        if (match) {
-          anyVisible = true;
-          if ("open" in section) section.open = true;
-        }
-      });
-
-      if (!anyVisible && sections.length > 0) {
-        sections[0].hidden = false;
-      }
-
-      if (builderGroupTabs) {
-        builderGroupTabs
-          .querySelectorAll("button[data-group-key]")
-          .forEach(function (btn) {
-            btn.setAttribute(
-              "aria-pressed",
-              String(
-                btn.getAttribute("data-group-key") ===
-                  builderState.activeGroup,
-              ),
-            );
-          });
-        builderGroupTabs
-          .querySelectorAll("button[data-owner-key]")
-          .forEach(function (btn) {
-            const ownerKey = btn.getAttribute("data-owner-key") || "__all__";
-            btn.hidden =
-              ownerFiltered &&
-              ownerKey !== "__all__" &&
-              ownerKey !== builderState.activeOwner;
-          });
-      }
-
-      if (builderPresetTabs) {
-        builderPresetTabs
-          .querySelectorAll("button[data-owner-key]")
-          .forEach(function (btn) {
-            btn.setAttribute(
-              "aria-pressed",
-              String(
-                btn.getAttribute("data-owner-key") ===
-                  builderState.activeOwner,
-              ),
-            );
-          });
-      }
-
-      if (builderPreviewHint) {
-        builderPreviewHint.textContent = searching
-          ? 'Showing token matches for "' + builderState.searchQuery + '".'
-          : grouped
-            ? "Editing " + builderState.activeGroup + " tokens."
-            : builderState.activeOwner !== "__all__"
-              ? "Showing groups owned by " +
-                (builderPresetOwners.find(function (owner) {
-                  return owner.key === builderState.activeOwner;
-                })?.label || "Selected preset owner") +
-                "."
-              : "Edit tokens by preset owner, then fine-tune the matching groups.";
-      }
+      doc.getElementById("builderResultCount").textContent = visible + " shown";
+      doc.getElementById("builderResultCount").setAttribute("aria-label", visible + " tokens shown");
+      doc.getElementById("builderEmptyState").hidden = visible > 0;
+      if (builderPreviewHint) builderPreviewHint.textContent = searching ? "Search covers every category and all tokens." : "Preview shows the applied recipe and your manual edits.";
     }
+    quickButton.addEventListener("click", () => { advanced = false; builderState.activeGroup = "__all__"; categorySelect.value = "__all__"; applyBuilderPresentation(); });
+    advancedButton.addEventListener("click", () => { advanced = true; applyBuilderPresentation(); });
+    changedOnly.addEventListener("change", applyBuilderPresentation);
+    if (opts.themeSession) opts.themeSession.subscribe(applyBuilderPresentation);
 
     if (builderTokenSearch) {
       builderTokenSearch.addEventListener("input", function () {

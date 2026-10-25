@@ -16,6 +16,9 @@
     }
     return !quote && depth === 0 && value.trim().length > 0;
   }
+  function isDerived(token) {
+    return /^--ds-(?:(?:control|card|body)-paint-blend|(?:btn|btn-primary|btn-tertiary|input|card)-paint-(?:color|image))$/.test(token);
+  }
   function derivePaint(tokens) {
     function imageCount(value) {
       let count = 1, depth = 0;
@@ -57,13 +60,14 @@
 
   function createComposer(data, defaults, buildColorBundle) {
     function compose(recipe) {
-      if (!data.colorFamilyPresets[recipe.family] || !data.huePresets[recipe.hue]) {
+      if (!recipe || typeof recipe !== "object" || Array.isArray(recipe)) throw new Error("Invalid recipe");
+      if (!Object.hasOwn(data.colorFamilyPresets, recipe.family) || !Object.hasOwn(data.huePresets, recipe.hue)) {
         throw new Error("Unknown color family or hue");
       }
       const tokens = Object.assign({}, defaults, buildColorBundle(recipe.family, recipe.hue));
       layers.forEach((layer) => {
         const preset = data[layer + "Presets"][recipe[layer]];
-        if (!preset) throw new Error("Unknown " + layer + " preset: " + recipe[layer]);
+        if (!Object.hasOwn(data[layer + "Presets"], recipe[layer])) throw new Error("Unknown " + layer + " preset: " + recipe[layer]);
         Object.assign(tokens, preset);
       });
       // Selected controls must use a paired foreground/background, independent of primary buttons.
@@ -73,7 +77,7 @@
     return { compose };
   }
 
-  function createSession(composer, root) {
+  function createSession(composer, root, validateOverrides) {
     let recipe = null;
     let base = {};
     let overrides = {};
@@ -97,33 +101,59 @@
       if (recipe) history.push(snapshot());
       if (history.length > 100) history.shift();
     }
-    function restore(state) {
-      const result = composer.compose(state.recipe);
-      recipe = { ...state.recipe };
-      base = result.tokens;
-      fixes = result.fixes;
-      overrides = { ...state.overrides };
+    function prepare(state, reuseBase = false) {
+      const result = reuseBase ? { tokens: base, fixes } : composer.compose(state.recipe);
+      if (!state.overrides || typeof state.overrides !== "object" || Array.isArray(state.overrides)) throw new Error("Invalid overrides");
+      const manual = { ...state.overrides };
+      for (const token of Object.keys(manual)) {
+        if (typeof manual[token] !== "string") throw new Error("Token values must be strings: " + token);
+        if (!Object.hasOwn(result.tokens, token)) throw new Error("Unknown token: " + token);
+        if (isDerived(token)) throw new Error("Generated token is read-only: " + token + ". Edit its source background or texture instead.");
+      }
+      serialize("validation", manual);
+      const tokens = derivePaint({ ...result.tokens, ...manual });
+      Object.values(tokens).forEach((raw) => win.DesignSystemThemeContrast.resolve(raw, tokens));
+      if (validateOverrides) validateOverrides(tokens, manual);
+      return { recipe: { ...state.recipe }, base: result.tokens, overrides: manual, fixes: result.fixes };
+    }
+    function commit(candidate) {
+      recipe = candidate.recipe;
+      base = candidate.base;
+      overrides = candidate.overrides;
+      fixes = candidate.fixes;
       publish();
     }
     return {
+      validate(state) {
+        const candidate = prepare(state);
+        return derivePaint({ ...candidate.base, ...candidate.overrides });
+      },
       select(next, manual = overrides) {
-        // Validate before changing the current draft.
-        composer.compose(next);
+        const candidate = prepare({ recipe: next, overrides: manual });
         checkpoint();
-        restore({ recipe: next, overrides: manual });
+        commit(candidate);
       },
-      load(state) { history = []; restore(state); },
+      load(state) {
+        const candidate = prepare(state);
+        history = [];
+        commit(candidate);
+      },
       edit(token, value) {
-        if (!(token in base)) throw new Error("Unknown token: " + token);
-        serialize("validation", { [token]: value });
-        const proposed = { ...base, ...overrides, [token]: value };
-        Object.values(proposed).forEach((raw) => win.DesignSystemThemeContrast.resolve(raw, proposed));
+        const candidate = prepare({ recipe, overrides: { ...overrides, [token]: value } }, true);
         checkpoint();
-        overrides[token] = value;
-        publish();
+        commit(candidate);
       },
-      reset() { checkpoint(); overrides = {}; publish(); },
-      undo() { if (history.length) restore(history.pop()); },
+      reset() {
+        const candidate = prepare({ recipe, overrides: {} }, true);
+        checkpoint();
+        commit(candidate);
+      },
+      undo() {
+        if (!history.length) return;
+        const candidate = prepare(history[history.length - 1]);
+        history.pop();
+        commit(candidate);
+      },
       get canUndo() { return history.length > 0; },
       get recipe() { return recipe && { ...recipe }; },
       get overrides() { return { ...overrides }; },
@@ -134,5 +164,5 @@
     };
   }
 
-  win.DesignSystemThemeComposer = { createComposer, createSession, serialize };
+  win.DesignSystemThemeComposer = { createComposer, createSession, serialize, isDerived };
 })(window);

@@ -3,7 +3,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const { loadModel, build } = require('./build-themes.cjs');
-const { context, data, composer } = loadModel();
+const { context, data, composer, defaults } = loadModel();
+context.window.DesignSystemThemeFoundations = defaults;
 const api = context.window.DesignSystemThemeComposer;
 const contrast = context.window.DesignSystemThemeContrast;
 const plain = (value) => JSON.parse(JSON.stringify(value));
@@ -62,6 +63,40 @@ const texture = 'url("data:image/svg+xml;charset=utf-8,%3Csvg%3E%3C/svg%3E")';
 session.edit('--ds-body-texture-image', texture);
 assert.ok(api.serialize('texture',session.tokens).includes(texture));
 assert.throws(() => session.edit('--ds-bg', 'url("unfinished)'), /Invalid/);
+// Failed transitions must not mutate recipe, overrides, rendered tokens, notifications, or history.
+const rendered = new Map();
+const guarded = api.createSession(composer, { style: {
+  setProperty: (key, value) => rendered.set(key, value), removeProperty: (key) => rendered.delete(key),
+} });
+guarded.load({ recipe, overrides: {} });
+guarded.edit('--ds-accent', 'var(--ds-text)');
+const guardedBefore = plain(guarded.snapshot());
+const paintBefore = [...rendered];
+let notifications = 0;
+guarded.subscribe(() => notifications++);
+const invalidRecipe = { ...recipe, scheme: 'eva-wire-alert' };
+assert.throws(() => guarded.select(invalidRecipe), /cycle/);
+assert.throws(() => guarded.load({ recipe: invalidRecipe, overrides: guarded.overrides }), /cycle/);
+assert.throws(() => guarded.edit('--ds-btn-paint-image', 'linear-gradient(red,blue)'), /read-only/);
+assert.throws(() => guarded.load({ recipe, overrides: { '--ds-unknown': 'red' } }), /Unknown/);
+assert.deepEqual(plain(guarded.snapshot()), guardedBefore);
+assert.deepEqual([...rendered], paintBefore);
+assert.equal(notifications, 0);
+assert.equal(guarded.canUndo, true);
+guarded.undo();
+assert.deepEqual(plain(guarded.overrides), {});
+assert.equal(guarded.canUndo, false, 'failed operations add no undo entries');
+vm.runInContext(fs.readFileSync(path.join(__dirname, '../js/studio-builder-config.js'), 'utf8'), context);
+const fields = context.window.DesignSystemStudioBuilderConfig.initBuilderConfig().tokenGroups.flatMap((group) => group.controls.map((control) => control.token));
+assert.equal(new Set(fields).size, fields.length, 'editor token definitions are unique');
+for (const token of Object.keys(context.window.DesignSystemThemeFoundations)) {
+  if (!api.isDerived(token)) assert.ok(fields.includes(token), token + ' has an editor');
+}
+for (const [id, token] of [['sunset-pop', '--ds-btn-bg'], ['oilslick-nacre', '--ds-btn-primary-bg-hover']]) {
+  const result = composer.compose(data.baseThemePresetMap[id]);
+  assert.match(result.tokens[token], /linear-gradient/, id + ' keeps its material');
+  assert.ok(!result.fixes.some((fix) => fix.bg === token && fix.backgroundReplaced));
+}
 let seed = 17;
 const random = (values) => { seed = (Math.imul(seed,1664525) + 1013904223) >>> 0; return values[seed % values.length]; };
 for (let i=0;i<250;i++) {

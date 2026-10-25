@@ -1,0 +1,30 @@
+/* Specimen layout only; paints, typography and geometry use the exported runtime. */
+body {
+  display: grid;
+  gap: var(--ds-space-4);
+  padding: var(--ds-space-3);
+  align-content: start;
+}
+
+.preview-section > summary {
+  cursor: pointer;
+  padding: var(--ds-space-2);
+  border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
+  border-radius: var(--ds-radius-1);
+  color: var(--ds-text);
+  background: var(--ds-bg-soft);
+}
+
+.preview-section > :not(summary) {
+  margin-block-start: var(--ds-space-2);
+}
+
+.ds-popover-static {
+  position: static;
+  width: auto;
+  max-width: 100%;
+}
+
+@media (max-width: 420px) {
+  .ds-grid-halves { grid-template-columns: minmax(0, 1fr); }
+}

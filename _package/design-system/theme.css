@@ -5761,7 +5761,7 @@
   --ds-border-strong: hsl(320 25% 46%);
   --ds-border-style: solid;
   --ds-border-w: 1px;
-  --ds-btn-bg: #ffffff;
+  --ds-btn-bg: linear-gradient(135deg, #9679ff 0%, #ff49d4 56%, #3fd5ff 100%);
   --ds-btn-bg-hover: linear-gradient(135deg, #8460ff 0%, #ff66de 56%, #67ddff 100%);
   --ds-btn-border: #a55bff;
   --ds-btn-danger-bg: color-mix(in oklab, var(--ds-danger) 20%, var(--ds-bg-raised));
@@ -5777,8 +5777,8 @@
   --ds-btn-icon-size: var(--ds-control-hit-min);
   --ds-btn-icon-size-sm: var(--ds-control-h-sm);
   --ds-btn-pad-x: var(--ds-space-3);
-  --ds-btn-paint-color: var(--ds-btn-bg);
-  --ds-btn-paint-image: none;
+  --ds-btn-paint-color: var(--ds-bg-raised);
+  --ds-btn-paint-image: var(--ds-btn-bg);
   --ds-btn-press-transform: translateY(1px);
   --ds-btn-primary-bg: linear-gradient(135deg, #ff49d1 0%, #44d9ff 100%);
   --ds-btn-primary-bg-hover: linear-gradient(135deg, #ff6ee0 0%, #66e2ff 100%);
@@ -5830,7 +5830,7 @@
   --ds-btn-tertiary-shadow-compact-hover: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 14%, transparent);
   --ds-btn-tertiary-shadow-hover: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 18%, transparent);
   --ds-btn-tertiary-text: #ffffff;
-  --ds-btn-text: #000000;
+  --ds-btn-text: #160d25;
   --ds-btn-text-quiet: var(--ds-text-muted);
   --ds-btn-text-quiet-active: var(--ds-accent);
   --ds-btn-text-quiet-hover: var(--ds-text);
@@ -6143,7 +6143,7 @@
   --ds-btn-paint-image: var(--ds-btn-bg);
   --ds-btn-press-transform: translateY(1px);
   --ds-btn-primary-bg: linear-gradient(132deg, color-mix(in oklab, var(--ds-accent) 42%, #1a2a34 58%) 0%, color-mix(in oklab, var(--ds-focus) 38%, #281f31 62%) 48%, color-mix(in oklab, var(--ds-info) 34%, #18262f 66%) 100%);
-  --ds-btn-primary-bg-hover: #000000;
+  --ds-btn-primary-bg-hover: linear-gradient(132deg, #285957 0%, #503650 48%, #294b61 100%);
   --ds-btn-primary-border: color-mix(in oklab, color-mix(in oklab, var(--ds-border-strong) 68.421053%, var(--ds-accent)) 76%, var(--ds-focus) 24%);
   --ds-btn-primary-disabled-bg: color-mix(
     in oklab,
@@ -6168,8 +6168,8 @@
   --ds-btn-primary-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.12) inset,
     0 12px 22px color-mix(in oklab, var(--ds-accent) 22%, transparent);
   --ds-btn-primary-text: #eaf6ff;
-  --ds-btn-primary-text-hover: #ffffff;
-  --ds-btn-primary-text-selected: var(--ds-btn-primary-text-hover);
+  --ds-btn-primary-text-hover: #eaf6ff;
+  --ds-btn-primary-text-selected: #eaf6ff;
   --ds-btn-radius: var(--ds-radius-2);
   --ds-btn-selected-bg: color-mix(in oklab, var(--ds-accent) 62%, var(--ds-bg-raised) 38%);
   --ds-btn-selected-border: color-mix(in oklab, var(--ds-accent-strong) 78%, var(--ds-border) 22%);

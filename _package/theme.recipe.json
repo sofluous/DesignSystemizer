@@ -1,5 +1,11 @@
 {
   "schemaVersion": 1,
+  "themeName": "steel-night",
+  "generator": {
+    "name": "Design System Studio",
+    "contractVersion": 1,
+    "presetRevision": "140bcaa31a28ea81"
+  },
   "baseTheme": "steel-night",
   "layers": {
     "family": "bold",

@@ -258,7 +258,7 @@
         kicker.className = "builder-group-kicker";
         const owner = doc.createElement("span");
         owner.className = "builder-group-owner";
-        owner.textContent = ownerLabel;
+        owner.textContent = "Token category";
         kicker.appendChild(owner);
         const count = doc.createElement("span");
         count.className = "builder-group-count";
@@ -288,14 +288,6 @@
             sectionHost.setAttribute("data-builder-section", sectionDef.title);
             sectionHost.open = firstSection;
             firstSection = false;
-            sectionHost.addEventListener("toggle", function () {
-              if (!sectionHost.open) return;
-              const searchActive = builderState.searchQuery.trim().length > 0;
-              if (searchActive) return;
-              card.querySelectorAll(".builder-section").forEach((otherSection) => {
-                if (otherSection !== sectionHost) otherSection.open = false;
-              });
-            });
             const summary = doc.createElement("summary");
             summary.className = "builder-section-summary";
             const sectionHead = doc.createElement("div");
@@ -322,6 +314,7 @@
 
           const field = doc.createElement("div");
           field.className = "builder-field";
+          field.dataset.token = control.token;
           field.dataset.searchText = (
             humanLabel(control.token) +
             " " +
@@ -587,7 +580,7 @@
             main.className = "ds-input";
             if (control.type === "length" || control.type === "number") {
               main.type = "number";
-              if (control.step) main.step = control.step;
+              main.step = control.step || "any";
             } else {
               main.type = "text";
             }

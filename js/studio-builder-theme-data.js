@@ -2433,6 +2433,11 @@
       "--ds-tab-active-border": "#242018",
       "--ds-tab-active-icon": "#191712",
     });
+    // Keep the violet stop bright enough for a dark label without flattening the spectrum.
+    Object.assign(schemePresets["vaporwave-neon"], {
+      "--ds-btn-bg": "linear-gradient(135deg, #9679ff 0%, #ff49d4 56%, #3fd5ff 100%)",
+      "--ds-btn-text": "#160d25",
+    });
     // Nacre uses broad spectral color and narrow specular bands on dark readable surfaces.
     Object.assign(texturePresets["holo-dark"], {
       "--ds-body-bg-image": "radial-gradient(ellipse at 15% 15%, #23596c 0%, transparent 55%), radial-gradient(ellipse at 85% 35%, #603b75 0%, transparent 60%), linear-gradient(135deg, #080f20, #123335 48%, #23152f)",
@@ -2457,6 +2462,9 @@
       "--ds-btn-bg": "linear-gradient(135deg, #173d3b 0%, #283a58 30%, #513149 65%, #3d4630 100%)",
       "--ds-btn-bg-hover": "linear-gradient(135deg, #245450, #3b4a71 30%, #70445e 65%, #525b3a)",
       "--ds-btn-border": "#9ebfae",
+      "--ds-btn-primary-bg-hover": "linear-gradient(132deg, #285957 0%, #503650 48%, #294b61 100%)",
+      "--ds-btn-primary-text-hover": "#eaf6ff",
+      "--ds-btn-primary-text-selected": "#eaf6ff",
     });
 
     initializedBuilderThemeData = {

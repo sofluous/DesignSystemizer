@@ -137,9 +137,10 @@
       cursorY: 24,
     };
 
-    function getProbe() {
-      if (state.probe && state.probe.isConnected) return state.probe;
-      const probe = doc.createElement("span");
+    function getProbe(ownerDoc) {
+      if (state.probe && state.probe.isConnected && state.probe.ownerDocument === ownerDoc) return state.probe;
+      if (state.probe) state.probe.remove();
+      const probe = ownerDoc.createElement("span");
       probe.setAttribute("aria-hidden", "true");
       probe.style.position = "fixed";
       probe.style.left = "-9999px";
@@ -148,13 +149,16 @@
       probe.style.height = "1px";
       probe.style.opacity = "0";
       probe.style.pointerEvents = "none";
-      doc.body.appendChild(probe);
+      ownerDoc.body.appendChild(probe);
       state.probe = probe;
       return probe;
     }
 
-    function resolveTokenValue(token, mode) {
-      const probe = getProbe();
+    function resolveTokenValue(token, mode, target) {
+      const probe = getProbe(target.ownerDocument);
+      const value = target.ownerDocument.defaultView.getComputedStyle(target).getPropertyValue(token).trim();
+      probe.style.setProperty(token, value);
+      if (token.includes("shadow")) return value;
       if (!probe) return "(n/a)";
       if (mode === "background") {
         probe.style.background = "none";
@@ -219,7 +223,7 @@
       return tokenSpecFor(el)
         .map(function (entry) {
           return (
-            entry.token + " = " + resolveTokenValue(entry.token, entry.mode)
+            entry.token + " = " + resolveTokenValue(entry.token, entry.mode, el)
           );
         })
         .join("\n");
@@ -254,7 +258,7 @@
     function rebuildLayerChain(baseEl) {
       const chain = [];
       let node = baseEl;
-      while (node && node instanceof Element) {
+      while (node && node.nodeType === 1) {
         if (node.matches(inspectSelector)) chain.push(node);
         node = node.parentElement;
       }
@@ -566,7 +570,20 @@
       });
     }
 
-    doc.addEventListener("mousemove", function (event) {
+    function listenInspector(type, listener) {
+      const previewFrame = doc.getElementById("builderPreviewFrame");
+      const documents = [doc, previewFrame && previewFrame.contentDocument].filter(Boolean);
+      for (const eventDoc of documents) eventDoc.addEventListener(type, (event) => {
+        const frame = eventDoc.defaultView.frameElement;
+        const bounds = frame ? frame.getBoundingClientRect() : { left: 0, top: 0 };
+        listener({ target: event.target, key: event.key,
+          clientX: event.clientX + bounds.left + (frame ? frame.clientLeft : 0),
+          clientY: event.clientY + bounds.top + (frame ? frame.clientTop : 0),
+          preventDefault: () => event.preventDefault() });
+      });
+    }
+
+    listenInspector("mousemove", function (event) {
       if (!state.enabled) return;
       state.cursorX = event.clientX;
       state.cursorY = event.clientY;
@@ -578,7 +595,7 @@
         inspectorCursorBadge.hidden = true;
       }
       const hovered = event.target;
-      if (!(hovered instanceof Element)) return;
+      if (!(hovered && hovered.nodeType === 1)) return;
       if (
         inspector.contains(hovered) ||
         (inspectorDockPanel && inspectorDockPanel.contains(hovered)) ||
@@ -600,10 +617,10 @@
       refreshInspectorView();
     });
 
-    doc.addEventListener("contextmenu", function (event) {
+    listenInspector("contextmenu", function (event) {
       if (!state.enabled) return;
       const source = event.target;
-      if (!(source instanceof Element)) return;
+      if (!(source && source.nodeType === 1)) return;
       if (
         inspector.contains(source) ||
         (inspectorDockPanel && inspectorDockPanel.contains(source)) ||
@@ -622,24 +639,24 @@
       showContextMenu(event.clientX, event.clientY, target);
     });
 
-    doc.addEventListener("click", function (event) {
+    listenInspector("click", function (event) {
       if (!inspectorContextMenu || inspectorContextMenu.hidden) return;
       const source = event.target;
-      if (!(source instanceof Element)) {
+      if (!(source && source.nodeType === 1)) {
         hideContextMenu();
         return;
       }
       if (!inspectorContextMenu.contains(source)) hideContextMenu();
     });
 
-    doc.addEventListener("mouseleave", function () {
+    listenInspector("mouseleave", function () {
       inspectorCursorBadge.hidden = true;
       if (state.mode === "follow" && !state.docked) hideFloatingInspector();
     });
 
-    doc.addEventListener("keydown", function (event) {
+    listenInspector("keydown", function (event) {
       if (
-        event.target instanceof HTMLElement &&
+        event.target && event.target.nodeType === 1 &&
         (event.target.closest(
           "input, textarea, select, [contenteditable='true']",
         ) ||

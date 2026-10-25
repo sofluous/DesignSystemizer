@@ -148,10 +148,12 @@
       if (Math.min(...backgrounds.map((b) => ratio(foreground,b))) >= 4.5) continue;
       const choices = ["#000000", "#ffffff"].map((value) => ({ value, score: Math.min(...backgrounds.map((b) => ratio(color(value),b))) }));
       choices.sort((a,b) => b.score-a.score);
+      const before = { foreground: tokens[fg], background: tokens[bg] };
       tokens[fg] = choices[0].value;
       // A gradient spanning dark and light cannot support one readable label color.
       if (choices[0].score < 4.5) tokens[bg] = choices[0].value === "#000000" ? "#ffffff" : "#000000";
-      fixes.push({ fg, bg });
+      fixes.push({ fg, bg, before, after: { foreground: tokens[fg], background: tokens[bg] },
+        backgroundReplaced: before.background !== tokens[bg] });
     }
     tokens["--ds-tab-active-icon"] = "var(--ds-tab-active-fg)";
     if (pass < 3 && fixes.length) fixes.push(...repair(tokens, pass + 1));
