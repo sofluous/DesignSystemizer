@@ -1,22 +1,9 @@
-# Design System Icons Repository
+# Design System icon sources
 
-This folder stores SVG source icons used across apps.
+`approved.json` is the versioned shared standard. Its entries reference immutable checksummed SVGs in `approved/` and retain original source/license/revision metadata. Change it through `node scripts/import-icon.cjs <approval-file>`, then rebuild with `node scripts/build-package.cjs`.
 
-## Conventions
-- `24x24` viewBox
-- stroke-first icons by default:
-  - `fill="none"`
-  - `stroke="currentColor"`
-  - `stroke-width="1.8"`
-  - `stroke-linecap="round"`
-  - `stroke-linejoin="round"`
-- File naming: kebab-case, action-oriented (`search.svg`, `location-pin.svg`)
+The four root SVG files are retained legacy paths and the initial project-owned assets. Browser candidate choices are not approval records. Sourced open-source artwork may remain a permanent standard; custom redraws are optional.
 
-## Workflow
-1. Track needed icon situations in Studio `Icons` tab.
-2. Review the semantic alias, default guess, and candidate sources from `js/icon-registry.js`.
-3. Prioritize via Hitlist score.
-4. Override the default selection if a better source icon is found.
-5. Export the alias manifest to preserve the chosen mapping.
-6. Replace placeholders or vendor picks with final SVGs here.
-7. Consume in apps via DS semantic aliases rather than vendor icon names directly.
+Prefer a 24x24 outline family and currentColor, reviewing optical weight, corner style and compact-size readability. Do not force identical stroke widths onto unrelated artwork. Record justified secondary-source exceptions and preserve their license notices.
+
+See [the full workflow](../wiki/ICON_LIBRARY_WORKFLOW.md) for preparation, import, app integration, validation and recovery. Generated package icons and the runtime registry contain only approved artwork.

@@ -333,18 +333,7 @@
   box-shadow: none;
 }
 
-.icon-inspector-head {
-  display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
-  gap: var(--ds-space-2);
-  align-items: start;
-}
 
-.icon-inspector-title {
-  display: grid;
-  gap: var(--ds-space-1);
-  min-width: 0;
-}
 
 .icon-inspector-empty {
   justify-items: start;
@@ -360,10 +349,6 @@
   display: none !important;
 }
 
-.icon-inspector-section {
-  padding-top: var(--ds-space-1);
-  border-top: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
-}
 
 .icon-inspector-titleline {
   display: flex;

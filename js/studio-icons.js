@@ -7,6 +7,11 @@
     const iconRegistry = Array.isArray(win.DesignSystemIconRegistry)
       ? JSON.parse(JSON.stringify(win.DesignSystemIconRegistry))
       : [];
+    const assets = win.DesignSystemStudioIconAssets;
+    const approvedIcons = win.DesignSystemApprovedIcons?.icons || {};
+    const iconStateStorageKey = "ds-icon-state";
+    let storageMessage = "";
+    let storageBlocked = false;
     const iconSelectionStorageKey = "ds-icon-selection-overrides";
     const iconDefaultStorageKey = "ds-icon-default-overrides";
     const iconSearch = doc.getElementById("iconSearch");
@@ -18,7 +23,6 @@
     const iconGrid = doc.getElementById("iconGrid");
     const iconMeta = doc.getElementById("iconMeta");
     const iconHitlistBody = doc.getElementById("iconHitlistBody");
-    const iconInspector = doc.getElementById("iconInspector");
     const iconInspectorEmpty =
       doc.getElementById("iconInspectorEmpty");
     const iconInspectorBody = doc.getElementById("iconInspectorBody");
@@ -31,35 +35,8 @@
     );
     const iconInspectorAlias =
       doc.getElementById("iconInspectorAlias");
-    const iconInspectorSelected = doc.getElementById(
-      "iconInspectorSelected",
-    );
-    const iconInspectorSuggested = doc.getElementById(
-      "iconInspectorSuggested",
-    );
-    const iconInspectorFixedNote = doc.getElementById(
-      "iconInspectorFixedNote",
-    );
-    const iconInspectorChoicePreview = doc.getElementById(
-      "iconInspectorChoicePreview",
-    );
-    const iconInspectorChoiceLabel = doc.getElementById(
-      "iconInspectorChoiceLabel",
-    );
-    const iconInspectorChoiceRef = doc.getElementById(
-      "iconInspectorChoiceRef",
-    );
     const iconInspectorBrowseBtn = doc.getElementById(
       "iconInspectorBrowseBtn",
-    );
-    const iconInspectorUseSuggestedBtn = doc.getElementById(
-      "iconInspectorUseSuggestedBtn",
-    );
-    const iconInspectorSetDefaultBtn = doc.getElementById(
-      "iconInspectorSetDefaultBtn",
-    );
-    const iconInspectorResetDefaultBtn = doc.getElementById(
-      "iconInspectorResetDefaultBtn",
     );
     const iconInspectorExportBtn = doc.getElementById(
       "iconInspectorExportBtn",
@@ -89,12 +66,6 @@
     const iconCandidatePreviewRef = doc.getElementById(
       "iconCandidatePreviewRef",
     );
-    const iconCandidateDefaultLine = doc.getElementById(
-      "iconCandidateDefaultLine",
-    );
-    const iconCandidateFixedNote = doc.getElementById(
-      "iconCandidateFixedNote",
-    );
     const iconCandidateManualInput = doc.getElementById(
       "iconCandidateManualInput",
     );
@@ -104,17 +75,17 @@
     const closeIconCandidateBtn = doc.getElementById(
       "closeIconCandidateBtn",
     );
-    const iconCandidateUseSuggestedBtn = doc.getElementById(
-      "iconCandidateUseSuggestedBtn",
-    );
     const iconCandidateApplyBtn = doc.getElementById(
       "iconCandidateApplyBtn",
     );
-    const iconCandidateSetDefaultBtn = doc.getElementById(
-      "iconCandidateSetDefaultBtn",
-    );
-    let iconSelectionOverrides = loadIconSelectionOverrides();
-    let iconDefaultOverrides = loadIconDefaultOverrides();
+    const storedState = loadIconState();
+    let iconSelectionOverrides = storedState.selection;
+    const iconActionStatus = doc.getElementById("iconActionStatus");
+    const candidateState = doc.getElementById("iconCandidateSelectionState");
+    const candidateCount = doc.getElementById("iconCandidateCount");
+    const selectedHidden = doc.getElementById("iconSelectedHidden");
+    let exporting = false;
+    let candidateTrigger = null;
     let activeIconCandidateId = "";
     let activeIconCandidateSelection = null;
     let selectedIconId = "";
@@ -162,214 +133,126 @@
         order: 70,
       },
     };
-    function loadIconSelectionOverrides() {
+    function validateSavedChoices(value) {
+      if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("Invalid saved icon choices.");
+      const valid = Object.create(null);
+      for (const [id, choice] of Object.entries(value)) {
+        const icon = iconRegistry.find((item) => item.id === id);
+        if (!icon || !choice || typeof choice !== "object") continue;
+        if (choice.mode === "candidate" && icon.candidates.some((item) => item.id === choice.candidateId)) valid[id] = { mode: "candidate", candidateId: choice.candidateId };
+        else if (choice.mode === "manual") {
+          try { assets.parseReference(choice.manualRef); valid[id] = { mode: "manual", manualRef: choice.manualRef }; }
+          catch (_) { storageMessage = "Some saved icon references are invalid and were not applied."; }
+        }
+      }
+      return valid;
+    }
+    function loadIconState() {
       try {
-        return JSON.parse(
-          localStorage.getItem(iconSelectionStorageKey) || "{}",
-        );
-      } catch (_) {
-        return {};
+        const raw = win.localStorage.getItem(iconStateStorageKey);
+        if (raw) {
+          const state = JSON.parse(raw);
+          if (!state || ![1, 2].includes(state.version)) throw new Error("Unsupported saved icon state.");
+          return { selection: { ...(state.version === 1 ? validateSavedChoices(state.defaults) : {}), ...validateSavedChoices(state.selection) } };
+        }
+        return { selection: { ...validateSavedChoices(JSON.parse(win.localStorage.getItem(iconDefaultStorageKey) || "{}")),
+          ...validateSavedChoices(JSON.parse(win.localStorage.getItem(iconSelectionStorageKey) || "{}")) } };
+      } catch (error) {
+        storageBlocked = true;
+        storageMessage = "Saved icon choices could not be read. The stored copy is untouched. Export the manifest to keep session changes.";
+        return { selection: {} };
       }
     }
-    function saveIconSelectionOverrides() {
-      localStorage.setItem(
-        iconSelectionStorageKey,
-        JSON.stringify(iconSelectionOverrides),
-      );
-    }
-    function loadIconDefaultOverrides() {
+    function persistIconState() {
       try {
-        return JSON.parse(
-          localStorage.getItem(iconDefaultStorageKey) || "{}",
-        );
-      } catch (_) {
-        return {};
+        if (storageBlocked) throw new Error("Saving is paused to preserve unreadable browser data.");
+        win.localStorage.setItem(iconStateStorageKey, JSON.stringify({ version: 2, selection: iconSelectionOverrides }));
+        storageMessage = "";
+      } catch (error) {
+        storageMessage = "Applied for this session; browser saving is unavailable. Export the manifest to keep your choices. " + error.message;
       }
+      announce("Icon choices updated.");
     }
-    function saveIconDefaultOverrides() {
-      localStorage.setItem(
-        iconDefaultStorageKey,
-        JSON.stringify(iconDefaultOverrides),
-      );
+    function announce(message) {
+      if (!iconActionStatus) return;
+      iconActionStatus.textContent = message + (storageMessage ? " " + storageMessage : "");
+      iconActionStatus.classList.toggle("studio-sr-only", !storageMessage && !/not downloaded|unavailable|could not|failed/i.test(message));
     }
+    function escapeHtml(value) { const node = doc.createElement("span"); node.textContent = value; return node.innerHTML; }
     function iconPriorityScore(icon) {
-      const gap = icon.status === "placeholder" ? 2 : 0.6;
+      const gap = selectionState(icon) === "Saved" ? 0.6 : 2;
       return Math.round(icon.frequency * icon.utility * gap * 10) / 10;
     }
     function iconById(iconId) {
       return iconRegistry.find((icon) => icon.id === iconId) || null;
     }
     function iconSourceName(sourceId) {
+      if (sourceId === "manual-url") return "Custom SVG";
       const source = iconSources.find((item) => item.id === sourceId);
       return source ? source.name : sourceId;
     }
-    function placeholderGlyph() {
-      return '<rect x="4" y="4" width="16" height="16" rx="2" ry="2" stroke-dasharray="2 2"></rect><line x1="8" y1="8" x2="16" y2="16"></line><line x1="16" y1="8" x2="8" y2="16"></line>';
+    function approvedChoice(icon) {
+      const approved = approvedIcons[icon.alias];
+      if (!approved) return null;
+      return { mode: "approved", sourceId: approved.source.library, iconName: approved.source.name,
+        label: iconSourceName(approved.source.library) + " / " + approved.source.name,
+        localFile: "./icons/" + approved.file, svg: approved.svg, source: approved.source };
     }
     function defaultCandidate(icon) {
-      const override = iconDefaultOverrides[icon.id];
-      if (override && override.mode === "manual" && override.manualRef) {
-        const parts = override.manualRef.split(":");
-        const sourceId = parts[0] || "manual";
-        const iconName = parts.slice(1).join(":") || "custom";
-        return {
-          id: "manual-default",
-          mode: "manual",
-          sourceId,
-          iconName,
-          label: iconSourceName(sourceId) + " / " + iconName,
-          manualRef: override.manualRef,
-        };
-      }
-      if (
-        override &&
-        override.mode === "candidate" &&
-        override.candidateId
-      ) {
-        const matchedOverride = (icon.candidates || []).find(
-          (candidate) => candidate.id === override.candidateId,
-        );
-        if (matchedOverride) return matchedOverride;
-      }
-      return (
-        (icon.candidates || []).find(
-          (candidate) => candidate.id === icon.defaultCandidateId,
-        ) ||
-        (icon.candidates || [])[0] ||
-        null
-      );
+      return approvedChoice(icon) || (icon.candidates || []).find((candidate) => candidate.id === icon.defaultCandidateId) || (icon.candidates || [])[0] || null;
     }
     function resolveIconChoice(icon) {
       const override = iconSelectionOverrides[icon.id];
-      if (override && override.mode === "manual" && override.manualRef) {
-        const parts = override.manualRef.split(":");
-        const sourceId = parts[0] || "manual";
-        const iconName = parts.slice(1).join(":") || "custom";
-        return {
-          mode: "manual",
-          sourceId,
-          iconName,
-          label: iconSourceName(sourceId) + " / " + iconName,
-          manualRef: override.manualRef,
-        };
-      }
-      if (
-        override &&
-        override.mode === "candidate" &&
-        override.candidateId
-      ) {
-        const matched = (icon.candidates || []).find(
-          (candidate) => candidate.id === override.candidateId,
-        );
-        if (matched) return Object.assign({ mode: "candidate" }, matched);
-      }
-      const fallback = defaultCandidate(icon);
-      return fallback
-        ? Object.assign({ mode: "candidate" }, fallback)
-        : {
-            mode: "placeholder",
-            sourceId: "unassigned",
-            iconName: icon.id,
-            label: "No candidate selected",
-          };
+      let choice;
+      if (override?.mode === "manual") choice = assets.parseReference(override.manualRef);
+      if (override?.mode === "candidate") choice = (icon.candidates || []).find((candidate) => candidate.id === override.candidateId);
+      const approved = approvedChoice(icon);
+      if (approved && (!choice || assets.same(choice, approved) || (approved.source.url && assets.urlFor(choice) === approved.source.url))) return approved;
+      return choice ? { mode: "candidate", ...choice } : defaultCandidate(icon);
+    }
+    function selectionState(icon) {
+      const choice = resolveIconChoice(icon);
+      if (!choice) return "Missing";
+      if (choice.mode === "approved") return "Saved";
+      return Object.hasOwn(iconSelectionOverrides, icon.id) ? "Draft" : "Recommended";
+    }
+    function sourceLabel(choice) {
+      return choice ? iconSourceName(choice.sourceId) + " / " + choice.iconName : "No source";
     }
     function cloneIconChoice(choice) {
       return choice ? JSON.parse(JSON.stringify(choice)) : null;
     }
-    function hasChoiceGlyph(choice) {
-      return !!(choice && typeof choice.glyph === "string" && choice.glyph.trim());
+    async function downloadIconSvg(icon) {
+      const choice = cloneIconChoice(resolveIconChoice(icon));
+      if (!choice) return;
+      exporting = true;
+      iconInspectorExportBtn.disabled = true;
+      announce("Downloading " + choice.label + "...");
+      try {
+        const svg = await assets.svgFor(choice, icon.name);
+        studioPackagingApi.downloadBlob(icon.id + ".svg", new Blob([svg], { type: "image/svg+xml;charset=utf-8" }));
+        announce("Downloaded " + choice.label + ".");
+      } catch (error) {
+        announce("SVG was not downloaded. " + error.message + " Preview and download availability can differ when a remote source blocks requests.");
+      } finally { exporting = false; renderIconInspector(filteredIcons()); }
     }
-    function iconSvgMarkup(icon) {
-      const choice = resolveIconChoice(icon);
-      const imageUrl = iconPreviewUrl(choice);
-      return (
-        '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
-        (hasChoiceGlyph(choice) ? choice.glyph : placeholderGlyph()) +
-        "</svg>"
-      );
-    }
-    function iconPreviewUrl(choice) {
-      if (!choice) return "";
-      if (choice.localFile) return choice.localFile;
-      if (choice.previewUrl) return choice.previewUrl;
-      if (
-        choice.manualRef &&
-        /^https?:\/\//i.test(choice.manualRef) &&
-        choice.manualRef.toLowerCase().indexOf(".svg") > -1
-      ) {
-        return choice.manualRef;
-      }
-      const source = iconSources.find(
-        (item) => item.id === choice.sourceId,
-      );
-      if (source && source.previewUrlTemplate && choice.iconName) {
-        return source.previewUrlTemplate.replace(
-          /\{name\}/g,
-          encodeURIComponent(choice.iconName),
-        );
-      }
-      return "";
-    }
-    function iconSvgFile(icon) {
-      const choice = resolveIconChoice(icon);
-      const body = choice.glyph || placeholderGlyph();
-      return (
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-        "<title>" +
-        icon.name +
-        "</title>" +
-        body +
-        "</svg>\n"
-      );
-    }
-    function downloadIconSvg(icon) {
-      const blob = new Blob([iconSvgFile(icon)], {
-        type: "image/svg+xml;charset=utf-8",
-      });
-      if (studioPackagingApi) {
-        studioPackagingApi.downloadBlob(icon.id + ".svg", blob);
-      }
-    }
-    function setIconSelectionToSuggested(icon) {
-      delete iconSelectionOverrides[icon.id];
-      saveIconSelectionOverrides();
-    }
-    function commitActiveIconSelection(asDefault) {
+    function commitActiveIconSelection() {
       const icon = iconById(activeIconCandidateId);
       const choice = activeIconCandidateSelection;
       if (!icon || !choice) return;
-      if (choice.mode === "manual" && choice.manualRef) {
-        iconSelectionOverrides[icon.id] = {
-          mode: "manual",
-          manualRef: choice.manualRef,
-        };
-        if (asDefault) {
-          iconDefaultOverrides[icon.id] = {
-            mode: "manual",
-            manualRef: choice.manualRef,
-          };
-        }
-      } else if (choice.id) {
-        iconSelectionOverrides[icon.id] = {
-          mode: "candidate",
-          candidateId: choice.id,
-        };
-        if (asDefault) {
-          iconDefaultOverrides[icon.id] = {
-            mode: "candidate",
-            candidateId: choice.id,
-          };
-        }
-      }
-      saveIconSelectionOverrides();
-      if (asDefault) saveIconDefaultOverrides();
+      if (choice.mode === "approved") delete iconSelectionOverrides[icon.id];
+      else if (choice.mode === "manual") iconSelectionOverrides[icon.id] = { mode: "manual", manualRef: choice.manualRef };
+      else if (choice.id) iconSelectionOverrides[icon.id] = { mode: "candidate", candidateId: choice.id };
+      persistIconState();
       renderIconGallery();
-      if (iconCandidateDialog) iconCandidateDialog.close();
+      iconCandidateDialog.close();
+      announce("Selection updated.");
     }
     function exportIconManifest() {
       const manifest = {
         generatedAt: new Date().toISOString(),
-        version: "0.1",
+        version: "0.3",
+        purpose: "icon-workspace",
         sources: iconSources.map((source) => ({
           id: source.id,
           name: source.name,
@@ -377,17 +260,20 @@
           site: source.site,
         })),
         icons: iconRegistry.map((icon) => {
-          const choice = resolveIconChoice(icon);
+          const choice = resolveIconChoice(icon) || {};
           const defaultChoice = defaultCandidate(icon);
           return {
             id: icon.id,
             alias: icon.alias,
             name: icon.name,
             category: icon.category,
-            status: icon.status,
-            defaultCandidateId: icon.defaultCandidateId || null,
+            status: selectionState(icon),
+            defaultCandidateId: defaultChoice?.id || null,
+            registryDefaultCandidateId: icon.defaultCandidateId || null,
             selected: {
               mode: choice.mode,
+              candidateId: choice.id || null,
+              previewUrl: assets.urlFor(choice) || null,
               sourceId: choice.sourceId,
               iconName: choice.iconName,
               label: choice.label,
@@ -427,60 +313,23 @@
         iconCandidateSourceFilter.appendChild(opt);
       });
     }
-    function renderIconCandidatePreview(
-      choice,
-      defaultChoice,
-      hasFixedDefault,
-    ) {
-      if (!iconCandidatePreview) return;
-      const previewUrl = iconPreviewUrl(choice);
-      iconCandidatePreview.className =
-        "icon-preview" +
-        (choice && (hasChoiceGlyph(choice) || previewUrl) ? "" : " is-placeholder");
-      if (hasChoiceGlyph(choice)) {
-        iconCandidatePreview.innerHTML =
-          '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
-          choice.glyph +
-          "</svg>";
-      } else if (previewUrl) {
-        iconCandidatePreview.innerHTML =
-          '<img src="' +
-          previewUrl.replace(/"/g, "&quot;") +
-          '" alt="" loading="lazy" referrerpolicy="no-referrer" />';
-      } else {
-        iconCandidatePreview.innerHTML =
-          '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
-          ((choice && choice.glyph) || placeholderGlyph()) +
-          "</svg>";
-      }
-      iconCandidatePreviewLabel.textContent =
-        (choice && choice.label) || "No candidate selected";
-      iconCandidatePreviewRef.textContent =
-        (choice &&
-          (choice.localFile ||
-            choice.manualRef ||
-            choice.sourceId + ":" + choice.iconName)) ||
-        "-";
-      iconCandidateDefaultLine.textContent =
-        "Suggested: " +
-        (defaultChoice ? defaultChoice.label : "No default guess");
-      iconCandidateFixedNote.hidden = !hasFixedDefault;
-      const matchesDefault =
-        choice &&
-        defaultChoice &&
-        choice.sourceId === defaultChoice.sourceId &&
-        choice.iconName === defaultChoice.iconName &&
-        (choice.manualRef || null) === (defaultChoice.manualRef || null);
-      if (iconCandidateSetDefaultBtn)
-        iconCandidateSetDefaultBtn.disabled = matchesDefault;
-      if (iconCandidateApplyBtn) iconCandidateApplyBtn.disabled = !choice;
+    function renderIconCandidatePreview(choice) {
+      assets.render(iconCandidatePreview, choice);
+      iconCandidatePreviewLabel.textContent = sourceLabel(choice);
+      iconCandidatePreviewRef.textContent = "";
+      const matchesApplied = assets.same(choice, resolveIconChoice(iconById(activeIconCandidateId)));
+      iconCandidateApplyBtn.disabled = !choice || matchesApplied;
+      candidateState.textContent = matchesApplied ? "Current icon" : choice ? "Preview" : "Choose an icon";
     }
     function renderIconCandidateList() {
       const icon = iconById(activeIconCandidateId);
       if (!icon || !iconCandidateList) return;
       const query = (iconCandidateSearch?.value || "").trim().toLowerCase();
       const sourceId = iconCandidateSourceFilter?.value || "all";
-      const rows = (icon.candidates || []).filter((candidate) => {
+      const candidates = [...(icon.candidates || [])];
+      const saved = approvedChoice(icon);
+      if (saved && !candidates.some((candidate) => assets.same(candidate, saved))) candidates.unshift({ ...saved, id: "saved-" + icon.id });
+      const rows = candidates.filter((candidate) => {
         if (sourceId !== "all" && candidate.sourceId !== sourceId)
           return false;
         if (!query) return true;
@@ -494,7 +343,11 @@
           .toLowerCase();
         return haystack.indexOf(query) > -1;
       });
+      const focusedId = doc.activeElement?.closest(".icon-candidate-item")?.dataset.candidateId;
       iconCandidateList.innerHTML = "";
+      candidateCount.textContent = rows.length + " icons";
+      const selectedVisible = rows.some((candidate) => assets.same(candidate, activeIconCandidateSelection));
+      if (!selectedVisible && activeIconCandidateSelection) candidateCount.textContent += " (preview filtered out)";
       if (!rows.length) {
         const empty = doc.createElement("div");
         empty.className = "icon-candidate-empty";
@@ -507,43 +360,18 @@
         item.type = "button";
         item.className =
           "icon-candidate-item" +
-          (activeIconCandidateSelection &&
-          activeIconCandidateSelection.sourceId === candidate.sourceId &&
-          activeIconCandidateSelection.iconName === candidate.iconName
+          (assets.same(candidate, activeIconCandidateSelection)
             ? " is-selected"
             : "");
+        item.dataset.candidateId = candidate.id;
+        item.setAttribute("aria-pressed", String(assets.same(candidate, activeIconCandidateSelection)));
         const preview = doc.createElement("div");
-        const previewUrl = iconPreviewUrl(candidate);
-        preview.className =
-          "icon-preview" +
-          (hasChoiceGlyph(candidate) || previewUrl ? "" : " is-placeholder");
-        if (hasChoiceGlyph(candidate)) {
-          preview.innerHTML =
-            '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
-            candidate.glyph +
-            "</svg>";
-        } else if (previewUrl) {
-          preview.innerHTML =
-            '<img src="' +
-            previewUrl.replace(/"/g, "&quot;") +
-            '" alt="" loading="lazy" referrerpolicy="no-referrer" />';
-        } else {
-          preview.innerHTML =
-            '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
-            (candidate.glyph || placeholderGlyph()) +
-            "</svg>";
-        }
+        assets.render(preview, candidate, true);
         const meta = doc.createElement("div");
         meta.className = "icon-candidate-item-meta";
-        meta.innerHTML =
-          "<strong>" +
-          candidate.label +
-          "</strong>" +
-          "<code>" +
-          candidate.sourceId +
-          ":" +
-          candidate.iconName +
-          "</code>";
+        const label = doc.createElement("strong"); label.textContent = iconSourceName(candidate.sourceId);
+        const ref = doc.createElement("code"); ref.textContent = candidate.iconName;
+        meta.append(label, ref);
         item.appendChild(preview);
         item.appendChild(meta);
         item.addEventListener("click", function () {
@@ -553,18 +381,14 @@
           renderIconCandidateModal();
         });
         iconCandidateList.appendChild(item);
+        if (candidate.id === focusedId) item.focus();
       });
     }
     function renderIconCandidateModal() {
       const icon = iconById(activeIconCandidateId);
       if (!icon) return;
-      const defaultChoice = defaultCandidate(icon);
-      const hasFixedDefault = Object.prototype.hasOwnProperty.call(
-        iconDefaultOverrides,
-        icon.id,
-      );
-      iconCandidateTitle.textContent = "Choose Icon Candidate";
-      iconCandidateHint.textContent = icon.alias + " for " + icon.name;
+      iconCandidateTitle.textContent = "Browse icons";
+      iconCandidateHint.textContent = icon.alias;
       if (iconCandidateManualInput) {
         iconCandidateManualInput.value =
           activeIconCandidateSelection &&
@@ -572,14 +396,11 @@
             ? activeIconCandidateSelection.manualRef || ""
             : "";
       }
-      renderIconCandidatePreview(
-        activeIconCandidateSelection,
-        defaultChoice,
-        hasFixedDefault,
-      );
+      renderIconCandidatePreview(activeIconCandidateSelection);
       renderIconCandidateList();
     }
     function openIconCandidateDialog(icon) {
+      candidateTrigger = doc.activeElement;
       activeIconCandidateId = icon.id;
       activeIconCandidateSelection = cloneIconChoice(
         resolveIconChoice(icon),
@@ -589,6 +410,7 @@
         iconCandidateSourceFilter.value = "all";
       renderIconCandidateModal();
       iconCandidateDialog?.showModal();
+      iconCandidateSearch?.focus();
     }
     function buildIconCategoryFilter() {
       if (!iconCategoryFilter) return;
@@ -614,6 +436,10 @@
         opt.textContent = source.name;
         iconSourceFilter.appendChild(opt);
       });
+      const custom = doc.createElement("option");
+      custom.value = "manual-url";
+      custom.textContent = "Custom SVG URL";
+      iconSourceFilter.appendChild(custom);
     }
     function filteredIcons() {
       const q = (iconSearch?.value || "").trim().toLowerCase();
@@ -622,18 +448,18 @@
       const source = iconSourceFilter?.value || "all";
       return iconRegistry.filter((icon) => {
         const choice = resolveIconChoice(icon);
-        if (status !== "all" && icon.status !== status) return false;
+        if (status !== "all" && selectionState(icon).toLowerCase() !== status) return false;
         if (category !== "all" && icon.category !== category) return false;
-        if (source !== "all" && choice.sourceId !== source) return false;
+        if (source !== "all" && choice?.sourceId !== source) return false;
         if (!q) return true;
         const haystack = [
           icon.id,
           icon.alias,
           icon.name,
           icon.category,
-          icon.status,
-          choice.label || "",
-          choice.sourceId || "",
+          selectionState(icon),
+          choice?.label || "",
+          choice?.sourceId || "",
           ...(icon.apps || []),
           ...(icon.tags || []),
         ]
@@ -651,62 +477,44 @@
     function categoryOrder(category) {
       return iconCategoryMeta[category]?.order || 999;
     }
-    function iconChoiceReference(choice) {
-      return (
-        choice.localFile ||
-        choice.manualRef ||
-        (choice.sourceId && choice.iconName
-          ? choice.sourceId + ":" + choice.iconName
-          : "-")
-      );
-    }
-    function renderIconChoicePreview(host, choice) {
-      if (!host) return;
-      const previewUrl = iconPreviewUrl(choice);
-      host.className =
-        "icon-preview" +
-        (hasChoiceGlyph(choice) || previewUrl ? "" : " is-placeholder");
-      if (hasChoiceGlyph(choice)) {
-        host.innerHTML =
-          '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
-          choice.glyph +
-          "</svg>";
-      } else if (previewUrl) {
-        host.innerHTML =
-          '<img src="' +
-          previewUrl.replace(/"/g, "&quot;") +
-          '" alt="" loading="lazy" referrerpolicy="no-referrer" />';
-      } else {
-        host.innerHTML =
-          '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
-          ((choice && choice.glyph) || placeholderGlyph()) +
-          "</svg>";
+    function selectIcon(iconId, focus) {
+      if (selectedIconId !== iconId) {
+        doc.getElementById("iconMoreActions").open = false;
+        doc.getElementById("iconInspectorProvenance").open = false;
       }
+      selectedIconId = iconId;
+      for (const card of iconGrid.querySelectorAll(".icon-card")) {
+        const selected = card.dataset.iconId === iconId;
+        card.classList.toggle("is-selected", selected);
+        card.setAttribute("aria-pressed", String(selected));
+        card.tabIndex = selected ? 0 : -1;
+        if (selected && focus) card.focus();
+      }
+      renderIconInspector(filteredIcons());
     }
     function buildIconCard(icon) {
       const card = doc.createElement("article");
       card.className =
         "ds-card icon-card" +
         (icon.id === selectedIconId ? " is-selected" : "");
-      card.tabIndex = 0;
+      card.dataset.iconId = icon.id;
+      card.tabIndex = icon.id === selectedIconId ? 0 : -1;
+      card.setAttribute("aria-label", icon.name + ", " + icon.alias + ", " + selectionState(icon));
       card.setAttribute("role", "button");
       card.setAttribute(
         "aria-pressed",
         icon.id === selectedIconId ? "true" : "false",
       );
       const preview = doc.createElement("div");
-      preview.className =
-        "icon-preview" +
-        (icon.status === "placeholder" ? " is-placeholder" : "");
-      preview.innerHTML = iconSvgMarkup(icon);
+      assets.render(preview, resolveIconChoice(icon), true);
       const head = doc.createElement("div");
       head.className = "icon-card-head";
       head.appendChild(preview);
       const statusLine = doc.createElement("div");
       statusLine.className = "icon-card-statusline";
       const status = doc.createElement("div");
-      status.className = "icon-status " + icon.status;
-      status.textContent = icon.status;
+      status.className = "icon-status is-" + selectionState(icon).toLowerCase();
+      status.textContent = selectionState(icon);
       statusLine.appendChild(status);
       const topline = doc.createElement("div");
       topline.className = "icon-card-topline";
@@ -719,26 +527,34 @@
       token.className = "icon-card-token mono";
       token.textContent = icon.alias;
       head.appendChild(token);
-      head.appendChild(statusLine);
+      topline.appendChild(statusLine);
+      const source = doc.createElement("div");
+      source.className = "icon-card-source";
+      source.textContent = sourceLabel(resolveIconChoice(icon));
+      head.appendChild(source);
     
       card.appendChild(head);
       const selectCard = function () {
-        selectedIconId = icon.id;
-        renderIconGallery();
+        selectIcon(icon.id, false);
       };
       card.addEventListener("click", selectCard);
       card.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
           selectCard();
+        } else {
+          const cards = Array.from(iconGrid.querySelectorAll(".icon-card"));
+          const index = cards.indexOf(card);
+          const columns = getComputedStyle(card.parentElement).gridTemplateColumns.split(" ").length;
+          const next = { ArrowRight: index + 1, ArrowLeft: index - 1, ArrowDown: index + columns, ArrowUp: index - columns, Home: 0, End: cards.length - 1 }[event.key];
+          if (next !== undefined) { event.preventDefault(); selectIcon(cards[Math.max(0, Math.min(cards.length - 1, next))].dataset.iconId, true); }
         }
       });
       return card;
     }
     function renderIconInspector(rows) {
       if (!iconInspectorEmpty || !iconInspectorBody) return;
-      const activeIcon =
-        rows.find((icon) => icon.id === selectedIconId) || rows[0] || null;
+      const activeIcon = iconById(selectedIconId);
       if (!activeIcon) {
         iconInspectorEmpty.hidden = false;
         iconInspectorBody.hidden = true;
@@ -746,78 +562,41 @@
       }
       selectedIconId = activeIcon.id;
       const choice = resolveIconChoice(activeIcon);
-      const defaultChoice = defaultCandidate(activeIcon);
-      const hasOverride = Object.prototype.hasOwnProperty.call(
-        iconSelectionOverrides,
-        activeIcon.id,
-      );
-      const matchesDefault =
-        defaultChoice &&
-        choice.sourceId === defaultChoice.sourceId &&
-        choice.iconName === defaultChoice.iconName &&
-        (choice.manualRef || null) === (defaultChoice.manualRef || null);
+      const state = selectionState(activeIcon);
       iconInspectorEmpty.hidden = true;
       iconInspectorBody.hidden = false;
-      iconInspectorPreview.className =
-        "icon-preview" +
-        (activeIcon.status === "placeholder" ? " is-placeholder" : "");
-      iconInspectorPreview.innerHTML = iconSvgMarkup(activeIcon);
+      assets.render(iconInspectorPreview, choice);
       iconInspectorName.textContent = activeIcon.name;
-      iconInspectorStatus.className = "icon-status " + activeIcon.status;
-      iconInspectorStatus.textContent = activeIcon.status;
+      iconInspectorStatus.className = "icon-status is-" + state.toLowerCase();
+      iconInspectorStatus.textContent = state;
       iconInspectorAlias.textContent = activeIcon.alias;
-      iconInspectorSelected.textContent =
-        "Selected: " + (choice.label || "No source selected");
-      iconInspectorSuggested.textContent =
-        "Suggested: " +
-        (defaultChoice ? defaultChoice.label : "No default guess");
-      iconInspectorFixedNote.hidden = !Object.prototype.hasOwnProperty.call(
-        iconDefaultOverrides,
-        activeIcon.id,
-      );
-      renderIconChoicePreview(iconInspectorChoicePreview, choice);
-      iconInspectorChoiceLabel.textContent =
-        choice.label || "No source selected";
-      iconInspectorChoiceRef.textContent = iconChoiceReference(choice);
-      iconInspectorBrowseBtn.onclick = function () {
-        openIconCandidateDialog(activeIcon);
+      doc.getElementById("iconInspectorSource").textContent = sourceLabel(choice);
+      const approved = approvedIcons[activeIcon.alias];
+      const source = choice?.source;
+      doc.getElementById("iconInspectorDetails").textContent = [
+        activeIcon.notes || "", "Source: " + (source?.url || (choice && assets.reference(choice)) || "None"),
+        "Revision: " + (source?.revision || "Not recorded"), "License: " + (source?.license || iconSources.find((item) => item.id === choice?.sourceId)?.license || "Not recorded"),
+        ...(source?.licenseText ? [source.licenseText] : []),
+        ...(state === "Draft" && approved ? ["Saved source: " + approved.source.library + " / " + approved.source.name] : []),
+        "Used by: " + ((activeIcon.apps || []).join(", ") || "Not recorded")
+      ].join("\n\n");
+      iconInspectorBrowseBtn.onclick = () => openIconCandidateDialog(activeIcon);
+      const save = doc.getElementById("iconPrepareApprovalBtn");
+      save.disabled = state === "Saved";
+      save.title = state === "Saved" ? "Already saved to the icon sheet" : "Prepare this selection for the shared icon sheet";
+      save.onclick = () => win.DesignSystemStudioIconApproval.open(activeIcon, choice);
+      const revert = doc.getElementById("iconRevertBtn");
+      revert.hidden = state !== "Draft";
+      revert.onclick = () => {
+        delete iconSelectionOverrides[activeIcon.id];
+        persistIconState(); renderIconGallery();
+        doc.getElementById("iconMoreActions").open = false;
+        iconInspectorBrowseBtn.focus();
       };
-      iconInspectorUseSuggestedBtn.disabled = !hasOverride;
-      iconInspectorUseSuggestedBtn.onclick = function () {
-        setIconSelectionToSuggested(activeIcon);
-        renderIconGallery();
-      };
-      iconInspectorSetDefaultBtn.disabled = !!matchesDefault;
-      iconInspectorSetDefaultBtn.onclick = function () {
-        if (choice.mode === "manual" && choice.manualRef) {
-          iconDefaultOverrides[activeIcon.id] = {
-            mode: "manual",
-            manualRef: choice.manualRef,
-          };
-        } else if (choice.id) {
-          iconDefaultOverrides[activeIcon.id] = {
-            mode: "candidate",
-            candidateId: choice.id,
-          };
-        }
-        saveIconDefaultOverrides();
-        renderIconGallery();
-      };
-      iconInspectorResetDefaultBtn.disabled =
-        !Object.prototype.hasOwnProperty.call(
-          iconDefaultOverrides,
-          activeIcon.id,
-        );
-      iconInspectorResetDefaultBtn.onclick = function () {
-        delete iconDefaultOverrides[activeIcon.id];
-        saveIconDefaultOverrides();
-        renderIconGallery();
-      };
-      iconInspectorExportBtn.textContent =
-        activeIcon.status === "ready" ? "Export SVG" : "Export Placeholder";
-      iconInspectorExportBtn.onclick = function () {
-        downloadIconSvg(activeIcon);
-      };
+      iconInspectorExportBtn.textContent = exporting ? "Downloading..." : "Download SVG";
+      iconInspectorExportBtn.disabled = exporting || !choice || (!assets.hasGlyph(choice) && !assets.urlFor(choice));
+      iconInspectorExportBtn.onclick = () => downloadIconSvg(activeIcon);
+      selectedHidden.hidden = rows.some((icon) => icon.id === activeIcon.id);
     }
     function renderIconGroupNav(groups) {
       if (!iconGroupNav) return;
@@ -859,10 +638,10 @@
         iconGroupNav.innerHTML = "";
         iconGroupNav.hidden = true;
       }
-      if (rows.length && !rows.some((icon) => icon.id === selectedIconId)) {
+      if (rows.length && !selectedIconId) {
         selectedIconId = rows[0].id;
       }
-      if (!rows.length) selectedIconId = "";
+
       if (!rows.length) {
         const empty = doc.createElement("article");
         empty.className = "ds-card ds-stack";
@@ -922,29 +701,22 @@
         section.appendChild(groupGrid);
         iconGrid.appendChild(section);
       });
+      const firstVisible = iconGrid.querySelector(".icon-card");
+      if (firstVisible && !iconGrid.querySelector('.icon-card[tabindex="0"]')) firstVisible.tabIndex = 0;
       renderIconInspector(rows);
-      const readyCount = rows.filter((i) => i.status === "ready").length;
-      const missingCount = rows.length - readyCount;
       iconMeta.textContent =
         rows.length +
-        " icon situations tracked (" +
-        readyCount +
-        " ready, " +
-        missingCount +
-        " placeholders, " +
-        rows.filter((icon) =>
-          Object.prototype.hasOwnProperty.call(
-            iconSelectionOverrides,
-            icon.id,
-          ),
-        ).length +
-        " overrides).";
+        " icons / " +
+        rows.filter((icon) => selectionState(icon) === "Saved").length +
+        " saved / " +
+        rows.filter((icon) => selectionState(icon) === "Draft").length +
+        " drafts";
       const rankRows = iconRegistry
         .slice()
         .sort((a, b) => iconPriorityScore(b) - iconPriorityScore(a));
       iconHitlistBody.innerHTML = "";
       rankRows.forEach((icon, index) => {
-        const choice = resolveIconChoice(icon);
+        const choice = resolveIconChoice(icon) || {};
         const tr = doc.createElement("tr");
         tr.innerHTML =
           "<td>" +
@@ -957,13 +729,13 @@
           categoryLabel(icon.category) +
           "</td>" +
           "<td>" +
-          icon.status +
+          selectionState(icon) +
           "</td>" +
           "<td>" +
           String(iconPriorityScore(icon)) +
           "</td>" +
           "<td>" +
-          (choice.label || "-") +
+          escapeHtml(choice.label || "-") +
           "</td>" +
           "<td>" +
           (icon.apps || []).join(", ") +
@@ -1010,31 +782,15 @@
       }
       if (iconCandidateManualBtn) {
         iconCandidateManualBtn.addEventListener("click", function () {
-          const ref = (iconCandidateManualInput?.value || "").trim();
-          if (!ref) return;
-          const isUrl =
-            /^https?:\/\//i.test(ref) &&
-            ref.toLowerCase().indexOf(".svg") > -1;
-          const isRef = ref.indexOf(":") > -1;
-          if (!isUrl && !isRef) return;
-          let sourceId = "manual";
-          let iconName = "custom";
-          if (isUrl) {
-            sourceId = "manual-url";
-            iconName = ref.split("/").pop() || "custom";
-          } else {
-            const parts = ref.split(":");
-            sourceId = parts[0] || "manual";
-            iconName = parts.slice(1).join(":") || "custom";
+          try {
+            activeIconCandidateSelection = assets.parseReference(iconCandidateManualInput.value);
+            iconCandidateManualInput.setCustomValidity("");
+          } catch (error) {
+            iconCandidateManualInput.setCustomValidity(error.message);
+            iconCandidateManualInput.reportValidity();
+            candidateState.textContent = error.message;
+            return;
           }
-          activeIconCandidateSelection = {
-            mode: "manual",
-            sourceId,
-            iconName,
-            label: iconSourceName(sourceId) + " / " + iconName,
-            manualRef: ref,
-            previewUrl: isUrl ? ref : "",
-          };
           renderIconCandidateModal();
         });
       }
@@ -1043,27 +799,30 @@
           iconCandidateDialog?.close();
         });
       }
-      if (iconCandidateUseSuggestedBtn) {
-        iconCandidateUseSuggestedBtn.addEventListener("click", function () {
-          const icon = iconById(activeIconCandidateId);
-          if (!icon) return;
-          activeIconCandidateSelection = cloneIconChoice(
-            defaultCandidate(icon),
-          );
-          renderIconCandidateModal();
-        });
-      }
-      if (iconCandidateApplyBtn) {
-        iconCandidateApplyBtn.addEventListener("click", function () {
-          commitActiveIconSelection(false);
-        });
-      }
-      if (iconCandidateSetDefaultBtn) {
-        iconCandidateSetDefaultBtn.addEventListener("click", function () {
-          commitActiveIconSelection(true);
-        });
-      }
+      iconCandidateApplyBtn.addEventListener("click", commitActiveIconSelection);
+      doc.getElementById("iconCandidateUploadBtn").addEventListener("click", () => {
+        const icon = iconById(activeIconCandidateId);
+        if (!icon) return;
+        iconCandidateDialog.close();
+        win.DesignSystemStudioIconApproval.open(icon, resolveIconChoice(icon));
+        doc.getElementById("iconApprovalFile").focus();
+      });
+      doc.getElementById("iconClearFiltersBtn").addEventListener("click", () => {
+        iconSearch.value = ""; iconStatusFilter.value = iconCategoryFilter.value = iconSourceFilter.value = "all";
+        renderIconGallery(); iconSearch.focus();
+      });
+      doc.getElementById("iconShowSelectedBtn").addEventListener("click", () => {
+        iconSearch.value = ""; iconStatusFilter.value = iconCategoryFilter.value = iconSourceFilter.value = "all";
+        renderIconGallery(); selectIcon(selectedIconId, true);
+      });
+      doc.getElementById("iconCandidateClearFiltersBtn").addEventListener("click", () => {
+        iconCandidateSearch.value = ""; iconCandidateSourceFilter.value = "all"; renderIconCandidateList(); iconCandidateSearch.focus();
+      });
+      iconCandidateDialog.addEventListener("close", () => {
+        if (candidateTrigger?.isConnected && !doc.querySelector("dialog[open]")) candidateTrigger.focus();
+      });
       renderIconGallery();
+      if (storageMessage) announce(storageMessage);
     }
   }
 

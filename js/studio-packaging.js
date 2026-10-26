@@ -129,6 +129,8 @@
       "fonts.css optionally loads Inter and Space Mono from Google Fonts. Without network access, the declared system font fallbacks apply.",
       "Other locally installed font families still depend on the target device. No font binaries are bundled.",
       "Regenerate the package after changing source presets or components. Keep app styles token-based for theme switching.",
+      "Approved icons: load design-system/js/icon-approved.js then design-system/js/icon-runtime.js. Use <span data-ds-icon=\"action.search\"></span> inside a labeled control. Call DesignSystemIcons.render(container) after adding content.",
+      "Icon SVGs, semantic manifest, usage guidance and per-asset license notices live in design-system/icons. Only project-approved icons are included; browser candidate choices do not change the shared collection. Keep license notices when redistributing assets.",
     ].join("\n");
     const example = `<!doctype html>
 <html lang="en" data-theme="${name}" data-ds-theme-default="${name}" data-ds-theme-storage="example-theme">
@@ -140,12 +142,15 @@
 <label>Theme <select class="ds-select" data-ds-theme-select></select></label>
 <main class="ds-card ds-stack"><h1>Portable theme preview</h1><p>Components follow the selected theme.</p>
 <button class="ds-btn ds-btn-primary">Primary action</button>
+<button class="ds-btn"><span data-ds-icon="action.search"></span> Search</button>
 <button class="ds-btn" aria-pressed="true">Selected action</button>
 <div role="tablist" aria-label="Example"><button class="ds-tab" role="tab" aria-selected="true" id="sample-tab" aria-controls="sample-panel">Selected tab</button></div>
 <div role="tabpanel" id="sample-panel" aria-labelledby="sample-tab">Theme content</div>
 <label>Text <input class="ds-input" placeholder="Example field"></label></main>
 <script src="./${folder}/js/theme-registry.js"></script>
-<script src="./${folder}/js/theme-selector.js"></script></body></html>`;
+<script src="./${folder}/js/theme-selector.js"></script>
+<script src="./${folder}/js/icon-approved.js"></script>
+<script src="./${folder}/js/icon-runtime.js"></script></body></html>`;
     return [
       { name: "INSTALL.md", content: install },
       { name: "example.html", content: example },
@@ -155,6 +160,7 @@
       { name: folder + "/fonts.css", content: assets.fonts },
       { name: folder + "/js/theme-registry.js", content: "window.DesignSystemThemeRegistry = " + JSON.stringify(registry, null, 2) + ";\n" },
       { name: folder + "/js/theme-selector.js", content: assets.selector },
+      ...(win.DesignSystemIconPackageAssets?.files || []).map((file) => ({ name: folder + "/" + file.name, content: file.content })),
     ];
   }
 

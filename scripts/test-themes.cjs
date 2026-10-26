@@ -97,6 +97,20 @@ for (const [id, token] of [['sunset-pop', '--ds-btn-bg'], ['oilslick-nacre', '--
   assert.match(result.tokens[token], /linear-gradient/, id + ' keeps its material');
   assert.ok(!result.fixes.some((fix) => fix.bg === token && fix.backgroundReplaced));
 }
+for (const token of ['--ds-card-top-rule-color', '--ds-card-structural-bg', '--ds-card-secondary-bg']) {
+  const control = context.window.DesignSystemStudioBuilderConfig.initBuilderConfig().tokenGroups.flatMap((group) => group.controls).find((entry) => entry.token === token);
+  assert.equal(control.type, 'paint', token + ' supports its background consumer');
+}
+const packageAudit = require('./audit-theme-packages.cjs').audit();
+assert.deepEqual(packageAudit.summary.missingEditors, []);
+assert.deepEqual(packageAudit.summary.missingComponentRefs, []);
+assert.equal(packageAudit.summary.unrepresentedThemes, 0, 'all default select values are represented');
+assert.equal(packageAudit.summary.authored, packageAudit.summary.foundations, 'authored tokens have universal foundations');
+const traced = composer.compose(recipe, { trace: true });
+assert.deepEqual(plain(traced.tokens), plain(composer.compose(recipe).tokens), 'tracing does not change rendering');
+assert.ok(traced.provenance['--ds-accent'].some((entry) => entry.layer === 'family+hue'));
+assert.ok(traced.provenance['--ds-font-sans'].some((entry) => entry.layer === 'typography'));
+assert.equal(traced.provenance['--ds-btn-paint-image'].at(-1).layer, 'generated');
 let seed = 17;
 const random = (values) => { seed = (Math.imul(seed,1664525) + 1013904223) >>> 0; return values[seed % values.length]; };
 for (let i=0;i<250;i++) {

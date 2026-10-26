@@ -1,1 +1,1 @@
-Theme schema 1; seven-layer composition
+Theme schema 1; seven-layer composition; icons 0.1.0

@@ -28,6 +28,13 @@ async function main() {
       const message = JSON.parse(buffer.slice(0,end)); buffer = buffer.slice(end+1);
       if (message.id && pending.has(message.id)) { pending.get(message.id)(message); pending.delete(message.id); }
       if (message.method === 'Runtime.exceptionThrown') errors.push(message.params.exceptionDetails.text + ': ' + JSON.stringify(message.params.exceptionDetails.exception));
+      if (message.method === 'Fetch.requestPaused') {
+        const missing = message.params.request.url.includes('missing.svg');
+        const body = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onload="alert(1)"><script>alert(1)</script><foreignObject/><path id="fixture" d="M2 3L19 20" fill="none" stroke="currentColor"/></svg>';
+        send('Fetch.fulfillRequest', { requestId: message.params.requestId, responseCode: missing ? 404 : 200,
+          responseHeaders: [{ name: 'Content-Type', value: 'image/svg+xml' }, { name: 'Access-Control-Allow-Origin', value: '*' }],
+          body: Buffer.from(missing ? 'Not found' : body).toString('base64') }, message.sessionId).catch((error) => errors.push(error.message));
+      }
     }
   });
   function send(method, params = {}, sessionId) {
@@ -50,6 +57,7 @@ async function main() {
     await send('Runtime.enable', {}, session);
     await send('Network.enable', {}, session);
     await send('Network.setBlockedURLs', { urls: ['https://fonts.googleapis.com/*', 'https://fonts.gstatic.com/*'] }, session);
+    if (process.argv.includes('--icons')) await send('Fetch.enable', { patterns: [{ urlPattern: 'https://raw.githubusercontent.com/*' }, { urlPattern: 'https://icons.example.test/*' }] }, session);
     await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false }, session);
     await send('Page.navigate', { url: url + '/index.html' }, session);
     for (let i=0;i<100;i++) {
@@ -57,6 +65,18 @@ async function main() {
       await new Promise((resolve) => setTimeout(resolve,100));
     }
     assert.deepEqual(errors, [], 'No runtime exceptions on boot');
+    if (process.argv.includes('--icons')) {
+      await require('./test-icons-browser.cjs').testIcons({ evaluate, send, session, root, url });
+      assert.deepEqual(errors, [], 'No runtime exceptions during icon checks');
+      return;
+    }
+    if (process.argv.includes('--audit-surfaces')) {
+      await require('./audit-theme-rendering.cjs').auditRendering({ evaluate, send, session, root,
+        suffix: process.argv.includes('--baseline') ? '-baseline' : '' });
+      assert.deepEqual(errors, [], 'No runtime exceptions during surface audit');
+      return;
+    }
+
     const result = await evaluate(`(async () => {
       DesignSystemStudioShell.activatePanel("builder");
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
@@ -138,6 +158,12 @@ async function main() {
         choose(theme.id);
         check(studioRoot.dataset.theme === 'steel-night' && shellTokens() === stableShell, theme.id + ': stable editor shell');
         check(root.dataset.theme === theme.id, 'Selector targets preview document');
+        const normalizeSelect = (value) => value.replace(/["']/g, '').replace(/\\s+/g, ' ').trim().toLowerCase();
+        for (const [token, meta] of DesignSystemStudioBuilderBootstrap.initBuilderBootstrap({ root }).controlMap) {
+          if (meta.type !== 'select') continue;
+          check(meta.main.selectedIndex >= 0, theme.id + ': select represents ' + token);
+          check(normalizeSelect(meta.main.value) === normalizeSelect(getComputedStyle(root).getPropertyValue(token)), theme.id + ': selected value matches ' + token);
+        }
         check(getComputedStyle(document.querySelector('.component-library-flow')).getPropertyValue('--ds-accent').trim() === getComputedStyle(root).getPropertyValue('--ds-accent').trim(), 'Component gallery follows preview');
         target.documentElement.setAttribute('data-theme', theme.id);
         const preview = getComputedStyle(root), exported = getComputedStyle(target.documentElement);
@@ -164,7 +190,34 @@ async function main() {
           }
         }
       }
+      const topRule = 'linear-gradient(90deg, #72dfff, #dc97ff)';
+      rawEdit('--ds-card-top-rule-color', topRule);
+      check(session.tokens['--ds-card-top-rule-color'] === topRule, 'Decorative rule accepts a background paint');
+      session.undo();
+      const complexSurface = 'conic-gradient(from 45deg, #112233, #334455, #112233)';
+      rawEdit('--ds-card-secondary-bg', complexSurface);
+      const complexMeta = DesignSystemStudioBuilderBootstrap.initBuilderBootstrap({ root }).controlMap.get('--ds-card-secondary-bg');
+      check(complexMeta.structuredControls.every((control) => control.disabled), 'Complex background does not expose lossy solid editors');
+      check(session.tokens['--ds-card-secondary-bg'] === complexSurface, 'Complex background preserves exact CSS');
+      session.undo();
+      choose('type-four-sprint');
+      const rr4Sans = session.tokens['--ds-font-sans'];
+      const fontField = rawEdit('--ds-font-sans', '"Audit Custom Face", "Segoe UI", sans-serif');
+      check(fontField.querySelector('select').selectedIndex >= 0 && fontField.querySelector('select').value.includes('Audit Custom Face'), 'Custom font stays visible');
+      check(session.tokens['--ds-font-sans'] === '"Audit Custom Face", "Segoe UI", sans-serif', 'Custom font preserves exact stack');
+      session.undo();
+      check(session.tokens['--ds-font-sans'] === rr4Sans, 'Undo restores RR4 font stack');
       choose('steel-night');
+      const typographySelector = document.getElementById('typographyPresetSelect');
+      for (const option of typographySelector.options) {
+        typographySelector.value = option.value;
+        typographySelector.dispatchEvent(new Event('change'));
+        for (const token of ['--ds-font-sans', '--ds-font-mono']) {
+          const meta = DesignSystemStudioBuilderBootstrap.initBuilderBootstrap({ root }).controlMap.get(token);
+          check(meta.main.selectedIndex >= 0, option.value + ': typography font is represented');
+        }
+      }
+      typographySelector.value = 'precision-ui'; typographySelector.dispatchEvent(new Event('change'));
       const exact = '0 2px 4px rgba(0,0,0,0.25), inset 0 0 0 1px #ffffff80';
       const shadowInput = document.querySelector('[aria-label="card shadow exact CSS value"]');
       shadowInput.value = exact; shadowInput.dispatchEvent(new Event('change'));

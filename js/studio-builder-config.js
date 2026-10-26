@@ -146,11 +146,11 @@
               { token: "--ds-shadow-md", type: "shadow" },
               { token: "--ds-card-shadow", type: "shadow" },
               { token: "--ds-card-top-rule-size", type: "length", unit: "px" },
-              { token: "--ds-card-top-rule-color", type: "color" },
-              { token: "--ds-card-structural-bg", type: "rgba" },
+              { token: "--ds-card-top-rule-color", type: "paint" },
+              { token: "--ds-card-structural-bg", type: "paint" },
               { token: "--ds-card-structural-border", type: "rgba" },
               { token: "--ds-card-structural-shadow", type: "shadow" },
-              { token: "--ds-card-secondary-bg", type: "rgba" },
+              { token: "--ds-card-secondary-bg", type: "paint" },
               { token: "--ds-card-secondary-border", type: "rgba" },
               { token: "--ds-card-secondary-shadow", type: "shadow" },
               { token: "--ds-card-secondary-text", type: "color" },
@@ -327,6 +327,17 @@
       else remaining.push(control);
     });
     if (remaining.length) groups.push({ name: "Additional Tokens", controls: remaining });
+
+    // Selects must cover authored stacks and enum values, not a separate short list.
+    const themeData = win.DesignSystemStudioBuilderThemeData.initBuilderThemeData();
+    const tokenSources = [win.DesignSystemThemeFoundations || {}, ...Object.entries(themeData)
+      .filter(([name]) => name.endsWith("Presets"))
+      .flatMap(([, presets]) => Object.values(presets))];
+    for (const control of groups.flatMap((group) => group.controls)) {
+      if (control.type !== "select") continue;
+      control.options = [...new Set([...control.options, ...tokenSources.map((source) => source[control.token])
+        .filter((value) => typeof value === "string")])];
+    }
 
     return initializedBuilderConfig;
   }

@@ -134,20 +134,23 @@
 
     function parsePaint(raw) {
       const v = (raw || "").trim();
+      const opaqueColor = (value) => !/^(?:transparent|currentcolor|inherit|initial|unset|revert)$/i.test(value) &&
+        /^(?:#[0-9a-f]{3}|#[0-9a-f]{6}|[a-z]+|(?:rgb|hsl)\([^/]*\))$/i.test(value) && !!toHex(value);
       const grad = v.match(
         /^linear-gradient\(\s*([\-0-9.]+)deg\s*,\s*(.+?)\s*,\s*(.+?)\s*\)$/i,
       );
       if (grad) {
         return {
           mode: "gradient",
+          editable: opaqueColor(grad[2].trim()) && opaqueColor(grad[3].trim()),
           angle: parseFloat(grad[1]),
           c1: toHex(grad[2].trim()) || "#666666",
           c2: toHex(grad[3].trim()) || "#333333",
         };
       }
       const hex = toHex(v);
-      if (hex) return { mode: "solid", angle: 180, c1: hex, c2: hex };
-      return { mode: "solid", angle: 180, c1: "#555555", c2: "#222222" };
+      if (hex) return { mode: "solid", editable: opaqueColor(v), angle: 180, c1: hex, c2: hex };
+      return { mode: "solid", editable: false, angle: 180, c1: "#555555", c2: "#222222" };
     }
 
     function buildPaint(meta) {
@@ -216,8 +219,9 @@
         if (meta.rawInput) meta.rawInput.value = meta.rawValue || "";
         const lengthMatch = meta.type === "length" && raw.match(/^(-?(?:\d*\.)?\d+)(px|em|rem|%|vh|vw|s|ms)?$/);
         meta.currentUnit = lengthMatch ? (lengthMatch[2] || "") : meta.unit;
+        const parsedPaint = meta.type === "paint" ? parsePaint(raw) : null;
         const complex = (meta.type === "length" && !lengthMatch) || (meta.type === "shadow" && (splitTopLevelComma(raw).length > 1 || !parseShadow(raw) || /rgba|color-mix/.test(raw))) ||
-          (meta.type === "paint" && (/color-mix|rgba|radial-gradient|%/.test(raw) || splitTopLevelComma(raw).length > 1));
+          (meta.type === "paint" && !parsedPaint.editable);
         if (meta.structuredControls) meta.structuredControls.forEach((el) => { el.disabled = complex; });
         if (meta.rawHint) meta.rawHint.textContent = complex ? "Complex value: edit the exact CSS below to preserve all layers and transparency." : "Exact CSS is preserved in export. Structured edits replace this token.";
         if (meta.rawHint && meta.type === "length" && !complex) meta.rawHint.textContent += " Numeric edits use " + (meta.currentUnit || "unitless values") + ".";
@@ -253,7 +257,7 @@
           meta.b.value = rgba.b;
           meta.a.value = rgba.a;
         } else if (meta.type === "paint") {
-          const paint = parsePaint(raw);
+          const paint = parsedPaint;
           meta.mode.value = paint.mode;
           meta.angle.value = paint.angle;
           meta.c1.value = paint.c1;
@@ -268,6 +272,20 @@
           meta.y1.value = b.y1;
           meta.x2.value = b.x2;
           meta.y2.value = b.y2;
+        } else if (meta.type === "select") {
+          const canonical = (value) => value.replace(/["']/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+          const options = Array.from(meta.main.options);
+          let option = options.find((item) => canonical(item.value) === canonical(raw));
+          options.filter((item) => item.dataset.currentValue === "1" && item !== option).forEach((item) => item.remove());
+          if (!option) {
+            option = doc.createElement("option");
+            option.value = raw;
+            option.textContent = "Current value: " + raw;
+            option.dataset.currentValue = "1";
+            meta.main.appendChild(option);
+          }
+          meta.main.value = option.value;
+          if (option.dataset.currentValue === "1" && meta.rawHint) meta.rawHint.textContent += " Custom value is preserved; it is not a preset option.";
         } else if (meta.type === "length") {
           meta.main.value = parseLength(raw, 0);
         } else if (meta.type === "number") {

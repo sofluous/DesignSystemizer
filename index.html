@@ -398,6 +398,7 @@
                 Loading icon repository...
               </div>
             </div>
+            <p id="iconActionStatus" class="ds-muted" role="status" aria-live="polite"></p>
             <aside class="icon-inspector" id="iconInspector">
               <div
                 class="icon-inspector-empty ds-stack"
@@ -411,89 +412,27 @@
                 hidden
               >
                 <div class="icon-inspector-titleline">
-                  <h3 class="studio-context-group-title">Inspector</h3>
-                  <div class="icon-status" id="iconInspectorStatus">
-                    placeholder
-                  </div>
+                  <h3 class="ds-card-title" id="iconInspectorName">Icon</h3>
+                  <span class="icon-status" id="iconInspectorStatus"></span>
                 </div>
-                <div class="icon-inspector-head">
-                  <div id="iconInspectorPreview" class="icon-preview"></div>
-                  <div class="icon-inspector-title">
-                    <div class="icon-card-topline">
-                      <h3 class="ds-card-title" id="iconInspectorName">
-                        Icon Name
-                      </h3>
-                    </div>
-                    <div class="icon-alias mono" id="iconInspectorAlias">
-                      alias.name
-                    </div>
-                  </div>
+                <code class="icon-alias" id="iconInspectorAlias"></code>
+                <div id="iconInspectorPreview" class="icon-preview"></div>
+                <p id="iconInspectorSource" class="icon-inspector-source"></p>
+                <div class="icon-record-actions">
+                  <button id="iconInspectorBrowseBtn" class="ds-btn ds-btn-sm" type="button">Browse icons</button>
+                  <button id="iconPrepareApprovalBtn" class="ds-btn ds-btn-sm ds-btn-primary" type="button">Save to sheet</button>
                 </div>
-                <div class="icon-inspector-section ds-stack">
-                  <p class="icon-selection-line" id="iconInspectorSelected">
-                    Selected: -
-                  </p>
-                  <p class="icon-selection-line" id="iconInspectorSuggested">
-                    Suggested: -
-                  </p>
-                  <p class="icon-fixed-note" id="iconInspectorFixedNote" hidden>
-                    This alias has a fixed default choice and will stay mapped
-                    until reset.
-                  </p>
-                </div>
-                <div class="icon-selection-controls">
-                  <div class="icon-candidate-preview">
-                    <div
-                      id="iconInspectorChoicePreview"
-                      class="icon-preview"
-                    ></div>
-                    <div class="icon-candidate-meta">
-                      <strong id="iconInspectorChoiceLabel"
-                        >No source selected</strong
-                      >
-                      <code id="iconInspectorChoiceRef">-</code>
-                    </div>
+                <details id="iconInspectorProvenance" class="icon-record-details">
+                  <summary>Source and license</summary>
+                  <div id="iconInspectorDetails" class="icon-record-provenance"></div>
+                </details>
+                <details id="iconMoreActions" class="icon-record-details">
+                  <summary>More</summary>
+                  <div class="icon-record-secondary-actions">
+                    <button id="iconInspectorExportBtn" class="ds-btn ds-btn-sm" type="button">Download SVG</button>
+                    <button id="iconRevertBtn" class="ds-btn ds-btn-sm" type="button" hidden>Revert changes</button>
                   </div>
-                  <div class="icon-candidate-actions">
-                    <button
-                      id="iconInspectorBrowseBtn"
-                      class="ds-btn ds-btn-sm"
-                      type="button"
-                    >
-                      Browse Candidates
-                    </button>
-                    <button
-                      id="iconInspectorUseSuggestedBtn"
-                      class="ds-btn ds-btn-sm"
-                      type="button"
-                    >
-                      Use Suggested
-                    </button>
-                    <button
-                      id="iconInspectorSetDefaultBtn"
-                      class="ds-btn ds-btn-sm"
-                      type="button"
-                    >
-                      Set As Default
-                    </button>
-                  </div>
-                  <div class="icon-selection-actions">
-                    <button
-                      id="iconInspectorResetDefaultBtn"
-                      class="ds-btn ds-btn-sm"
-                      type="button"
-                    >
-                      Reset Default
-                    </button>
-                    <button
-                      id="iconInspectorExportBtn"
-                      class="ds-btn ds-btn-sm"
-                      type="button"
-                    >
-                      Export SVG
-                    </button>
-                  </div>
-                </div>
+                </details>
               </div>
             </aside>
           </section>
@@ -545,16 +484,18 @@
                 placeholder="Search icons"
               />
               <label class="icon-filter-chip" for="iconStatusFilter">
-                <span class="ds-label">Status</span>
+                <span class="ds-label">State</span>
                 <select
                   id="iconStatusFilter"
                   class="ds-select"
-                  aria-label="Filter by status"
-                  title="Status"
+                  aria-label="Filter by selection state"
+                  title="Selection state"
                 >
                   <option value="all">All</option>
-                  <option value="placeholder">Placeholder</option>
-                  <option value="ready">Ready</option>
+                  <option value="recommended">Recommended</option>
+                  <option value="draft">Draft</option>
+                  <option value="saved">Saved</option>
+                  <option value="missing">Missing</option>
                 </select>
               </label>
               <label class="icon-filter-chip" for="iconCategoryFilter">
@@ -580,12 +521,13 @@
                 </select>
               </label>
               <div class="icon-toolbar-actions">
+                <button id="iconClearFiltersBtn" class="ds-btn ds-btn-sm" type="button">Clear filters</button>
                 <button
                   id="exportIconManifestBtn"
                   class="ds-btn ds-btn-sm ds-btn-tertiary"
                   type="button"
                 >
-                  Export Alias Manifest
+                  Export draft mappings
                 </button>
               </div>
             </article>
@@ -593,15 +535,15 @@
           <div class="studio-workspace-body">
             <div class="studio-workspace-main studio-scroll-region icon-workspace-main">
               <article class="ds-card ds-stack icon-library-browser">
+                <div id="iconSelectedHidden" class="icon-filter-notice" hidden>Selected alias is outside these filters. <button id="iconShowSelectedBtn" class="ds-btn ds-btn-sm" type="button">Show selected alias</button></div>
                 <div id="iconGroupNav" class="icon-group-nav" hidden></div>
                 <div class="icon-section-list" id="iconGrid"></div>
               </article>
-              <article class="ds-card ds-stack">
+              <details class="ds-card icon-priority-details">
+                <summary>Priority and app usage</summary>
                 <div class="ds-card-head ds-flow-copy">
-                  <h3 class="ds-card-title">Hitlist</h3>
                   <p class="ds-card-subtitle">
-                    Ranked by `frequency x utility x gap` to prioritize what should
-                    be drawn next.
+                    Frequency, utility and selection state determine review priority.
                   </p>
                 </div>
                 <div class="hitlist-table-wrap">
@@ -620,7 +562,7 @@
                     <tbody id="iconHitlistBody"></tbody>
                   </table>
                 </div>
-              </article>
+              </details>
             </div>
           </div>
         </section>
@@ -2914,7 +2856,29 @@
         </div>
       </div>
     </dialog>
-    <dialog id="iconCandidateDialog" class="ds-modal icon-candidate-dialog">
+    <dialog id="iconApprovalDialog" class="ds-modal icon-candidate-dialog" aria-labelledby="iconApprovalTitle">
+      <form id="iconApprovalForm" class="ds-modal-panel ds-stack">
+        <h3 id="iconApprovalTitle">Prepare standard approval</h3>
+        <p class="ds-muted">Export an approval file, then import it into the project to save this icon.</p>
+        <label class="ds-label" for="iconApprovalFile">Optional custom SVG (replaces the selected candidate)</label>
+        <input id="iconApprovalFile" class="ds-input" type="file" accept=".svg,image/svg+xml">
+        <div id="iconApprovalPreview" class="icon-preview"></div>
+        <label class="ds-label"><input id="iconApprovalReviewed" type="checkbox" required> I reviewed semantic fit, visual cohesion and legibility at interface sizes.</label>
+        <div class="icon-approval-fields">
+          <label class="ds-label">Source library<input id="iconApprovalLibrary" class="ds-input" readonly required></label>
+          <label class="ds-label">Source icon<input id="iconApprovalName" class="ds-input" readonly required></label>
+          <label class="ds-label">Original source URL<input id="iconApprovalUrl" class="ds-input" type="url" placeholder="https://... (blank for original artwork)"></label>
+          <label class="ds-label">Exact release, commit or custom revision<input id="iconApprovalRevision" class="ds-input" required maxlength="200" placeholder="v1.2.3 or full commit SHA"></label>
+          <label class="ds-label">License identifier<input id="iconApprovalLicense" class="ds-input" required maxlength="100" placeholder="ISC, MIT, or project license"></label>
+        </div>
+        <label class="ds-label">Full license and copyright notice<textarea id="iconApprovalLicenseText" class="ds-textarea" rows="4" required maxlength="50000"></textarea></label>
+        <label class="ds-label">Modifications<textarea id="iconApprovalModifications" class="ds-textarea" rows="2" required maxlength="2000"></textarea></label>
+        <label class="ds-label">Reason for secondary source (required outside Lucide/custom project artwork)<textarea id="iconApprovalException" class="ds-textarea" rows="2" maxlength="2000"></textarea></label>
+        <p id="iconApprovalStatus" role="status" aria-live="polite"></p>
+        <div class="ds-toolbar"><button id="iconApprovalCancel" class="ds-btn" type="button">Close</button><button id="iconApprovalSubmit" class="ds-btn ds-btn-primary" type="submit">Load preview</button></div>
+      </form>
+    </dialog>
+    <dialog id="iconCandidateDialog" class="ds-modal icon-candidate-dialog" aria-labelledby="iconCandidateTitle" aria-describedby="iconCandidateHint">
       <div class="ds-modal-panel ds-stack">
         <div>
           <h3 class="ds-card-title" id="iconCandidateTitle">
@@ -2932,12 +2896,13 @@
                 id="iconCandidateSearch"
                 class="ds-input"
                 type="search"
-                placeholder="Search candidate names or sources..."
+                aria-label="Search candidate names or sources" placeholder="Search candidates"
               />
-              <select id="iconCandidateSourceFilter" class="ds-select">
+              <select id="iconCandidateSourceFilter" class="ds-select" aria-label="Candidate source">
                 <option value="all">All Sources</option>
               </select>
             </div>
+            <div class="icon-candidate-results"><span id="iconCandidateCount" role="status"></span><button id="iconCandidateClearFiltersBtn" class="ds-btn ds-btn-sm" type="button">Clear filters</button></div>
             <div id="iconCandidateList" class="icon-candidate-list"></div>
           </section>
           <aside class="icon-candidate-detail">
@@ -2948,20 +2913,15 @@
               ></div>
               <div class="icon-candidate-meta">
                 <strong id="iconCandidatePreviewLabel"
-                  >No candidate selected</strong
+                  >No source</strong
                 >
-                <code id="iconCandidatePreviewRef">-</code>
+                <code id="iconCandidatePreviewRef" hidden></code>
               </div>
             </div>
-            <p class="icon-selection-line" id="iconCandidateDefaultLine">
-              Suggested: -
-            </p>
-            <p class="icon-fixed-note" id="iconCandidateFixedNote" hidden>
-              This alias has a fixed default override.
-            </p>
-            <div class="icon-manual-editor">
+            <p id="iconCandidateSelectionState" role="status" aria-live="polite"></p>
+            <details><summary>Custom SVG</summary><div class="icon-manual-editor">
               <input
-                id="iconCandidateManualInput"
+                aria-label="Custom SVG URL or library reference" id="iconCandidateManualInput"
                 class="ds-input"
                 type="text"
                 placeholder="library-id:icon-name or https://...svg"
@@ -2971,9 +2931,9 @@
                 class="ds-btn ds-btn-sm"
                 type="button"
               >
-                Preview Manual
+                Preview reference
               </button>
-            </div>
+            </div><button id="iconCandidateUploadBtn" class="ds-btn ds-btn-sm" type="button">Use SVG file</button></details>
           </aside>
         </div>
         <div class="ds-toolbar">
@@ -2981,22 +2941,13 @@
             Cancel
           </button>
           <button
-            class="ds-btn"
-            id="iconCandidateUseSuggestedBtn"
-            type="button"
-          >
-            Use Suggested
-          </button>
-          <button
             class="ds-btn ds-btn-primary"
             id="iconCandidateApplyBtn"
             type="button"
           >
-            Use Selection
+            Use icon
           </button>
-          <button class="ds-btn" id="iconCandidateSetDefaultBtn" type="button">
-            Set As Default
-          </button>
+
         </div>
       </div>
     </dialog>
@@ -3034,11 +2985,15 @@
     </div>
 
     <script src="./js/icon-registry.js"></script>
+    <script src="./js/icon-approved.js"></script>
+    <script src="./js/icon-package-assets.js"></script>
     <script src="./js/theme-registry.js"></script>
     <script src="./js/theme-selector.js"></script>
     <script src="./js/studio-wiki.js"></script>
     <script src="./js/studio-demos.js"></script>
     <script src="./js/studio-packaging.js"></script>
+    <script src="./js/studio-icon-assets.js"></script>
+    <script src="./js/studio-icon-approval.js"></script>
     <script src="./js/studio-icons.js"></script>
     <script src="./js/studio-components.js"></script>
     <script src="./js/studio-shell.js"></script>

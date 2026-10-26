@@ -20,7 +20,7 @@ Every default theme is composed from `css/tokens.css` foundations followed by Fa
 | `saturn-alloy` | `alloy` | `platinum` | `saturn-alloy` | `saturn-skeuo` | `saturn-euro` | `standard` | `saturn-space` |
 | `old-web-portal` | `electric` | `ultraviolet` | `web-portal` | `old-web` | `portal-ui` | `compact` | `portal-classic` |
 | `candy-spectrum` | `pastel` | `magenta` | `candy-spectrum` | `candy-pop` | `neutral-ui` | `comfortable` | `candy-bloom` |
-| `complementary-wave` | `bold` | `cobalt` | `complementary-wave` | `complimentary-gradient` | `neutral-ui` | `standard` | `wave-paper` |
+| `complementary-wave` | `paper` | `cobalt` | `complementary-wave` | `complimentary-gradient` | `neutral-ui` | `standard` | `wave-paper` |
 | `sunset-pop` | `sunset` | `magenta` | `vaporwave-neon` | `vaporwave-neon` | `neutral-ui` | `comfortable` | `sunset-grid` |
 | `oilslick-nacre` | `alloy` | `teal` | `oilslick-organic` | `oilslick-organic` | `oilslick-scale` | `standard` | `oilslick-dark` |
 | `holo-nocturne` | `alloy` | `ultraviolet` | `holo-nocturne` | `holo-nocturne` | `display-scale` | `standard` | `holo-dark` |

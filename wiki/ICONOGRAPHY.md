@@ -55,9 +55,11 @@ Create a coherent in-house icon library with consistent visual grammar and usage
 - Versioning by changelog entry
 
 ## Semantic Library Workflow
-1. Track icon situations by DS semantic alias first, not vendor icon name.
-2. Maintain candidate options in `js/icon-registry.js`.
-3. Assign a `defaultCandidateId` as the first-pass best guess.
-4. Override the choice when a better semantic fit is found.
-5. Export the alias manifest from Studio so apps can consume stable DS mappings.
-6. Replace vendor selections with local DS SVGs over time without changing the alias contract.
+1. Register semantic situations and usage in `js/icon-registry.js`.
+2. Compare candidates using the primary Lucide outline family where practical; document secondary-source exceptions and custom artwork.
+3. Keep browser preferences separate from the project-approved standard.
+4. Prepare and import approval files with pinned provenance and license notices.
+5. Package approved local SVGs, semantic mappings and the runtime helper for consuming apps.
+6. Update artwork through versioned DS releases without renaming stable aliases.
+
+See [Icon approval and delivery](ICON_LIBRARY_WORKFLOW.md) for commands, metadata, accessibility and recovery rules. Sourced icons can remain permanent approved standards; redrawing them in-house is optional.

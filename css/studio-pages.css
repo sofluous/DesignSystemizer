@@ -985,9 +985,7 @@
 .icon-preview svg {
   width: 34px;
   height: 34px;
-  stroke: var(--ds-text);
-  fill: none;
-  stroke-width: 1.8;
+  color: var(--ds-text);
 }
 
 .icon-preview img {
@@ -1026,23 +1024,7 @@
   overflow-wrap: anywhere;
 }
 
-.icon-selection-controls {
-  display: grid;
-  gap: var(--ds-space-2);
-  padding: var(--ds-space-2);
-  border: var(--ds-border-w) var(--ds-border-style) var(--ds-border);
-  border-radius: var(--ds-radius-2);
-  background: var(--ds-bg-elevated);
-  min-width: 0;
-}
 
-.icon-selection-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--ds-space-2);
-  align-items: center;
-  justify-content: flex-end;
-}
 
 .icon-candidate-preview {
   display: grid;
@@ -1065,24 +1047,12 @@
   min-width: 0;
 }
 
-.icon-candidate-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--ds-space-2);
-  flex-wrap: wrap;
-}
 
 .icon-candidate-meta strong,
 .icon-candidate-meta code {
   overflow-wrap: anywhere;
 }
 
-.icon-fixed-note {
-  font-size: var(--ds-fs-1);
-  color: var(--ds-success);
-  overflow-wrap: anywhere;
-}
 
 .hitlist-table-wrap {
   overflow: auto;
@@ -1652,4 +1622,63 @@
   #builderFiltersToggle { justify-self: start; }
   .builder-layout-control { width: 100%; }
   .builder-layout-control select { flex: 1; }
+}
+.icon-preview-state {
+  font-size: var(--ds-fs-1);
+  color: var(--ds-text-muted);
+  text-align: center;
+  padding: 4px;
+}
+.icon-record-actions, .icon-record-secondary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-2);
+}
+.icon-record-actions { justify-content: space-between; }
+.icon-record-details > summary { cursor: pointer; color: var(--ds-text-muted); font-size: var(--ds-fs-1); }
+.icon-record-details[open] > summary { margin-bottom: var(--ds-space-2); }
+.icon-record-provenance { white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--ds-fs-1); color: var(--ds-text-muted); }
+.icon-inspector-source { margin: 0; overflow-wrap: anywhere; }
+.icon-card-topline { display: flex; align-items: baseline; justify-content: space-between; gap: var(--ds-space-2); }
+.icon-card-source { font-size: var(--ds-fs-1); color: var(--ds-text-muted); overflow-wrap: anywhere; }
+.icon-status { text-transform: none; letter-spacing: normal; }
+.icon-status.is-saved { color: var(--ds-success); }
+.icon-status.is-draft, .icon-status.is-missing { color: var(--ds-warning); }
+.icon-status.is-recommended { color: var(--ds-text-muted); }
+#iconRevertBtn[hidden] { display: none; }
+.icon-priority-details > summary { cursor: pointer; }
+.icon-priority-details[open] > summary { margin-bottom: var(--ds-space-3); }
+.icon-approval-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ds-space-3); }
+.icon-approval-fields label { min-width: 0; }
+#iconApprovalStatus { overflow-wrap: anywhere; }
+@media (max-width: 600px) { .icon-approval-fields { grid-template-columns: minmax(0, 1fr); } }
+.icon-preview[data-preview-state="loading"] img { opacity: 0; }
+.icon-filter-notice[hidden] { display: none; }
+.icon-filter-notice, .icon-candidate-results {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.icon-candidate-results { margin-block: 8px; color: var(--ds-text-muted); }
+.icon-card:focus-visible, .icon-candidate-item:focus-visible {
+  outline: 2px solid var(--ds-accent);
+  outline-offset: 3px;
+}
+#iconActionStatus:empty { display: none; }
+#iconActionStatus, #iconActionReasons, #iconCandidateSelectionState { font-size: var(--ds-fs-1); }
+.icon-candidate-detail details summary { cursor: pointer; }
+.icon-candidate-detail details[open] summary { margin-bottom: 8px; }
+@media (max-width: 600px) {
+  .icon-candidate-toolbar { flex-wrap: wrap; }
+  .icon-candidate-toolbar > * { min-width: 0; width: 100%; }
+  .icon-candidate-dialog .ds-modal-panel { min-width: 0; }
+  .icon-candidate-dialog .ds-toolbar { flex-wrap: wrap; }
+  .icon-candidate-layout > * { min-width: 0; }
+  .icon-manual-editor { flex-wrap: wrap; }
+}
+
+@media (max-width: 600px) {
+ .icon-candidate-toolbar, .icon-manual-editor { grid-template-columns: minmax(0, 1fr); }
 }

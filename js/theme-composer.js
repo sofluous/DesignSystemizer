@@ -59,20 +59,34 @@
   }
 
   function createComposer(data, defaults, buildColorBundle) {
-    function compose(recipe) {
+    function compose(recipe, options = {}) {
       if (!recipe || typeof recipe !== "object" || Array.isArray(recipe)) throw new Error("Invalid recipe");
       if (!Object.hasOwn(data.colorFamilyPresets, recipe.family) || !Object.hasOwn(data.huePresets, recipe.hue)) {
         throw new Error("Unknown color family or hue");
       }
-      const tokens = Object.assign({}, defaults, buildColorBundle(recipe.family, recipe.hue));
+      const tokens = {};
+      const provenance = options.trace ? {} : null;
+      function apply(values, layer, preset) {
+        Object.assign(tokens, values);
+        if (provenance) for (const [token, value] of Object.entries(values)) {
+          (provenance[token] ||= []).push({ layer, preset, value });
+        }
+      }
+      apply(defaults, "foundations", "tokens.css");
+      apply(buildColorBundle(recipe.family, recipe.hue), "family+hue", recipe.family + "/" + recipe.hue);
       layers.forEach((layer) => {
         const preset = data[layer + "Presets"][recipe[layer]];
         if (!Object.hasOwn(data[layer + "Presets"], recipe[layer])) throw new Error("Unknown " + layer + " preset: " + recipe[layer]);
-        Object.assign(tokens, preset);
+        apply(preset, layer, recipe[layer]);
       });
       // Selected controls must use a paired foreground/background, independent of primary buttons.
+      const beforeDerived = provenance && { ...tokens };
       const fixes = win.DesignSystemThemeContrast.repair(tokens);
-      return { tokens: derivePaint(tokens), fixes };
+      derivePaint(tokens);
+      if (provenance) for (const [token, value] of Object.entries(tokens)) {
+        if (beforeDerived[token] !== value) (provenance[token] ||= []).push({ layer: isDerived(token) ? "generated" : "contrast/aliases", value });
+      }
+      return { tokens, fixes, ...(provenance ? { provenance } : {}) };
     }
     return { compose };
   }

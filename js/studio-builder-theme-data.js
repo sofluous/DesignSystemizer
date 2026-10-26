@@ -514,12 +514,9 @@
     "--ds-control-backdrop-blur": "0px",
     },
     "rr4-slipstream": {
-    "--ds-body-bg-image":
-    "linear-gradient(145deg, rgba(255,214,79,0.68) 0%, rgba(233,164,5,0.14) 34%, rgba(255,255,255,0) 66%), radial-gradient(circle at 78% 14%, rgba(255,236,170,0.3), transparent 30%), linear-gradient(180deg, #f4bf1b 0%, #e9ab07 100%)",
-    "--ds-card-bg-image":
-    "linear-gradient(180deg, rgba(255,255,255,0.2), rgba(0,0,0,0.03))",
-    "--ds-body-texture-image":
-    "linear-gradient(90deg, transparent 0 18%, rgba(255,255,255,0.14) 18% 18.4%, transparent 18.4% 42%, rgba(0,0,0,0.08) 42% 42.5%, transparent 42.5% 100%), radial-gradient(circle at 50% 100%, rgba(255,255,255,0.08) 0 1px, transparent 1px 8px)",
+    "--ds-body-bg-image": "linear-gradient(145deg, color-mix(in oklab, var(--ds-accent) 12%, transparent) 0%, transparent 46%), radial-gradient(circle at 78% 14%, rgba(255,236,170,0.08), transparent 30%), linear-gradient(180deg, var(--ds-bg), color-mix(in oklab, var(--ds-bg) 97%, black 3%))",
+    "--ds-card-bg-image": "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.015))",
+    "--ds-body-texture-image": "linear-gradient(90deg, transparent 0 18%, rgba(255,255,255,0.04) 18% 18.4%, transparent 18.4% 42%, rgba(0,0,0,0.025) 42% 42.5%, transparent 42.5% 100%)",
     "--ds-card-texture-image":
     "linear-gradient(90deg, rgba(255,255,255,0.08), transparent 20%, transparent 80%, rgba(0,0,0,0.06))",
     "--ds-control-texture-image":
@@ -676,7 +673,7 @@
     "--ds-body-bg-image":
     "radial-gradient(circle at 50% -18%, rgba(140,163,196,0.22), transparent 42%), radial-gradient(circle at 50% 118%, rgba(15,24,46,0.78), transparent 56%), radial-gradient(circle at 6% 8%, rgba(188,214,255,0.1), transparent 22%), linear-gradient(180deg, #090c14 0%, #141a28 46%, #080a10 100%)",
     "--ds-card-bg-image":
-    "linear-gradient(180deg, rgba(255,255,255,0.26), rgba(26,30,38,0.24))",
+    "linear-gradient(180deg, rgba(255,255,255,0.035), rgba(26,30,38,0.12))",
     "--ds-body-texture-image": "none",
     "--ds-card-texture-image": "none",
     "--ds-control-texture-image": "none",
@@ -715,10 +712,8 @@
     "--ds-control-backdrop-blur": "0px",
     },
     "wave-paper": {
-    "--ds-body-bg-image":
-    "radial-gradient(circle at 12% 10%, rgba(63,124,255,0.13), transparent 34%), radial-gradient(circle at 90% 16%, rgba(255,166,93,0.16), transparent 34%), linear-gradient(180deg, #f9fbff 0%, #eef4fc 54%, #e8effa 100%)",
-    "--ds-card-bg-image":
-    "linear-gradient(160deg, rgba(100,132,224,0.14), rgba(55,85,171,0.08), rgba(255,166,92,0.12))",
+    "--ds-body-bg-image": "radial-gradient(circle at 12% 10%, rgba(63,124,255,0.07), transparent 34%), radial-gradient(circle at 90% 16%, rgba(255,166,93,0.08), transparent 34%), linear-gradient(180deg, var(--ds-bg), color-mix(in oklab, var(--ds-bg) 97%, var(--ds-accent) 3%))",
+    "--ds-card-bg-image": "linear-gradient(160deg, rgba(100,132,224,0.04), rgba(55,85,171,0.02), rgba(255,166,92,0.04))",
     "--ds-body-texture-image": "none",
     "--ds-card-texture-image": "none",
     "--ds-control-texture-image": "none",
@@ -728,9 +723,9 @@
     "--ds-card-backdrop-blur": "0px",
     "--ds-control-backdrop-blur": "0px",
     },
+    // Keep the opaque base last so the restrained decorative grid stays visible.
     "sunset-grid": {
-    "--ds-body-bg-image":
-    "linear-gradient(180deg, #100926 0%, #170d34 44%, #0f0823 100%), radial-gradient(circle at 14% 12%, rgba(255,72,208,0.22), transparent 30%), radial-gradient(circle at 84% 16%, rgba(56,220,255,0.2), transparent 30%), repeating-linear-gradient(0deg, rgba(72,220,255,0.16) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, rgba(255,74,216,0.12) 0 1px, transparent 1px 16px)",
+    "--ds-body-bg-image": "radial-gradient(circle at 14% 12%, rgba(255,72,208,0.07), transparent 30%), radial-gradient(circle at 84% 16%, rgba(56,220,255,0.06), transparent 30%), repeating-linear-gradient(0deg, rgba(72,220,255,0.035) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, rgba(255,74,216,0.025) 0 1px, transparent 1px 16px), linear-gradient(180deg, #100926 0%, #170d34 44%, #0f0823 100%)",
     "--ds-card-bg-image":
     "linear-gradient(160deg, rgba(255,86,213,0.18), rgba(107,107,255,0.14), rgba(80,206,255,0.16))",
     "--ds-body-texture-image": "none",
@@ -743,12 +738,10 @@
     "--ds-control-backdrop-blur": "0px",
     },
     "holo-dark": {
-    "--ds-body-bg-image":
-    "radial-gradient(90% 90% at 12% 12%, rgba(117,224,255,0.14), transparent 22%), radial-gradient(90% 90% at 86% 16%, rgba(255,138,200,0.13), transparent 24%), radial-gradient(120% 100% at 44% 94%, rgba(124,158,255,0.12), transparent 28%), linear-gradient(180deg, #05070c 0%, #090e15 52%, #06080e 100%)",
-    "--ds-card-bg-image":
-    "linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12))",
+    "--ds-body-bg-image": "radial-gradient(ellipse at 0% 0%, rgba(91,205,230,0.10), transparent 45%), radial-gradient(ellipse at 100% 0%, rgba(189,113,223,0.08), transparent 45%), linear-gradient(135deg, var(--ds-bg), color-mix(in oklab, var(--ds-bg) 95%, var(--ds-accent) 5%))",
+    "--ds-card-bg-image": "linear-gradient(125deg, transparent 28%, rgba(209,255,245,.04) 36%, rgba(251,216,255,.02) 40%, transparent 47%), conic-gradient(from 220deg at 80% 0%, rgba(115,233,255,.05), rgba(200,139,255,.05), rgba(255,170,203,.04), rgba(140,255,219,.05), rgba(115,233,255,.05))",
     "--ds-body-texture-image": "none",
-    "--ds-card-texture-image": "none",
+    "--ds-card-texture-image": "linear-gradient(180deg, rgba(228,248,255,.025), transparent 12%, transparent 90%, rgba(111,190,237,.02))",
     "--ds-control-texture-image": "none",
     "--ds-texture-blend": "normal",
     "--ds-texture-strength": "0",
@@ -757,12 +750,10 @@
     "--ds-control-backdrop-blur": "0px",
     },
     "oilslick-dark": {
-    "--ds-body-bg-image":
-    "radial-gradient(74% 56% at 14% 12%, rgba(110,235,255,0.15), transparent 44%), radial-gradient(70% 52% at 84% 18%, rgba(255,118,216,0.14), transparent 42%), conic-gradient(from 206deg at 56% 84%, rgba(86,120,255,0.13), rgba(110,255,214,0.09), rgba(255,128,210,0.1), rgba(86,120,255,0.13)), linear-gradient(180deg, #04070b 0%, #090e15 54%, #05080d 100%)",
-    "--ds-card-bg-image":
-    "linear-gradient(146deg, rgba(255,255,255,0.05), rgba(114,233,255,0.08), rgba(255,143,210,0.08), rgba(255,255,255,0.03))",
+    "--ds-body-bg-image": "radial-gradient(ellipse at 90% 0%, rgba(156,92,163,.10), transparent 48%), radial-gradient(ellipse at 0% 100%, rgba(65,166,149,.08), transparent 48%), linear-gradient(135deg, var(--ds-bg), color-mix(in oklab, var(--ds-bg) 96%, var(--ds-accent) 4%))",
+    "--ds-card-bg-image": "linear-gradient(145deg, transparent 15%, rgba(245,255,226,.04) 24%, rgba(255,171,217,.02) 29%, transparent 35%), conic-gradient(from 195deg at 15% 80%, rgba(69,235,208,.05), rgba(115,152,255,.04), rgba(255,135,201,.05), rgba(230,206,136,.04), rgba(69,235,208,.05))",
     "--ds-body-texture-image": "none",
-    "--ds-card-texture-image": "none",
+    "--ds-card-texture-image": "radial-gradient(ellipse at 100% 0%, rgba(237,255,230,.025), transparent 48%)",
     "--ds-control-texture-image": "none",
     "--ds-texture-blend": "normal",
     "--ds-texture-strength": "0",
@@ -1190,6 +1181,7 @@
     "--ds-chip-border":
     "color-mix(in oklab, white 86%, var(--ds-bg) 14%)",
     "--ds-chip-text": "var(--ds-text-inverse)",
+    "--ds-bg": "#ece8dd",
     },
     "eva-wire-alert": {
     "--ds-text": "color-mix(in oklab, var(--ds-accent) 88%, white 12%)",
@@ -1237,7 +1229,7 @@
     },
     "saturn-alloy": {
     "--ds-bg": "#111117",
-    "--ds-bg-elevated": "#343947",
+    "--ds-bg-elevated": "#222937",
     "--ds-bg-raised": "#3f4756",
     "--ds-bg-soft": "#475061",
     "--ds-bg-overlay": "rgba(9,10,14,0.72)",
@@ -1299,8 +1291,7 @@
     "linear-gradient(135deg, #ff7ace 0%, #ffa4e1 48%, #7ed9ff 100%)",
     "--ds-btn-border": "#b95aa8",
     "--ds-btn-text": "#31123a",
-    "--ds-btn-primary-bg":
-    "linear-gradient(135deg, #ff2fa8 0%, #874cff 100%)",
+    "--ds-btn-primary-bg": "linear-gradient(135deg, #ff2fa8 0%, #9060ff 100%)",
     "--ds-btn-primary-bg-hover":
     "linear-gradient(135deg, #ff4ab6 0%, #9a65ff 100%)",
     "--ds-btn-primary-border": "#6f3fcd",
@@ -2156,8 +2147,7 @@
     "--ds-label-spacing": "0.14em",
     "--ds-card-shadow": "0 12px 24px rgba(0,0,0,0.16)",
     "--ds-input-shadow": "inset 0 0 0 1px rgba(0,0,0,0.08)",
-    "--ds-card-secondary-bg":
-    "color-mix(in oklab, var(--ds-bg-raised) 84%, black 16%)",
+    "--ds-card-secondary-bg": "color-mix(in oklab, var(--ds-bg-raised) 96%, black 4%)",
     "--ds-card-secondary-border": "var(--ds-text)",
     "--ds-card-secondary-shadow": "none",
     },
@@ -2173,8 +2163,7 @@
     "--ds-label-spacing": "0.14em",
     "--ds-card-shadow": "0 12px 24px rgba(0,0,0,0.16)",
     "--ds-input-shadow": "inset 0 0 0 1px rgba(0,0,0,0.08)",
-    "--ds-card-secondary-bg":
-    "color-mix(in oklab, var(--ds-bg-raised) 88%, black 12%)",
+    "--ds-card-secondary-bg": "color-mix(in oklab, var(--ds-bg-raised) 98%, black 2%)",
     "--ds-card-secondary-border": "var(--ds-text)",
     "--ds-card-secondary-shadow": "none",
     },
@@ -2190,7 +2179,7 @@
     "--ds-label-spacing": "0.14em",
     "--ds-shadow-sm": "none",
     "--ds-shadow-md": "none",
-    "--ds-card-bg": "transparent",
+    "--ds-card-bg": "var(--ds-bg-elevated)",
     "--ds-card-border": "transparent",
     "--ds-card-shadow": "none",
     "--ds-card-top-rule-size": "2px",
@@ -2282,8 +2271,7 @@
     "--ds-border-style": "solid",
     "--ds-label-transform": "uppercase",
     "--ds-label-spacing": "0.08em",
-    "--ds-card-shadow":
-    "0 20px 36px rgba(1,3,8,0.7), inset 0 0 0 1px rgba(255,255,255,0.05)",
+    "--ds-card-shadow": "0 20px 36px rgba(1,3,8,0.7), inset 1px 1px 0 rgba(118,226,255,0.5), inset -1px -1px 0 rgba(224,150,255,0.35)",
     "--ds-input-shadow":
     "inset 0 1px 2px rgba(0,0,0,0.6), 0 0 0 1px rgba(117,173,218,0.18)",
     },
@@ -2297,8 +2285,7 @@
     "--ds-border-style": "solid",
     "--ds-label-transform": "uppercase",
     "--ds-label-spacing": "0.08em",
-    "--ds-card-shadow":
-    "0 16px 34px rgba(2,4,8,0.62), inset 0 0 0 1px rgba(255,255,255,0.05)",
+    "--ds-card-shadow": "0 16px 34px rgba(2,4,8,0.62), inset 1px 1px 0 rgba(127,235,200,0.4), inset -1px -1px 0 rgba(244,157,216,0.3)",
     "--ds-input-shadow":
     "inset 0 1px 2px rgba(0,0,0,0.52), 0 0 0 1px rgba(104,149,183,0.16)",
     },
@@ -2359,7 +2346,7 @@
     texture: "candy-bloom",
     },
     "complementary-wave": {
-    family: "bold",
+    family: "paper",
     hue: "cobalt",
     scheme: "complementary-wave",
     style: "complimentary-gradient",
@@ -2439,16 +2426,6 @@
       "--ds-btn-text": "#160d25",
     });
     // Nacre uses broad spectral color and narrow specular bands on dark readable surfaces.
-    Object.assign(texturePresets["holo-dark"], {
-      "--ds-body-bg-image": "radial-gradient(ellipse at 15% 15%, #23596c 0%, transparent 55%), radial-gradient(ellipse at 85% 35%, #603b75 0%, transparent 60%), linear-gradient(135deg, #080f20, #123335 48%, #23152f)",
-      "--ds-card-bg-image": "linear-gradient(125deg, transparent 28%, rgba(209,255,245,.22) 36%, rgba(251,216,255,.08) 40%, transparent 47%), conic-gradient(from 220deg at 80% 0%, rgba(115,233,255,.19), rgba(200,139,255,.24), rgba(255,170,203,.16), rgba(140,255,219,.20), rgba(115,233,255,.19))",
-      "--ds-card-texture-image": "linear-gradient(180deg, rgba(228,248,255,.16), transparent 12%, transparent 90%, rgba(111,190,237,.12))",
-    });
-    Object.assign(texturePresets["oilslick-dark"], {
-      "--ds-body-bg-image": "conic-gradient(from 205deg at 65% 60%, #071922, #235055, #3e244e, #6b3e50, #284c40, #132740, #071922)",
-      "--ds-card-bg-image": "linear-gradient(145deg, transparent 15%, rgba(245,255,226,.24) 24%, rgba(255,171,217,.08) 29%, transparent 35%), conic-gradient(from 195deg at 15% 80%, rgba(69,235,208,.28), rgba(115,152,255,.22), rgba(255,135,201,.25), rgba(230,206,136,.20), rgba(69,235,208,.28))",
-      "--ds-card-texture-image": "radial-gradient(ellipse at 100% 0%, rgba(237,255,230,.18), transparent 48%)",
-    });
     Object.assign(schemePresets["holo-nocturne"], {
       "--ds-bg": "#09121c", "--ds-bg-elevated": "#101c2b",
       "--ds-bg-raised": "#1b2a3c", "--ds-bg-soft": "#26374d",

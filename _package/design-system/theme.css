@@ -4301,7 +4301,7 @@
   --ds-arrow-btn-radius: var(--ds-radius-1);
   --ds-arrow-btn-size: var(--ds-control-h-sm);
   --ds-bg: #111117;
-  --ds-bg-elevated: #343947;
+  --ds-bg-elevated: #222937;
   --ds-bg-overlay: rgba(9,10,14,0.72);
   --ds-bg-raised: #3f4756;
   --ds-bg-soft: #475061;
@@ -4388,7 +4388,7 @@
   --ds-btn-text-quiet-hover: var(--ds-text);
   --ds-card-backdrop-blur: 0px;
   --ds-card-bg: var(--ds-bg-elevated);
-  --ds-card-bg-image: linear-gradient(180deg, rgba(255,255,255,0.26), rgba(26,30,38,0.24));
+  --ds-card-bg-image: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(26,30,38,0.12));
   --ds-card-border: #9ba9c0;
   --ds-card-pad: 16px;
   --ds-card-paint-blend: normal, normal, normal;
@@ -5056,7 +5056,7 @@
   --ds-btn-paint-color: var(--ds-bg-raised);
   --ds-btn-paint-image: var(--ds-btn-bg);
   --ds-btn-press-transform: translateY(1px);
-  --ds-btn-primary-bg: linear-gradient(135deg, #ff2fa8 0%, #874cff 100%);
+  --ds-btn-primary-bg: linear-gradient(135deg, #ff2fa8 0%, #9060ff 100%);
   --ds-btn-primary-bg-hover: linear-gradient(135deg, #ff4ab6 0%, #9a65ff 100%);
   --ds-btn-primary-border: #6f3fcd;
   --ds-btn-primary-disabled-bg: color-mix(
@@ -5081,7 +5081,7 @@
     0 5px 10px color-mix(in oklab, var(--ds-accent) 17%, transparent);
   --ds-btn-primary-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.12) inset,
     0 12px 22px color-mix(in oklab, var(--ds-accent) 22%, transparent);
-  --ds-btn-primary-text: #000000;
+  --ds-btn-primary-text: #18081f;
   --ds-btn-primary-text-hover: var(--ds-btn-primary-text);
   --ds-btn-primary-text-selected: var(--ds-btn-primary-text-hover);
   --ds-btn-radius: var(--ds-radius-2);
@@ -5379,24 +5379,24 @@
   --color-surface: var(--ds-bg-elevated);
   --color-text-primary: var(--ds-text);
   --color-text-secondary: var(--ds-text-muted);
-  --ds-accent: hsl(223 92% 60%);
+  --ds-accent: hsl(223 60% 47%);
   --ds-accent-alt: color-mix(in oklab, var(--ds-accent) 68%, var(--ds-focus) 32%);
   --ds-accent-alt-strong: color-mix(in oklab, var(--ds-accent-alt) 72%, black 28%);
-  --ds-accent-strong: hsl(223 92% 68%);
+  --ds-accent-strong: hsl(223 60% 38%);
   --ds-arrow-btn-font-size: var(--ds-fs-2);
   --ds-arrow-btn-radius: var(--ds-radius-1);
   --ds-arrow-btn-size: var(--ds-control-h-sm);
-  --ds-bg: hsl(223 17% 9%);
-  --ds-bg-elevated: hsl(223 19% 13%);
-  --ds-bg-overlay: rgba(5,9,15,0.72);
-  --ds-bg-raised: hsl(223 23% 18%);
-  --ds-bg-soft: hsl(223 28% 23%);
+  --ds-bg: hsl(223 23% 95%);
+  --ds-bg-elevated: hsl(223 26% 98%);
+  --ds-bg-overlay: rgba(24,26,30,0.15);
+  --ds-bg-raised: hsl(223 33% 91%);
+  --ds-bg-soft: hsl(223 37% 87%);
   --ds-body-backdrop-blur: 0px;
-  --ds-body-bg-image: radial-gradient(circle at 12% 10%, rgba(63,124,255,0.13), transparent 34%), radial-gradient(circle at 90% 16%, rgba(255,166,93,0.16), transparent 34%), linear-gradient(180deg, #f9fbff 0%, #eef4fc 54%, #e8effa 100%);
+  --ds-body-bg-image: radial-gradient(circle at 12% 10%, rgba(63,124,255,0.07), transparent 34%), radial-gradient(circle at 90% 16%, rgba(255,166,93,0.08), transparent 34%), linear-gradient(180deg, var(--ds-bg), color-mix(in oklab, var(--ds-bg) 97%, var(--ds-accent) 3%));
   --ds-body-paint-blend: normal, normal, normal, normal;
   --ds-body-texture-image: none;
-  --ds-border: hsl(223 20% 31%);
-  --ds-border-strong: hsl(223 27% 50%);
+  --ds-border: hsl(223 27% 72%);
+  --ds-border-strong: hsl(223 33% 58%);
   --ds-border-style: solid;
   --ds-border-w: 1px;
   --ds-btn-bg: linear-gradient(135deg, #4f84ff 0%, #6dc6ff 56%, #ffbb69 100%);
@@ -5451,7 +5451,7 @@
   --ds-btn-selected-border: color-mix(in oklab, var(--ds-accent-strong) 78%, var(--ds-border) 22%);
   --ds-btn-selected-shadow: 0 0 0 1px color-mix(in oklab, var(--ds-accent) 14%, transparent),
     var(--ds-btn-shadow-hover);
-  --ds-btn-selected-text: #ffffff;
+  --ds-btn-selected-text: #000000;
   --ds-btn-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
   --ds-btn-shadow-active: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
   --ds-btn-shadow-compact: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
@@ -5467,14 +5467,14 @@
   --ds-btn-tertiary-shadow-compact: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 10%, transparent);
   --ds-btn-tertiary-shadow-compact-hover: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 14%, transparent);
   --ds-btn-tertiary-shadow-hover: inset 0 0 0 1px color-mix(in oklab, var(--ds-accent-alt) 18%, transparent);
-  --ds-btn-tertiary-text: #ffffff;
+  --ds-btn-tertiary-text: #000000;
   --ds-btn-text: #10213b;
   --ds-btn-text-quiet: var(--ds-text-muted);
   --ds-btn-text-quiet-active: var(--ds-accent);
   --ds-btn-text-quiet-hover: var(--ds-text);
   --ds-card-backdrop-blur: 0px;
   --ds-card-bg: var(--ds-bg-elevated);
-  --ds-card-bg-image: linear-gradient(160deg, rgba(100,132,224,0.14), rgba(55,85,171,0.08), rgba(255,166,92,0.12));
+  --ds-card-bg-image: linear-gradient(160deg, rgba(100,132,224,0.04), rgba(55,85,171,0.02), rgba(255,166,92,0.04));
   --ds-card-border: var(--ds-border);
   --ds-card-pad: 16px;
   --ds-card-paint-blend: normal, normal, normal;
@@ -5510,14 +5510,14 @@
   --ds-check-bg: var(--ds-input-bg);
   --ds-check-border: var(--ds-input-border);
   --ds-check-checked-bg: var(--ds-accent);
-  --ds-check-mark: #000000;
+  --ds-check-mark: #ffffff;
   --ds-check-size: 16px;
   --ds-chip-accent-bg: color-mix(in oklab, var(--ds-accent) 14%, var(--ds-bg-raised));
   --ds-chip-accent-border: color-mix(in oklab, var(--ds-accent) 60%, var(--ds-border));
-  --ds-chip-accent-text: #ffffff;
+  --ds-chip-accent-text: #000000;
   --ds-chip-alt-bg: color-mix(in oklab, var(--ds-accent-alt) 16%, var(--ds-bg-raised));
   --ds-chip-alt-border: color-mix(in oklab, var(--ds-accent-alt) 60%, var(--ds-border));
-  --ds-chip-alt-text: #ffffff;
+  --ds-chip-alt-text: #000000;
   --ds-chip-bg: color-mix(in oklab, var(--ds-bg-raised), transparent 12%);
   --ds-chip-border: var(--ds-border);
   --ds-chip-text: var(--ds-text);
@@ -5531,7 +5531,7 @@
   --ds-control-hit-min: 32px;
   --ds-control-paint-blend: normal, normal;
   --ds-control-texture-image: none;
-  --ds-danger: #ff8391;
+  --ds-danger: #b42332;
   --ds-dur-fast: 120ms;
   --ds-dur-med: 180ms;
   --ds-ease-emphasis: cubic-bezier(0.22, 1, 0.36, 1);
@@ -5542,7 +5542,7 @@
   --ds-field-row-pad-x: var(--ds-space-2);
   --ds-field-row-pad-y: var(--ds-space-1);
   --ds-field-row-radius: var(--ds-radius-2);
-  --ds-focus: hsl(223 85% 76%);
+  --ds-focus: hsl(223 55% 42%);
   --ds-font-mono: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
   --ds-font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --ds-fs-1: 12px;
@@ -5575,7 +5575,7 @@
   );
   --ds-icon-action-radius: var(--ds-radius-1);
   --ds-icon-action-size: var(--ds-btn-icon-size-sm);
-  --ds-info: #7fc5ff;
+  --ds-info: #155faa;
   --ds-input-bg: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(239,236,228,0.94));
   --ds-input-border: #9eb1de;
   --ds-input-icon-color: color-mix(
@@ -5614,9 +5614,9 @@
   --ds-layout-rail-w: 58px;
   --ds-lh-base: 1.5;
   --ds-motion-slow: 260ms;
-  --ds-native-color-scheme: dark;
-  --ds-native-icon-filter: invert(1) brightness(1.06);
-  --ds-native-icon-opacity: 0.92;
+  --ds-native-color-scheme: light;
+  --ds-native-icon-filter: none;
+  --ds-native-icon-opacity: 0.86;
   --ds-number-pad-end: calc(var(--ds-space-2) + 8px);
   --ds-pane-stack-gap-compact: var(--ds-space-1);
   --ds-panel-scroll-gap: var(--ds-space-3);
@@ -5673,26 +5673,26 @@
   --ds-spin-glyph: var(--ds-text-muted);
   --ds-spin-opacity: 0;
   --ds-spin-opacity-active: 0.9;
-  --ds-success: #68dea0;
+  --ds-success: #167344;
   --ds-tab-active-bg: color-mix(
     in oklab,
     var(--ds-accent) 18%,
     var(--ds-bg-raised)
   );
-  --ds-tab-active-border: #ffffff;
-  --ds-tab-active-fg: #ffffff;
+  --ds-tab-active-border: #000000;
+  --ds-tab-active-fg: #000000;
   --ds-tab-active-icon: var(--ds-tab-active-fg);
   --ds-tab-bg: var(--ds-bg-raised);
-  --ds-tab-border: #ffffff;
+  --ds-tab-border: #000000;
   --ds-tab-fg: var(--ds-text);
   --ds-table-dense-cell-pad-x: 8px;
   --ds-table-dense-cell-pad-y: 6px;
   --ds-table-dense-font-size: var(--ds-fs-1);
   --ds-table-dense-header-font-size: var(--ds-fs-micro);
   --ds-table-utility-col-w: 28px;
-  --ds-text: hsl(223 19% 95%);
-  --ds-text-inverse: #0f1216;
-  --ds-text-muted: hsl(223 16% 76%);
+  --ds-text: hsl(223 11% 15%);
+  --ds-text-inverse: #f6fbff;
+  --ds-text-muted: hsl(223 14% 34%);
   --ds-texture-blend: normal;
   --ds-texture-strength: 0;
   --ds-toast-gap: var(--ds-space-2);
@@ -5724,7 +5724,7 @@
     var(--ds-border)
   );
   --ds-validation-success-text: var(--ds-success);
-  --ds-warning: #f4c563;
+  --ds-warning: #885800;
   --ds-z-drawer: 300;
   --ds-z-dropdown: 100;
   --ds-z-modal: 400;
@@ -5754,7 +5754,7 @@
   --ds-bg-raised: hsl(320 22% 16%);
   --ds-bg-soft: hsl(320 27% 21%);
   --ds-body-backdrop-blur: 0px;
-  --ds-body-bg-image: linear-gradient(180deg, #100926 0%, #170d34 44%, #0f0823 100%), radial-gradient(circle at 14% 12%, rgba(255,72,208,0.22), transparent 30%), radial-gradient(circle at 84% 16%, rgba(56,220,255,0.2), transparent 30%), repeating-linear-gradient(0deg, rgba(72,220,255,0.16) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, rgba(255,74,216,0.12) 0 1px, transparent 1px 16px);
+  --ds-body-bg-image: radial-gradient(circle at 14% 12%, rgba(255,72,208,0.07), transparent 30%), radial-gradient(circle at 84% 16%, rgba(56,220,255,0.06), transparent 30%), repeating-linear-gradient(0deg, rgba(72,220,255,0.035) 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, rgba(255,74,216,0.025) 0 1px, transparent 1px 16px), linear-gradient(180deg, #100926 0%, #170d34 44%, #0f0823 100%);
   --ds-body-paint-blend: normal, normal, normal, normal, normal, normal;
   --ds-body-texture-image: none;
   --ds-border: hsl(320 19% 30%);
@@ -6116,8 +6116,8 @@
   --ds-bg-raised: #1c3034;
   --ds-bg-soft: #294046;
   --ds-body-backdrop-blur: 0px;
-  --ds-body-bg-image: conic-gradient(from 205deg at 65% 60%, #071922, #235055, #3e244e, #6b3e50, #284c40, #132740, #071922);
-  --ds-body-paint-blend: normal, normal;
+  --ds-body-bg-image: radial-gradient(ellipse at 90% 0%, rgba(156,92,163,.10), transparent 48%), radial-gradient(ellipse at 0% 100%, rgba(65,166,149,.08), transparent 48%), linear-gradient(135deg, var(--ds-bg), color-mix(in oklab, var(--ds-bg) 96%, var(--ds-accent) 4%));
+  --ds-body-paint-blend: normal, normal, normal, normal;
   --ds-body-texture-image: none;
   --ds-border: hsl(176 10% 52%);
   --ds-border-strong: hsl(176 14% 66%);
@@ -6198,7 +6198,7 @@
   --ds-btn-text-quiet-hover: var(--ds-text);
   --ds-card-backdrop-blur: 0px;
   --ds-card-bg: var(--ds-bg-elevated);
-  --ds-card-bg-image: linear-gradient(145deg, transparent 15%, rgba(245,255,226,.24) 24%, rgba(255,171,217,.08) 29%, transparent 35%), conic-gradient(from 195deg at 15% 80%, rgba(69,235,208,.28), rgba(115,152,255,.22), rgba(255,135,201,.25), rgba(230,206,136,.20), rgba(69,235,208,.28));
+  --ds-card-bg-image: linear-gradient(145deg, transparent 15%, rgba(245,255,226,.04) 24%, rgba(255,171,217,.02) 29%, transparent 35%), conic-gradient(from 195deg at 15% 80%, rgba(69,235,208,.05), rgba(115,152,255,.04), rgba(255,135,201,.05), rgba(230,206,136,.04), rgba(69,235,208,.05));
   --ds-card-border: var(--ds-border);
   --ds-card-pad: 16px;
   --ds-card-paint-blend: normal, normal, normal, normal;
@@ -6219,7 +6219,7 @@
   --ds-card-secondary-shadow-compact: var(--ds-card-secondary-shadow);
   --ds-card-secondary-text: inherit;
   --ds-card-secondary-text-muted: var(--ds-text-muted);
-  --ds-card-shadow: 0 16px 34px rgba(2,4,8,0.62), inset 0 0 0 1px rgba(255,255,255,0.05);
+  --ds-card-shadow: 0 16px 34px rgba(2,4,8,0.62), inset 1px 1px 0 rgba(127,235,200,0.4), inset -1px -1px 0 rgba(244,157,216,0.3);
   --ds-card-shadow-compact: var(--ds-card-shadow);
   --ds-card-structural-bg: transparent;
   --ds-card-structural-border: transparent;
@@ -6227,7 +6227,7 @@
   --ds-card-subtitle-color: var(--ds-card-text-muted);
   --ds-card-text: var(--ds-text);
   --ds-card-text-muted: var(--ds-text-muted);
-  --ds-card-texture-image: radial-gradient(ellipse at 100% 0%, rgba(237,255,230,.18), transparent 48%);
+  --ds-card-texture-image: radial-gradient(ellipse at 100% 0%, rgba(237,255,230,.025), transparent 48%);
   --ds-card-title-color: var(--ds-card-text);
   --ds-card-top-rule-color: transparent;
   --ds-card-top-rule-size: 0px;
@@ -6478,7 +6478,7 @@
   --ds-bg-raised: #1b2a3c;
   --ds-bg-soft: #26374d;
   --ds-body-backdrop-blur: 0px;
-  --ds-body-bg-image: radial-gradient(ellipse at 15% 15%, #23596c 0%, transparent 55%), radial-gradient(ellipse at 85% 35%, #603b75 0%, transparent 60%), linear-gradient(135deg, #080f20, #123335 48%, #23152f);
+  --ds-body-bg-image: radial-gradient(ellipse at 0% 0%, rgba(91,205,230,0.10), transparent 45%), radial-gradient(ellipse at 100% 0%, rgba(189,113,223,0.08), transparent 45%), linear-gradient(135deg, var(--ds-bg), color-mix(in oklab, var(--ds-bg) 95%, var(--ds-accent) 5%));
   --ds-body-paint-blend: normal, normal, normal, normal;
   --ds-body-texture-image: none;
   --ds-border: hsl(278 10% 52%);
@@ -6560,7 +6560,7 @@
   --ds-btn-text-quiet-hover: var(--ds-text);
   --ds-card-backdrop-blur: 0px;
   --ds-card-bg: var(--ds-bg-elevated);
-  --ds-card-bg-image: linear-gradient(125deg, transparent 28%, rgba(209,255,245,.22) 36%, rgba(251,216,255,.08) 40%, transparent 47%), conic-gradient(from 220deg at 80% 0%, rgba(115,233,255,.19), rgba(200,139,255,.24), rgba(255,170,203,.16), rgba(140,255,219,.20), rgba(115,233,255,.19));
+  --ds-card-bg-image: linear-gradient(125deg, transparent 28%, rgba(209,255,245,.04) 36%, rgba(251,216,255,.02) 40%, transparent 47%), conic-gradient(from 220deg at 80% 0%, rgba(115,233,255,.05), rgba(200,139,255,.05), rgba(255,170,203,.04), rgba(140,255,219,.05), rgba(115,233,255,.05));
   --ds-card-border: var(--ds-border);
   --ds-card-pad: 16px;
   --ds-card-paint-blend: normal, normal, normal, normal;
@@ -6581,7 +6581,7 @@
   --ds-card-secondary-shadow-compact: var(--ds-card-secondary-shadow);
   --ds-card-secondary-text: inherit;
   --ds-card-secondary-text-muted: var(--ds-text-muted);
-  --ds-card-shadow: 0 20px 36px rgba(1,3,8,0.7), inset 0 0 0 1px rgba(255,255,255,0.05);
+  --ds-card-shadow: 0 20px 36px rgba(1,3,8,0.7), inset 1px 1px 0 rgba(118,226,255,0.5), inset -1px -1px 0 rgba(224,150,255,0.35);
   --ds-card-shadow-compact: var(--ds-card-shadow);
   --ds-card-structural-bg: transparent;
   --ds-card-structural-border: transparent;
@@ -6589,7 +6589,7 @@
   --ds-card-subtitle-color: var(--ds-card-text-muted);
   --ds-card-text: var(--ds-text);
   --ds-card-text-muted: var(--ds-text-muted);
-  --ds-card-texture-image: linear-gradient(180deg, rgba(228,248,255,.16), transparent 12%, transparent 90%, rgba(111,190,237,.12));
+  --ds-card-texture-image: linear-gradient(180deg, rgba(228,248,255,.025), transparent 12%, transparent 90%, rgba(111,190,237,.02));
   --ds-card-title-color: var(--ds-card-text);
   --ds-card-top-rule-color: transparent;
   --ds-card-top-rule-size: 0px;
@@ -6929,7 +6929,7 @@
   --ds-card-paint-color: var(--ds-card-bg);
   --ds-card-paint-image: none;
   --ds-card-radius: var(--ds-radius-3);
-  --ds-card-secondary-bg: color-mix(in oklab, var(--ds-bg-raised) 84%, black 16%);
+  --ds-card-secondary-bg: color-mix(in oklab, var(--ds-bg-raised) 96%, black 4%);
   --ds-card-secondary-border: var(--ds-text);
   --ds-card-secondary-shadow: none;
   --ds-card-secondary-shadow-compact: var(--ds-card-secondary-shadow);
@@ -7283,7 +7283,7 @@
   --ds-card-paint-color: var(--ds-card-bg);
   --ds-card-paint-image: none;
   --ds-card-radius: var(--ds-radius-3);
-  --ds-card-secondary-bg: color-mix(in oklab, var(--ds-bg-raised) 88%, black 12%);
+  --ds-card-secondary-bg: color-mix(in oklab, var(--ds-bg-raised) 98%, black 2%);
   --ds-card-secondary-border: var(--ds-text);
   --ds-card-secondary-shadow: none;
   --ds-card-secondary-shadow-compact: var(--ds-card-secondary-shadow);
@@ -7542,15 +7542,15 @@
   --ds-arrow-btn-font-size: var(--ds-fs-2);
   --ds-arrow-btn-radius: var(--ds-radius-1);
   --ds-arrow-btn-size: var(--ds-control-h-sm);
-  --ds-bg: hsl(52 70% 50%);
+  --ds-bg: #ece8dd;
   --ds-bg-elevated: hsl(52 3% 94%);
   --ds-bg-overlay: rgba(14,12,8,0.28);
   --ds-bg-raised: hsl(52 4% 84%);
   --ds-bg-soft: hsl(52 5% 78%);
   --ds-body-backdrop-blur: 0px;
-  --ds-body-bg-image: linear-gradient(145deg, rgba(255,214,79,0.68) 0%, rgba(233,164,5,0.14) 34%, rgba(255,255,255,0) 66%), radial-gradient(circle at 78% 14%, rgba(255,236,170,0.3), transparent 30%), linear-gradient(180deg, #f4bf1b 0%, #e9ab07 100%);
-  --ds-body-paint-blend: overlay, overlay, normal, normal, normal;
-  --ds-body-texture-image: linear-gradient(90deg, transparent 0 18%, rgba(255,255,255,0.14) 18% 18.4%, transparent 18.4% 42%, rgba(0,0,0,0.08) 42% 42.5%, transparent 42.5% 100%), radial-gradient(circle at 50% 100%, rgba(255,255,255,0.08) 0 1px, transparent 1px 8px);
+  --ds-body-bg-image: linear-gradient(145deg, color-mix(in oklab, var(--ds-accent) 12%, transparent) 0%, transparent 46%), radial-gradient(circle at 78% 14%, rgba(255,236,170,0.08), transparent 30%), linear-gradient(180deg, var(--ds-bg), color-mix(in oklab, var(--ds-bg) 97%, black 3%));
+  --ds-body-paint-blend: overlay, normal, normal, normal;
+  --ds-body-texture-image: linear-gradient(90deg, transparent 0 18%, rgba(255,255,255,0.04) 18% 18.4%, transparent 18.4% 42%, rgba(0,0,0,0.025) 42% 42.5%, transparent 42.5% 100%);
   --ds-border: hsl(52 3% 16%);
   --ds-border-strong: hsl(52 4% 8%);
   --ds-border-style: solid;
@@ -7629,8 +7629,8 @@
   --ds-btn-text-quiet-active: color-mix(in oklab, var(--ds-accent-strong) 68%, var(--ds-text) 32%);
   --ds-btn-text-quiet-hover: #000000;
   --ds-card-backdrop-blur: 0px;
-  --ds-card-bg: transparent;
-  --ds-card-bg-image: linear-gradient(180deg, rgba(255,255,255,0.2), rgba(0,0,0,0.03));
+  --ds-card-bg: var(--ds-bg-elevated);
+  --ds-card-bg-image: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.015));
   --ds-card-border: transparent;
   --ds-card-pad: 12px;
   --ds-card-paint-blend: overlay, normal, normal;
@@ -7828,7 +7828,7 @@
   --ds-table-utility-col-w: 28px;
   --ds-text: hsl(52 4% 10%);
   --ds-text-inverse: #f6fbff;
-  --ds-text-muted: #000000;
+  --ds-text-muted: hsl(52 6% 34%);
   --ds-texture-blend: overlay;
   --ds-texture-strength: 0.24;
   --ds-toast-gap: var(--ds-space-2);
