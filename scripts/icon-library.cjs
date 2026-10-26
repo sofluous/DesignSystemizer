@@ -105,6 +105,10 @@ function commitProposal(proposal, projectRoot) {
   const entry = { ...metadata, file, sha256 };
   const existing = manifest.icons.find((item) => item.alias === value.alias);
   if (existing && JSON.stringify(existing) === JSON.stringify(entry)) return manifest;
+  if (proposal.expectedVersion !== undefined && proposal.expectedVersion !== manifest.version) {
+    const error = new Error('The project changed in another session. Reload Studio before saving; your draft is retained.');
+    error.code = 'DS_ICON_CONFLICT'; throw error;
+  }
   const next = { ...manifest, version: manifest.version.replace(/\d+$/, (patch) => Number(patch) + 1),
     icons: manifest.icons.filter((item) => item.alias !== value.alias).concat(entry).sort((a, b) => a.alias.localeCompare(b.alias)) };
   fs.mkdirSync(path.join(projectRoot, 'icons/approved'), { recursive: true });

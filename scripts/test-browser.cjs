@@ -8,7 +8,8 @@ const root = path.resolve(__dirname, '..');
 const browser = process.env.DS_BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 
 async function main() {
-  const server = http.createServer((req, res) => {
+  const fixture = process.argv.includes('--icons-connected') ? require('./icon-project-fixture.cjs').createFixture() : null;
+  const server = fixture?.server || http.createServer((req, res) => {
     const file = path.resolve(root, '.' + decodeURIComponent(req.url.split('?')[0]));
     if (!file.startsWith(root + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.writeHead(404); res.end(); return; }
     const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json' };
@@ -57,7 +58,7 @@ async function main() {
     await send('Runtime.enable', {}, session);
     await send('Network.enable', {}, session);
     await send('Network.setBlockedURLs', { urls: ['https://fonts.googleapis.com/*', 'https://fonts.gstatic.com/*'] }, session);
-    if (process.argv.includes('--icons')) await send('Fetch.enable', { patterns: [{ urlPattern: 'https://raw.githubusercontent.com/*' }, { urlPattern: 'https://icons.example.test/*' }] }, session);
+    if (process.argv.some(arg => arg.startsWith('--icons'))) await send('Fetch.enable', { patterns: [{ urlPattern: 'https://raw.githubusercontent.com/*' }, { urlPattern: 'https://icons.example.test/*' }] }, session);
     await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false }, session);
     await send('Page.navigate', { url: url + '/index.html' }, session);
     for (let i=0;i<100;i++) {
@@ -65,6 +66,12 @@ async function main() {
       await new Promise((resolve) => setTimeout(resolve,100));
     }
     assert.deepEqual(errors, [], 'No runtime exceptions on boot');
+    if (fixture) {
+      await require('./test-icons-browser.cjs').testConnected({ evaluate, send, session, root, url });
+      assert.deepEqual(errors, [], 'No runtime exceptions during connected save');
+      assert.ok(fixture.builds() > 0, 'Save invokes build');
+      return;
+    }
     if (process.argv.includes('--icons')) {
       await require('./test-icons-browser.cjs').testIcons({ evaluate, send, session, root, url });
       assert.deepEqual(errors, [], 'No runtime exceptions during icon checks');
@@ -432,7 +439,9 @@ async function main() {
     console.log('Browser passed: 21 defaults and custom export match fresh package; edit preservation, drafts, pending selection, selected-tab paint, recipe import/Undo, two-draft reload, and quota failure.');
   } finally {
     child.kill();
-    server.close();
+    server.closeAllConnections();
+    await new Promise(resolve => server.close(resolve));
+    fixture?.dispose();
   }
 }
 main().catch((error) => { console.error(error); process.exitCode = 1; });

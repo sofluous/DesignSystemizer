@@ -392,90 +392,8 @@
             ></div>
           </section>
           <section class="studio-context-panel" data-context-panel="icons" hidden>
-            <h2 class="studio-context-title">Icons</h2>
-            <div class="icon-side-meta">
-              <div class="icon-meta ds-muted mono" id="iconMeta">
-                Loading icon repository...
-              </div>
-            </div>
-            <p id="iconActionStatus" class="ds-muted" role="status" aria-live="polite"></p>
-            <aside class="icon-inspector" id="iconInspector">
-              <div
-                class="icon-inspector-empty ds-stack"
-                id="iconInspectorEmpty"
-              >
-                <p class="ds-muted">Select an icon to inspect it.</p>
-              </div>
-              <div
-                class="icon-inspector-body ds-stack"
-                id="iconInspectorBody"
-                hidden
-              >
-                <div class="icon-inspector-titleline">
-                  <h3 class="ds-card-title" id="iconInspectorName">Icon</h3>
-                  <span class="icon-status" id="iconInspectorStatus"></span>
-                </div>
-                <code class="icon-alias" id="iconInspectorAlias"></code>
-                <div id="iconInspectorPreview" class="icon-preview"></div>
-                <p id="iconInspectorSource" class="icon-inspector-source"></p>
-                <div class="icon-record-actions">
-                  <button id="iconInspectorBrowseBtn" class="ds-btn ds-btn-sm" type="button">Browse icons</button>
-                  <button id="iconPrepareApprovalBtn" class="ds-btn ds-btn-sm ds-btn-primary" type="button">Save to sheet</button>
-                </div>
-                <details id="iconInspectorProvenance" class="icon-record-details">
-                  <summary>Source and license</summary>
-                  <div id="iconInspectorDetails" class="icon-record-provenance"></div>
-                </details>
-                <details id="iconMoreActions" class="icon-record-details">
-                  <summary>More</summary>
-                  <div class="icon-record-secondary-actions">
-                    <button id="iconInspectorExportBtn" class="ds-btn ds-btn-sm" type="button">Download SVG</button>
-                    <button id="iconRevertBtn" class="ds-btn ds-btn-sm" type="button" hidden>Revert changes</button>
-                  </div>
-                </details>
-              </div>
-            </aside>
-          </section>
-            </div>
-            <section class="studio-inspector-dock" id="inspectorDockPanel" hidden>
-              <div class="studio-inspector-dock-head">
-                <h3 class="studio-context-group-title">Inspector</h3>
-                <span class="ds-muted mono" id="inspectorDockStatus">off</span>
-              </div>
-              <div class="studio-inspector-dock-body ds-stack">
-                <div class="ds-inspector-grid">
-                  <div><strong>Element:</strong> <code id="inspectorDockElement">-</code></div>
-                  <div><strong>Layer:</strong> <code id="inspectorDockLayer">-</code></div>
-                  <div><strong>Surface:</strong> <code id="inspectorDockSurface">-</code></div>
-                  <div><strong>Text:</strong> <code id="inspectorDockText">-</code></div>
-                  <div><strong>Border:</strong> <code id="inspectorDockBorder">-</code></div>
-                  <div><strong>Radius:</strong> <code id="inspectorDockRadius">-</code></div>
-                  <div><strong>Shadow:</strong> <code id="inspectorDockShadow">-</code></div>
-                </div>
-                <div class="inspector-layer-controls">
-                  <button class="ds-btn ds-btn-sm" id="inspectorLayerPrevBtn" type="button">Layer Up</button>
-                  <button class="ds-btn ds-btn-sm" id="inspectorLayerNextBtn" type="button">Layer Down</button>
-                </div>
-                <div class="ds-field">
-                  <label class="ds-label" for="inspectorLayerSelect">Matched Layers</label>
-                  <select class="ds-select" id="inspectorLayerSelect"></select>
-                </div>
-                <div class="ds-field">
-                  <label class="ds-label" for="inspectorTokenTrace">Token Trace</label>
-                  <textarea id="inspectorTokenTrace" class="ds-textarea" rows="9" readonly></textarea>
-                </div>
-                <button class="ds-btn ds-btn-sm" id="inspectorCopyTraceBtn" type="button">
-                  Copy Trace
-                </button>
-              </div>
-            </section>
-          </aside>
-        </div>
-      </aside>
-      <main class="studio-main">
-        <section id="panel-icons" class="studio-panel studio-workspace" hidden>
-          <div class="studio-workspace-tools">
-            <article class="ds-card ds-card-secondary icon-toolbar">
+            <h2 class="studio-context-title">Icon library</h2>
+            <article class="icon-library-controls">
               <input
                 id="iconSearch"
                 class="ds-input"
@@ -531,12 +449,84 @@
                 </button>
               </div>
             </article>
+            <div class="icon-side-meta">
+              <div class="icon-meta ds-muted mono" id="iconMeta">
+                Loading icon repository...
+              </div>
+            </div>
+            <div id="iconLibraryList" class="icon-library-list" aria-label="Icon tokens"></div>
+
+
+
+          </section>
+            </div>
+            <section class="studio-inspector-dock" id="inspectorDockPanel" hidden>
+              <div class="studio-inspector-dock-head">
+                <h3 class="studio-context-group-title">Inspector</h3>
+                <span class="ds-muted mono" id="inspectorDockStatus">off</span>
+              </div>
+              <div class="studio-inspector-dock-body ds-stack">
+                <div class="ds-inspector-grid">
+                  <div><strong>Element:</strong> <code id="inspectorDockElement">-</code></div>
+                  <div><strong>Layer:</strong> <code id="inspectorDockLayer">-</code></div>
+                  <div><strong>Surface:</strong> <code id="inspectorDockSurface">-</code></div>
+                  <div><strong>Text:</strong> <code id="inspectorDockText">-</code></div>
+                  <div><strong>Border:</strong> <code id="inspectorDockBorder">-</code></div>
+                  <div><strong>Radius:</strong> <code id="inspectorDockRadius">-</code></div>
+                  <div><strong>Shadow:</strong> <code id="inspectorDockShadow">-</code></div>
+                </div>
+                <div class="inspector-layer-controls">
+                  <button class="ds-btn ds-btn-sm" id="inspectorLayerPrevBtn" type="button">Layer Up</button>
+                  <button class="ds-btn ds-btn-sm" id="inspectorLayerNextBtn" type="button">Layer Down</button>
+                </div>
+                <div class="ds-field">
+                  <label class="ds-label" for="inspectorLayerSelect">Matched Layers</label>
+                  <select class="ds-select" id="inspectorLayerSelect"></select>
+                </div>
+                <div class="ds-field">
+                  <label class="ds-label" for="inspectorTokenTrace">Token Trace</label>
+                  <textarea id="inspectorTokenTrace" class="ds-textarea" rows="9" readonly></textarea>
+                </div>
+                <button class="ds-btn ds-btn-sm" id="inspectorCopyTraceBtn" type="button">
+                  Copy Trace
+                </button>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </aside>
+      <main class="studio-main">
+        <section id="panel-icons" class="studio-panel studio-workspace" data-view="canvas" hidden>
+          <div class="icon-mobile-tabs" aria-label="Workspace view">
+            <button class="ds-btn ds-btn-sm" data-icon-view="library" type="button">Library</button>
+            <button class="ds-btn ds-btn-sm" data-icon-view="canvas" type="button">Canvas</button>
+            <button class="ds-btn ds-btn-sm" data-icon-view="properties" type="button">Properties</button>
           </div>
-          <div class="studio-workspace-body">
+          <div id="iconMobileLibrary" hidden></div>
+
+          <div class="studio-workspace-body icon-workspace-body">
             <div class="studio-workspace-main studio-scroll-region icon-workspace-main">
-              <article class="ds-card ds-stack icon-library-browser">
+              <section id="iconCandidateDialog" class="ds-card ds-stack icon-candidate-canvas" hidden aria-labelledby="iconCandidateTitle">
+  <button id="closeIconCandidateBtn" class="ds-btn ds-btn-sm" type="button">Back to icon library</button>
+  <h2 id="iconCandidateTitle" class="ds-card-title">Choose artwork</h2>
+  <code id="iconCandidateHint"></code>
+            <div class="icon-candidate-toolbar">
+              <input
+                id="iconCandidateSearch"
+                class="ds-input"
+                type="search"
+                aria-label="Search candidate names or sources" placeholder="Search candidates"
+              />
+              <select id="iconCandidateSourceFilter" class="ds-select" aria-label="Candidate source">
+                <option value="all">All Sources</option>
+              </select>
+            </div>
+            <div class="icon-candidate-results"><span id="iconCandidateCount" role="status"></span><button id="iconCandidateClearFiltersBtn" class="ds-btn ds-btn-sm" type="button">Clear filters</button></div>
+            <div id="iconCandidateList" class="icon-candidate-list"></div>
+</section>
+<article id="iconSheetCanvas" class="ds-card ds-stack icon-library-browser">
                 <div id="iconSelectedHidden" class="icon-filter-notice" hidden>Selected alias is outside these filters. <button id="iconShowSelectedBtn" class="ds-btn ds-btn-sm" type="button">Show selected alias</button></div>
-                <div id="iconGroupNav" class="icon-group-nav" hidden></div>
+
                 <div class="icon-section-list" id="iconGrid"></div>
               </article>
               <details class="ds-card icon-priority-details">
@@ -564,6 +554,88 @@
                 </div>
               </details>
             </div>
+            <aside id="iconProperties" class="studio-scroll-region icon-properties ds-card">
+              <h2 class="studio-context-title">Properties</h2>
+              <p id="iconProjectStatus" class="ds-muted" role="status">Export mode</p>
+              <p id="iconActionStatus" class="ds-muted" role="status" aria-live="polite"></p>
+            <aside class="icon-inspector" id="iconInspector">
+              <div
+                class="icon-inspector-empty ds-stack"
+                id="iconInspectorEmpty"
+              >
+                <p class="ds-muted">Select an icon to inspect it.</p>
+              </div>
+              <div
+                class="icon-inspector-body ds-stack"
+                id="iconInspectorBody"
+                hidden
+              >
+                <div class="icon-inspector-titleline">
+                  <h3 class="ds-card-title" id="iconInspectorName">Icon</h3>
+                  <span class="icon-status" id="iconInspectorStatus"></span>
+                </div>
+                <code class="icon-alias" id="iconInspectorAlias"></code>
+                <div id="iconInspectorPreview" class="icon-preview"></div>
+                <p id="iconInspectorSource" class="icon-inspector-source"></p>
+                <div class="icon-record-actions" id="iconRecordActions">
+                  <button id="iconInspectorBrowseBtn" class="ds-btn ds-btn-sm" type="button">Replace icon</button>
+                  <button id="iconPrepareApprovalBtn" class="ds-btn ds-btn-sm ds-btn-primary" type="button">Export changes</button>
+                </div>
+                <details id="iconInspectorProvenance" class="icon-record-details">
+                  <summary>Source and license</summary>
+                  <div id="iconInspectorDetails" class="icon-record-provenance"></div>
+                </details>
+                <details id="iconMoreActions" class="icon-record-details">
+                  <summary>More</summary>
+                  <div class="icon-record-secondary-actions">
+                    <button id="iconInspectorExportBtn" class="ds-btn ds-btn-sm" type="button">Download SVG</button>
+                    <button id="iconRevertBtn" class="ds-btn ds-btn-sm" type="button" hidden>Revert changes</button>
+                  </div>
+                </details>
+              </div>
+            </aside>
+          <section id="iconCandidateDetails" class="ds-stack" hidden>
+<button class="ds-btn ds-btn-primary" id="iconCandidateApplyBtn" type="button">Assign</button>
+            <p id="iconCandidateSelectionState" role="status" aria-live="polite"></p>
+            <details><summary>Custom SVG</summary><div class="icon-manual-editor">
+              <input
+                aria-label="Custom SVG URL or library reference" id="iconCandidateManualInput"
+                class="ds-input"
+                type="text"
+                placeholder="library-id:icon-name or https://...svg"
+              />
+              <button
+                id="iconCandidateManualBtn"
+                class="ds-btn ds-btn-sm"
+                type="button"
+              >
+                Preview reference
+              </button>
+            </div><button id="iconCandidateUploadBtn" class="ds-btn ds-btn-sm" type="button">Use SVG file</button></details>
+          </section>
+    <section hidden id="iconApprovalDialog" class="icon-approval-editor" aria-labelledby="iconApprovalTitle">
+      <form id="iconApprovalForm" class="ds-stack">
+        <h3 id="iconApprovalTitle">Prepare standard approval</h3>
+        <p id="iconApprovalHelp" class="ds-muted">Review the artwork, then export changes for project import.</p>
+        <label class="ds-label" for="iconApprovalFile">Optional custom SVG (replaces the selected candidate)</label>
+        <input id="iconApprovalFile" class="ds-input" type="file" accept=".svg,image/svg+xml">
+        <div id="iconApprovalPreview" class="icon-preview"></div>
+        <label class="ds-label"><input id="iconApprovalReviewed" type="checkbox" required> I reviewed semantic fit, visual cohesion and legibility at interface sizes.</label>
+        <div class="icon-approval-fields">
+          <label class="ds-label">Source library<input id="iconApprovalLibrary" class="ds-input" readonly required></label>
+          <label class="ds-label">Source icon<input id="iconApprovalName" class="ds-input" readonly required></label>
+          <label class="ds-label">Original source URL<input id="iconApprovalUrl" class="ds-input" type="url" placeholder="https://... (blank for original artwork)"></label>
+          <label class="ds-label">Exact release, commit or custom revision<input id="iconApprovalRevision" class="ds-input" required maxlength="200" placeholder="v1.2.3 or full commit SHA"></label>
+          <label class="ds-label">License identifier<input id="iconApprovalLicense" class="ds-input" required maxlength="100" placeholder="ISC, MIT, or project license"></label>
+        </div>
+        <label class="ds-label">Full license and copyright notice<textarea id="iconApprovalLicenseText" class="ds-textarea" rows="4" required maxlength="50000"></textarea></label>
+        <label class="ds-label">Modifications<textarea id="iconApprovalModifications" class="ds-textarea" rows="2" required maxlength="2000"></textarea></label>
+        <label class="ds-label">Reason for secondary source (required outside Lucide/custom project artwork)<textarea id="iconApprovalException" class="ds-textarea" rows="2" maxlength="2000"></textarea></label>
+        <p id="iconApprovalStatus" role="status" aria-live="polite"></p>
+        <div class="ds-toolbar"><button id="iconApprovalCancel" class="ds-btn" type="button">Close</button><button id="iconApprovalSubmit" class="ds-btn ds-btn-primary" type="submit">Load preview</button></div>
+      </form>
+    </section>
+            </aside>
           </div>
         </section>
         <section id="panel-components" class="studio-panel studio-workspace" hidden>
@@ -838,7 +910,7 @@
                       ><span class="ds-chip ds-chip-alt">Alt Accent Chip</span>
                     </div>
                   </article>
-                  
+
                   <article
                     class="ds-card ds-stack component-block"
                     data-component-groups="Inputs,Selection"
@@ -972,7 +1044,7 @@
                       />
                     </div>
                   </article>
-                  
+
                   <article
                     class="ds-card ds-stack component-block"
                     data-component-groups="Overlays,Actions"
@@ -2413,24 +2485,24 @@
                   </div>
                   <div class="guide-section-body">
                     <p class="ds-muted">
-                      Icons is a working library browser. Inline filter controls
-                      narrow the alias set, the gallery shows grouped candidates,
-                      and the shell panel carries status plus inspector actions.
+                      Find a token in the left library, inspect its card in the center,
+                      and edit its artwork in right Properties. Replacement and
+                      review stay inside the workspace.
                     </p>
                     <ul class="guide-task-list">
                       <li><strong>Search</strong> looks across alias names, tags, and app usage.</li>
-                      <li><strong>Status / Category / Source</strong> narrow the working set before you inspect an icon.</li>
-                      <li><strong>Hitlist</strong> ranks which icons should be created next.</li>
-                      <li><strong>Inspector</strong> is for final choice, defaulting, reset, and SVG export.</li>
+                      <li><strong>State / Category / Source</strong> narrow the working set before you inspect an icon.</li>
+                      <li><strong>Replace icon</strong> opens the source catalog. Assign changes the retained workspace draft.</li>
+                      <li><strong>Save changes</strong> writes approved artwork when Project connected. Export changes prepares a proposal in static mode.</li>
                     </ul>
                     <div class="guide-control-grid">
                       <div class="guide-control-card">
                         <strong>Main region</strong>
-                        <p>Grouped icon gallery plus hitlist table.</p>
+                        <p>Filtered token cards or the replacement-artwork catalog.</p>
                       </div>
                       <div class="guide-control-card">
-                        <strong>Shell panel</strong>
-                        <p>Registry status plus inspector with source choice and export actions.</p>
+                        <strong>Properties</strong>
+                        <p>Selected token, artwork, source details and inline review/save actions.</p>
                       </div>
                     </div>
                     <div class="guide-quick-actions">
@@ -2856,101 +2928,8 @@
         </div>
       </div>
     </dialog>
-    <dialog id="iconApprovalDialog" class="ds-modal icon-candidate-dialog" aria-labelledby="iconApprovalTitle">
-      <form id="iconApprovalForm" class="ds-modal-panel ds-stack">
-        <h3 id="iconApprovalTitle">Prepare standard approval</h3>
-        <p class="ds-muted">Export an approval file, then import it into the project to save this icon.</p>
-        <label class="ds-label" for="iconApprovalFile">Optional custom SVG (replaces the selected candidate)</label>
-        <input id="iconApprovalFile" class="ds-input" type="file" accept=".svg,image/svg+xml">
-        <div id="iconApprovalPreview" class="icon-preview"></div>
-        <label class="ds-label"><input id="iconApprovalReviewed" type="checkbox" required> I reviewed semantic fit, visual cohesion and legibility at interface sizes.</label>
-        <div class="icon-approval-fields">
-          <label class="ds-label">Source library<input id="iconApprovalLibrary" class="ds-input" readonly required></label>
-          <label class="ds-label">Source icon<input id="iconApprovalName" class="ds-input" readonly required></label>
-          <label class="ds-label">Original source URL<input id="iconApprovalUrl" class="ds-input" type="url" placeholder="https://... (blank for original artwork)"></label>
-          <label class="ds-label">Exact release, commit or custom revision<input id="iconApprovalRevision" class="ds-input" required maxlength="200" placeholder="v1.2.3 or full commit SHA"></label>
-          <label class="ds-label">License identifier<input id="iconApprovalLicense" class="ds-input" required maxlength="100" placeholder="ISC, MIT, or project license"></label>
-        </div>
-        <label class="ds-label">Full license and copyright notice<textarea id="iconApprovalLicenseText" class="ds-textarea" rows="4" required maxlength="50000"></textarea></label>
-        <label class="ds-label">Modifications<textarea id="iconApprovalModifications" class="ds-textarea" rows="2" required maxlength="2000"></textarea></label>
-        <label class="ds-label">Reason for secondary source (required outside Lucide/custom project artwork)<textarea id="iconApprovalException" class="ds-textarea" rows="2" maxlength="2000"></textarea></label>
-        <p id="iconApprovalStatus" role="status" aria-live="polite"></p>
-        <div class="ds-toolbar"><button id="iconApprovalCancel" class="ds-btn" type="button">Close</button><button id="iconApprovalSubmit" class="ds-btn ds-btn-primary" type="submit">Load preview</button></div>
-      </form>
-    </dialog>
-    <dialog id="iconCandidateDialog" class="ds-modal icon-candidate-dialog" aria-labelledby="iconCandidateTitle" aria-describedby="iconCandidateHint">
-      <div class="ds-modal-panel ds-stack">
-        <div>
-          <h3 class="ds-card-title" id="iconCandidateTitle">
-            Choose Icon Candidate
-          </h3>
-          <p class="ds-muted" id="iconCandidateHint">
-            Search candidate sources, preview the icon, and commit the choice
-            for this semantic alias.
-          </p>
-        </div>
-        <div class="icon-candidate-layout">
-          <section class="icon-candidate-browser">
-            <div class="icon-candidate-toolbar">
-              <input
-                id="iconCandidateSearch"
-                class="ds-input"
-                type="search"
-                aria-label="Search candidate names or sources" placeholder="Search candidates"
-              />
-              <select id="iconCandidateSourceFilter" class="ds-select" aria-label="Candidate source">
-                <option value="all">All Sources</option>
-              </select>
-            </div>
-            <div class="icon-candidate-results"><span id="iconCandidateCount" role="status"></span><button id="iconCandidateClearFiltersBtn" class="ds-btn ds-btn-sm" type="button">Clear filters</button></div>
-            <div id="iconCandidateList" class="icon-candidate-list"></div>
-          </section>
-          <aside class="icon-candidate-detail">
-            <div class="icon-candidate-preview">
-              <div
-                id="iconCandidatePreview"
-                class="icon-preview is-placeholder"
-              ></div>
-              <div class="icon-candidate-meta">
-                <strong id="iconCandidatePreviewLabel"
-                  >No source</strong
-                >
-                <code id="iconCandidatePreviewRef" hidden></code>
-              </div>
-            </div>
-            <p id="iconCandidateSelectionState" role="status" aria-live="polite"></p>
-            <details><summary>Custom SVG</summary><div class="icon-manual-editor">
-              <input
-                aria-label="Custom SVG URL or library reference" id="iconCandidateManualInput"
-                class="ds-input"
-                type="text"
-                placeholder="library-id:icon-name or https://...svg"
-              />
-              <button
-                id="iconCandidateManualBtn"
-                class="ds-btn ds-btn-sm"
-                type="button"
-              >
-                Preview reference
-              </button>
-            </div><button id="iconCandidateUploadBtn" class="ds-btn ds-btn-sm" type="button">Use SVG file</button></details>
-          </aside>
-        </div>
-        <div class="ds-toolbar">
-          <button class="ds-btn" id="closeIconCandidateBtn" type="button">
-            Cancel
-          </button>
-          <button
-            class="ds-btn ds-btn-primary"
-            id="iconCandidateApplyBtn"
-            type="button"
-          >
-            Use icon
-          </button>
 
-        </div>
-      </div>
-    </dialog>
+
     <div class="ds-toast-stack" id="toastStack" aria-live="polite"></div>
     <aside id="componentInspector" class="ds-card ds-inspector" hidden>
       <div class="ds-inspector-toolbar">

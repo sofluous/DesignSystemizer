@@ -8,7 +8,7 @@
       ? JSON.parse(JSON.stringify(win.DesignSystemIconRegistry))
       : [];
     const assets = win.DesignSystemStudioIconAssets;
-    const approvedIcons = win.DesignSystemApprovedIcons?.icons || {};
+    let approvedIcons = win.DesignSystemApprovedIcons?.icons || {};
     const iconStateStorageKey = "ds-icon-state";
     let storageMessage = "";
     let storageBlocked = false;
@@ -19,7 +19,6 @@
     const iconCategoryFilter =
       doc.getElementById("iconCategoryFilter");
     const iconSourceFilter = doc.getElementById("iconSourceFilter");
-    const iconGroupNav = doc.getElementById("iconGroupNav");
     const iconGrid = doc.getElementById("iconGrid");
     const iconMeta = doc.getElementById("iconMeta");
     const iconHitlistBody = doc.getElementById("iconHitlistBody");
@@ -57,15 +56,6 @@
       "iconCandidateSourceFilter",
     );
     const iconCandidateList = doc.getElementById("iconCandidateList");
-    const iconCandidatePreview = doc.getElementById(
-      "iconCandidatePreview",
-    );
-    const iconCandidatePreviewLabel = doc.getElementById(
-      "iconCandidatePreviewLabel",
-    );
-    const iconCandidatePreviewRef = doc.getElementById(
-      "iconCandidatePreviewRef",
-    );
     const iconCandidateManualInput = doc.getElementById(
       "iconCandidateManualInput",
     );
@@ -85,7 +75,7 @@
     const candidateCount = doc.getElementById("iconCandidateCount");
     const selectedHidden = doc.getElementById("iconSelectedHidden");
     let exporting = false;
-    let candidateTrigger = null;
+    let stage = "inspect";
     let activeIconCandidateId = "";
     let activeIconCandidateSelection = null;
     let selectedIconId = "";
@@ -242,11 +232,16 @@
       if (!icon || !choice) return;
       if (choice.mode === "approved") delete iconSelectionOverrides[icon.id];
       else if (choice.mode === "manual") iconSelectionOverrides[icon.id] = { mode: "manual", manualRef: choice.manualRef };
-      else if (choice.id) iconSelectionOverrides[icon.id] = { mode: "candidate", candidateId: choice.id };
+      else if (choice.id) {
+        if ((icon.candidates || []).some(candidate => candidate.id === choice.id)) iconSelectionOverrides[icon.id] = { mode: "candidate", candidateId: choice.id };
+        else iconSelectionOverrides[icon.id] = { mode: "manual", manualRef: choice.sourceId + ":" + choice.iconName };
+      }
       persistIconState();
       renderIconGallery();
-      iconCandidateDialog.close();
-      announce("Selection updated.");
+      setStage("inspect");
+      announce(selectionState(icon) === "Draft" ? "Assignment changed. Unsaved changes." : "Assignment restored.");
+      showView("properties");
+      iconInspectorBrowseBtn.focus();
     }
     function exportIconManifest() {
       const manifest = {
@@ -314,19 +309,23 @@
       });
     }
     function renderIconCandidatePreview(choice) {
-      assets.render(iconCandidatePreview, choice);
-      iconCandidatePreviewLabel.textContent = sourceLabel(choice);
-      iconCandidatePreviewRef.textContent = "";
+      assets.render(iconInspectorPreview, choice);
+      doc.getElementById("iconInspectorSource").textContent = sourceLabel(choice);
       const matchesApplied = assets.same(choice, resolveIconChoice(iconById(activeIconCandidateId)));
       iconCandidateApplyBtn.disabled = !choice || matchesApplied;
-      candidateState.textContent = matchesApplied ? "Current icon" : choice ? "Preview" : "Choose an icon";
+      candidateState.textContent = matchesApplied ? "Current assignment" : choice ? "Preview (not assigned)" : "Choose an icon";
     }
     function renderIconCandidateList() {
       const icon = iconById(activeIconCandidateId);
       if (!icon || !iconCandidateList) return;
       const query = (iconCandidateSearch?.value || "").trim().toLowerCase();
       const sourceId = iconCandidateSourceFilter?.value || "all";
-      const candidates = [...(icon.candidates || [])];
+      const seen = new Set();
+      const candidates = [...(icon.candidates || []), ...iconRegistry.flatMap(item => item.candidates || [])].filter(candidate => {
+        const key = candidate.sourceId + ":" + candidate.iconName;
+        if (seen.has(key)) return false;
+        seen.add(key); return true;
+      });
       const saved = approvedChoice(icon);
       if (saved && !candidates.some((candidate) => assets.same(candidate, saved))) candidates.unshift({ ...saved, id: "saved-" + icon.id });
       const rows = candidates.filter((candidate) => {
@@ -379,6 +378,8 @@
             Object.assign({ mode: "candidate" }, candidate),
           );
           renderIconCandidateModal();
+          showView("properties");
+          if (win.matchMedia("(max-width: 980px)").matches && !iconCandidateApplyBtn.disabled) iconCandidateApplyBtn.focus();
         });
         iconCandidateList.appendChild(item);
         if (candidate.id === focusedId) item.focus();
@@ -387,7 +388,7 @@
     function renderIconCandidateModal() {
       const icon = iconById(activeIconCandidateId);
       if (!icon) return;
-      iconCandidateTitle.textContent = "Browse icons";
+      iconCandidateTitle.textContent = "Choose artwork for " + icon.alias;
       iconCandidateHint.textContent = icon.alias;
       if (iconCandidateManualInput) {
         iconCandidateManualInput.value =
@@ -400,7 +401,6 @@
       renderIconCandidateList();
     }
     function openIconCandidateDialog(icon) {
-      candidateTrigger = doc.activeElement;
       activeIconCandidateId = icon.id;
       activeIconCandidateSelection = cloneIconChoice(
         resolveIconChoice(icon),
@@ -409,7 +409,8 @@
       if (iconCandidateSourceFilter)
         iconCandidateSourceFilter.value = "all";
       renderIconCandidateModal();
-      iconCandidateDialog?.showModal();
+      setStage("replace");
+      showView("canvas");
       iconCandidateSearch?.focus();
     }
     function buildIconCategoryFilter() {
@@ -477,7 +478,53 @@
     function categoryOrder(category) {
       return iconCategoryMeta[category]?.order || 999;
     }
+    function showView(view) {
+      doc.getElementById("panel-icons").dataset.view = view;
+      for (const button of doc.querySelectorAll("[data-icon-view]")) button.setAttribute("aria-pressed", String(button.dataset.iconView === view));
+    }
+    function setStage(next) {
+      stage = next;
+      iconCandidateDialog.hidden = next !== "replace";
+      doc.getElementById("iconSheetCanvas").hidden = next === "replace";
+      doc.querySelector(".icon-priority-details").hidden = next === "replace";
+      doc.getElementById("iconCandidateDetails").hidden = next !== "replace";
+      doc.getElementById("iconRecordActions").hidden = next !== "inspect";
+      doc.getElementById("iconInspectorProvenance").hidden = next !== "inspect";
+      doc.getElementById("iconMoreActions").hidden = next !== "inspect";
+      doc.getElementById("iconApprovalDialog").hidden = next !== "review";
+      iconInspectorBody.hidden = next === "review";
+      if (next === "inspect") renderIconInspector(filteredIcons());
+    }
+    function renderLibrary(rows) {
+      const host = doc.getElementById("iconLibraryList");
+      const focusedId = doc.activeElement?.dataset.iconToken;
+      const expanded = new Set([...host.querySelectorAll("details[open]")].map(group => group.dataset.category));
+      const initialized = host.childElementCount > 0;
+      host.replaceChildren();
+      for (const category of [...new Set(rows.map(icon => icon.category))]) {
+        const group = doc.createElement("details"); group.dataset.category = category;
+        group.open = !initialized || expanded.has(category);
+        const summary = doc.createElement("summary"); summary.textContent = categoryLabel(category);
+        group.append(summary);
+        for (const icon of rows.filter(item => item.category === category)) {
+          const button = doc.createElement("button"); button.type = "button"; button.className = "icon-library-item";
+          button.dataset.iconToken = icon.id; button.setAttribute("aria-pressed", String(selectedIconId === icon.id));
+          const label = doc.createElement("span"); label.textContent = icon.name;
+          const token = doc.createElement("code"); token.textContent = icon.alias;
+          button.append(label, token);
+          button.addEventListener("click", () => {
+            if (!selectIcon(icon.id, false)) return; showView("canvas");
+            iconGrid.querySelector('[data-icon-id="' + icon.id + '"]')?.scrollIntoView({ block: "nearest" });
+          });
+          group.append(button); if (focusedId === icon.id) button.focus();
+        }
+        host.append(group);
+      }
+    }
     function selectIcon(iconId, focus) {
+      if (win.DesignSystemStudioIconApproval.isBusy()) return false;
+      win.DesignSystemStudioIconApproval.remember();
+      setStage("inspect");
       if (selectedIconId !== iconId) {
         doc.getElementById("iconMoreActions").open = false;
         doc.getElementById("iconInspectorProvenance").open = false;
@@ -490,7 +537,14 @@
         card.tabIndex = selected ? 0 : -1;
         if (selected && focus) card.focus();
       }
+      for (const button of doc.querySelectorAll("[data-icon-token]")) button.setAttribute("aria-pressed", String(button.dataset.iconToken === iconId));
+      const selectedItem = doc.querySelector('[data-icon-token="' + iconId + '"]');
+      if (selectedItem) {
+        selectedItem.closest("details").open = true;
+        selectedItem.scrollIntoView({ block: "nearest" });
+      }
       renderIconInspector(filteredIcons());
+      return true;
     }
     function buildIconCard(icon) {
       const card = doc.createElement("article");
@@ -535,7 +589,7 @@
     
       card.appendChild(head);
       const selectCard = function () {
-        selectIcon(icon.id, false);
+        if (!selectIcon(icon.id, false)) return; showView("properties");
       };
       card.addEventListener("click", selectCard);
       card.addEventListener("keydown", function (event) {
@@ -564,8 +618,8 @@
       const choice = resolveIconChoice(activeIcon);
       const state = selectionState(activeIcon);
       iconInspectorEmpty.hidden = true;
-      iconInspectorBody.hidden = false;
-      assets.render(iconInspectorPreview, choice);
+      iconInspectorBody.hidden = stage === "review";
+      if (stage !== "replace") assets.render(iconInspectorPreview, choice);
       iconInspectorName.textContent = activeIcon.name;
       iconInspectorStatus.className = "icon-status is-" + state.toLowerCase();
       iconInspectorStatus.textContent = state;
@@ -583,6 +637,7 @@
       iconInspectorBrowseBtn.onclick = () => openIconCandidateDialog(activeIcon);
       const save = doc.getElementById("iconPrepareApprovalBtn");
       save.disabled = state === "Saved";
+      save.textContent = win.DesignSystemStudioIconApproval.connected() ? "Save changes" : "Export changes";
       save.title = state === "Saved" ? "Already saved to the icon sheet" : "Prepare this selection for the shared icon sheet";
       save.onclick = () => win.DesignSystemStudioIconApproval.open(activeIcon, choice);
       const revert = doc.getElementById("iconRevertBtn");
@@ -597,28 +652,7 @@
       iconInspectorExportBtn.disabled = exporting || !choice || (!assets.hasGlyph(choice) && !assets.urlFor(choice));
       iconInspectorExportBtn.onclick = () => downloadIconSvg(activeIcon);
       selectedHidden.hidden = rows.some((icon) => icon.id === activeIcon.id);
-    }
-    function renderIconGroupNav(groups) {
-      if (!iconGroupNav) return;
-      iconGroupNav.innerHTML = "";
-      iconGroupNav.hidden = groups.length < 2;
-      groups.forEach((group) => {
-        const btn = doc.createElement("button");
-        btn.type = "button";
-        btn.className = "ds-btn ds-btn-sm icon-group-btn";
-        btn.innerHTML =
-          "<span>" +
-          group.label +
-          '</span><span class="icon-group-btn-count">' +
-          String(group.icons.length) +
-          "</span>";
-        btn.addEventListener("click", function () {
-          document
-            .getElementById("icon-group-" + group.key)
-            ?.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-        iconGroupNav.appendChild(btn);
-      });
+      if (stage === "replace") renderIconCandidatePreview(activeIconCandidateSelection);
     }
     function renderIconGallery() {
       if (!iconGrid || !iconHitlistBody || !iconMeta) return;
@@ -634,10 +668,6 @@
           );
         });
       iconGrid.innerHTML = "";
-      if (iconGroupNav) {
-        iconGroupNav.innerHTML = "";
-        iconGroupNav.hidden = true;
-      }
       if (rows.length && !selectedIconId) {
         selectedIconId = rows[0].id;
       }
@@ -668,7 +698,6 @@
           description: categoryDescription(key),
           icons: groupedRows[key],
         }));
-      renderIconGroupNav(groups);
       groups.forEach((group) => {
         const section = doc.createElement("section");
         section.className = "icon-section";
@@ -704,6 +733,7 @@
       const firstVisible = iconGrid.querySelector(".icon-card");
       if (firstVisible && !iconGrid.querySelector('.icon-card[tabindex="0"]')) firstVisible.tabIndex = 0;
       renderIconInspector(rows);
+      renderLibrary(rows);
       iconMeta.textContent =
         rows.length +
         " icons / " +
@@ -796,14 +826,14 @@
       }
       if (closeIconCandidateBtn) {
         closeIconCandidateBtn.addEventListener("click", function () {
-          iconCandidateDialog?.close();
+          setStage("inspect"); showView("canvas");
+          iconGrid.querySelector('[data-icon-id="' + selectedIconId + '"]')?.focus();
         });
       }
       iconCandidateApplyBtn.addEventListener("click", commitActiveIconSelection);
       doc.getElementById("iconCandidateUploadBtn").addEventListener("click", () => {
         const icon = iconById(activeIconCandidateId);
         if (!icon) return;
-        iconCandidateDialog.close();
         win.DesignSystemStudioIconApproval.open(icon, resolveIconChoice(icon));
         doc.getElementById("iconApprovalFile").focus();
       });
@@ -818,9 +848,33 @@
       doc.getElementById("iconCandidateClearFiltersBtn").addEventListener("click", () => {
         iconCandidateSearch.value = ""; iconCandidateSourceFilter.value = "all"; renderIconCandidateList(); iconCandidateSearch.focus();
       });
-      iconCandidateDialog.addEventListener("close", () => {
-        if (candidateTrigger?.isConnected && !doc.querySelector("dialog[open]")) candidateTrigger.focus();
+      doc.addEventListener("icon:review", () => { setStage("review"); showView("properties"); });
+      doc.addEventListener("icon:reviewclose", () => { setStage("inspect"); showView("properties"); });
+      doc.addEventListener("icon:busy", event => {
+        doc.getElementById("iconProperties").setAttribute("aria-busy", String(event.detail.busy));
+        for (const button of doc.querySelectorAll("[data-icon-token]")) button.disabled = event.detail.busy;
+        for (const card of iconGrid.querySelectorAll(".icon-card")) card.setAttribute("aria-disabled", String(event.detail.busy));
       });
+      doc.addEventListener("icon:project", () => renderIconInspector(filteredIcons()));
+      doc.addEventListener("icon:projecterror", event => announce(event.detail.message));
+      doc.addEventListener("icon:saved", event => {
+        const { manifest } = event.detail;
+        approvedIcons = Object.fromEntries(manifest.icons.map(entry => [entry.alias, entry]));
+        win.DesignSystemApprovedIcons = { version: manifest.version, icons: approvedIcons };
+        const icon = iconRegistry.find(item => item.alias === event.detail.alias);
+        if (icon) delete iconSelectionOverrides[icon.id];
+        persistIconState(); setStage("inspect"); renderIconGallery();
+      });
+      for (const button of doc.querySelectorAll("[data-icon-view]")) button.addEventListener("click", () => showView(button.dataset.iconView));
+      const library = doc.querySelector('[data-context-panel="icons"]');
+      const originalParent = library.parentNode; const originalNext = library.nextSibling;
+      const media = win.matchMedia("(max-width: 980px)");
+      const placeLibrary = () => {
+        doc.getElementById("iconMobileLibrary").hidden = !media.matches;
+        if (media.matches) doc.getElementById("iconMobileLibrary").append(library);
+        else originalParent.insertBefore(library, originalNext);
+      };
+      media.addEventListener("change", placeLibrary); placeLibrary(); showView("canvas");
       renderIconGallery();
       if (storageMessage) announce(storageMessage);
     }
