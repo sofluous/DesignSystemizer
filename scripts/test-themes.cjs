@@ -122,5 +122,7 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../js/studio-builder-contr
 const controls = context.window.DesignSystemStudioBuilderControls.initBuilderControls({ root: {}, controlMap: new Map() });
 assert.equal(controls.parseShadow('0 2px 4px #000000').x, 0);
 assert.equal(controls.buildPaint({ mode: { value: 'gradient' }, angle: { value: '0' }, c1: { value: '#ffffff' }, c2: { value: '#000000' } }), 'linear-gradient(0deg, #ffffff, #000000)');
+assert.ok(!Object.keys(require('./build-themes.cjs').artifacts()).some((file) => file.startsWith('_docs/')), 'runtime freshness is independent of local reports');
+require('./test-theme-artifact-io.cjs');
 build(true);
 console.log(`Passed: 21 default round trips, ${combinations} single-layer substitutions, 250 seeded mixed recipes, edit/reset/undo and parser regressions.`);

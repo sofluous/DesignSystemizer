@@ -12,12 +12,12 @@ Detailed rules continue to live in the Design System wiki. This file summarizes 
 ## Reference Order
 
 1. Start here for cross-app direction.
-2. Use `_DesignSystem/wiki/FOUNDATIONS.md` for tokens, spacing, theme composition, contrast, and accessibility baselines.
-3. Use `_DesignSystem/wiki/PATTERNS.md` for layout, shell, interaction, spacing ownership, and repeated UX patterns.
-4. Use `_DesignSystem/wiki/COMPONENT_SPEC.md` for component anatomy, states, accessibility, and token mapping.
-5. Use `_DesignSystem/wiki/CROSS_APP_UI_RULES.md` when apps disagree or a pattern needs cross-project alignment.
-6. Use `_DesignSystem/wiki/ICONOGRAPHY.md` for icon semantics, naming, and icon-only control rules.
-7. Use `_DesignSystem/wiki/VALIDATION_CHECKLIST.md` before finishing UI-affecting changes.
+2. Use [FOUNDATIONS.md](wiki/FOUNDATIONS.md) for tokens, spacing, theme composition, contrast, and accessibility baselines.
+3. Use [PATTERNS.md](wiki/PATTERNS.md) for layout, shell, interaction, spacing ownership, and repeated UX patterns.
+4. Use [COMPONENT_SPEC.md](wiki/COMPONENT_SPEC.md) for component anatomy, states, accessibility, and token mapping.
+5. Use [CROSS_APP_UI_RULES.md](wiki/CROSS_APP_UI_RULES.md) when apps disagree or a pattern needs cross-project alignment.
+6. Use [ICONOGRAPHY.md](wiki/ICONOGRAPHY.md) for icon semantics, naming, and icon-only control rules.
+7. Use [VALIDATION_CHECKLIST.md](wiki/VALIDATION_CHECKLIST.md) before finishing UI-affecting changes.
 
 ## Core Principles
 
@@ -39,7 +39,7 @@ Detailed rules continue to live in the Design System wiki. This file summarizes 
 - Heading-to-body spacing should be tighter than body-to-next-heading spacing.
 - Grids own card spacing; cards should not add external margins to create layout.
 
-Primary reference: `_DesignSystem/wiki/FOUNDATIONS.md` and `_DesignSystem/wiki/PATTERNS.md`.
+Primary reference: [FOUNDATIONS.md](wiki/FOUNDATIONS.md) and [PATTERNS.md](wiki/PATTERNS.md).
 
 ## Shells And App Chrome
 
@@ -51,11 +51,11 @@ Primary reference: `_DesignSystem/wiki/FOUNDATIONS.md` and `_DesignSystem/wiki/P
 - App shell framing, panel separation, toast placement, and tab selected states should use shared DS tokens when available.
 - Settings belongs in the shell pattern that matches its job: rail/tab for major app mode, drawer/button for occasional global preferences, inspector section for project-specific metadata.
 
-Primary reference: `_DesignSystem/wiki/PATTERNS.md` and `_DesignSystem/wiki/CROSS_APP_UI_RULES.md`.
+Primary reference: [PATTERNS.md](wiki/PATTERNS.md) and [CROSS_APP_UI_RULES.md](wiki/CROSS_APP_UI_RULES.md).
 
 ## Components
 
-- Use the component contracts in `_DesignSystem/wiki/COMPONENT_SPEC.md` before creating app-local variants.
+- Use the component contracts in [COMPONENT_SPEC.md](wiki/COMPONENT_SPEC.md) before creating app-local variants.
 - One primary action should exist per action region.
 - Primary actions align right in footers and command clusters.
 - Destructive actions sit immediately left of primary when paired.
@@ -71,7 +71,7 @@ Primary reference: `_DesignSystem/wiki/PATTERNS.md` and `_DesignSystem/wiki/CROS
 - Row-level utility actions such as lock, visibility, info, and collapse should remain aligned and keyboard accessible.
 - Randomization locks exclude properties from randomization but do not disable manual editing.
 
-Primary reference: `_DesignSystem/wiki/PATTERNS.md` and `_DesignSystem/wiki/COMPONENT_SPEC.md`.
+Primary reference: [PATTERNS.md](wiki/PATTERNS.md) and [COMPONENT_SPEC.md](wiki/COMPONENT_SPEC.md).
 
 ## Icons
 
@@ -82,7 +82,7 @@ Primary reference: `_DesignSystem/wiki/PATTERNS.md` and `_DesignSystem/wiki/COMP
 - Low-emphasis utility actions include show/hide, lock/unlock, info/help, settings/tune, more/overflow, and collapse/expand.
 - Icons in inputs and controls must inherit tokenized colors.
 
-Primary reference: `_DesignSystem/wiki/ICONOGRAPHY.md`.
+Primary reference: [ICONOGRAPHY.md](wiki/ICONOGRAPHY.md).
 
 ## Themes And Tokens
 
@@ -95,7 +95,7 @@ Primary reference: `_DesignSystem/wiki/ICONOGRAPHY.md`.
 - Bright primary buttons must preserve text and mark contrast across checked, hover, selected, and active states.
 - UI chrome, HUD overlays, and controls should use DS semantic tokens; model/material colors and generated output palettes may use product-specific values when documented.
 
-Primary reference: `_DesignSystem/wiki/FOUNDATIONS.md`.
+Primary reference: [FOUNDATIONS.md](wiki/FOUNDATIONS.md).
 
 ## App Alias Contract
 
@@ -138,7 +138,7 @@ If a hardcoded value is kept, document whether it is content/model data or produ
 - Popovers are for lightweight anchored guidance.
 - Menus, popovers, modals, and drawers must have consistent close behavior and keyboard support.
 
-Primary reference: `_DesignSystem/wiki/PATTERNS.md`.
+Primary reference: [PATTERNS.md](wiki/PATTERNS.md).
 
 ## Audit Rules
 
@@ -161,7 +161,7 @@ Before finishing UI-affecting work:
 - Confirm keyboard navigation and focus indicators work.
 - Confirm readable contrast across at least one light, one dark, and one high-style theme when practical.
 - Confirm compact and comfortable scale do not break layout.
-- Confirm app changes are checked against `_DesignSystem/wiki/VALIDATION_CHECKLIST.md`.
+- Confirm app changes are checked against [VALIDATION_CHECKLIST.md](wiki/VALIDATION_CHECKLIST.md).
 
 ## Open Design-System Work
 
