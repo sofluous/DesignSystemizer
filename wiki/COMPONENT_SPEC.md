@@ -80,7 +80,7 @@ Use this template for new components.
 - Tooltip/title recommended for ambiguous symbols.
 - Token Mapping:
 - `--ds-btn-icon-size*`, `--ds-btn-icon-font-size`, button base tokens.
-- For square icon-action highlight behavior (lock/collapse/show-hide), use `.ds-icon-action` with:
+- For square, quiet icon-action behavior (lock/collapse/show-hide), use `.ds-icon-action` with:
   - `--ds-icon-action-size`
   - `--ds-icon-action-radius`
   - `--ds-icon-action-fg`
@@ -116,7 +116,7 @@ Use this template for new components.
 - Rules:
 - Keep utility icon actions visually lighter than primary/secondary buttons.
 - Place them terminal/right in headers and rows unless the pattern explicitly calls for another position.
-- Active utility state should remain visible even when the surrounding row is not hovered.
+- Hidden/locked utility states persist at rest; visible/unlocked actions reveal on row hover or keyboard focus. Use `aria-pressed="true"` for hidden/locked and expose actions on non-hover devices.
 - Token Mapping:
 - Button base tokens
 - icon sizing tokens
@@ -487,3 +487,17 @@ Use this template for new components.
 - Reset restores `x:0 y:0 z:0 scale:1`.
 - Token Mapping:
 - compact control-size tokens, button tokens, spacing tokens, mono readout text tokens.
+
+## Control Geometry and State Addendum (2026-10-30)
+- Switches retain native keyboard-operable checkbox inputs. Their thumb is vertically centered within the track and keeps symmetric end insets independent of theme border width; focus is drawn on the visible track.
+- Range tracks/thumbs explicitly use border-box sizing. WebKit thumb offsets subtract track border width; Firefox uses native track alignment. Thumb fill uses a solid semantic foreground rather than a potentially transparent button paint; track textures and authored thumb shadows remain available.
+- Disabled buttons use subdued foreground and surface/border treatments distinct from enabled commands; primary disabled backgrounds retain only a light accent tint. Do not remove legibility to indicate inactivity.
+- Lock/visibility state follows the quiet utility contract in PATTERNS.md. Persistent active backgrounds default to transparent; any intentional app-specific emphasis exception must be documented.
+
+## Button state comparison contract (2026-10-31)
+The Components gallery uses a semantic table: variants down rows, Default/Hover/Pressed/Focus/Selected/Disabled across columns. Real pseudo states and forced samples share CSS blocks. Hover uses the variant hover paint and matching foreground; Pressed uses pointer-down paint plus inset outline, shadow/press transform; Focus adds a visible outline without imposing selected paint; Selected is a persistent `aria-pressed` state. Pressed and hover may share colors, but pressure feedback must remain distinguishable. The neutral hover pair is `--ds-btn-bg-hover` / `--ds-btn-text-hover`. The browser gate compares computed real pseudo states against all matrix samples across 21 themes.
+
+Inactive tab labels retain text contrast, while their decorative border is intentionally quieter than selected treatment. Do not repair a decorative inactive border to text contrast. Selected tabs retain distinct fill/border and stronger font weight; keyboard focus stays separately visible.
+
+## Inspector utility demo scope
+Apply `.ds-utility-scope` to the action's owning row/field/item, not an enclosing card. Parent hover or `:has(:focus-visible)` reveals that parent's actions only. Card-header hover, card padding, and sibling rows must not reveal independent row actions. Preserve reserved action space, current-state glyphs, persistent hidden/locked states, and touch/pen access. Validate sibling isolation and pointer leave without manually blurring mouse focus.

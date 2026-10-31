@@ -59,11 +59,19 @@
   }
 
   function createComposer(data, defaults, buildColorBundle) {
+    function normalizeRecipe(recipe) {
+      if (!recipe || typeof recipe !== "object" || Array.isArray(recipe)) throw new Error("Invalid recipe");
+      const aliases = data.typographyAliases || {};
+      const typography = Object.hasOwn(aliases, recipe.typography) ? aliases[recipe.typography] : recipe.typography;
+      return { ...recipe, typography };
+    }
+
     function compose(recipe, options = {}) {
       if (!recipe || typeof recipe !== "object" || Array.isArray(recipe)) throw new Error("Invalid recipe");
       if (!Object.hasOwn(data.colorFamilyPresets, recipe.family) || !Object.hasOwn(data.huePresets, recipe.hue)) {
         throw new Error("Unknown color family or hue");
       }
+      recipe = normalizeRecipe(recipe);
       const tokens = {};
       const provenance = options.trace ? {} : null;
       function apply(values, layer, preset) {
@@ -88,7 +96,7 @@
       }
       return { tokens, fixes, ...(provenance ? { provenance } : {}) };
     }
-    return { compose };
+    return { compose, normalizeRecipe };
   }
 
   function createSession(composer, root, validateOverrides) {
@@ -116,7 +124,8 @@
       if (history.length > 100) history.shift();
     }
     function prepare(state, reuseBase = false) {
-      const result = reuseBase ? { tokens: base, fixes } : composer.compose(state.recipe);
+      const nextRecipe = composer.normalizeRecipe(state.recipe);
+      const result = reuseBase ? { tokens: base, fixes } : composer.compose(nextRecipe);
       if (!state.overrides || typeof state.overrides !== "object" || Array.isArray(state.overrides)) throw new Error("Invalid overrides");
       const manual = { ...state.overrides };
       for (const token of Object.keys(manual)) {
@@ -128,7 +137,7 @@
       const tokens = derivePaint({ ...result.tokens, ...manual });
       Object.values(tokens).forEach((raw) => win.DesignSystemThemeContrast.resolve(raw, tokens));
       if (validateOverrides) validateOverrides(tokens, manual);
-      return { recipe: { ...state.recipe }, base: result.tokens, overrides: manual, fixes: result.fixes };
+      return { recipe: nextRecipe, base: result.tokens, overrides: manual, fixes: result.fixes };
     }
     function commit(candidate) {
       recipe = candidate.recipe;
@@ -138,6 +147,7 @@
       publish();
     }
     return {
+      normalizeRecipe: composer.normalizeRecipe,
       validate(state) {
         const candidate = prepare(state);
         return derivePaint({ ...candidate.base, ...candidate.overrides });

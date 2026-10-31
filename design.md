@@ -1,7 +1,7 @@
 # Design System Source Of Truth
 
 Status: Draft
-Updated: 2026-10-03
+Updated: 2026-10-31
 
 ## Purpose
 
@@ -69,6 +69,7 @@ Primary reference: [PATTERNS.md](wiki/PATTERNS.md) and [CROSS_APP_UI_RULES.md](w
 - Reserve action-slot width where row utilities appear so controls do not shift.
 - Keep compact numeric inputs bounded when values are short.
 - Row-level utility actions such as lock, visibility, info, and collapse should remain aligned and keyboard accessible.
+- Quiet lock/visibility actions reveal from their owning row, field, item, or dedicated header on hover or keyboard-visible focus. Never use the enclosing card/panel as the trigger for independent row actions. Hidden/locked indicators persist; touch/pen actions stay accessible. See the utility reveal boundary in [PATTERNS.md](wiki/PATTERNS.md).
 - Randomization locks exclude properties from randomization but do not disable manual editing.
 
 Primary reference: [PATTERNS.md](wiki/PATTERNS.md) and [COMPONENT_SPEC.md](wiki/COMPONENT_SPEC.md).

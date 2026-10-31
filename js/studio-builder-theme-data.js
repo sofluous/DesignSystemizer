@@ -1110,20 +1110,18 @@
     "--ds-input-placeholder": "#67686d",
     },
     "signal-diagram": {
-    "--ds-btn-bg":
-    "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 74%, white 26%) 0%, var(--ds-accent) 100%)",
-    "--ds-btn-bg-hover":
-    "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 64%, white 36%) 0%, color-mix(in oklab, var(--ds-accent) 88%, white 12%) 100%)",
+    "--ds-btn-bg": "var(--ds-text)",
+    "--ds-btn-bg-hover": "#1a1c20",
     "--ds-btn-border": "var(--ds-text)",
-    "--ds-btn-text": "#101114",
-    "--ds-btn-primary-bg": "var(--ds-text)",
+    "--ds-btn-text": "var(--ds-bg-elevated)",
+    "--ds-btn-primary-bg":
+    "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 74%, white 26%) 0%, var(--ds-accent) 100%)",
     "--ds-btn-primary-bg-hover":
-    "color-mix(in oklab, var(--ds-text) 88%, var(--ds-accent) 12%)",
-    "--ds-btn-primary-border":
-    "color-mix(in oklab, var(--ds-text) 72%, var(--ds-accent) 28%)",
-    "--ds-btn-primary-text": "var(--ds-bg-elevated)",
-    "--ds-btn-primary-text-hover": "#ffffff",
-    "--ds-btn-primary-text-selected": "#ffffff",
+    "linear-gradient(180deg, color-mix(in oklab, var(--ds-accent) 64%, white 36%) 0%, color-mix(in oklab, var(--ds-accent) 88%, white 12%) 100%)",
+    "--ds-btn-primary-border": "var(--ds-accent-strong)",
+    "--ds-btn-primary-text": "var(--ds-text)",
+    "--ds-btn-primary-text-hover": "var(--ds-btn-bg)",
+    "--ds-btn-primary-text-selected": "var(--ds-btn-bg)",
     "--ds-input-bg": "var(--ds-bg-elevated)",
     "--ds-input-border": "var(--ds-text)",
     "--ds-input-text": "var(--ds-text)",
@@ -1391,48 +1389,22 @@
     "--ds-font-mono":
     '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
     "--ds-lh-base": "1.5",
-    },
-    "mint-humanist": {
-    "--ds-font-sans":
-    '"Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
-    "--ds-font-mono":
-    '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
-    "--ds-lh-base": "1.52",
-    },
-    "portal-ui": {
-    "--ds-font-sans":
-    '"Tahoma", "Verdana", "MS Sans Serif", "Segoe UI", sans-serif',
-    },
-    "technical-sans": {
-    "--ds-font-sans":
-    '"Space Mono", Consolas, "Courier New", monospace',
-    },
-    "velvet-sans": {
-    "--ds-font-sans": '"Inter", "Segoe UI", Roboto, Arial, sans-serif',
-    },
-    "display-scale": {
-    "--ds-fs-1": "11px",
-    "--ds-fs-2": "13px",
-    "--ds-fs-3": "16px",
-    "--ds-fs-4": "22px",
-    "--ds-fs-5": "30px",
-    "--ds-lh-base": "1.38",
-    },
-    "oilslick-scale": {
     "--ds-fs-1": "12px",
     "--ds-fs-2": "14px",
-    "--ds-fs-3": "17px",
-    "--ds-fs-4": "24px",
-    "--ds-fs-5": "34px",
-    "--ds-lh-base": "1.42",
+    "--ds-fs-3": "16px",
+    "--ds-fs-4": "20px",
+    "--ds-fs-5": "28px",
     },
-    "eva-wire-sans": {
+    "portal-ui": {
+    "--ds-font-mono": '"Space Mono", Consolas, "Courier New", monospace',
     "--ds-font-sans":
-    '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
-    },
-    "eva-unit-sans": {
-    "--ds-font-sans":
-    '"Arial Narrow", "Bahnschrift", "Space Mono", "Segoe UI", sans-serif',
+    '"Tahoma", "Verdana", "MS Sans Serif", "Segoe UI", sans-serif',
+    "--ds-fs-1": "12px",
+    "--ds-fs-2": "14px",
+    "--ds-fs-3": "16px",
+    "--ds-fs-4": "20px",
+    "--ds-fs-5": "28px",
+    "--ds-lh-base": "1.45",
     },
     "terminal-glow": {
     "--ds-font-sans":
@@ -1446,18 +1418,6 @@
     "--ds-fs-5": "28px",
     "--ds-lh-base": "1.42",
     },
-    "technical-mono": {
-    "--ds-font-sans":
-    '"Space Mono", Consolas, "Courier New", monospace',
-    "--ds-font-mono":
-    '"Space Mono", Consolas, "Courier New", monospace',
-    "--ds-fs-1": "11px",
-    "--ds-fs-2": "13px",
-    "--ds-fs-3": "15px",
-    "--ds-fs-4": "18px",
-    "--ds-fs-5": "24px",
-    "--ds-lh-base": "1.42",
-    },
     "poster-grotesk": {
     "--ds-font-sans":
     '"Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif',
@@ -1469,22 +1429,6 @@
     "--ds-fs-4": "26px",
     "--ds-fs-5": "36px",
     "--ds-lh-base": "1.34",
-    },
-    "soft-display": {
-    "--ds-font-sans": '"Inter", "Segoe UI", Roboto, Arial, sans-serif',
-    "--ds-font-mono":
-    '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
-    "--ds-fs-1": "13px",
-    "--ds-fs-2": "15px",
-    "--ds-fs-3": "18px",
-    "--ds-fs-4": "22px",
-    "--ds-fs-5": "32px",
-    "--ds-lh-base": "1.46",
-    },
-    "velvet-ui": {
-    "--ds-font-sans": '"Inter", "Segoe UI", Roboto, Arial, sans-serif',
-    "--ds-font-mono":
-    '"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
     },
     "eva-digital": {
     "--ds-font-sans":
@@ -1504,6 +1448,11 @@
     "--ds-font-mono":
     '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
     "--ds-lh-base": "1.35",
+    "--ds-fs-1": "12px",
+    "--ds-fs-2": "14px",
+    "--ds-fs-3": "16px",
+    "--ds-fs-4": "20px",
+    "--ds-fs-5": "28px",
     },
     "saturn-euro": {
     "--ds-font-sans":
@@ -1517,16 +1466,6 @@
     "--ds-fs-5": "30px",
     "--ds-lh-base": "1.35",
     },
-    "portal-arcade": {
-    "--ds-font-sans": '"Verdana", "Tahoma", "Trebuchet MS", sans-serif',
-    "--ds-font-mono": '"Lucida Console", "Courier New", monospace',
-    "--ds-fs-1": "11px",
-    "--ds-fs-2": "13px",
-    "--ds-fs-3": "15px",
-    "--ds-fs-4": "20px",
-    "--ds-fs-5": "28px",
-    "--ds-lh-base": "1.4",
-    },
     "playful-rounded": {
     "--ds-font-sans":
     '"Baloo 2", "Nunito", "Trebuchet MS", "Segoe UI", sans-serif',
@@ -1538,18 +1477,6 @@
     "--ds-fs-4": "24px",
     "--ds-fs-5": "34px",
     "--ds-lh-base": "1.45",
-    },
-    "vapor-display": {
-    "--ds-font-sans":
-    '"Space Mono", "Eurostile", "Trebuchet MS", "Segoe UI", sans-serif',
-    "--ds-font-mono":
-    '"Space Mono", Consolas, "Courier New", monospace',
-    "--ds-fs-1": "12px",
-    "--ds-fs-2": "14px",
-    "--ds-fs-3": "16px",
-    "--ds-fs-4": "24px",
-    "--ds-fs-5": "34px",
-    "--ds-lh-base": "1.4",
     },
     "holo-sans": {
     "--ds-font-sans": '"Sora", "Inter", "Segoe UI", sans-serif',
@@ -1586,37 +1513,34 @@
     "--ds-fs-5": "38px",
     "--ds-lh-base": "1.32",
     },
-    };
-    Object.assign(typographyPresets, {
     "precision-ui": {
     "--ds-font-sans": '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
     "--ds-font-mono":
     '"Space Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
     "--ds-lh-base": "1.48",
-    },
-    "neon-display": {
-    "--ds-font-sans": '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
-    "--ds-font-mono":
-    '"Space Mono", "OCR A Std", Consolas, "Courier New", monospace',
     "--ds-fs-1": "12px",
     "--ds-fs-2": "14px",
-    "--ds-fs-3": "17px",
-    "--ds-fs-4": "24px",
-    "--ds-fs-5": "32px",
-    "--ds-lh-base": "1.42",
+    "--ds-fs-3": "16px",
+    "--ds-fs-4": "20px",
+    "--ds-fs-5": "28px",
     },
-    "mono-editorial": {
-    "--ds-font-sans": '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
-    "--ds-font-mono":
-    '"Space Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace',
-    "--ds-fs-1": "12px",
-    "--ds-fs-2": "14px",
-    "--ds-fs-3": "17px",
-    "--ds-fs-4": "24px",
-    "--ds-fs-5": "34px",
-    "--ds-lh-base": "1.58",
-    },
-    });
+    };
+    const typographyAliases = {
+      "mint-humanist": "neutral-ui",
+      "technical-sans": "terminal-glow",
+      "technical-mono": "terminal-glow",
+      "velvet-sans": "precision-ui",
+      "display-scale": "precision-ui",
+      "oilslick-scale": "precision-ui",
+      "eva-wire-sans": "eva-digital",
+      "eva-unit-sans": "eva-unit-display",
+      "soft-display": "precision-ui",
+      "velvet-ui": "precision-ui",
+      "portal-arcade": "portal-ui",
+      "vapor-display": "terminal-glow",
+      "neon-display": "precision-ui",
+      "mono-editorial": "precision-ui",
+    };
     Object.assign(schemePresets, {
     "steel-night-quiet": {
     "--ds-btn-bg":
@@ -1856,7 +1780,7 @@
     hue: "cyan",
     scheme: "neon-grid-signal",
     style: "neon-signal",
-    typography: "neon-display",
+    typography: "precision-ui",
     scale: "compact",
     texture: "neon-lattice",
     },
@@ -1865,7 +1789,7 @@
     hue: "gray",
     scheme: "mono-slate-editorial",
     style: "mono-editorial-style",
-    typography: "mono-editorial",
+    typography: "precision-ui",
     scale: "comfortable",
     texture: "mono-grain",
     },
@@ -1874,7 +1798,7 @@
     hue: "blue",
     scheme: "standard",
     style: "technical",
-    typography: "technical-sans",
+    typography: "terminal-glow",
     scale: "compact",
     texture: "clean",
     },
@@ -1892,7 +1816,7 @@
     hue: "lime",
     scheme: "industrial-lime",
     style: "industrial-frame",
-    typography: "technical-sans",
+    typography: "terminal-glow",
     scale: "compact",
     texture: "industrial-screen",
     },
@@ -2296,7 +2220,7 @@
     hue: "violet",
     scheme: "velvet-violet",
     style: "neumorph",
-    typography: "velvet-sans",
+    typography: "precision-ui",
     scale: "comfortable",
     texture: "velvet-soft",
     },
@@ -2305,7 +2229,7 @@
     hue: "signal-red",
     scheme: "eva-wire-alert",
     style: "eva-wire",
-    typography: "eva-wire-sans",
+    typography: "eva-digital",
     scale: "compact",
     texture: "eva-wire-base",
     },
@@ -2314,7 +2238,7 @@
     hue: "violet",
     scheme: "eva-unit01",
     style: "eva-unit01",
-    typography: "eva-unit-sans",
+    typography: "eva-unit-display",
     scale: "compact",
     texture: "eva-unit-base",
     },
@@ -2368,7 +2292,7 @@
     hue: "ultraviolet",
     scheme: "holo-nocturne",
     style: "holo-nocturne",
-    typography: "display-scale",
+    typography: "precision-ui",
     scale: "standard",
     texture: "holo-dark",
     },
@@ -2377,7 +2301,7 @@
     hue: "teal",
     scheme: "oilslick-organic",
     style: "oilslick-organic",
-    typography: "oilslick-scale",
+    typography: "precision-ui",
     scale: "standard",
     texture: "oilslick-dark",
     },
@@ -2414,7 +2338,7 @@
     Object.assign(schemePresets["rr4-sprint"], {
       "--ds-tab-bg": "#c4bbaa",
       "--ds-tab-fg": "#191712",
-      "--ds-tab-border": "#242018",
+      "--ds-tab-border": "color-mix(in oklab, #242018 40%, var(--ds-tab-bg))",
       "--ds-tab-active-bg": "linear-gradient(180deg, #fff1c8 0%, #ded8cb 100%)",
       "--ds-tab-active-fg": "#191712",
       "--ds-tab-active-border": "#242018",
@@ -2452,6 +2376,7 @@
       texturePresets,
       schemePresets,
       typographyPresets,
+      typographyAliases,
       baseThemePresetMap,
     };
 

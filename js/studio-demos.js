@@ -1,69 +1,37 @@
 (function (win, doc) {
-  function utilityToggleMarkup(kind, isActive, previewNext) {
+  function utilityToggleMarkup(kind, isActive) {
     const icons = {
       visibilityOn:
         '<svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.6 6-9.5 6-9.5-6-9.5-6z"></path><circle cx="12" cy="12" r="2.8"></circle></svg>',
       visibilityOff:
         '<svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"></path><path d="M10.7 6.3A10 10 0 0 1 12 6c5.9 0 9.5 6 9.5 6a16.6 16.6 0 0 1-3.2 3.8"></path><path d="M6.2 6.2A16.7 16.7 0 0 0 2.5 12s3.6 6 9.5 6a9.7 9.7 0 0 0 2.5-.33"></path></svg>',
       lockOn:
-        '<svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="10.5" width="11" height="8" rx="2"></rect><path d="M8.8 10.5V8.6a3.2 3.2 0 1 1 6.4 0v1.9"></path></svg>',
+        '<svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>',
       lockOff:
-        '<svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="10.5" width="11" height="8" rx="2"></rect><path d="M15.2 10.5V8.6a3.2 3.2 0 1 0-6.4 0"></path></svg>',
+        '<svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 7.6-1.8"></path></svg>',
     };
-    if (kind === "visibility") {
-      if (isActive) return previewNext ? icons.visibilityOff : icons.visibilityOn;
-      return icons.visibilityOn;
-    }
-    if (kind === "lock") {
-      if (isActive) return previewNext ? icons.lockOff : icons.lockOn;
-      return icons.lockOn;
-    }
-    return "";
+    return icons[kind + (isActive ? "On" : "Off")] || "";
   }
 
   function initUtilityToggleDemos() {
+    function trackUtilityPointer(event) {
+      if (!event.pointerType) return;
+      const mode = event.pointerType === "mouse" ? "mouse" : "touch";
+      if (doc.documentElement.dataset.utilityInput !== mode) doc.documentElement.dataset.utilityInput = mode;
+    }
+    // Real input wins over hardware hover queries on touch-enabled/remote desktops.
+    doc.addEventListener("pointermove", trackUtilityPointer, { passive: true });
+    doc.addEventListener("pointerdown", trackUtilityPointer, { passive: true, capture: true });
     doc.querySelectorAll("[data-utility-toggle]").forEach(function (btn) {
-      const row = btn.closest(".ds-utility-demo-item");
       function render() {
         const kind = btn.getAttribute("data-utility-toggle");
         const isActive = btn.getAttribute("aria-pressed") === "true";
-        const previewNext = btn.dataset.previewNext === "1";
-        btn.innerHTML = utilityToggleMarkup(kind, isActive, previewNext);
-        if (kind === "visibility") {
-          btn.title = isActive
-            ? previewNext
-              ? btn.getAttribute("data-off-label") || "Show item"
-              : btn.getAttribute("data-on-label") || "Hide item"
-            : btn.getAttribute("data-off-label") || "Show item";
-        } else if (kind === "lock") {
-          btn.title = isActive
-            ? previewNext
-              ? btn.getAttribute("data-off-label") || "Lock item"
-              : btn.getAttribute("data-on-label") || "Unlock item"
-            : btn.getAttribute("data-off-label") || "Lock item";
-        }
+        btn.innerHTML = utilityToggleMarkup(kind, kind === "visibility" ? !isActive : isActive);
+        btn.setAttribute("aria-label", btn.getAttribute("data-off-label") || "Toggle " + kind);
+        btn.title = btn.getAttribute(isActive ? "data-on-label" : "data-off-label") || "Toggle " + kind;
       }
-      btn.addEventListener("mouseenter", function () {
-        btn.dataset.previewNext = "1";
-        render();
-      });
-      btn.addEventListener("mouseleave", function () {
-        btn.dataset.previewNext = "0";
-        render();
-      });
-      btn.addEventListener("focus", function () {
-        btn.dataset.previewNext = "1";
-        render();
-      });
-      btn.addEventListener("blur", function () {
-        btn.dataset.previewNext = "0";
-        render();
-      });
       btn.addEventListener("click", function () {
-        const isActive = btn.getAttribute("aria-pressed") === "true";
-        btn.setAttribute("aria-pressed", String(!isActive));
-        btn.blur();
-        btn.dataset.previewNext = row && row.matches(":hover") ? "1" : "0";
+        btn.setAttribute("aria-pressed", String(btn.getAttribute("aria-pressed") !== "true"));
         render();
       });
       render();

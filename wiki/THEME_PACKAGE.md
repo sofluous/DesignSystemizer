@@ -122,3 +122,6 @@ Load bundled CSS and registry/selector scripts together. No Studio scripts are r
 Expand **Save and reopen** in the Builder settings and select the package's extracted `theme.recipe.json` (or a standalone recipe download). Import updates the current theme slot and is undoable for recipe/token settings. The theme name comes from the file. CSS and ZIP files are runtime artifacts, not recipe import inputs.
 
 Applied drafts save automatically in this browser and origin. Download recipe JSON for a portable backup. Pending layer selections and Undo history do not survive reload. See `../_docs/DATA_MIGRATION.md` for compatibility overrides, supported versions, and storage failure behavior.
+
+## Saved button colors versus updated Schemes
+Studio preserves saved snapshot differences as overrides, so a corrected Scheme can remain hidden by an older draft. Theme settings shows a contextual **Use current colors** action when primary/secondary button or tab color overrides differ from the applied recipe. It restores those button and tab backgrounds, foregrounds, hover/selected text, and borders while retaining other edits, including shadows and geometry. Undo restores the previous colors. Pending selector changes are not applied. No saved browser data is silently cleared.

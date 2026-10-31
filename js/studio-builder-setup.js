@@ -27,7 +27,7 @@
     }
     if (schemePresetSelect) {
       schemePresetSelect.title =
-        "Scheme controls component-level color behavior and expressive accent logic.";
+        "Scheme maps palette colors onto controls and emphasis. Some legacy options also fix palette colors; see Theme Architecture.";
     }
     if (stylePresetSelect) {
       stylePresetSelect.title =
@@ -35,7 +35,7 @@
     }
     if (typographyPresetSelect) {
       typographyPresetSelect.title =
-        "Typography controls font voice, type scale, and reading rhythm.";
+        "Type selects body and code font stacks, text sizes, and reading rhythm. Each option identifies a distinct preferred body font; adjust individual sizes in the editor. Installed fonts determine the fallback.";
     }
     if (scalePresetSelect) {
       scalePresetSelect.title =

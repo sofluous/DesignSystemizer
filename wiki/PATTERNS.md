@@ -235,12 +235,31 @@ Use drawer for contextual settings/inspectors that should not replace core conte
 - Standard pattern for summary metrics above detailed tables or charts.
 
 ## Lock Affordance Pattern
-- Lock controls should remain discoverable on desktop and mobile (always-present low-emphasis icon preferred).
+- Lock controls reveal on row hover or keyboard focus on desktop and stay available on non-hover devices.
 - Recommended state model:
-  - Unlocked idle: faint lock icon.
-  - Unlocked hover/focus: accented lock icon.
+  - Unlocked idle: icon hidden, reserved action slot retained.
+  - Unlocked hover/focus: unlocked glyph with temporary hover/focus feedback.
   - Locked idle: solid lock icon.
-  - Locked hover/focus: accented lock-slash icon (next-state preview for unlock).
+  - Locked hover/focus: closed-lock glyph with temporary hover/focus feedback. The tooltip says Unlock.
 - Single tap/click should toggle state immediately; avoid double-interaction requirements caused by row focus selection.
 - Hover/focus highlight container should be a square icon-action surface (not circular/pill), driven by DS tokens rather than app-specific overrides.
 - Apps should implement lock affordance via shared icon-action semantics (`ds-icon-action`) once tokenized, not custom per-app highlight geometry.
+
+## Quiet Utility State Contract (2026-10-30)
+Lock/visibility controls use `.ds-icon-action` or `.ds-utility-toggle`. The current-state glyph and `aria-pressed` communicate state; persistent pressed styling has no container fill or emphasized border. Hover/focus feedback is temporary and the keyboard outline remains visible. A lock is closed only when locked; visibility uses eye/eye-off for current visibility. Do not replace the current-state glyph with the opposite action on hover. Keep the accessible toggle name stable and use a title to describe the next action. Visible and unlocked are the defaults: hide their icon actions at rest and reveal them on row hover or keyboard focus. For these toggles, `aria-pressed="true"` means hidden or locked, respectively; use stable names such as Hide overlay and Lock controls. Persist eye-off while hidden and closed-lock while locked. Always expose the actions on non-hover devices. Preserve focus after activation. This contract does not change filled selected states for tabs, segmented options or primary commands.
+
+## Inspector Controls (2026-10-30)
+Inspect and Dock form one header group beside the theme selector. Dock is unavailable while Inspect is off. Turning Inspect off also exits Dock, clears its pressed state and hides the docked panel; enabling Inspect again starts undocked. Use stable Inspect/Dock labels with aria-pressed rather than changing button widths with On/Off text.
+
+## Inspector utility reveal boundary (2026-10-31)
+Place `.ds-utility-scope` on the immediate logical parent of an action: its owning row, field, layer item, or dedicated header. Hovering that parent or keyboard-visible focus inside it reveals only its own `.ds-utility-toggle` controls. Do not place the scope on a surrounding inspector card, panel, or list containing independent rows; hovering unrelated padding or sibling rows must not reveal their actions. Reserve the action slot while hidden and keep tools unclipped and hit-testable. Hidden/locked glyphs persist after leaving their parent. Touch/pen input exposes actions directly.
+
+Example: `<div class="ds-utility-scope">...row label...<div>...utility toggle...</div></div>`. Each independent row owns its own scope. Mouse clicks retain focus without causing a sticky reveal; use `:has(:focus-visible)` for keyboard reveal. A dedicated header may own a scope only for actions belonging to that header, not for actions elsewhere in its card.
+
+Component galleries should size examples by their space needs. Compact inspector, navigation, and spatial examples can share columns; matrices, production toolbars, master controls, and data views can span the available width. Keep the DOM reading/focus order aligned with the visual order rather than using dense grid packing to fill gaps.
+
+### Pointer focus versus keyboard reveal
+Use `:has(:focus-visible)` for scope/row keyboard reveal, not unrestricted `:focus-within`: mouse clicks retain focus after pointer leave and must not keep default-state controls visible. Keep the focused button itself and keyboard focus intact; do not blur it to disguise the issue. Actual mouse pointer events set the utility input mode to mouse; touch/pen input exposes controls directly. The hardware fallback uses `any-hover`, and only applies when actual mouse input has not taken precedence. Hidden/locked states remain independently persistent. Open/closed lock shackle silhouettes must be distinguishable at rendered icon size.
+
+### Consumer implementation
+Add `.ds-utility-scope` to each owning row and `.ds-utility-toggle` to its action button, reserving the action slot. The host app owns state changes: toggle `aria-pressed`, update the current-state glyph, and keep the accessible toggle name stable. For hybrid-input behavior, update the root `data-utility-input` attribute from Pointer Events (`mouse` for a mouse, `touch` for touch/pen); shared CSS reads this attribute, while Studio demonstrates the event handling in `js/studio-demos.js`. Do not clear focus after clicks. Test parent hover, unrelated card/sibling hover, keyboard-visible focus, pointer leave after clicking, persistent hidden/locked states, and touch/mouse switching.

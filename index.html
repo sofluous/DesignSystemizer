@@ -56,6 +56,7 @@
       <aside class="studio-shell">
         <div class="studio-shell-header">
           <h1>Design System Studio</h1>
+          <div class="studio-header-controls">
           <div class="ds-field">
             <select
               id="themeSelect"
@@ -65,6 +66,26 @@
               data-ds-theme-select
               data-ds-theme-storage="ds-theme"
             ></select>
+          </div>        <div class="studio-inspector-controls" role="group" aria-label="Inspector">
+          <button
+            class="ds-btn ds-btn-sm"
+            id="inspectorToggleBtn"
+            type="button"
+            aria-pressed="false"
+            title="Toggle hover inspector"
+          >
+            Inspect
+          </button>
+          <button
+            class="ds-btn ds-btn-sm"
+            id="inspectorDockToggleBtn"
+            type="button"
+            aria-pressed="false"
+            title="Toggle docked inspector panel"
+          >
+            Dock
+          </button>
+            </div>
           </div>
         </div>
         <div class="studio-shell-body">
@@ -147,26 +168,7 @@
             <span class="studio-sr-only">Icons</span>
           </button>
         </nav>
-        <div class="studio-rail-tools">
-          <button
-            class="ds-btn ds-btn-sm"
-            id="inspectorToggleBtn"
-            type="button"
-            aria-pressed="false"
-            title="Toggle hover inspector"
-          >
-            Inspect Off
-          </button>
-          <button
-            class="ds-btn ds-btn-sm"
-            id="inspectorDockToggleBtn"
-            type="button"
-            aria-pressed="false"
-            title="Toggle docked inspector panel"
-          >
-            Dock Off
-          </button>
-            </div>
+
           </aside>
           <aside class="studio-context">
             <div class="studio-context-body">
@@ -662,168 +664,24 @@
                 </div>
                 <div class="component-stage-grid is-tight">
                   <article
-                    class="ds-card ds-stack component-block"
+                    class="ds-card ds-stack component-block component-block-wide"
                     data-component-groups="Actions,Feedback"
                   >
                     <h3 class="ds-card-title">Buttons and States</h3>
                     <p class="ds-muted">
-                      Forced state matrixes per button variant for contrast and
-                      token diagnosis.
+                      Compare variants across states. Pressed shows pointer-down feedback; Selected shows a persistent choice.
                     </p>
-                    <div class="ds-grid ds-grid-2">
-                      <div class="ds-card ds-stack">
-                        <strong class="ds-label ds-label-block"
-                          >Primary Matrix</strong
-                        >
-                        <div class="ds-toolbar">
-                          <button class="ds-btn ds-btn-primary" type="button">
-                            Default
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-primary is-force-hover"
-                            type="button"
-                          >
-                            Hover
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-primary is-force-active"
-                            type="button"
-                          >
-                            Active
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-primary is-force-focus"
-                            type="button"
-                          >
-                            Focus
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-primary"
-                            type="button"
-                            aria-pressed="true"
-                          >
-                            Selected
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-primary"
-                            type="button"
-                            disabled
-                          >
-                            Disabled
-                          </button>
-                        </div>
-                      </div>
-                      <div class="ds-card ds-stack">
-                        <strong class="ds-label ds-label-block"
-                          >Secondary Matrix</strong
-                        >
-                        <div class="ds-toolbar">
-                          <button class="ds-btn" type="button">Default</button>
-                          <button class="ds-btn is-force-hover" type="button">
-                            Hover
-                          </button>
-                          <button class="ds-btn is-force-active" type="button">
-                            Active
-                          </button>
-                          <button class="ds-btn is-force-focus" type="button">
-                            Focus
-                          </button>
-                          <button
-                            class="ds-btn"
-                            type="button"
-                            aria-pressed="true"
-                          >
-                            Selected
-                          </button>
-                          <button class="ds-btn" type="button" disabled>
-                            Disabled
-                          </button>
-                        </div>
-                      </div>
-                      <div class="ds-card ds-stack">
-                        <strong class="ds-label ds-label-block"
-                          >Tertiary Matrix</strong
-                        >
-                        <div class="ds-toolbar">
-                          <button class="ds-btn ds-btn-tertiary" type="button">
-                            Default
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-tertiary is-force-hover"
-                            type="button"
-                          >
-                            Hover
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-tertiary is-force-active"
-                            type="button"
-                          >
-                            Active
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-tertiary is-force-focus"
-                            type="button"
-                          >
-                            Focus
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-tertiary"
-                            type="button"
-                            aria-pressed="true"
-                          >
-                            Selected
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-tertiary"
-                            type="button"
-                            disabled
-                          >
-                            Disabled
-                          </button>
-                        </div>
-                      </div>
-                      <div class="ds-card ds-stack">
-                        <strong class="ds-label ds-label-block"
-                          >Danger Matrix</strong
-                        >
-                        <div class="ds-toolbar">
-                          <button class="ds-btn ds-btn-danger" type="button">
-                            Default
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-danger is-force-hover"
-                            type="button"
-                          >
-                            Hover
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-danger is-force-active"
-                            type="button"
-                          >
-                            Active
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-danger is-force-focus"
-                            type="button"
-                          >
-                            Focus
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-danger"
-                            type="button"
-                            aria-pressed="true"
-                          >
-                            Selected
-                          </button>
-                          <button
-                            class="ds-btn ds-btn-danger"
-                            type="button"
-                            disabled
-                          >
-                            Disabled
-                          </button>
-                        </div>
-                      </div>
+                    <div class="button-state-scroll" role="region" aria-label="Button state comparison" tabindex="0">
+                      <table class="button-state-matrix">
+                        <caption class="studio-sr-only">Button variants by interaction state. Pressed is transient; Selected is persistent.</caption>
+                        <thead><tr><th scope="col">Variant</th><th scope="col">Default</th><th scope="col">Hover</th><th scope="col">Pressed</th><th scope="col">Focus</th><th scope="col">Selected</th><th scope="col">Disabled</th></tr></thead>
+                        <tbody>
+                        <tr><th scope="row">Primary</th><td><button class="ds-btn ds-btn-primary" type="button" aria-label="Primary: Default">Action</button></td><td><button class="ds-btn ds-btn-primary is-force-hover" type="button" aria-label="Primary: Hover">Action</button></td><td><button class="ds-btn ds-btn-primary is-force-active" type="button" aria-label="Primary: Pressed">Action</button></td><td><button class="ds-btn ds-btn-primary is-force-focus" type="button" aria-label="Primary: Focus">Action</button></td><td><button class="ds-btn ds-btn-primary" type="button" aria-pressed="true" aria-label="Primary: Selected">Action</button></td><td><button class="ds-btn ds-btn-primary" type="button" disabled aria-label="Primary: Disabled">Action</button></td></tr>
+                        <tr><th scope="row">Secondary</th><td><button class="ds-btn" type="button" aria-label="Secondary: Default">Action</button></td><td><button class="ds-btn is-force-hover" type="button" aria-label="Secondary: Hover">Action</button></td><td><button class="ds-btn is-force-active" type="button" aria-label="Secondary: Pressed">Action</button></td><td><button class="ds-btn is-force-focus" type="button" aria-label="Secondary: Focus">Action</button></td><td><button class="ds-btn" type="button" aria-pressed="true" aria-label="Secondary: Selected">Action</button></td><td><button class="ds-btn" type="button" disabled aria-label="Secondary: Disabled">Action</button></td></tr>
+                        <tr><th scope="row">Tertiary</th><td><button class="ds-btn ds-btn-tertiary" type="button" aria-label="Tertiary: Default">Action</button></td><td><button class="ds-btn ds-btn-tertiary is-force-hover" type="button" aria-label="Tertiary: Hover">Action</button></td><td><button class="ds-btn ds-btn-tertiary is-force-active" type="button" aria-label="Tertiary: Pressed">Action</button></td><td><button class="ds-btn ds-btn-tertiary is-force-focus" type="button" aria-label="Tertiary: Focus">Action</button></td><td><button class="ds-btn ds-btn-tertiary" type="button" aria-pressed="true" aria-label="Tertiary: Selected">Action</button></td><td><button class="ds-btn ds-btn-tertiary" type="button" disabled aria-label="Tertiary: Disabled">Action</button></td></tr>
+                        <tr><th scope="row">Danger</th><td><button class="ds-btn ds-btn-danger" type="button" aria-label="Danger: Default">Action</button></td><td><button class="ds-btn ds-btn-danger is-force-hover" type="button" aria-label="Danger: Hover">Action</button></td><td><button class="ds-btn ds-btn-danger is-force-active" type="button" aria-label="Danger: Pressed">Action</button></td><td><button class="ds-btn ds-btn-danger is-force-focus" type="button" aria-label="Danger: Focus">Action</button></td><td><button class="ds-btn ds-btn-danger" type="button" aria-pressed="true" aria-label="Danger: Selected">Action</button></td><td><button class="ds-btn ds-btn-danger" type="button" disabled aria-label="Danger: Disabled">Action</button></td></tr>
+                        </tbody>
+                      </table>
                     </div>
                     <div class="ds-grid ds-grid-halves">
                       <div class="ds-card ds-stack">
@@ -1346,10 +1204,10 @@
                     data-component-groups="Custom,Layout,Actions"
                   >
                     <h3 class="ds-card-title">
-                      Chrome and Utility Actions (Source of Truth)
+                      Chrome and Utility Actions
                     </h3>
                     <div class="custom-components-grid">
-                      <section class="custom-demo-group">
+                      <section class="custom-demo-group custom-demo-group-wide">
                         <div class="custom-demo-group-head ds-flow-copy">
                           <h4 class="ds-card-title">Workspace Chrome</h4>
                           <p class="ds-muted">
@@ -1416,7 +1274,7 @@
                           </p>
                         </div>
                         <div class="custom-demo-group-grid">
-                          <section class="custom-demo custom-demo-span ds-card ds-stack">
+                          <section class="custom-demo custom-demo-span ds-card ds-stack" id="inspectorUtilityDemo">
                             <header class="ds-card-head-actions">
                               <div class="ds-card-head-copy">
                                 <h4 class="ds-card-title">Inspector Utility States</h4>
@@ -1427,11 +1285,68 @@
                               </div>
                             </header>
                             <div class="ds-utility-demo-list" aria-label="Utility action behavior demo">
-                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Reference Overlay</strong><span class="ds-muted">Show or hide a supporting overlay without cluttering the header at rest.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text ds-utility-toggle" type="button" data-utility-toggle="visibility" data-on-label="Hide overlay" data-off-label="Show overlay" aria-label="Hide overlay" aria-pressed="true"></button></div></div>
-                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Warp Controls</strong><span class="ds-muted">Lock state stays visible when active and previews unlock on hover.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text ds-utility-toggle" type="button" data-utility-toggle="lock" data-on-label="Unlock controls" data-off-label="Lock controls" aria-label="Lock controls" aria-pressed="false"></button></div></div>
-                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Section Fold</strong><span class="ds-muted">Collapse toggles are low-emphasis until the row becomes active.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="Collapse section" aria-label="Collapse section" aria-pressed="false"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button></div></div>
-                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Overflow Menu</strong><span class="ds-muted">More-actions stays available without dominating the header layout.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="More actions" aria-label="More actions"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg></button></div></div>
+                              <div class="ds-utility-demo-item ds-utility-scope"><div class="ds-utility-demo-copy"><strong>Reference Overlay</strong><span class="ds-muted">Hover this row to show its action.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text ds-utility-toggle" type="button" data-utility-toggle="visibility" data-on-label="Show overlay" data-off-label="Hide overlay" aria-label="Hide overlay" aria-pressed="false"></button></div></div>
+                              <div class="ds-utility-demo-item ds-utility-scope"><div class="ds-utility-demo-copy"><strong>Warp Controls</strong><span class="ds-muted">Prevent accidental edits.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text ds-utility-toggle" type="button" data-utility-toggle="lock" data-on-label="Unlock controls" data-off-label="Lock controls" aria-label="Lock controls" aria-pressed="false"></button></div></div>
+                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Section Fold</strong><span class="ds-muted">Expand or collapse a section.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="Collapse section" aria-label="Collapse section" aria-pressed="false"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button></div></div>
+                              <div class="ds-utility-demo-item"><div class="ds-utility-demo-copy"><strong>Overflow Menu</strong><span class="ds-muted">Additional actions.</span></div><div class="ds-utility-demo-tools"><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-text" type="button" title="More actions" aria-label="More actions"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg></button></div></div>
                             </div>
+                          </section>
+                        </div>
+                      </section>
+                      <section class="custom-demo-group">
+                        <div class="custom-demo-group-head ds-flow-copy">
+                          <h4 class="ds-card-title">Spatial Control Pads</h4>
+                          <p class="ds-muted">
+                            Dense directional widgets for camera and transform control.
+                          </p>
+                        </div>
+                        <div class="custom-demo-group-grid">
+                          <section class="custom-demo ds-card ds-stack">
+                            <div class="ds-toolbar"><strong>Camera Controls Pad</strong><span class="ds-muted mono" id="cameraPadReadout">mode:grid x:0 y:0 z:1.0</span></div>
+                            <div class="camera-pad-shell">
+                              <div class="camera-pad-grid">
+                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="viewGrid" type="button" title="Grid view" aria-label="Grid view">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16v16H4z"></path><path d="M12 4v16M4 12h16"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="up" type="button" title="Pan up" aria-label="Pan up">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 10 5-5 5 5"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="viewColumn" type="button" title="Column view" aria-label="Column view">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16v16H4z"></path><path d="M9 4v16M15 4v16"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="left" type="button" title="Pan left" aria-label="Pan left">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m10 7-5 5 5 5"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-primary" data-cam="home" type="button" title="Home" aria-label="Home">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11.5 12 4l9 7.5"></path><path d="M5.5 10.5V20h13v-9.5"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="right" type="button" title="Pan right" aria-label="Pan right">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m14 7 5 5-5 5"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="viewIso" type="button" title="Iso view" aria-label="Iso view">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"></path><path d="m12 12 8-4.5M12 12 4 7.5M12 12v9"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="down" type="button" title="Pan down" aria-label="Pan down">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 14 5 5 5-5"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="snapFrame" type="button" title="Frame view" aria-label="Frame view">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4H4v3M17 4h3v3M20 17v3h-3M4 17v3h3"></path><path d="M9 9h6v6H9z"></path></svg>
+                                </button>
+                              </div>
+                              <div class="camera-pad-actions">
+                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="zoomIn" type="button" title="Zoom in" aria-label="Zoom in">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="M15.5 15.5 20 20"></path><path d="M10.5 8v5M8 10.5h5"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="zoomOut" type="button" title="Zoom out" aria-label="Zoom out">
+                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="M15.5 15.5 20 20"></path><path d="M8 10.5h5"></path></svg>
+                                </button>
+                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="reset" type="button" title="Reset camera" aria-label="Reset camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 1 0 2.3-5.66"></path><path d="M4 5v4h4"></path></svg></button>
+                              </div>
+                            </div>
+                          </section>
+                          <section class="custom-demo ds-card ds-stack">
+                            <div class="ds-toolbar"><strong>Gizmo Widget</strong><span class="ds-muted mono" id="gizmoReadout">x:0 y:0 z:0 s:1.0</span></div>
+                            <div class="gizmo-layout"><div class="gizmo-shell"><div class="gizmo-grid" aria-label="Directional gizmo"><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="zUp" type="button" title="Move Z up" aria-label="Move Z up"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5"></path><path d="m7 10 5-5 5 5"></path><path d="M5 19h14"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="up" type="button" title="Move up" aria-label="Move up"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 10 5-5 5 5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="scaleUp" type="button" title="Scale up" aria-label="Scale up"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18 18 6"></path><path d="M13 6h5v5"></path><path d="m6 11 5-5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="left" type="button" title="Move left" aria-label="Move left"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m10 7-5 5 5 5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-primary" data-gizmo="center" type="button" title="Center gizmo" aria-label="Center gizmo"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="right" type="button" title="Move right" aria-label="Move right"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m14 7 5 5-5 5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="zDown" type="button" title="Move Z down" aria-label="Move Z down"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 14 5 5 5-5"></path><path d="M5 19h14"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="down" type="button" title="Move down" aria-label="Move down"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 14 5 5 5-5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="scaleDown" type="button" title="Scale down" aria-label="Scale down"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18 18 6"></path><path d="M6 13v5h5"></path><path d="m13 18 5-5"></path></svg></button></div><div class="gizmo-actions"><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="stepFine" type="button" title="Fine step" aria-label="Fine step"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="stepCoarse" type="button" title="Coarse step" aria-label="Coarse step"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="2"></circle><path d="M6 12h3M15 12h3M12 6v3M12 15v3"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="reset" type="button" title="Reset gizmo" aria-label="Reset gizmo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 1 0 2.3-5.66"></path><path d="M4 5v4h4"></path></svg></button></div></div><div class="gizmo-stage" aria-label="3D gizmo model demo"><svg class="gizmo-svg" viewBox="0 0 220 170" role="img" aria-label="3D gizmo axis model"><path class="gizmo-gridline" d="M14 140H206M14 100H206M14 60H206"></path><line id="gizmoAxisX" class="gizmo-axis axis-x" x1="110" y1="130" x2="180" y2="130"></line><line id="gizmoAxisY" class="gizmo-axis axis-y" x1="110" y1="130" x2="110" y2="56"></line><line id="gizmoAxisZ" class="gizmo-axis axis-z" x1="110" y1="130" x2="62" y2="152"></line><g id="gizmoModel" transform="translate(110 100) scale(1)"><polygon class="gizmo-face top" points="0,-28 26,-14 0,0 -26,-14"></polygon><polygon class="gizmo-face right" points="0,0 26,-14 26,14 0,28"></polygon><polygon class="gizmo-face left" points="0,0 -26,-14 -26,14 0,28"></polygon><circle class="gizmo-core" cx="0" cy="0" r="6"></circle></g></svg><div class="gizmo-stage-meta"><span class="ds-muted mono" id="gizmoStepLabel">step:1.0</span></div></div></div>
                           </section>
                         </div>
                       </section>
@@ -1582,63 +1497,6 @@
                           </section>
                         </div>
                       </section>
-                      <section class="custom-demo-group">
-                        <div class="custom-demo-group-head ds-flow-copy">
-                          <h4 class="ds-card-title">Spatial Control Pads</h4>
-                          <p class="ds-muted">
-                            Dense directional widgets for camera and transform control.
-                          </p>
-                        </div>
-                        <div class="custom-demo-group-grid">
-                          <section class="custom-demo ds-card ds-stack">
-                            <div class="ds-toolbar"><strong>Camera Controls Pad</strong><span class="ds-muted mono" id="cameraPadReadout">mode:grid x:0 y:0 z:1.0</span></div>
-                            <div class="camera-pad-shell">
-                              <div class="camera-pad-grid">
-                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="viewGrid" type="button" title="Grid view" aria-label="Grid view">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16v16H4z"></path><path d="M12 4v16M4 12h16"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="up" type="button" title="Pan up" aria-label="Pan up">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 10 5-5 5 5"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="viewColumn" type="button" title="Column view" aria-label="Column view">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16v16H4z"></path><path d="M9 4v16M15 4v16"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="left" type="button" title="Pan left" aria-label="Pan left">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m10 7-5 5 5 5"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-primary" data-cam="home" type="button" title="Home" aria-label="Home">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11.5 12 4l9 7.5"></path><path d="M5.5 10.5V20h13v-9.5"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="right" type="button" title="Pan right" aria-label="Pan right">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m14 7 5 5-5 5"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="viewIso" type="button" title="Iso view" aria-label="Iso view">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"></path><path d="m12 12 8-4.5M12 12 4 7.5M12 12v9"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-cam="down" type="button" title="Pan down" aria-label="Pan down">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 14 5 5 5-5"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="snapFrame" type="button" title="Frame view" aria-label="Frame view">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4H4v3M17 4h3v3M20 17v3h-3M4 17v3h3"></path><path d="M9 9h6v6H9z"></path></svg>
-                                </button>
-                              </div>
-                              <div class="camera-pad-actions">
-                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="zoomIn" type="button" title="Zoom in" aria-label="Zoom in">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="M15.5 15.5 20 20"></path><path d="M10.5 8v5M8 10.5h5"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="zoomOut" type="button" title="Zoom out" aria-label="Zoom out">
-                                  <svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="M15.5 15.5 20 20"></path><path d="M8 10.5h5"></path></svg>
-                                </button>
-                                <button class="ds-btn ds-btn-sm ds-btn-icon" data-cam="reset" type="button" title="Reset camera" aria-label="Reset camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 1 0 2.3-5.66"></path><path d="M4 5v4h4"></path></svg></button>
-                              </div>
-                            </div>
-                          </section>
-                          <section class="custom-demo ds-card ds-stack">
-                            <div class="ds-toolbar"><strong>Gizmo Widget</strong><span class="ds-muted mono" id="gizmoReadout">x:0 y:0 z:0 s:1.0</span></div>
-                            <div class="gizmo-layout"><div class="gizmo-shell"><div class="gizmo-grid" aria-label="Directional gizmo"><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="zUp" type="button" title="Move Z up" aria-label="Move Z up"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5"></path><path d="m7 10 5-5 5 5"></path><path d="M5 19h14"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="up" type="button" title="Move up" aria-label="Move up"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 10 5-5 5 5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="scaleUp" type="button" title="Scale up" aria-label="Scale up"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18 18 6"></path><path d="M13 6h5v5"></path><path d="m6 11 5-5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="left" type="button" title="Move left" aria-label="Move left"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m10 7-5 5 5 5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-btn-primary" data-gizmo="center" type="button" title="Center gizmo" aria-label="Center gizmo"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="right" type="button" title="Move right" aria-label="Move right"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m14 7 5 5-5 5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="zDown" type="button" title="Move Z down" aria-label="Move Z down"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 14 5 5 5-5"></path><path d="M5 19h14"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon ds-arrow-btn" data-gizmo="down" type="button" title="Move down" aria-label="Move down"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m7 14 5 5 5-5"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="scaleDown" type="button" title="Scale down" aria-label="Scale down"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18 18 6"></path><path d="M6 13v5h5"></path><path d="m13 18 5-5"></path></svg></button></div><div class="gizmo-actions"><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="stepFine" type="button" title="Fine step" aria-label="Fine step"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="stepCoarse" type="button" title="Coarse step" aria-label="Coarse step"><svg class="ds-icon-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="2"></circle><path d="M6 12h3M15 12h3M12 6v3M12 15v3"></path></svg></button><button class="ds-btn ds-btn-sm ds-btn-icon" data-gizmo="reset" type="button" title="Reset gizmo" aria-label="Reset gizmo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 1 0 2.3-5.66"></path><path d="M4 5v4h4"></path></svg></button></div></div><div class="gizmo-stage" aria-label="3D gizmo model demo"><svg class="gizmo-svg" viewBox="0 0 220 170" role="img" aria-label="3D gizmo axis model"><path class="gizmo-gridline" d="M14 140H206M14 100H206M14 60H206"></path><line id="gizmoAxisX" class="gizmo-axis axis-x" x1="110" y1="130" x2="180" y2="130"></line><line id="gizmoAxisY" class="gizmo-axis axis-y" x1="110" y1="130" x2="110" y2="56"></line><line id="gizmoAxisZ" class="gizmo-axis axis-z" x1="110" y1="130" x2="62" y2="152"></line><g id="gizmoModel" transform="translate(110 100) scale(1)"><polygon class="gizmo-face top" points="0,-28 26,-14 0,0 -26,-14"></polygon><polygon class="gizmo-face right" points="0,0 26,-14 26,14 0,28"></polygon><polygon class="gizmo-face left" points="0,0 -26,-14 -26,14 0,28"></polygon><circle class="gizmo-core" cx="0" cy="0" r="6"></circle></g></svg><div class="gizmo-stage-meta"><span class="ds-muted mono" id="gizmoStepLabel">step:1.0</span></div></div></div>
-                          </section>
-                        </div>
-                      </section>
                     </div>
                   </article>
                   <article
@@ -1782,7 +1640,7 @@
                     </article>
                   </article>
                   <article
-                    class="ds-card ds-stack component-block component-block-wide"
+                    class="ds-card ds-stack component-block"
                     data-component-groups="Navigation,Feedback"
                   >
                     <h3 class="ds-card-title">

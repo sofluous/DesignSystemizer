@@ -93,9 +93,9 @@ The current modular builder stack is:
 ### Responsibility Split
 - `Color Family`: semantic palette math, contrast model, and light/dark behavior.
 - `Hue`: base hue anchor for generated semantic tokens.
-- `Scheme`: component-color behavior and expressive emphasis logic.
+- `Scheme`: maps semantic palette colors onto components (neutral, accent, inverted, and state treatments). It is distinct from light/dark palette generation; see [the architecture and legacy exceptions](THEME_ARCHITECTURE_DIAGRAM.md).
 - `Style`: geometry, borders, shadows, and interaction language.
-- `Typography`: font voice, type scale, and reading rhythm.
+- `Type` (`typography` in recipes): body and code font stacks, text sizes, and reading rhythm. Use one option per distinct preferred body font; minor size/rhythm and fallback differences belong in explicit property edits. A preferred font needs to be installed or supplied by the consuming app.
 - `Scale`: spacing density and control heights only.
 - `Texture`: optional material/dynamic overlay such as grain, wire, metal, or nacre.
 
@@ -104,12 +104,8 @@ The current modular builder stack is:
 - If a preset hardcodes both palette and geometry, it is too broad and should be split.
 - Typography should not be hidden inside style presets when it can be reused independently.
 
-### Example Recipes
-- `paper-mint` = `paper` + `green` + `mint-ink` + `paper` + `mint-humanist` + `standard` + `paper-grain`
-- `amber-terminal` = `cathode` + `amber` + `amber-glow` + `terminal-amber` + `terminal-glow` + `compact` + `noise-film`
-- `signal-poster` = `signal-paper` + `orange` + `signal-poster` + `graphic-signal` + `poster-grotesk` + `standard` + `clean`
-- `signal-diagram` = `signal-paper` + `orange` + `signal-diagram` + `graphic-diagram` + `poster-grotesk` + `standard` + `clean`
-- `eva-unit-01` = `signal` + `violet` + `eva-unit01` + `eva-unit01` + `eva-digital` + `compact` + `carbon-fiber`
+### Default Recipes
+See the [generated recipe and font catalog](THEME_PRESET_MAP.md), built directly from the implementation. Each default is a seven-module recipe, with no hidden named-theme overrides. Foundation tokens provide properties not authored by a selected module.
 
 ### Modularity Notes
 - `amber-terminal` is no longer intended to be palette-locked. Its CRT identity should come from `amber-glow` + `terminal-amber` + `terminal-glow` + `noise-film`, while component alias tokens continue to derive from semantic tokens.
@@ -125,7 +121,7 @@ The current modular builder stack is:
 - Primary default:
   `--ds-btn-primary-text` must be readable on `--ds-btn-primary-bg`.
 - Primary hover:
-  `--ds-btn-primary-text` must remain readable on `--ds-btn-primary-bg-hover`.
+  `--ds-btn-primary-text-hover` must remain readable on `--ds-btn-primary-bg-hover`.
 - Primary selected:
   Uses `.ds-btn-primary[aria-pressed="true"]` token stack (not generic secondary selected rule).
 - Secondary selected:
@@ -149,3 +145,6 @@ The current modular builder stack is:
 - Style presets should primarily define geometry, borders, and effects; typography and density have their own layers.
 - Style presets should avoid hardcoding core palette tokens (`--ds-bg*`, `--ds-text*`, `--ds-accent*`) unless the style is intentionally palette-locked.
 - `graphic-signal` has been updated to be composable with family/hue/texture presets.
+
+## Quiet tabs and state fidelity (2026-10-31)
+Inactive tabs use muted labels and decorative borders. Labels still require 4.5:1 contrast; inactive borders are not text and must not be forced to white/black by that repair. When a muted label needs correction, move only as far toward readable ink as necessary. Selected tabs retain their stronger border/fill and font weight. Button hover samples use the same CSS rules as actual hover, and neutral hover has an independently repaired foreground token, `--ds-btn-text-hover`.

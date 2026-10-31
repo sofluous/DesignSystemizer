@@ -17,14 +17,20 @@
     const baseThemePresetMap = opts.baseThemePresetMap || {};
     const applyControl = opts.applyControl || function () {};
 
-    function fillPresetSelect(el, dict) {
+    function fillPresetSelect(el, dict, typography) {
       if (!el) return;
       Object.keys(dict).forEach(function (key) {
         const option = doc.createElement("option");
         option.value = key;
-        option.textContent = key;
+        option.textContent = typography ? typographyLabel(dict[key]) : key;
+        if (typography) option.title = "Body: " + dict[key]["--ds-font-sans"] + "; Code: " + dict[key]["--ds-font-mono"];
         el.appendChild(option);
       });
+    }
+
+    function typographyLabel(preset) {
+      const font = preset["--ds-font-sans"].split(",")[0].trim().replace(/^['"]|['"]$/g, "");
+      return font;
     }
 
     function inferTexturePreset(styleKey) {
@@ -59,14 +65,14 @@
         "base-default": "neutral-ui",
         terminal: "terminal-glow",
         "terminal-amber": "terminal-glow",
-        technical: "technical-mono",
-        paper: "mint-humanist",
-        skeuo: "mint-humanist",
+        technical: "terminal-glow",
+        paper: "neutral-ui",
+        skeuo: "neutral-ui",
         glassmorph: "neutral-ui",
         material: "neutral-ui",
-        neumorph: "soft-display",
-        "eva-wire": "eva-wire-sans",
-        "eva-unit01": "eva-unit-sans",
+        neumorph: "precision-ui",
+        "eva-wire": "eva-digital",
+        "eva-unit01": "eva-unit-display",
         "saturn-skeuo": "saturn-euro",
         "old-web": "portal-ui",
         "graphic-signal": "poster-grotesk",
@@ -502,7 +508,7 @@
     fillPresetSelect(huePresetSelect, huePresets);
     fillPresetSelect(schemePresetSelect, schemePresets);
     fillPresetSelect(stylePresetSelect, stylePresets);
-    fillPresetSelect(typographyPresetSelect, typographyPresets);
+    fillPresetSelect(typographyPresetSelect, typographyPresets, true);
     fillPresetSelect(scalePresetSelect, scalePresets);
     fillPresetSelect(texturePresetSelect, texturePresets);
 

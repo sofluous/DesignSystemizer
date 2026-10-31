@@ -407,8 +407,36 @@
     }
     const editStatus = doc.getElementById("themeEditStatus");
     const undoButton = doc.getElementById("undoThemeEditBtn");
+    const schemeColorNotice = doc.createElement("div");
+    schemeColorNotice.id = "schemeColorNotice";
+    schemeColorNotice.hidden = true;
+    const schemeColorMessage = doc.createElement("p");
+    schemeColorMessage.className = "ds-muted";
+    schemeColorMessage.textContent = "Saved button or tab colors override the current theme.";
+    const restoreSchemeColors = doc.createElement("button");
+    restoreSchemeColors.id = "restoreSchemeColorsBtn";
+    restoreSchemeColors.type = "button";
+    restoreSchemeColors.className = "ds-btn ds-btn-sm";
+    restoreSchemeColors.textContent = "Use current colors";
+    restoreSchemeColors.title = "Restore primary/secondary button and tab colors. Keep other edits. Undo is available.";
+    schemeColorNotice.append(schemeColorMessage, restoreSchemeColors);
+    if (editStatus) editStatus.before(schemeColorNotice);
+    const isSchemeColor = (token) => /^--ds-(?:btn(?:-primary)?-(?:bg(?:-hover)?|border|text(?:-hover|-selected)?)|tab-(?:bg|fg|border|active-(?:bg|fg|border|icon)))$/.test(token);
+    restoreSchemeColors.addEventListener("click", () => {
+      const overrides = Object.fromEntries(Object.entries(session.overrides).filter(([token]) => !isSchemeColor(token)));
+      session.select(session.recipe, overrides);
+      syncControlsFromComputed();
+      // The action disappears when applied; leave keyboard focus on its Undo action.
+      if (undoButton) undoButton.focus();
+    });
     function updateEditStatus() {
-      const count = Object.keys(session.overrides).length;
+      const overrides = session.overrides;
+      const buttonEdits = Object.keys(overrides).filter(isSchemeColor);
+      if (buttonEdits.length) {
+        const defaults = session.validate({ recipe: session.recipe, overrides: {} });
+        schemeColorNotice.hidden = !buttonEdits.some((token) => overrides[token] !== defaults[token]);
+      } else schemeColorNotice.hidden = true;
+      const count = Object.keys(overrides).length;
       const issues = win.DesignSystemThemeContrast.audit(session.tokens).filter((item) => item.ratio === null || item.ratio < 4.5);
       if (editStatus) editStatus.textContent = count + " manual override(s). " +
         (issues.length ? issues.length + " contrast pair(s) need review: " + issues.map((p) => p.fg).join(", ") : "Checked control contrast pairs pass.") +

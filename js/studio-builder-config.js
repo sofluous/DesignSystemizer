@@ -200,6 +200,7 @@
               { token: "--ds-btn-bg-hover", type: "paint" },
               { token: "--ds-btn-border", type: "color" },
               { token: "--ds-btn-text", type: "color" },
+              { token: "--ds-btn-text-hover", type: "color" },
               { token: "--ds-btn-primary-bg", type: "paint" },
               { token: "--ds-btn-primary-bg-hover", type: "paint" },
               { token: "--ds-btn-primary-border", type: "color" },

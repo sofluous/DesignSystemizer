@@ -118,7 +118,7 @@
   justify-content: stretch;
   gap: 6px;
   padding: 2px;
-  margin: -2px;
+  margin: 0;
 }
 
 .studio-context-panel[data-context-panel="components"] .component-stage-link {

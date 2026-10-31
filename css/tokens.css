@@ -177,6 +177,7 @@
   --ds-btn-bg: var(--ds-bg-raised);
   --ds-btn-border: var(--ds-border);
   --ds-btn-text: var(--ds-text);
+  --ds-btn-text-hover: var(--ds-btn-text);
   --ds-btn-bg-hover: color-mix(in oklab, var(--ds-bg-raised), white 6%);
   --ds-btn-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
   --ds-btn-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.08) inset;
@@ -207,8 +208,8 @@
   --ds-btn-primary-shadow-compact-hover: 0 1px 0 rgba(255, 255, 255, 0.1) inset,
     0 5px 10px color-mix(in oklab, var(--ds-accent) 17%, transparent);
   --ds-tab-bg: var(--ds-bg-raised);
-  --ds-tab-fg: var(--ds-text);
-  --ds-tab-border: var(--ds-border-strong);
+  --ds-tab-fg: var(--ds-text-muted);
+  --ds-tab-border: color-mix(in oklab, var(--ds-border) 55%, var(--ds-tab-bg));
   --ds-tab-active-fg: var(--ds-accent);
   --ds-tab-active-bg: color-mix(
     in oklab,
@@ -238,17 +239,9 @@
   --ds-btn-text-quiet-active: var(--ds-accent);
   --ds-btn-disabled-bg: color-mix(in oklab, var(--ds-bg-raised) 72%, var(--ds-bg) 28%);
   --ds-btn-disabled-border: color-mix(in oklab, var(--ds-btn-border) 72%, var(--ds-border) 28%);
-  --ds-btn-disabled-text: color-mix(in oklab, var(--ds-btn-text) 70%, var(--ds-text-muted) 30%);
-  --ds-btn-primary-disabled-bg: color-mix(
-    in oklab,
-    var(--ds-accent) 64%,
-    var(--ds-bg-raised) 36%
-  );
-  --ds-btn-primary-disabled-border: color-mix(
-    in oklab,
-    var(--ds-btn-primary-border) 68%,
-    var(--ds-border) 32%
-  );
+  --ds-btn-disabled-text: color-mix(in oklab, var(--ds-text) 50%, var(--ds-btn-disabled-bg) 50%);
+  --ds-btn-primary-disabled-bg: color-mix(in oklab, var(--ds-accent) 22%, var(--ds-btn-disabled-bg) 78%);
+  --ds-btn-primary-disabled-border: color-mix(in oklab, var(--ds-accent) 24%, var(--ds-btn-disabled-border) 76%);
   --ds-btn-primary-disabled-text: var(--ds-btn-disabled-text);
   --ds-btn-danger-bg: color-mix(in oklab, var(--ds-danger) 20%, var(--ds-bg-raised));
   --ds-btn-danger-bg-hover: color-mix(in oklab, var(--ds-danger) 28%, var(--ds-bg-raised));
@@ -264,11 +257,7 @@
     var(--ds-accent) 12%,
     transparent
   );
-  --ds-icon-action-active-bg: color-mix(
-    in oklab,
-    var(--ds-accent) 18%,
-    transparent
-  );
+  --ds-icon-action-active-bg: transparent;
   --ds-icon-action-border: transparent;
   --ds-icon-action-border-hover: color-mix(
     in oklab,
@@ -344,8 +333,8 @@
   --ds-range-track-bg: var(--ds-bg-soft);
   --ds-range-track-border: var(--ds-border);
   --ds-range-thumb-size: 16px;
-  --ds-range-thumb-bg: var(--ds-btn-bg);
-  --ds-range-thumb-border: var(--ds-btn-border);
+  --ds-range-thumb-bg: var(--ds-text);
+  --ds-range-thumb-border: var(--ds-text);
   --ds-range-thumb-shadow: var(--ds-btn-shadow);
 
   --ds-spin-bg: var(--ds-bg-soft);

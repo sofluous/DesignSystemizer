@@ -32,10 +32,12 @@ Use this as source-of-truth guidance when implementation choices differ between 
 
 ### 3) Preset Composition
 - Family/Hue define color intent.
-- Style defines geometry, typography, and material behavior.
+- Scheme maps semantic colors to component treatments; legacy palette exceptions are documented in [Theme Architecture](THEME_ARCHITECTURE_DIAGRAM.md).
+- Style defines geometry, borders, shadows, and interaction treatment.
+- Type defines body/code font stacks, text sizes, and reading rhythm.
 - Scale defines spacing/sizing.
 - Texture defines surface dynamics.
-- If a base theme needs a fixed branded look, apply base-theme visual overrides only when preset selections match its default combo.
+- Every default is a complete seven-module recipe. Do not add conditional overrides keyed to its theme name. Explicit user edits apply after composition and survive module changes.
 
 ### 4) Interaction Containers
 - Sidebar: persistent cross-view navigation or always-available controls.

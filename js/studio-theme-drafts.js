@@ -14,7 +14,7 @@
     if (!isRecord(value.layers) || !layers.every((key) => typeof value.layers[key] === "string")) throw new Error("The recipe must contain all seven layers.");
     const themeName = value.themeName === undefined ? value.baseTheme : value.themeName;
     if (typeof themeName !== "string" || !/^[a-z0-9_-]{1,120}$/i.test(themeName)) throw new Error("Invalid theme name.");
-    const recipe = Object.fromEntries(layers.map((key) => [key, value.layers[key]]));
+    const recipe = session.normalizeRecipe(Object.fromEntries(layers.map((key) => [key, value.layers[key]])));
     const overrides = value.overrides;
     if (!isRecord(overrides)) throw new Error("Invalid overrides");
     // Reconcile the saved snapshot before resolving references: preset changes can

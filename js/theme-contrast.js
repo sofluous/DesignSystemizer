@@ -109,7 +109,6 @@
   }
   const pairs = [
     ["--ds-tab-fg", "--ds-tab-bg"],
-    ["--ds-tab-border", "--ds-tab-bg"],
     ["--ds-tab-active-border", "--ds-tab-active-bg"],
     ["--ds-chip-text", "--ds-chip-bg"],
     ["--ds-chip-accent-text", "--ds-chip-accent-bg"],
@@ -125,6 +124,7 @@
     ["--ds-input-text", "--ds-input-bg"],
     ["--ds-input-readonly-text", "--ds-input-readonly-bg"],
     ["--ds-btn-text", "--ds-btn-bg"],
+    ["--ds-btn-text-hover", "--ds-btn-bg-hover"],
     ["--ds-btn-tertiary-text", "--ds-btn-tertiary-bg"],
   ];
   function audit(tokens) {
@@ -150,6 +150,18 @@
       choices.sort((a,b) => b.score-a.score);
       const before = { foreground: tokens[fg], background: tokens[bg] };
       tokens[fg] = choices[0].value;
+      // Inactive tab labels need readable, quiet ink rather than an extreme white/black jump.
+      if (fg === "--ds-tab-fg" && choices[0].score >= 4.5) {
+        let low = 0, high = 100;
+        const mixed = (amount) => "color-mix(in oklab, " + before.foreground + " " + (100 - amount).toFixed(3) + "%, " + choices[0].value + ")";
+        for (let i = 0; i < 10; i++) {
+          const middle = (low + high) / 2;
+          const candidate = color(resolve(mixed(middle), tokens));
+          if (Math.min(...backgrounds.map((b) => ratio(candidate, b))) >= 4.5) high = middle;
+          else low = middle;
+        }
+        tokens[fg] = mixed(high);
+      }
       // A gradient spanning dark and light cannot support one readable label color.
       if (choices[0].score < 4.5) tokens[bg] = choices[0].value === "#000000" ? "#ffffff" : "#000000";
       fixes.push({ fg, bg, before, after: { foreground: tokens[fg], background: tokens[bg] },

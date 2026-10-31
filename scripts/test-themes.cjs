@@ -8,8 +8,46 @@ context.window.DesignSystemThemeFoundations = defaults;
 const api = context.window.DesignSystemThemeComposer;
 const contrast = context.window.DesignSystemThemeContrast;
 const plain = (value) => JSON.parse(JSON.stringify(value));
+// Type must declare its font identity independently of every other recipe module.
+const typeOptions = [];
+context.document.createElement = () => ({});
+context.window.DesignSystemStudioBuilderPresets.initBuilderPresets({
+  ...data, typographyPresetSelect: { appendChild: (option) => typeOptions.push(option) }
+});
+for (const [id, preset] of Object.entries(data.typographyPresets)) {
+  for (const key of ['--ds-font-sans', '--ds-font-mono']) assert.ok(preset[key], id + ' declares ' + key);
+  const option = typeOptions.find((entry) => entry.value === id);
+  const preferred = preset['--ds-font-sans'].split(',')[0].trim().replace(/^['"]|['"]$/g, '');
+  assert.equal(option.textContent, preferred, id + ' has a concise font label');
+  assert.ok(option.title.includes(preset['--ds-font-mono']), id + ' exposes code stack');
+}
+assert.equal(typeOptions.length, 12, 'catalog retains twelve distinct font choices');
+assert.equal(new Set(typeOptions.map((option) => option.textContent)).size, typeOptions.length, 'no repeated primary font choices');
+const typeKeys = ['--ds-font-sans', '--ds-font-mono', '--ds-fs-1', '--ds-fs-2', '--ds-fs-3', '--ds-fs-4', '--ds-fs-5', '--ds-lh-base'];
+for (const [id, preset] of Object.entries(data.typographyPresets)) {
+  for (const key of typeKeys) assert.ok(preset[key], id + ' owns complete Type property ' + key);
+}
+for (const [oldId, target] of Object.entries(data.typographyAliases)) {
+  assert.ok(Object.hasOwn(data.typographyPresets, target), oldId + ' resolves directly to a current option');
+  assert.ok(!typeOptions.some((option) => option.value === oldId), oldId + ' is not selectable');
+}
+for (const domain of ['schemePresets', 'stylePresets', 'scalePresets', 'texturePresets']) {
+  for (const [id, preset] of Object.entries(data[domain])) {
+    assert.ok(!Object.keys(preset).some((key) => key.startsWith('--ds-font-')), domain + '/' + id + ' does not override Type fonts');
+  }
+}
+// Both Signal schemes use accent primaries and ink secondaries in every state.
+const signalPoster = composer.compose(data.baseThemePresetMap['signal-poster']).tokens;
+const signalDiagram = composer.compose(data.baseThemePresetMap['signal-diagram']).tokens;
+for (const token of Object.keys(signalPoster).filter((key) => /^--ds-btn(?:-primary)?-(?:bg(?:-hover)?|text(?:-hover|-selected)?|border)$/.test(key))) {
+  assert.equal(signalDiagram[token], signalPoster[token], 'Signal button hierarchy: ' + token);
+}
+assert.ok(signalDiagram['--ds-btn-primary-bg'].includes('var(--ds-accent)'), 'Signal Diagram primary uses accent');
+assert.equal(signalDiagram['--ds-btn-bg'], 'var(--ds-text)', 'Signal Diagram secondary uses ink');
+assert.ok(!contrast.audit(composer.compose(data.baseThemePresetMap['steel-night']).tokens).some((pair) => pair.fg === '--ds-tab-border'), 'decorative inactive tab border is not a text contrast pair');
 let combinations = 0;
 for (const [id, recipe] of Object.entries(data.baseThemePresetMap)) {
+  assert.ok(Object.hasOwn(data.typographyPresets, recipe.typography), id + " uses a current Type option");
   const original = composer.compose(recipe).tokens;
   assert.deepEqual(plain(original), plain(composer.compose(recipe).tokens), id + ' deterministic');
   for (const [key, value] of Object.entries(original)) contrast.resolve(value, original, [key]);
@@ -40,6 +78,18 @@ for (const [id, recipe] of Object.entries(data.baseThemePresetMap)) {
   }
 }
 const recipe = data.baseThemePresetMap['steel-night'];
+for (const [oldId, target] of Object.entries(data.typographyAliases)) {
+  const legacyRecipe = { ...recipe, typography: oldId };
+  const normalized = composer.normalizeRecipe(legacyRecipe);
+  assert.equal(legacyRecipe.typography, oldId, 'normalizing does not mutate the caller');
+  assert.equal(normalized.typography, target);
+  assert.deepEqual(plain(composer.normalizeRecipe(normalized)), plain(normalized), 'normalization is idempotent');
+  assert.deepEqual(plain(composer.compose(legacyRecipe).tokens), plain(composer.compose(normalized).tokens), oldId + ' composes current values');
+  const mappedSession = api.createSession(composer);
+  mappedSession.load({ recipe: legacyRecipe, overrides: {} });
+  assert.equal(mappedSession.recipe.typography, target, 'session exposes canonical IDs');
+}
+
 const session = api.createSession(composer);
 session.load({ recipe, overrides: {} });
 const exact = '0 2px 4px rgba(0,0,0,0.25), inset 0 0 0 1px #ffffff80';

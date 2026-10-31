@@ -5,6 +5,7 @@ const os = require('node:os');
 const http = require('node:http');
 const { spawn } = require('node:child_process');
 const root = path.resolve(__dirname, '..');
+const evidenceDirectory = path.resolve(process.env.DS_EVIDENCE_DIR || path.join(root, '../_docs/data/browser'));
 const browser = process.env.DS_BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 
 async function main() {
@@ -66,6 +67,21 @@ async function main() {
       await new Promise((resolve) => setTimeout(resolve,100));
     }
     assert.deepEqual(errors, [], 'No runtime exceptions on boot');
+    if (process.argv.includes('--component-layout')) {
+      await require('./test-component-layout-browser.cjs').testComponentLayout({ evaluate, send, session, root });
+      assert.deepEqual(errors, [], 'No runtime exceptions during component layout checks');
+      return;
+    }
+    if (process.argv.includes('--states')) {
+      await require('./test-state-matrix-browser.cjs').testStateMatrix({ evaluate, send, session, root });
+      assert.deepEqual(errors, [], 'No runtime exceptions during state matrix checks');
+      return;
+    }
+    if (process.argv.includes('--controls')) {
+      await require('./test-controls-browser.cjs').testControls({ evaluate, send, session, root });
+      assert.deepEqual(errors, [], 'No runtime exceptions during control checks');
+      return;
+    }
     if (fixture) {
       await require('./test-icons-browser.cjs').testConnected({ evaluate, send, session, root, url });
       assert.deepEqual(errors, [], 'No runtime exceptions during connected save');
@@ -216,7 +232,13 @@ async function main() {
       check(session.tokens['--ds-font-sans'] === rr4Sans, 'Undo restores RR4 font stack');
       choose('steel-night');
       const typographySelector = document.getElementById('typographyPresetSelect');
+      check(typographySelector.options.length === 12, 'Only consolidated Type choices are listed');
+      check(new Set([...typographySelector.options].map((option) => option.textContent)).size === 12, 'Type choices have distinct font identities');
       for (const option of typographySelector.options) {
+        const typePreset = DesignSystemStudioBuilderThemeData.initBuilderThemeData().typographyPresets[option.value];
+        const preferredFont = typePreset['--ds-font-sans'].split(',')[0].trim().replace(/^['"]|['"]$/g, '');
+        check(option.textContent === preferredFont, option.value + ': concise font Type label');
+        check(option.title.includes(typePreset['--ds-font-mono']), option.value + ': font stacks available');
         typographySelector.value = option.value;
         typographySelector.dispatchEvent(new Event('change'));
         for (const token of ['--ds-font-sans', '--ds-font-mono']) {
@@ -308,7 +330,16 @@ async function main() {
       delete invalidCss.tokens;
       await importText(JSON.stringify(invalidCss));
       check(JSON.stringify(session.snapshot()) === before && document.getElementById('themeImportStatus').textContent.includes('Invalid color'), 'Import uses editor CSS validation');
-      const compatible = { ...portable, themeName: 'reopened-material', tokens: { ...portable.tokens, '--ds-radius-2': '17px' } };
+      const legacyType = { ...portable, layers: { ...portable.layers, typography: 'display-scale' },
+        overrides: { ...portable.overrides, '--ds-font-sans': '"Inter", "Segoe UI", Roboto, Arial, sans-serif', '--ds-fs-5': '30px' },
+        tokens: { ...portable.tokens, '--ds-font-sans': '"Inter", "Segoe UI", Roboto, Arial, sans-serif', '--ds-fs-5': '30px' } };
+      await importText(JSON.stringify(legacyType));
+      check(session.recipe.typography === 'precision-ui', 'Retired Type imports as Inter');
+      check(document.getElementById('typographyPresetSelect').value === 'precision-ui', 'Migrated Type has a visible selected option');
+      check(session.tokens['--ds-fs-5'] === '30px', 'Legacy typography edits are retained');
+      document.getElementById('undoThemeEditBtn').click();
+      check(JSON.stringify(session.snapshot()) === before, 'Type migration is undoable');
+      const compatible = { ...legacyType, themeName: 'reopened-material', tokens: { ...legacyType.tokens, '--ds-radius-2': '17px' } };
       await importText(JSON.stringify(compatible));
       check(session.tokens['--ds-radius-2'] === '17px', 'Older appearance restored through compatibility override');
       check(document.getElementById('themeNameInput').value === 'reopened-material', 'Imported name restored');
@@ -361,6 +392,8 @@ async function main() {
     assert.equal(restoredDrafts.paperName, 'paper-draft');
     assert.equal(restoredDrafts.failedSafely, true, 'Storage failure is visible and preserves saved draft');
     assert.deepEqual(errors, [], 'Persistence/import produce no runtime exceptions');
+    await require('./test-scheme-recovery-browser.cjs').testSchemeRecovery({ evaluate, send, session, url });
+    assert.deepEqual(errors, [], 'Saved scheme recovery produces no runtime exceptions');
     await evaluate(`(() => {
       const select = document.getElementById('themeSelect');
       select.value = 'holo-nocturne'; select.dispatchEvent(new Event('change'));
@@ -384,7 +417,8 @@ async function main() {
     })()`);
     assert.ok(toolbarDesktop.height <= 64 && toolbarDesktop.aligned, 'Wide toolbar occupies one aligned compact row: ' + JSON.stringify(toolbarDesktop));
     const builderScreenshot = await send('Page.captureScreenshot', { format: 'png' }, session);
-    fs.writeFileSync(path.join(root,'_docs/data/builder-quick-edit-verification.png'), Buffer.from(builderScreenshot.data,'base64'));
+    fs.mkdirSync(evidenceDirectory, { recursive: true });
+    fs.writeFileSync(path.join(evidenceDirectory,'builder-quick-edit-verification.png'), Buffer.from(builderScreenshot.data,'base64'));
     await send('Emulation.setDeviceMetricsOverride', { width: 1200, height: 900, deviceScaleFactor: 1, mobile: false }, session);
     const mediumToolbar = await evaluate(`(async () => {
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
@@ -417,7 +451,7 @@ async function main() {
     assert.equal(mobile.previewVisible, true, 'Small-screen preview mode is reachable');
     assert.equal(mobile.noOverflow, true, 'Small-screen shell has no horizontal overflow');
     const mobileScreenshot = await send('Page.captureScreenshot', { format: 'png' }, session);
-    fs.writeFileSync(path.join(root,'_docs/data/builder-mobile-preview-verification.png'), Buffer.from(mobileScreenshot.data,'base64'));
+    fs.writeFileSync(path.join(evidenceDirectory,'builder-mobile-preview-verification.png'), Buffer.from(mobileScreenshot.data,'base64'));
     await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false }, session);
     await evaluate(`(async () => {
       document.body.innerHTML = '';
@@ -434,7 +468,7 @@ async function main() {
       }
     })()`);
     const screenshot = await send('Page.captureScreenshot', { format: 'png' }, session);
-    fs.writeFileSync(path.join(root,'_docs/data/theme-palette-verification.png'), Buffer.from(screenshot.data,'base64'));
+    fs.writeFileSync(path.join(evidenceDirectory,'theme-palette-verification.png'), Buffer.from(screenshot.data,'base64'));
     console.log(JSON.stringify(result,null,2));
     console.log('Browser passed: 21 defaults and custom export match fresh package; edit preservation, drafts, pending selection, selected-tab paint, recipe import/Undo, two-draft reload, and quota failure.');
   } finally {

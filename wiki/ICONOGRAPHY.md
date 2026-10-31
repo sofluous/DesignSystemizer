@@ -37,7 +37,9 @@ Create a coherent in-house icon library with consistent visual grammar and usage
 - Behavior rules:
   - active state remains visible at rest
   - inactive state may stay hidden until row/header hover to reduce clutter
-  - hover may preview the next action state when that improves clarity
+  - the glyph always represents the current state, including on hover/focus; the title describes the next action
+  - persistent lock/visibility states do not fill the button container; use glyph shape and visibility, stable toggle labels and aria-pressed
+  - preserve keyboard focus after toggling; reveal inactive actions on row hover/focus and on non-hover devices
 - Geometry rules:
   - square or softly rounded-square icon actions are the baseline
   - circular utility buttons are exception-only

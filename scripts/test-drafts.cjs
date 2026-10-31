@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const { loadModel } = require('./build-themes.cjs');
-const { context, composer, data } = loadModel();
+const { context, composer, data, defaults } = loadModel();
 vm.runInContext(fs.readFileSync(path.join(__dirname, '../js/studio-theme-drafts.js'), 'utf8'), context);
 const api = context.window.DesignSystemStudioThemeDrafts;
 const session = context.window.DesignSystemThemeComposer.createSession(composer);
@@ -23,6 +23,42 @@ const oldSession = context.window.DesignSystemThemeComposer.createSession(compos
 oldSession.load({ recipe, overrides: { '--ds-accent': 'var(--ds-text)' } });
 const migratedCycle = api.decodeRecipe({ ...exported, layers: { ...recipe, scheme: 'eva-wire-alert' }, overrides: oldSession.overrides, tokens: oldSession.tokens }, session);
 assert.equal(session.validate(migratedCycle.state)['--ds-text'], oldSession.tokens['--ds-text'], 'saved snapshot reconciles a reference cycle introduced by changed presets');
+// Frozen pre-consolidation definitions exercise real old font/scale combinations.
+const legacyType = require('./fixtures/legacy-typography.json');
+const legacyData = { ...data, typographyPresets: { ...data.typographyPresets, ...legacyType }, typographyAliases: {} };
+const presetUtils = context.window.DesignSystemStudioBuilderPresets.initBuilderPresets(legacyData);
+const legacyComposer = context.window.DesignSystemThemeComposer.createComposer(legacyData,
+  defaults, presetUtils.buildColorBundle);
+assert.deepEqual(Object.keys(legacyType).sort(), Object.keys(data.typographyAliases).sort(), 'every retired Type has migration coverage');
+for (const [oldId, target] of Object.entries(data.typographyAliases)) {
+  const legacySession = context.window.DesignSystemThemeComposer.createSession(legacyComposer);
+  const oldRecipe = { ...recipe, typography: oldId };
+  const edits = { '--ds-card-shadow': '0 0 9px #123456', '--ds-font-mono': '"My Code Face", monospace' };
+  legacySession.load({ recipe: oldRecipe, overrides: edits });
+  const oldExport = { ...exported, layers: oldRecipe, overrides: edits, tokens: legacySession.tokens };
+  const oldSource = JSON.stringify(oldExport);
+  const migrated = api.decodeRecipe(oldExport, session);
+  assert.equal(migrated.state.recipe.typography, target, oldId + ' becomes a current selection');
+  assert.deepEqual(JSON.parse(JSON.stringify(session.validate(migrated.state))), JSON.parse(JSON.stringify(oldExport.tokens)), oldId + ' retains exact saved appearance');
+  assert.equal(JSON.stringify(oldExport), oldSource, oldId + ' import leaves source untouched');
+  assert.equal(migrated.state.overrides['--ds-card-shadow'], edits['--ds-card-shadow'], oldId + ' preserves edits');
+  const reopened = context.window.DesignSystemThemeComposer.createSession(composer);
+  reopened.load(migrated.state);
+  reopened.select({ ...reopened.recipe, typography: 'rr4-arcade' });
+  assert.equal(reopened.overrides['--ds-font-mono'], edits['--ds-font-mono'], oldId + ' preserves edits on module changes');
+  reopened.undo();
+  assert.equal(reopened.recipe.typography, target, oldId + ' undo retains canonical selection');
+  reopened.reset();
+  assert.equal(Object.keys(reopened.overrides).length, 0, oldId + ' reset adopts consolidated Type');
+  const withoutSnapshot = { ...oldExport }; delete withoutSnapshot.tokens;
+  const mapped = api.decodeRecipe(withoutSnapshot, session);
+  assert.equal(mapped.state.recipe.typography, target, oldId + ' maps without a saved snapshot');
+  assert.deepEqual(JSON.parse(JSON.stringify(mapped.state.overrides)), edits, oldId + ' snapshotless mapping keeps only explicit edits');
+  assert.equal(JSON.stringify(session.snapshot()), before, oldId + ' decode is transactional');
+}
+for (const typography of ['missing-type', 'constructor', '__proto__']) {
+  assert.throws(() => api.decodeRecipe({ ...exported, layers: { ...recipe, typography } }, session), /Unknown typography/);
+}
 for (const invalid of [
   { ...exported, schemaVersion: 2 },
   { ...exported, generator: { contractVersion: 2 } },
@@ -73,4 +109,4 @@ for (const damaged of ['{broken', '{"format":"design-system-studio-drafts","vers
 const denied = api.createStore(() => { throw new Error('Storage denied'); });
 assert.throws(() => denied.load(), /denied/);
 assert.throws(() => denied.save('steel-night', exported), /paused/);
-console.log('Passed: recipe compatibility, transactional import validation, prototype keys, snapshot drift, draft round trip, storage failures, cross-tab conflicts, and corrupt/future storage preservation.');
+console.log('Passed: all 14 retired Type migrations, recipe compatibility, transactional import validation, prototype keys, snapshot drift, draft round trip, storage failures, cross-tab conflicts, and corrupt/future storage preservation.');

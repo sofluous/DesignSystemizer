@@ -367,7 +367,7 @@
 
     function syncInspectorControls() {
       inspectorToggleBtn.setAttribute("aria-pressed", String(state.enabled));
-      inspectorToggleBtn.textContent = state.enabled ? "Inspect On" : "Inspect Off";
+      inspectorToggleBtn.textContent = "Inspect";
       inspectorToggleBtn.title = state.enabled
         ? "Hover inspector enabled"
         : "Hover inspector disabled";
@@ -376,9 +376,9 @@
         inspectorDockToggleBtn.disabled = !state.enabled;
         inspectorDockToggleBtn.setAttribute(
           "aria-pressed",
-          String(state.docked),
+          String(state.enabled && state.docked),
         );
-        inspectorDockToggleBtn.textContent = state.docked ? "Dock On" : "Dock Off";
+        inspectorDockToggleBtn.textContent = "Dock";
       }
       if (inspectorFollowBtn) {
         inspectorFollowBtn.setAttribute(
@@ -457,6 +457,7 @@
     function toggleInspector(enabled) {
       state.enabled = !!enabled;
       if (!state.enabled) {
+        state.docked = false;
         state.hoverTarget = null;
         state.pinnedTarget = null;
         state.activeTarget = null;

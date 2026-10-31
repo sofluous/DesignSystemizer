@@ -1,0 +1,107 @@
+{
+  "mint-humanist": {
+    "--ds-font-sans": "\"Aptos\", \"Segoe UI\", \"Helvetica Neue\", Arial, sans-serif",
+    "--ds-font-mono": "\"SFMono-Regular\", Menlo, Consolas, \"Liberation Mono\", monospace",
+    "--ds-lh-base": "1.52"
+  },
+  "technical-sans": {
+    "--ds-font-mono": "\"Space Mono\", Consolas, \"Courier New\", monospace",
+    "--ds-font-sans": "\"Space Mono\", Consolas, \"Courier New\", monospace"
+  },
+  "technical-mono": {
+    "--ds-font-sans": "\"Space Mono\", Consolas, \"Courier New\", monospace",
+    "--ds-font-mono": "\"Space Mono\", Consolas, \"Courier New\", monospace",
+    "--ds-fs-1": "11px",
+    "--ds-fs-2": "13px",
+    "--ds-fs-3": "15px",
+    "--ds-fs-4": "18px",
+    "--ds-fs-5": "24px",
+    "--ds-lh-base": "1.42"
+  },
+  "velvet-sans": {
+    "--ds-font-mono": "\"Space Mono\", Consolas, \"Courier New\", monospace",
+    "--ds-font-sans": "\"Inter\", \"Segoe UI\", Roboto, Arial, sans-serif"
+  },
+  "display-scale": {
+    "--ds-font-mono": "\"Space Mono\", Consolas, \"Courier New\", monospace",
+    "--ds-font-sans": "\"Inter\", \"Segoe UI\", Roboto, Arial, sans-serif",
+    "--ds-fs-1": "11px",
+    "--ds-fs-2": "13px",
+    "--ds-fs-3": "16px",
+    "--ds-fs-4": "22px",
+    "--ds-fs-5": "30px",
+    "--ds-lh-base": "1.38"
+  },
+  "oilslick-scale": {
+    "--ds-font-mono": "\"Space Mono\", Consolas, \"Courier New\", monospace",
+    "--ds-font-sans": "\"Inter\", \"Segoe UI\", Roboto, Arial, sans-serif",
+    "--ds-fs-1": "12px",
+    "--ds-fs-2": "14px",
+    "--ds-fs-3": "17px",
+    "--ds-fs-4": "24px",
+    "--ds-fs-5": "34px",
+    "--ds-lh-base": "1.42"
+  },
+  "eva-wire-sans": {
+    "--ds-font-mono": "\"Space Mono\", Consolas, \"Courier New\", monospace",
+    "--ds-font-sans": "\"OCR A Std\", \"Eurostile\", \"Bank Gothic\", \"Bahnschrift\", \"Space Mono\", monospace"
+  },
+  "eva-unit-sans": {
+    "--ds-font-mono": "\"Space Mono\", Consolas, \"Courier New\", monospace",
+    "--ds-font-sans": "\"Arial Narrow\", \"Bahnschrift\", \"Space Mono\", \"Segoe UI\", sans-serif"
+  },
+  "soft-display": {
+    "--ds-font-sans": "\"Inter\", \"Segoe UI\", Roboto, Arial, sans-serif",
+    "--ds-font-mono": "\"SFMono-Regular\", Menlo, Consolas, \"Liberation Mono\", monospace",
+    "--ds-fs-1": "13px",
+    "--ds-fs-2": "15px",
+    "--ds-fs-3": "18px",
+    "--ds-fs-4": "22px",
+    "--ds-fs-5": "32px",
+    "--ds-lh-base": "1.46"
+  },
+  "velvet-ui": {
+    "--ds-font-sans": "\"Inter\", \"Segoe UI\", Roboto, Arial, sans-serif",
+    "--ds-font-mono": "\"SFMono-Regular\", Menlo, Consolas, \"Liberation Mono\", monospace"
+  },
+  "portal-arcade": {
+    "--ds-font-sans": "\"Verdana\", \"Tahoma\", \"Trebuchet MS\", sans-serif",
+    "--ds-font-mono": "\"Lucida Console\", \"Courier New\", monospace",
+    "--ds-fs-1": "11px",
+    "--ds-fs-2": "13px",
+    "--ds-fs-3": "15px",
+    "--ds-fs-4": "20px",
+    "--ds-fs-5": "28px",
+    "--ds-lh-base": "1.4"
+  },
+  "vapor-display": {
+    "--ds-font-sans": "\"Space Mono\", \"Eurostile\", \"Trebuchet MS\", \"Segoe UI\", sans-serif",
+    "--ds-font-mono": "\"Space Mono\", Consolas, \"Courier New\", monospace",
+    "--ds-fs-1": "12px",
+    "--ds-fs-2": "14px",
+    "--ds-fs-3": "16px",
+    "--ds-fs-4": "24px",
+    "--ds-fs-5": "34px",
+    "--ds-lh-base": "1.4"
+  },
+  "neon-display": {
+    "--ds-font-sans": "\"Inter\", \"Segoe UI\", \"Helvetica Neue\", Arial, sans-serif",
+    "--ds-font-mono": "\"Space Mono\", \"OCR A Std\", Consolas, \"Courier New\", monospace",
+    "--ds-fs-1": "12px",
+    "--ds-fs-2": "14px",
+    "--ds-fs-3": "17px",
+    "--ds-fs-4": "24px",
+    "--ds-fs-5": "32px",
+    "--ds-lh-base": "1.42"
+  },
+  "mono-editorial": {
+    "--ds-font-sans": "\"Inter\", \"Segoe UI\", \"Helvetica Neue\", Arial, sans-serif",
+    "--ds-font-mono": "\"Space Mono\", \"SFMono-Regular\", Menlo, Consolas, \"Liberation Mono\", monospace",
+    "--ds-fs-1": "12px",
+    "--ds-fs-2": "14px",
+    "--ds-fs-3": "17px",
+    "--ds-fs-4": "24px",
+    "--ds-fs-5": "34px",
+    "--ds-lh-base": "1.58"
+  }
+}
