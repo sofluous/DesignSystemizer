@@ -19,11 +19,11 @@ Every default theme is composed from `css/tokens.css` foundations followed by Fa
 | `eva-unit-01` | `signal` | `violet` | `eva-unit01` | `eva-unit01` | `eva-unit-display` | `compact` | `eva-unit-base` |
 | `saturn-alloy` | `alloy` | `platinum` | `saturn-alloy` | `saturn-skeuo` | `saturn-euro` | `standard` | `saturn-space` |
 | `old-web-portal` | `electric` | `ultraviolet` | `web-portal` | `old-web` | `portal-ui` | `compact` | `portal-classic` |
-| `candy-spectrum` | `pastel` | `magenta` | `candy-spectrum` | `candy-pop` | `neutral-ui` | `comfortable` | `candy-bloom` |
+| `candy-spectrum` | `pastel` | `magenta` | `candy-spectrum` | `candy-pop` | `playful-rounded` | `comfortable` | `candy-bloom` |
 | `complementary-wave` | `paper` | `cobalt` | `complementary-wave` | `complimentary-gradient` | `neutral-ui` | `standard` | `wave-paper` |
 | `sunset-pop` | `sunset` | `magenta` | `vaporwave-neon` | `vaporwave-neon` | `neutral-ui` | `comfortable` | `sunset-grid` |
-| `oilslick-nacre` | `alloy` | `teal` | `oilslick-organic` | `oilslick-organic` | `precision-ui` | `standard` | `oilslick-dark` |
-| `holo-nocturne` | `alloy` | `ultraviolet` | `holo-nocturne` | `holo-nocturne` | `precision-ui` | `standard` | `holo-dark` |
+| `oilslick-nacre` | `alloy` | `teal` | `oilslick-organic` | `oilslick-organic` | `organic-sans` | `standard` | `oilslick-dark` |
+| `holo-nocturne` | `alloy` | `ultraviolet` | `holo-nocturne` | `holo-nocturne` | `holo-sans` | `standard` | `holo-dark` |
 | `signal-poster` | `signal-paper` | `orange` | `signal-poster` | `graphic-signal` | `poster-grotesk` | `standard` | `poster-paper` |
 | `signal-diagram` | `signal-paper` | `orange` | `signal-diagram` | `graphic-diagram` | `poster-grotesk` | `standard` | `poster-paper` |
 | `type-four-sprint` | `race-ui` | `yellow` | `rr4-sprint` | `rr4-racing` | `rr4-arcade` | `compact` | `rr4-slipstream` |
@@ -32,7 +32,7 @@ The complete recipe is the identity; the previous selected theme never participa
 
 ## Type font catalog
 
-The twelve options have distinct preferred body fonts and complete font/size/rhythm definitions. Labels use the font name; IDs remain stable for surviving options. A stack declares fallback order, not guaranteed font availability.
+The twelve options have distinct preferred body fonts and complete font/size/rhythm definitions. Labels use the font name; IDs remain stable for surviving options. Local font delivery and device-only choices are listed in the font manifest and Type selector. See [font delivery](FONT_DELIVERY.md) for loading and redistribution requirements.
 
 | Type ID | Body font stack | Code font stack |
 |---|---|---|
@@ -40,13 +40,13 @@ The twelve options have distinct preferred body fonts and complete font/size/rhy
 | `portal-ui` | `"Tahoma", "Verdana", "MS Sans Serif", "Segoe UI", sans-serif` | `"Space Mono", Consolas, "Courier New", monospace` |
 | `terminal-glow` | `"Space Mono", "OCR A Std", Consolas, "Courier New", monospace` | `"Space Mono", "OCR A Std", Consolas, "Courier New", monospace` |
 | `poster-grotesk` | `"Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif` | `"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace` |
-| `eva-digital` | `"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace` | `"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace` |
+| `eva-digital` | `"Share Tech Mono", "OCR A Std", "Space Mono", Consolas, monospace` | `"Share Tech Mono", "OCR A Std", "Space Mono", Consolas, monospace` |
 | `eva-unit-display` | `"Arial Narrow", "Bahnschrift", "Space Mono", "Segoe UI", sans-serif` | `"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace` |
-| `saturn-euro` | `"Eurostile", "Trebuchet MS", "Segoe UI", sans-serif` | `"OCR A Std", "Consolas", "Lucida Console", monospace` |
+| `saturn-euro` | `"Chakra Petch", "Eurostile", "Trebuchet MS", "Segoe UI", sans-serif` | `"Share Tech Mono", "OCR A Std", Consolas, monospace` |
 | `playful-rounded` | `"Baloo 2", "Nunito", "Trebuchet MS", "Segoe UI", sans-serif` | `"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace` |
 | `holo-sans` | `"Sora", "Inter", "Segoe UI", sans-serif` | `"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace` |
 | `organic-sans` | `"Outfit", "Sora", "Inter", "Segoe UI", sans-serif` | `"SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace` |
-| `rr4-arcade` | `"Arial Black", Impact, "Arial Narrow", "Helvetica Neue", Arial, sans-serif` | `"Lucida Console", "OCR A Std", Consolas, monospace` |
+| `rr4-arcade` | `"Archivo Black", "Arial Black", Impact, Arial, sans-serif` | `"Space Mono", "Lucida Console", Consolas, monospace` |
 | `precision-ui` | `"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif` | `"Space Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace` |
 
 ## Retired Type IDs

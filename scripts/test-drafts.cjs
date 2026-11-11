@@ -56,6 +56,40 @@ for (const [oldId, target] of Object.entries(data.typographyAliases)) {
   assert.deepEqual(JSON.parse(JSON.stringify(mapped.state.overrides)), edits, oldId + ' snapshotless mapping keeps only explicit edits');
   assert.equal(JSON.stringify(session.snapshot()), before, oldId + ' decode is transactional');
 }
+const typeKeysForIdentity = new Set(['--ds-font-sans', '--ds-font-mono', '--ds-fs-1', '--ds-fs-2', '--ds-fs-3', '--ds-fs-4', '--ds-fs-5', '--ds-lh-base']);
+// Frozen definitions reconstruct actual pre-portable defaults and mixed recipes.
+const previousType = require('./fixtures/pre-portable-type.json');
+const previousData = { ...data, typographyPresets: { ...data.typographyPresets, ...previousType.typographyPresets } };
+const previousUtils = context.window.DesignSystemStudioBuilderPresets.initBuilderPresets(previousData);
+const previousComposer = context.window.DesignSystemThemeComposer.createComposer(previousData, defaults, previousUtils.buildColorBundle);
+const expectedChanges = ['candy-spectrum', 'eva-wireframe', 'holo-nocturne', 'oilslick-nacre', 'saturn-alloy', 'type-four-sprint'];
+const actualChanges = [];
+for (const [baseTheme, previousRecipe] of Object.entries(previousType.baseThemePresetMap)) {
+  const oldTokens = previousComposer.compose(previousRecipe).tokens;
+  const currentTokens = composer.compose(data.baseThemePresetMap[baseTheme]).tokens;
+  const changed = Object.keys(oldTokens).filter(token => oldTokens[token] !== currentTokens[token]);
+  if (changed.length) actualChanges.push(baseTheme);
+  assert.ok(changed.every(token => typeKeysForIdentity.has(token)), baseTheme + ' changes only Type-owned properties');
+  const edits = { '--ds-card-shadow': '0 0 9px #123456', '--ds-font-mono': '"Personal Code", monospace' };
+  const oldState = context.window.DesignSystemThemeComposer.createSession(previousComposer);
+  oldState.load({ recipe: previousRecipe, overrides: edits });
+  const imported = api.decodeRecipe({ schemaVersion: 1, baseTheme, layers: previousRecipe, overrides: edits, tokens: oldState.tokens }, session);
+  const reopened = context.window.DesignSystemThemeComposer.createSession(composer);
+  reopened.load(imported.state);
+  assert.deepEqual(JSON.parse(JSON.stringify(reopened.tokens)), JSON.parse(JSON.stringify(oldState.tokens)), baseTheme + ' keeps old default snapshot and edits');
+  reopened.select({ ...reopened.recipe, typography: 'precision-ui' });
+  assert.equal(reopened.tokens['--ds-font-mono'], edits['--ds-font-mono'], baseTheme + ' preserves explicit code font through module change');
+  reopened.undo();
+  assert.deepEqual(JSON.parse(JSON.stringify(reopened.tokens)), JSON.parse(JSON.stringify(oldState.tokens)), baseTheme + ' Undo restores exact imported snapshot');
+}
+assert.deepEqual(actualChanges.sort(), expectedChanges.sort(), 'only the six intended defaults change');
+assert.equal(new Set(Object.values(data.baseThemePresetMap).map(recipe => recipe.typography)).size, 12, 'all twelve distinct Type options are used by defaults');
+for (const id of Object.keys(previousType.typographyPresets)) {
+  const mixed = { ...recipe, typography: id, scheme: 'standard', texture: 'clean' };
+  const oldTokens = previousComposer.compose(mixed).tokens;
+  const imported = api.decodeRecipe({ ...exported, layers: mixed, overrides: {}, tokens: oldTokens }, session);
+  assert.deepEqual(JSON.parse(JSON.stringify(session.validate(imported.state))), JSON.parse(JSON.stringify(oldTokens)), id + ' preserves a saved mixed recipe');
+}
 for (const typography of ['missing-type', 'constructor', '__proto__']) {
   assert.throws(() => api.decodeRecipe({ ...exported, layers: { ...recipe, typography } }, session), /Unknown typography/);
 }

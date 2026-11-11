@@ -10,6 +10,7 @@ const contrast = context.window.DesignSystemThemeContrast;
 const plain = (value) => JSON.parse(JSON.stringify(value));
 // Type must declare its font identity independently of every other recipe module.
 const typeOptions = [];
+context.window.DesignSystemThemePackageAssets = { fontManifest: require('./font-assets.cjs').fontAssets().manifest };
 context.document.createElement = () => ({});
 context.window.DesignSystemStudioBuilderPresets.initBuilderPresets({
   ...data, typographyPresetSelect: { appendChild: (option) => typeOptions.push(option) }
@@ -18,7 +19,8 @@ for (const [id, preset] of Object.entries(data.typographyPresets)) {
   for (const key of ['--ds-font-sans', '--ds-font-mono']) assert.ok(preset[key], id + ' declares ' + key);
   const option = typeOptions.find((entry) => entry.value === id);
   const preferred = preset['--ds-font-sans'].split(',')[0].trim().replace(/^['"]|['"]$/g, '');
-  assert.equal(option.textContent, preferred, id + ' has a concise font label');
+  const bundled = context.window.DesignSystemThemePackageAssets.fontManifest.faces.some(face => face.family === preferred);
+  assert.equal(option.textContent, preferred + (bundled ? ' (bundled)' : ' (device font)'), id + ' identifies font delivery');
   assert.ok(option.title.includes(preset['--ds-font-mono']), id + ' exposes code stack');
 }
 assert.equal(typeOptions.length, 12, 'catalog retains twelve distinct font choices');
@@ -174,5 +176,6 @@ assert.equal(controls.parseShadow('0 2px 4px #000000').x, 0);
 assert.equal(controls.buildPaint({ mode: { value: 'gradient' }, angle: { value: '0' }, c1: { value: '#ffffff' }, c2: { value: '#000000' } }), 'linear-gradient(0deg, #ffffff, #000000)');
 assert.ok(!Object.keys(require('./build-themes.cjs').artifacts()).some((file) => file.startsWith('_docs/')), 'runtime freshness is independent of local reports');
 require('./test-theme-artifact-io.cjs');
+require('./test-theme-ownership.cjs');
 build(true);
 console.log(`Passed: 21 default round trips, ${combinations} single-layer substitutions, 250 seeded mixed recipes, edit/reset/undo and parser regressions.`);

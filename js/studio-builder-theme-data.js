@@ -1170,7 +1170,6 @@
     "--ds-input-readonly-text": "var(--ds-text)",
     "--ds-input-readonly-placeholder":
     "color-mix(in oklab, var(--ds-text) 62%, var(--ds-bg) 38%)",
-    "--ds-input-readonly-shadow": "none",
     "--ds-card-secondary-text": "var(--ds-text-inverse)",
     "--ds-card-secondary-text-muted":
     "color-mix(in oklab, white 82%, var(--ds-bg) 18%)",
@@ -1179,7 +1178,6 @@
     "--ds-chip-border":
     "color-mix(in oklab, white 86%, var(--ds-bg) 14%)",
     "--ds-chip-text": "var(--ds-text-inverse)",
-    "--ds-bg": "#ece8dd",
     },
     "eva-wire-alert": {
     "--ds-text": "color-mix(in oklab, var(--ds-accent) 88%, white 12%)",
@@ -1432,9 +1430,9 @@
     },
     "eva-digital": {
     "--ds-font-sans":
-    '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
+    '"Share Tech Mono", "OCR A Std", "Space Mono", Consolas, monospace',
     "--ds-font-mono":
-    '"OCR A Std", "Eurostile", "Bank Gothic", "Bahnschrift", "Space Mono", monospace',
+    '"Share Tech Mono", "OCR A Std", "Space Mono", Consolas, monospace',
     "--ds-fs-1": "11px",
     "--ds-fs-2": "13px",
     "--ds-fs-3": "16px",
@@ -1456,9 +1454,9 @@
     },
     "saturn-euro": {
     "--ds-font-sans":
-    '"Eurostile", "Trebuchet MS", "Segoe UI", sans-serif',
+    '"Chakra Petch", "Eurostile", "Trebuchet MS", "Segoe UI", sans-serif',
     "--ds-font-mono":
-    '"OCR A Std", "Consolas", "Lucida Console", monospace',
+    '"Share Tech Mono", "OCR A Std", Consolas, monospace',
     "--ds-fs-1": "11px",
     "--ds-fs-2": "13px",
     "--ds-fs-3": "16px",
@@ -1503,9 +1501,9 @@
     },
     "rr4-arcade": {
     "--ds-font-sans":
-    '"Arial Black", Impact, "Arial Narrow", "Helvetica Neue", Arial, sans-serif',
+    '"Archivo Black", "Arial Black", Impact, Arial, sans-serif',
     "--ds-font-mono":
-    '"Lucida Console", "OCR A Std", Consolas, monospace',
+    '"Space Mono", "Lucida Console", Consolas, monospace',
     "--ds-fs-1": "12px",
     "--ds-fs-2": "15px",
     "--ds-fs-3": "18px",
@@ -1884,6 +1882,7 @@
     accentSat: 92,
     },
     "race-ui": {
+    palette: { "--ds-bg": "#ece8dd" },
     mode: "light",
     sat: 78,
     bgL: 50,
@@ -2092,6 +2091,7 @@
     "--ds-card-secondary-shadow": "none",
     },
     "rr4-racing": {
+    "--ds-input-readonly-shadow": "none",
     "--ds-radius-1": "0px",
     "--ds-radius-2": "0px",
     "--ds-radius-3": "2px",
@@ -2265,7 +2265,7 @@
     hue: "magenta",
     scheme: "candy-spectrum",
     style: "candy-pop",
-    typography: "neutral-ui",
+    typography: "playful-rounded",
     scale: "comfortable",
     texture: "candy-bloom",
     },
@@ -2292,7 +2292,7 @@
     hue: "ultraviolet",
     scheme: "holo-nocturne",
     style: "holo-nocturne",
-    typography: "precision-ui",
+    typography: "holo-sans",
     scale: "standard",
     texture: "holo-dark",
     },
@@ -2301,7 +2301,7 @@
     hue: "teal",
     scheme: "oilslick-organic",
     style: "oilslick-organic",
-    typography: "precision-ui",
+    typography: "organic-sans",
     scale: "standard",
     texture: "oilslick-dark",
     },

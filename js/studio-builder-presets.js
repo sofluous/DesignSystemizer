@@ -30,7 +30,8 @@
 
     function typographyLabel(preset) {
       const font = preset["--ds-font-sans"].split(",")[0].trim().replace(/^['"]|['"]$/g, "");
-      return font;
+      const bundled = win.DesignSystemThemePackageAssets?.fontManifest?.faces.some((face) => face.family === font);
+      return font + (bundled ? " (bundled)" : " (device font)");
     }
 
     function inferTexturePreset(styleKey) {
@@ -463,7 +464,7 @@
       if (familyKey === "race-ui") {
         bundle["--ds-bg-overlay"] = "rgba(14,12,8,0.28)";
       }
-      return bundle;
+      return Object.assign(bundle, fam.palette || {});
     }
 
     const shadowPresets = {

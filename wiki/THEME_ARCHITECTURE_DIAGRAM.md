@@ -44,21 +44,24 @@ Some authored Schemes also modify the semantic palette. These are compatibility 
 |---|---|
 | `industrial-lime` | Fixed text and accent colors |
 | `eva-unit01`, `saturn-alloy` | Fixed surfaces, text, and accent colors |
-| `rr4-sprint` | Fixed page background |
 | `holo-nocturne`, `oilslick-organic` | Fixed surface colors |
 | `amber-glow`, `eva-wire-alert`, `neon-grid-signal` | Text colors derived from accent mixes |
 
-Other Schemes contain literal component paints too; absence from this table does not guarantee every component will follow Hue. The old scheme audit allowlist is not a complete inventory of these overlaps. A subsequent migration should move fixed palette intent into Family options and convert component paints to semantic references, with appearance and contrast comparisons before changing defaults. This documentation update preserves those appearances.
+The [generated ownership map and exception inventory](THEME_TOKEN_OWNERSHIP.md) is now the authoritative property-level contract. Builds reject unowned tokens, undeclared off-owner writes, duplicate owners, and stale exceptions. Foundations and the Family/Hue generator seed defaults before each module specializes its properties; explicit user overrides remain preserved.
+
+Type Four Sprint is the first controlled migration: `race-ui.palette` supplies its fixed page surface, `rr4-racing` supplies its read-only input shadow, and `rr4-sprint` now contains only Scheme-owned component colors. All 21 default token maps are unchanged. In mixed recipes, RR4 no longer replaces another Family's page background. Old exported/draft snapshots preserve their previous values through compatibility overrides.
+
+Other Schemes still contain literal component paints and recorded palette overlaps. Ownership validation does not certify complete hue responsiveness, CSS types, arbitrary mixed-layer readability, or font delivery. Continue migrating named exceptions with appearance/contrast and saved-recipe comparisons; do not treat the old audit allowlist as an inventory.
 
 ## Type identity and fonts
 
-The catalog contains twelve font choices, each with a distinct preferred body face, a paired code stack, five explicit text sizes, and line height. Labels use the font name alone. Minor fallback, size, or line-height changes do not justify additional preset options; use property edits for those adjustments.
+The catalog contains twelve font choices, each with a distinct preferred body face, a paired code stack, five explicit text sizes, and line height. Labels identify the preferred font and whether it is bundled or device-dependent. Minor fallback, size, or line-height changes do not justify additional preset options; use property edits for those adjustments.
 
-Consolidation groups the former Inter variations into `precision-ui`, Space Mono variations into `terminal-glow`, Aptos/Segoe UI into `neutral-ui`, Tahoma/Verdana portal treatments into `portal-ui`, and the duplicate OCR/condensed EVA treatments into `eva-digital` and `eva-unit-display`. The remaining options retain distinct faces: Helvetica Neue, Eurostile, Baloo 2, Sora, Outfit, and Arial Black. Surviving IDs are unchanged. The [generated retired-ID table](THEME_PRESET_MAP.md#retired-type-ids) is the complete migration map.
+Consolidation groups the former Inter variations into `precision-ui`, Space Mono variations into `terminal-glow`, Aptos/Segoe UI into `neutral-ui`, Tahoma/Verdana portal treatments into `portal-ui`, and the duplicate OCR/condensed EVA treatments into `eva-digital` and `eva-unit-display`. The remaining options retain distinct faces. The portable identity pass uses Share Tech Mono for EVA wireframe, Chakra Petch for Saturn and Archivo Black for RR4; Candy, Nocturne and Nacre now select Baloo 2, Sora and Outfit. Surviving IDs are unchanged. The [generated retired-ID table](THEME_PRESET_MAP.md#retired-type-ids) is the complete migration map.
 
 Defaults now directly select consolidated options, so some default text sizes/rhythm and code-font pairings change. Imported exports and saved drafts map retired IDs to current selections. When a token snapshot is present, the existing compatibility mechanism retains the old appearance as explicit overrides. Without a snapshot, aliases adopt the current Type values and retain explicit edits. Reset clears those compatibility overrides and adopts the consolidated option; manual edits still survive subsequent module changes.
 
-A declared font stack is not an embedded font asset. The browser uses the first available face. The current package imports Inter and Space Mono; other preferred faces require installation or loading by the consuming app, subject to their licenses. Style still owns some label casing/tracking; moving those into Type would require a separate compatibility migration.
+A declared font stack is not an embedded font asset. The browser uses the first available face. The package supplies eight local font families listed in the delivery manifest with their OFL notices. Other preferred faces remain device-dependent and are labeled accordingly; see [Font Delivery](FONT_DELIVERY.md). Style still owns some label casing/tracking; moving those into Type would require a separate compatibility migration.
 
 ## Resolution order used by Studio
 

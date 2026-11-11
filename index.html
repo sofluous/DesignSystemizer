@@ -25,12 +25,7 @@
         );
       })();
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="./css/fonts.css" />
     <link rel="stylesheet" href="./theme.css" />
     <link rel="stylesheet" href="./css/studio.css" />
     <link rel="stylesheet" href="./css/studio-features.css" />
@@ -236,6 +231,9 @@
               <div class="wiki-nav-list">
                 <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="THEME_ARCHITECTURE_DIAGRAM.md">
                   Theme Architecture Diagram
+                </button>
+                <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="THEME_TOKEN_OWNERSHIP.md">
+                  Token Ownership
                 </button>
                 <button class="ds-btn ds-btn-sm wiki-nav-btn" type="button" data-doc="THEME_PRESET_MAP.md">
                   Preset Strategy
@@ -2450,7 +2448,8 @@
                     time.
                   </p>
                 </div>
-                <iframe id="builderPreviewFrame" class="builder-preview-frame" title="Live theme component preview"></iframe>
+                <p class="ds-muted" id="builderPreviewFonts"></p>
+                <iframe id="builderPreviewFrame" class="builder-preview-frame" title="Live theme component preview" aria-describedby="builderPreviewFonts"></iframe>
                 <button class="ds-btn ds-btn-sm" type="button" id="focusPreviewBtn">Focus preview</button>
                 <template id="builderPreviewTemplate">
                   <section aria-label="Tab contrast sample" class="ds-stack">
@@ -2469,6 +2468,7 @@
                   <summary>Typography + Semantic</summary>
                   <div class="ds-card ds-stack">
                     <h2>Dashboard Heading</h2>
+                    <pre class="ds-code" aria-label="Code font sample">const value = 123;</pre>
                     <p class="ds-muted">
                       Supporting text and metadata for readability checks.
                     </p>

@@ -95,7 +95,7 @@ The current modular builder stack is:
 - `Hue`: base hue anchor for generated semantic tokens.
 - `Scheme`: maps semantic palette colors onto components (neutral, accent, inverted, and state treatments). It is distinct from light/dark palette generation; see [the architecture and legacy exceptions](THEME_ARCHITECTURE_DIAGRAM.md).
 - `Style`: geometry, borders, shadows, and interaction language.
-- `Type` (`typography` in recipes): body and code font stacks, text sizes, and reading rhythm. Use one option per distinct preferred body font; minor size/rhythm and fallback differences belong in explicit property edits. A preferred font needs to be installed or supplied by the consuming app.
+- `Type` (`typography` in recipes): body and code font stacks, text sizes, and reading rhythm. Use one option per distinct preferred body font; minor size/rhythm and fallback differences belong in explicit property edits. The Type selector distinguishes bundled and device fonts; see [Font Delivery](FONT_DELIVERY.md) for local assets and fallback behavior.
 - `Scale`: spacing density and control heights only.
 - `Texture`: optional material/dynamic overlay such as grain, wire, metal, or nacre.
 
@@ -148,3 +148,6 @@ See the [generated recipe and font catalog](THEME_PRESET_MAP.md), built directly
 
 ## Quiet tabs and state fidelity (2026-10-31)
 Inactive tabs use muted labels and decorative borders. Labels still require 4.5:1 contrast; inactive borders are not text and must not be forced to white/black by that repair. When a muted label needs correction, move only as far toward readable ink as necessary. Selected tabs retain their stronger border/fill and font weight. Button hover samples use the same CSS rules as actual hover, and neutral hover has an independently repaired foreground token, `--ds-btn-text-hover`.
+
+## Enforced preset ownership
+The [token ownership map](THEME_TOKEN_OWNERSHIP.md) declares primary owners for foundation and derived tokens and lists exact legacy exceptions. `scripts/theme-token-ownership.json` is the authored contract; build and theme tests validate it. New properties need an explicit owner, new off-owner writes fail, and completed migrations must remove their stale exceptions. Foundations seed all properties; Family/Hue also seed component color defaults. Neither baseline replaces a module's responsibility. A Family's optional `palette` object may author only semantic palette tokens. Hue continues to parameterize generated accents and surfaces; declared fixed Family surfaces remain fixed by design.

@@ -13,7 +13,7 @@ async function main() {
   const server = fixture?.server || http.createServer((req, res) => {
     const file = path.resolve(root, '.' + decodeURIComponent(req.url.split('?')[0]));
     if (!file.startsWith(root + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.writeHead(404); res.end(); return; }
-    const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json' };
+    const mime = { '.ttf': 'font/ttf', '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json' };
     res.setHeader('Content-Type', mime[path.extname(file)] || 'text/plain');
     res.end(fs.readFileSync(file));
   });
@@ -67,6 +67,21 @@ async function main() {
       await new Promise((resolve) => setTimeout(resolve,100));
     }
     assert.deepEqual(errors, [], 'No runtime exceptions on boot');
+    if (process.argv.includes('--builder-fonts')) {
+      await require('./test-builder-fonts-browser.cjs').testBuilderFonts({ evaluate, send, session, root });
+      assert.deepEqual(errors, [], 'No builder font runtime exceptions');
+      return;
+    }
+    if (process.argv.includes('--theme-identity')) {
+      await require('./test-theme-identity-browser.cjs').testIdentity({ evaluate, send, session, root });
+      assert.deepEqual(errors, [], 'No identity runtime exceptions');
+      return;
+    }
+    if (process.argv.includes('--fonts')) {
+      await require('./test-fonts-browser.cjs').testFonts({ evaluate, send, session, url });
+      assert.deepEqual(errors, [], 'No font runtime exceptions');
+      return;
+    }
     if (process.argv.includes('--component-layout')) {
       await require('./test-component-layout-browser.cjs').testComponentLayout({ evaluate, send, session, root });
       assert.deepEqual(errors, [], 'No runtime exceptions during component layout checks');
@@ -237,7 +252,8 @@ async function main() {
       for (const option of typographySelector.options) {
         const typePreset = DesignSystemStudioBuilderThemeData.initBuilderThemeData().typographyPresets[option.value];
         const preferredFont = typePreset['--ds-font-sans'].split(',')[0].trim().replace(/^['"]|['"]$/g, '');
-        check(option.textContent === preferredFont, option.value + ': concise font Type label');
+        const bundled = DesignSystemThemePackageAssets.fontManifest.faces.some(face => face.family === preferredFont);
+        check(option.textContent === preferredFont + (bundled ? ' (bundled)' : ' (device font)'), option.value + ': font delivery label');
         check(option.title.includes(typePreset['--ds-font-mono']), option.value + ': font stacks available');
         typographySelector.value = option.value;
         typographySelector.dispatchEvent(new Event('change'));

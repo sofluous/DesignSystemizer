@@ -14,7 +14,7 @@ function audit() {
   const config = context.window.DesignSystemStudioBuilderConfig.initBuilderConfig();
   const controls = config.tokenGroups.flatMap((group) => group.controls.map((control) => ({ ...control, group: group.name })));
   const sources = Object.entries(data).filter(([name]) => name.endsWith('Presets')).flatMap(([domain, presets]) =>
-    Object.entries(presets).flatMap(([preset, tokens]) => Object.entries(tokens).filter(([token]) => token.startsWith('--')).map(([token, value]) => ({ domain, preset, token, value }))));
+    Object.entries(presets).flatMap(([preset, tokens]) => Object.entries(domain === 'colorFamilyPresets' ? tokens.palette || {} : tokens).filter(([token]) => token.startsWith('--')).map(([token, value]) => ({ domain, preset, token, value }))));
   const authored = new Set([...Object.keys(defaults), ...sources.map((entry) => entry.token)]);
   const componentRefs = new Set([...read('css/components.css').matchAll(/var\((--[\w-]+)/g)].map((match) => match[1]));
   const fontGroups = new Map();
@@ -46,7 +46,7 @@ function audit() {
   return { summary: { themes: themes.length, foundations: Object.keys(defaults).length, authored: authored.size, editors: controls.length,
     missingEditors, unrepresentedThemes: themes.filter((theme) => theme.unrepresented.length).length, missingComponentRefs: [...new Set(themes.flatMap((theme) => theme.missingComponentRefs))] },
     tokenControlTypes, styleTypographyOwnership, paletteOverridingSchemes, collisions, identicalFontStacks: [...fontGroups.values()].filter((ids) => ids.length > 1), unusedTypography,
-    fontDelivery: { optionalWebFonts: ['Inter', 'Space Mono'], bundledFontBinaries: false, systemFaceAvailability: 'Device dependent; a declared font stack is not proof that its first face is installed.' }, themes };
+    fontDelivery: { bundledFamilies: [...new Set(require('./font-assets.cjs').fontAssets().manifest.faces.map((face) => face.family))], bundledFontBinaries: true, systemFaceAvailability: 'Device dependent; a declared font stack is not proof that its first face is installed.' }, themes };
 }
 if (require.main === module) {
   const report = audit();

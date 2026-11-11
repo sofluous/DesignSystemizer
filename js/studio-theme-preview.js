@@ -14,8 +14,9 @@
     const runtime = previewDoc.createElement("style");
     runtime.textContent = win.DesignSystemThemePackageAssets.css;
     previewDoc.head.appendChild(runtime);
-    const fonts = previewDoc.createElement("style");
-    fonts.textContent = win.DesignSystemThemePackageAssets.fonts;
+    const fonts = previewDoc.createElement("link");
+    fonts.rel = "stylesheet";
+    fonts.href = new URL("./css/fonts.css", doc.baseURI).href;
     previewDoc.head.appendChild(fonts);
     const layout = previewDoc.createElement("link");
     layout.rel = "stylesheet";
@@ -78,8 +79,24 @@
     const gallery = doc.querySelector(".component-library-flow");
     let previous = {};
     function bindSession(session) {
+      let fontStylesFailed = false;
       function sync() {
         const tokens = session.tokens;
+        const fontNote = doc.getElementById("builderPreviewFonts");
+        if (fontNote) {
+          const names = ["--ds-font-sans", "--ds-font-mono"].map((token) => {
+            const stack = win.DesignSystemThemeContrast.resolve(tokens[token], tokens);
+            const preferred = stack.split(",")[0].trim().replace(/^['"]|['"]$/g, "");
+            const bundled = win.DesignSystemThemePackageAssets.fontManifest.faces.some((face) => face.family === preferred);
+            const failed = fontStylesFailed || Array.from(previewDoc.fonts).some((face) =>
+              face.family.replace(/^['"]|['"]$/g, "") === preferred && face.status === "error");
+            return preferred + (bundled ? (failed ? " (load issue)" : " (bundled)") : " (device/custom)");
+          });
+          const edited = ["--ds-font-sans", "--ds-font-mono"].some((token) => Object.hasOwn(session.overrides, token));
+          fontNote.textContent = "Body: " + names[0] + "; Code: " + names[1] + (edited ? "; Font edits applied" : "");
+          fontNote.title = "Configured preferred faces; device/custom fonts may use fallbacks. Body: " + tokens["--ds-font-sans"] + "; Code: " + tokens["--ds-font-mono"];
+          fontNote.dataset.fontOverrides = String(edited);
+        }
         if (gallery) {
           for (const key of Object.keys(previous)) if (!(key in tokens)) gallery.style.removeProperty(key);
           for (const [key, value] of Object.entries(tokens)) if (previous[key] !== value) gallery.style.setProperty(key, value);
@@ -87,6 +104,9 @@
         }
       }
       session.subscribe(sync);
+      previewDoc.fonts.addEventListener("loadingdone", sync);
+      previewDoc.fonts.addEventListener("loadingerror", sync);
+      fonts.addEventListener("error", () => { fontStylesFailed = true; sync(); });
     }
     initialized = { root: previewDoc.documentElement, frame, bindSession };
     return initialized;

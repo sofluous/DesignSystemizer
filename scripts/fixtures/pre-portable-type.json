@@ -1,0 +1,226 @@
+{
+  "description": "Pre-portable-Type preset definitions and default recipes, captured 2026-11-10 for appearance/import regressions.",
+  "typographyPresets": {
+    "eva-digital": {
+      "--ds-font-sans": "\"OCR A Std\", \"Eurostile\", \"Bank Gothic\", \"Bahnschrift\", \"Space Mono\", monospace",
+      "--ds-font-mono": "\"OCR A Std\", \"Eurostile\", \"Bank Gothic\", \"Bahnschrift\", \"Space Mono\", monospace",
+      "--ds-fs-1": "11px",
+      "--ds-fs-2": "13px",
+      "--ds-fs-3": "16px",
+      "--ds-fs-4": "22px",
+      "--ds-fs-5": "30px",
+      "--ds-lh-base": "1.35"
+    },
+    "saturn-euro": {
+      "--ds-font-sans": "\"Eurostile\", \"Trebuchet MS\", \"Segoe UI\", sans-serif",
+      "--ds-font-mono": "\"OCR A Std\", \"Consolas\", \"Lucida Console\", monospace",
+      "--ds-fs-1": "11px",
+      "--ds-fs-2": "13px",
+      "--ds-fs-3": "16px",
+      "--ds-fs-4": "22px",
+      "--ds-fs-5": "30px",
+      "--ds-lh-base": "1.35"
+    },
+    "rr4-arcade": {
+      "--ds-font-sans": "\"Arial Black\", Impact, \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif",
+      "--ds-font-mono": "\"Lucida Console\", \"OCR A Std\", Consolas, monospace",
+      "--ds-fs-1": "12px",
+      "--ds-fs-2": "15px",
+      "--ds-fs-3": "18px",
+      "--ds-fs-4": "28px",
+      "--ds-fs-5": "38px",
+      "--ds-lh-base": "1.32"
+    }
+  },
+  "baseThemePresetMap": {
+    "steel-night": {
+      "family": "bold",
+      "hue": "steel",
+      "scheme": "steel-night-quiet",
+      "style": "steel-refined",
+      "typography": "precision-ui",
+      "scale": "standard",
+      "texture": "steel-haze"
+    },
+    "paper-mint": {
+      "family": "paper",
+      "hue": "green",
+      "scheme": "mint-ink",
+      "style": "paper",
+      "typography": "neutral-ui",
+      "scale": "standard",
+      "texture": "clean"
+    },
+    "amber-terminal": {
+      "family": "cathode",
+      "hue": "amber",
+      "scheme": "amber-glow",
+      "style": "terminal-amber",
+      "typography": "terminal-glow",
+      "scale": "compact",
+      "texture": "amber-screen"
+    },
+    "neon-grid": {
+      "family": "electric",
+      "hue": "cyan",
+      "scheme": "neon-grid-signal",
+      "style": "neon-signal",
+      "typography": "precision-ui",
+      "scale": "compact",
+      "texture": "neon-lattice"
+    },
+    "mono-slate": {
+      "family": "monochrome",
+      "hue": "gray",
+      "scheme": "mono-slate-editorial",
+      "style": "mono-editorial-style",
+      "typography": "precision-ui",
+      "scale": "comfortable",
+      "texture": "mono-grain"
+    },
+    "tech-grid": {
+      "family": "bold",
+      "hue": "blue",
+      "scheme": "standard",
+      "style": "technical",
+      "typography": "terminal-glow",
+      "scale": "compact",
+      "texture": "clean"
+    },
+    "skeuo-panel": {
+      "family": "skeuo",
+      "hue": "blue",
+      "scheme": "skeuo-sky",
+      "style": "skeuo",
+      "typography": "neutral-ui",
+      "scale": "standard",
+      "texture": "clean"
+    },
+    "industrial-terminal": {
+      "family": "cathode",
+      "hue": "lime",
+      "scheme": "industrial-lime",
+      "style": "industrial-frame",
+      "typography": "terminal-glow",
+      "scale": "compact",
+      "texture": "industrial-screen"
+    },
+    "velvet-touch": {
+      "family": "neumorph",
+      "hue": "violet",
+      "scheme": "velvet-violet",
+      "style": "neumorph",
+      "typography": "precision-ui",
+      "scale": "comfortable",
+      "texture": "velvet-soft"
+    },
+    "eva-wireframe": {
+      "family": "cathode",
+      "hue": "signal-red",
+      "scheme": "eva-wire-alert",
+      "style": "eva-wire",
+      "typography": "eva-digital",
+      "scale": "compact",
+      "texture": "eva-wire-base"
+    },
+    "eva-unit-01": {
+      "family": "signal",
+      "hue": "violet",
+      "scheme": "eva-unit01",
+      "style": "eva-unit01",
+      "typography": "eva-unit-display",
+      "scale": "compact",
+      "texture": "eva-unit-base"
+    },
+    "saturn-alloy": {
+      "family": "alloy",
+      "hue": "platinum",
+      "scheme": "saturn-alloy",
+      "style": "saturn-skeuo",
+      "typography": "saturn-euro",
+      "scale": "standard",
+      "texture": "saturn-space"
+    },
+    "old-web-portal": {
+      "family": "electric",
+      "hue": "ultraviolet",
+      "scheme": "web-portal",
+      "style": "old-web",
+      "typography": "portal-ui",
+      "scale": "compact",
+      "texture": "portal-classic"
+    },
+    "candy-spectrum": {
+      "family": "pastel",
+      "hue": "magenta",
+      "scheme": "candy-spectrum",
+      "style": "candy-pop",
+      "typography": "neutral-ui",
+      "scale": "comfortable",
+      "texture": "candy-bloom"
+    },
+    "complementary-wave": {
+      "family": "paper",
+      "hue": "cobalt",
+      "scheme": "complementary-wave",
+      "style": "complimentary-gradient",
+      "typography": "neutral-ui",
+      "scale": "standard",
+      "texture": "wave-paper"
+    },
+    "sunset-pop": {
+      "family": "sunset",
+      "hue": "magenta",
+      "scheme": "vaporwave-neon",
+      "style": "vaporwave-neon",
+      "typography": "neutral-ui",
+      "scale": "comfortable",
+      "texture": "sunset-grid"
+    },
+    "holo-nocturne": {
+      "family": "alloy",
+      "hue": "ultraviolet",
+      "scheme": "holo-nocturne",
+      "style": "holo-nocturne",
+      "typography": "precision-ui",
+      "scale": "standard",
+      "texture": "holo-dark"
+    },
+    "oilslick-nacre": {
+      "family": "alloy",
+      "hue": "teal",
+      "scheme": "oilslick-organic",
+      "style": "oilslick-organic",
+      "typography": "precision-ui",
+      "scale": "standard",
+      "texture": "oilslick-dark"
+    },
+    "signal-poster": {
+      "family": "signal-paper",
+      "hue": "orange",
+      "scheme": "signal-poster",
+      "style": "graphic-signal",
+      "typography": "poster-grotesk",
+      "scale": "standard",
+      "texture": "poster-paper"
+    },
+    "signal-diagram": {
+      "family": "signal-paper",
+      "hue": "orange",
+      "scheme": "signal-diagram",
+      "style": "graphic-diagram",
+      "typography": "poster-grotesk",
+      "scale": "standard",
+      "texture": "poster-paper"
+    },
+    "type-four-sprint": {
+      "family": "race-ui",
+      "hue": "yellow",
+      "scheme": "rr4-sprint",
+      "style": "rr4-racing",
+      "typography": "rr4-arcade",
+      "scale": "compact",
+      "texture": "rr4-slipstream"
+    }
+  }
+}

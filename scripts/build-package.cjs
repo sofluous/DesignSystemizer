@@ -23,7 +23,7 @@ for (const file of files) {
   const target = path.resolve(destination, file.name);
   if (!target.startsWith(destination + path.sep)) throw new Error('Invalid output path');
   fs.mkdirSync(path.dirname(target), { recursive: true });
-  fs.writeFileSync(target, file.content);
+  fs.writeFileSync(target, file.encoding === 'base64' ? Buffer.from(file.content, 'base64') : file.content);
 }
 fs.copyFileSync(path.join(root, 'js/theme-registry.js'), path.join(destination, 'design-system/js/theme-registry.js'));
 // Preserve the four legacy entry points without copying drafts or unapproved artwork.

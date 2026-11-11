@@ -114,7 +114,7 @@ Use this only if you need to override the standard root-driven behavior:
 ## Studio ZIP exports (schema 1)
 The Studio download includes a complete `design-system/` runtime folder, `example.html`, `INSTALL.md`, standalone custom CSS, and `theme.recipe.json`. The recipe contains the applied seven layers, exact manual overrides, and all final tokens. Pending unapplied selections are excluded.
 
-Load bundled CSS and registry/selector scripts together. No Studio scripts are required by consumers. All default themes remain switchable alongside the custom theme. Optional `fonts.css` loads Inter/Space Mono web fonts; offline/system fallback behavior is documented in INSTALL.md.
+Load bundled CSS and registry/selector scripts together. No Studio scripts are required by consumers. All default themes remain switchable alongside the custom theme. `fonts.css` loads the eight local families recorded in `fonts/manifest.json`. Keep its `fonts/` directory and license notices. Other faces remain device-dependent; see [Font Delivery](FONT_DELIVERY.md) and INSTALL.md.
 
 `css/themes.css`, `js/theme-foundations.js`, `js/theme-package-assets.js`, and the preset map are generated. Run the package builder after editing foundations, presets, or shared components.
 
