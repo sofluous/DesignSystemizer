@@ -9,7 +9,9 @@ async function ready(evaluate) {
   throw new Error('Studio did not become ready');
 }
 async function screenshot({ send, session, root }, name) {
-  fs.writeFileSync(path.join(root, '_docs/data/' + name + '.png'), Buffer.from((await send('Page.captureScreenshot', { format: 'png' }, session)).data, 'base64'));
+  const directory = path.resolve(process.env.DS_EVIDENCE_DIR || path.join(root, '../_docs/data/icons'));
+  fs.mkdirSync(directory, { recursive: true });
+  fs.writeFileSync(path.join(directory, name + '.png'), Buffer.from((await send('Page.captureScreenshot', { format: 'png' }, session)).data, 'base64'));
 }
 exports.testIcons = async (context) => {
   const { evaluate, send, session, url } = context;
@@ -96,6 +98,7 @@ exports.testConnected = async ({evaluate,send,session,url}) => {
     for(let i=0;i<150 && el('iconApprovalSubmit').disabled;i++) await new Promise(r=>setTimeout(r,20));
     if(el('iconInspectorStatus').textContent!=='Saved' || !el('iconInspectorPreview').querySelector('path[id="fixture"]')) throw new Error('Saved artwork/status: '+JSON.stringify({state:el('iconInspectorStatus').textContent,message:el('iconApprovalStatus').textContent,svg:el('iconInspectorPreview').innerHTML}));
     if(JSON.parse(localStorage.getItem('ds-icon-state')).selection.search) throw new Error('Clear saved draft');
+    await DesignSystemStudioPackaging.ensureFontAssets();
     const files=DesignSystemStudioPackaging.buildThemePackageFiles({themeName:'test',themeBlock:'',recipe:{}});
     const manifest=JSON.parse(files.find(file=>file.name.endsWith('/icons/manifest.json')).content);
     if(manifest.version!==DesignSystemApprovedIcons.version || !files.some(file=>file.name.endsWith('.svg') && file.content.includes('id="fixture"'))) throw new Error('Same-session exports must include saved artwork');

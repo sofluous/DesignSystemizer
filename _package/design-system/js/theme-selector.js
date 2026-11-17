@@ -58,7 +58,7 @@
       }
       buckets.get(group).push(theme);
     });
-    select.innerHTML = "";
+    select.replaceChildren();
     groups.forEach((group) => {
       const optgroup = doc.createElement("optgroup");
       optgroup.label = group;

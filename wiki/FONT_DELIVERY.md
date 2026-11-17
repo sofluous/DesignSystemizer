@@ -15,7 +15,7 @@ Device font means the browser uses the first installed/loaded face in the declar
 
 Each family's original `OFL.txt` accompanies the font in Studio and exported packages. Retain the manifest and notices when redistributing. See the [official OFL](https://openfontlicense.org/open-font-license-official-text/) and [Google Fonts source](https://github.com/google/fonts). Proprietary/device fonts are not copied into this project.
 
-`node scripts/build-package.cjs` verifies all font and license hashes, emits `css/fonts.css`, embeds export assets and writes the consumer package. Builds run offline against checked-in assets. Update assets, manifest hashes and source revision deliberately together; do not replace a font file silently.
+`node scripts/build-package.cjs` verifies all font and license hashes, emits `css/fonts.css`, writes the consumer package and emits separate js/theme-font-assets.js binaries loaded only for Studio ZIP requests. Preview CSS and font metadata remain in the smaller immediate theme-package-assets.js. Builds run offline against checked-in assets. Update assets, manifest hashes and source revision deliberately together; do not replace a font file silently.
 
 ## Verification
 

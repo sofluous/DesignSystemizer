@@ -373,26 +373,38 @@
     }
 
     if (downloadPackageBtn) {
-      downloadPackageBtn.addEventListener("click", function () {
-        const exp = exportThemeBlock();
-        const recipe = { ...recipeDocument(),
-          contrast: win.DesignSystemThemeContrast.audit(session.tokens),
-          adjustments: session.fixes,
-          generatedAt: new Date().toISOString(),
-        };
-        const files = studioPackagingApi
-          ? studioPackagingApi.buildThemePackageFiles({
-              themeName: exp.name,
-              themeBlock: exp.block,
-              recipe: recipe,
-              packageFolder: "design-system",
-            })
-          : [];
-        const zip = studioPackagingApi
-          ? studioPackagingApi.makeZip(files)
-          : null;
-        if (studioPackagingApi && zip) {
+      const packageStatus = doc.createElement('p');
+      packageStatus.id = 'themePackageStatus';
+      packageStatus.setAttribute('role', 'status');
+      packageStatus.hidden = true;
+      downloadPackageBtn.after(packageStatus);
+      downloadPackageBtn.addEventListener("click", async function () {
+        if (downloadPackageBtn.disabled || !studioPackagingApi) return;
+        downloadPackageBtn.disabled = true;
+        packageStatus.hidden = false;
+        packageStatus.textContent = 'Preparing package...';
+        try {
+          const exp = exportThemeBlock();
+          // Snapshot before loading, so subsequent edits cannot change this download.
+          const recipe = JSON.parse(JSON.stringify({ ...recipeDocument(),
+            contrast: win.DesignSystemThemeContrast.audit(session.tokens),
+            adjustments: session.fixes,
+            generatedAt: new Date().toISOString(),
+          }));
+          await studioPackagingApi.ensureFontAssets();
+          const files = await studioPackagingApi.withManifest(studioPackagingApi.buildThemePackageFiles({
+            themeName: exp.name,
+            themeBlock: exp.block,
+            recipe,
+            packageFolder: "design-system",
+          }));
+          const zip = studioPackagingApi.makeZip(files);
           studioPackagingApi.downloadBlob(exp.name + "-theme-package.zip", zip);
+          packageStatus.textContent = 'Package download started.';
+        } catch (error) {
+          packageStatus.textContent = 'Package not downloaded: ' + error.message;
+        } finally {
+          downloadPackageBtn.disabled = false;
         }
       });
     }

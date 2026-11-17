@@ -9,8 +9,14 @@ const evidenceDirectory = path.resolve(process.env.DS_EVIDENCE_DIR || path.join(
 const browser = process.env.DS_BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 
 async function main() {
-  const fixture = process.argv.includes('--icons-connected') ? require('./icon-project-fixture.cjs').createFixture() : null;
+  let failFontExportOnce = process.argv.includes('--export-loading');
+  const fixture = process.argv.includes('--portable') ? require('./test-portability-browser.cjs').createFixture()
+    : process.argv.includes('--icons-connected') ? require('./icon-project-fixture.cjs').createFixture() : null;
   const server = fixture?.server || http.createServer((req, res) => {
+    if (failFontExportOnce && req.url.split('?')[0] === '/js/theme-font-assets.js') {
+      failFontExportOnce = false;
+      res.writeHead(503); res.end('Injected export-asset failure'); return;
+    }
     const file = path.resolve(root, '.' + decodeURIComponent(req.url.split('?')[0]));
     if (!file.startsWith(root + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.writeHead(404); res.end(); return; }
     const mime = { '.ttf': 'font/ttf', '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json' };
@@ -59,6 +65,11 @@ async function main() {
     await send('Runtime.enable', {}, session);
     await send('Network.enable', {}, session);
     await send('Network.setBlockedURLs', { urls: ['https://fonts.googleapis.com/*', 'https://fonts.gstatic.com/*'] }, session);
+    if (process.argv.includes('--portable')) {
+      await require('./test-portability-browser.cjs').testPortable({ evaluate, send, session, url });
+      assert.deepEqual(errors, [], 'No exceptions in isolated policy-enforced consumer');
+      return;
+    }
     if (process.argv.some(arg => arg.startsWith('--icons'))) await send('Fetch.enable', { patterns: [{ urlPattern: 'https://raw.githubusercontent.com/*' }, { urlPattern: 'https://icons.example.test/*' }] }, session);
     await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false }, session);
     await send('Page.navigate', { url: url + '/index.html' }, session);
@@ -67,6 +78,11 @@ async function main() {
       await new Promise((resolve) => setTimeout(resolve,100));
     }
     assert.deepEqual(errors, [], 'No runtime exceptions on boot');
+    if (process.argv.includes('--export-loading')) {
+      await require('./test-export-loading-browser.cjs').testExportLoading({ evaluate });
+      assert.deepEqual(errors, [], 'No unhandled errors during ZIP retry');
+      return;
+    }
     if (process.argv.includes('--builder-fonts')) {
       await require('./test-builder-fonts-browser.cjs').testBuilderFonts({ evaluate, send, session, root });
       assert.deepEqual(errors, [], 'No builder font runtime exceptions');
@@ -277,10 +293,13 @@ async function main() {
       document.getElementById('exportThemeBtn').click();
       const block = document.getElementById('themeExportOutput').value;
       let files;
+      check(!window.DesignSystemThemeFontAssets, 'Studio does not load export font binaries at startup');
       const zip = DesignSystemStudioPackaging.makeZip;
       DesignSystemStudioPackaging.makeZip = (items) => { files = items; return zip(items); };
       DesignSystemStudioPackaging.downloadBlob = () => {};
       document.getElementById('downloadPackageBtn').click();
+      for (let i = 0; i < 200 && !files; i++) await new Promise(resolve => setTimeout(resolve, 50));
+      check(!!files, 'ZIP download loads local font export assets');
       const metadata = JSON.parse(files.find((f) => f.name === 'theme.recipe.json').content);
       const appliedMetadata = metadata.layers.typography === 'poster-grotesk' && metadata.tokens['--ds-card-shadow'] === exact;
       const style = target.createElement('style'); style.textContent = files.find((f) => f.name === 'design-system/theme.css').content; target.head.appendChild(style);

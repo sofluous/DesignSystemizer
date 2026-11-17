@@ -16,25 +16,31 @@ function required(value, label, max = 10000) {
 
 // Accept a deliberately small, inert SVG subset at the filesystem boundary.
 // Browser approval sanitizes first; imports are independently checked, never trusted.
-function validateSvg(svg) {
+function validateSvg(svg, asTree = false) {
   required(svg, 'SVG', 2 * 1024 * 1024);
   const tags = new Set('svg g path rect circle ellipse line polyline polygon defs linearGradient radialGradient stop clipPath mask title desc'.split(' '));
   const attrs = new Set('xmlns viewBox width height x y x1 x2 y1 y2 cx cy r rx ry d points fill fill-rule clip-rule stroke stroke-width stroke-linecap stroke-linejoin stroke-miterlimit stroke-dasharray stroke-dashoffset opacity fill-opacity stroke-opacity transform id offset stop-color stop-opacity gradientUnits gradientTransform spreadMethod clipPathUnits maskUnits maskContentUnits clip-path mask vector-effect'.split(' '));
   const stack = [];
+  const nodes = [];
+  let tree;
+  const decodeText = (text) => text.replace(/&(amp|lt|gt|quot|apos);/g, (_, entity) => ({ amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" })[entity]);
   let end = 0, roots = 0, geometry = 0;
   for (const token of svg.matchAll(/<[^>]*>/g)) {
     const text = svg.slice(end, token.index);
     if (/[<>]/.test(text) || /&(?!amp;|lt;|gt;|quot;|apos;)/.test(text) || (!stack.length && text.trim())) throw new Error('Unsupported SVG text');
+    if (text && nodes.length) nodes.at(-1).children.push(decodeText(text));
     const match = token[0].match(/^<(\/)?([A-Za-z]+)([\s\S]*?)(\/?)>$/);
     if (!match || !tags.has(match[2])) throw new Error('Unsupported SVG element');
     const [, closing, tag, attributes, selfClosing] = match;
     if (closing) {
       if (attributes.trim() || selfClosing || stack.pop() !== tag) throw new Error('Unbalanced SVG');
+      nodes.pop();
     } else {
       if (!stack.length && (tag !== 'svg' || ++roots !== 1)) throw new Error('Expected one SVG root');
       if (tag === 'svg' && stack.length) throw new Error('Nested SVG is unsupported');
       let attrEnd = 0;
       const seen = new Set();
+      const node = { tag, attributes: {}, children: [] };
       for (const attr of attributes.matchAll(/\s+([\w:-]+)\s*=\s*("[^"]*"|'[^']*')/g)) {
         if (attributes.slice(attrEnd, attr.index).trim()) throw new Error('Malformed SVG attributes');
         const name = attr[1], value = attr[2].slice(1, -1);
@@ -42,16 +48,20 @@ function validateSvg(svg) {
         if (name === 'xmlns' ? value !== 'http://www.w3.org/2000/svg' : /https?:|\/\//i.test(value)) throw new Error('External SVG reference');
         if (/url\(/i.test(value) && !/^url\(#[a-z0-9_-]+\)$/i.test(value)) throw new Error('External SVG paint');
         seen.add(name); attrEnd = attr.index + attr[0].length;
+        node.attributes[name] = value;
       }
       if (attributes.slice(attrEnd).trim()) throw new Error('Malformed SVG attributes');
       if (tag === 'svg' && !seen.has('viewBox')) throw new Error('SVG needs a viewBox');
       if (/^(path|rect|circle|ellipse|line|polyline|polygon)$/.test(tag)) geometry++;
+      if (nodes.length) nodes.at(-1).children.push(node);
+      else tree = node;
+      if (!selfClosing) nodes.push(node);
       if (!selfClosing) stack.push(tag);
     }
     end = token.index + token[0].length;
   }
   if (stack.length || roots !== 1 || !geometry || svg.slice(end).trim()) throw new Error('Incomplete SVG');
-  return svg;
+  return asTree ? tree : svg;
 }
 function validateProposal(value) {
   if (!value || value.schemaVersion !== 1) throw new Error('Unsupported icon approval schema');

@@ -7,6 +7,9 @@ const { root, validateSvg, validateProposal, readLibrary, importProposal } = req
 const { artifacts } = require('./build-icons.cjs');
 
 const original = readLibrary();
+const textTree = validateSvg('<svg viewBox="0 0 24 24"><title>A &amp; B</title><g><path d="M0 0"/></g></svg>', true);
+assert.equal(textTree.children[0].children[0], 'A & B', 'node export preserves XML text entities');
+assert.equal(textTree.children[1].children[0].tag, 'path', 'node export preserves nested geometry');
 assert.equal(original.icons.length >= 4, true);
 const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'ds-icon-library-'));
 fs.mkdirSync(path.join(temporary, 'icons/approved'), { recursive: true });
@@ -44,7 +47,7 @@ assert.throws(() => readLibrary(temporary), /checksum/);
 
 const outputs = artifacts();
 const context = vm.createContext({ window: {}, document: {} });
-for (const file of ['js/theme-package-assets.js', 'js/studio-packaging.js']) vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context);
+for (const file of ['js/theme-package-assets.js', 'js/theme-font-assets.js', 'js/studio-packaging.js']) vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context);
 vm.runInContext(outputs['js/icon-package-assets.js'], context);
 const files = context.window.DesignSystemStudioPackaging.buildThemePackageFiles({ themeName: 'test', themeBlock: '', recipe: {} });
 const names = files.map((file) => file.name);

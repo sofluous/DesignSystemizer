@@ -1,5 +1,12 @@
 (function (win, doc) {
   'use strict';
+  function createNode(node) {
+    if (typeof node === 'string') return doc.createTextNode(node);
+    const element = doc.createElementNS('http://www.w3.org/2000/svg', node.tag);
+    for (const [name, value] of Object.entries(node.attributes)) element.setAttribute(name, value);
+    for (const child of node.children) element.appendChild(createNode(child));
+    return element;
+  }
   function render(root = doc) {
     const library = win.DesignSystemApprovedIcons;
     if (!library) throw new Error('Load icon-approved.js before icon-runtime.js');
@@ -11,7 +18,7 @@
       host.setAttribute('aria-hidden', 'true');
       if (!icon) { host.dataset.dsIconState = 'missing'; continue; }
       // Only the build-validated, local approved collection enters the runtime bundle.
-      host.innerHTML = icon.svg;
+      host.appendChild(createNode(icon.tree));
       const svg = host.firstElementChild;
       svg.setAttribute('width', '1em'); svg.setAttribute('height', '1em');
       svg.setAttribute('focusable', 'false'); svg.setAttribute('aria-hidden', 'true');

@@ -1,4 +1,26 @@
 (function (win, doc) {
+  const fontAssetUrl = doc.currentScript && new URL('./theme-font-assets.js', doc.currentScript.src).href;
+  let fontLoad;
+  function ensureFontAssets() {
+    if (win.DesignSystemThemeFontAssets || win.DesignSystemThemePackageAssets?.fontFiles) return Promise.resolve();
+    if (fontLoad) return fontLoad;
+    fontLoad = new Promise((resolve, reject) => {
+      const script = doc.createElement('script');
+      let timer;
+      function finish(error) {
+        win.clearTimeout(timer);
+        script.remove();
+        if (error) reject(error); else resolve();
+      }
+      script.onload = () => finish(win.DesignSystemThemeFontAssets ? null : new Error('Font export assets are incomplete. Rebuild the package and retry.'));
+      script.onerror = () => finish(new Error('Could not load local font export assets. Check the connection and retry.'));
+      timer = win.setTimeout(() => finish(new Error('Font export loading timed out. Retry the download.')), 30000);
+      script.src = fontAssetUrl || new URL('./js/theme-font-assets.js', doc.baseURI).href;
+      doc.head.appendChild(script);
+    }).catch((error) => { fontLoad = null; throw error; });
+    return fontLoad;
+  }
+
   function downloadBlob(filename, blob) {
     const url = URL.createObjectURL(blob);
     const anchor = doc.createElement("a");
@@ -10,6 +32,59 @@
     win.setTimeout(function () {
       URL.revokeObjectURL(url);
     }, 1500);
+  }
+
+  // SHA-256 fallback preserves ZIP export on ordinary HTTP origins where Web
+  // Crypto is unavailable. This is a content inventory, not a signature.
+  function sha256(bytes) {
+    const constants = [
+      0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+      0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+      0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+      0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+      0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+      0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+      0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+      0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
+    ];
+    const initial = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
+    const padded = new Uint8Array(Math.ceil((bytes.length + 9) / 64) * 64);
+    padded.set(bytes); padded[bytes.length] = 0x80;
+    const view = new DataView(padded.buffer);
+    view.setUint32(padded.length - 8, Math.floor(bytes.length / 0x20000000));
+    view.setUint32(padded.length - 4, (bytes.length * 8) >>> 0);
+    const rotate = (value, count) => (value >>> count) | (value << (32 - count));
+    const words = new Uint32Array(64);
+    for (let offset = 0; offset < padded.length; offset += 64) {
+      for (let i = 0; i < 16; i++) words[i] = view.getUint32(offset + i * 4);
+      for (let i = 16; i < 64; i++) {
+        const x = words[i - 15], y = words[i - 2];
+        words[i] = words[i - 16] + (rotate(x, 7) ^ rotate(x, 18) ^ (x >>> 3)) + words[i - 7] + (rotate(y, 17) ^ rotate(y, 19) ^ (y >>> 10));
+      }
+      let [a, b, c, d, e, f, g, h] = initial;
+      for (let i = 0; i < 64; i++) {
+        const t1 = (h + (rotate(e, 6) ^ rotate(e, 11) ^ rotate(e, 25)) + ((e & f) ^ (~e & g)) + constants[i] + words[i]) >>> 0;
+        const t2 = ((rotate(a, 2) ^ rotate(a, 13) ^ rotate(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) >>> 0;
+        h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+      }
+      [a, b, c, d, e, f, g, h].forEach((value, i) => { initial[i] = (initial[i] + value) >>> 0; });
+    }
+    return initial.map(value => value.toString(16).padStart(8, '0')).join('');
+  }
+
+  async function withManifest(files, folder = 'design-system') {
+    const encoder = new TextEncoder();
+    const digest = async (bytes) => win.crypto?.subtle
+      ? Array.from(new Uint8Array(await win.crypto.subtle.digest('SHA-256', bytes)), b => b.toString(16).padStart(2, '0')).join('')
+      : sha256(bytes);
+    const entries = [];
+    for (const file of files.filter(file => file.name.startsWith(folder + '/')).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)) {
+      const bytes = file.encoding === 'base64' ? Uint8Array.from(win.atob(file.content), c => c.charCodeAt(0)) : encoder.encode(file.content);
+      entries.push({ path: file.name.slice(folder.length + 1), bytes: bytes.length, sha256: await digest(bytes) });
+    }
+    const manifest = { schemaVersion: 1, presetRevision: win.DesignSystemThemePackageAssets.presetRevision,
+      sourceRevision: await digest(encoder.encode(JSON.stringify(entries))), files: entries };
+    return [...files, { name: folder + '/package.manifest.json', content: JSON.stringify(manifest, null, 2) + '\n' }];
   }
 
   function crc32(bytes) {
@@ -116,6 +191,8 @@
   function buildThemePackageFiles(options) {
     const assets = win.DesignSystemThemePackageAssets;
     if (!assets) throw new Error("Package assets are unavailable. Rebuild the Design System package.");
+    const fontFiles = win.DesignSystemThemeFontAssets || assets.fontFiles;
+    if (!fontFiles) throw new Error('Load font export assets before building a complete package.');
     const name = options.themeName;
     if (!/^[a-z0-9_-]+$/i.test(name)) throw new Error("Invalid theme name");
     const folder = options.packageFolder || "design-system";
@@ -124,8 +201,11 @@
       themes: assets.registry.themes.filter((theme) => theme.id !== name).concat({ id: name, label: name, group: "Custom" }) };
     const install = [
       "# Theme package", "",
-      "Copy the design-system folder into your app. Load theme.css, then theme-registry.js and theme-selector.js.",
-      "Use DS component classes or map your app properties to the --ds-* tokens. See example.html for a working theme switcher.",
+      "Copy the complete design-system folder into your app. Load fonts.css before theme.css, then js/theme-registry.js and js/theme-selector.js in that order.",
+      "Use DS component classes or map your app properties to the --ds-* tokens. The distribution's example.html is beside the design-system folder; it is not inside the runtime folder.",
+      "Set data-ds-theme-storage on html to an app-specific key. Serve over HTTP(S); file URL persistence is browser-dependent. Storage denial does not prevent theme switching.",
+      "theme.css styles global html/body, links, headings, box sizing and focus as well as DS classes. Review host styles and load app overrides afterward. It is a full-app stylesheet, not an isolated widget skin.",
+      "Replace the entire app-owned runtime folder on upgrade instead of merging files. package.manifest.json identifies the exact file hashes and source revision; VERSION.txt records the preset revision for CLI builds.",
       "The package includes all default themes and the exported custom theme. It does not need the Studio or its composer at runtime.",
       "Theme tokens and CSS are snapshots; theme.recipe.json records the applied seven layers and exact manual overrides.",
       "Load fonts.css before theme.css. Bundled local families: " + [...new Set(assets.fontManifest.faces.map((face) => face.family))].join(", ") + ". No font network service is required.",
@@ -162,13 +242,15 @@
       { name: folder + "/fonts.css", content: assets.fonts },
       { name: folder + "/js/theme-registry.js", content: "window.DesignSystemThemeRegistry = " + JSON.stringify(registry, null, 2) + ";\n" },
       { name: folder + "/js/theme-selector.js", content: assets.selector },
-      ...(assets.fontFiles || []).map((file) => ({ ...file, name: folder + "/" + file.name })),
+      ...fontFiles.map((file) => ({ ...file, name: folder + "/" + file.name })),
       ...(win.DesignSystemIconPackageAssets?.files || []).map((file) => ({ name: folder + "/" + file.name, content: file.content })),
     ];
   }
 
   win.DesignSystemStudioPackaging = {
     buildThemePackageFiles,
+    ensureFontAssets,
+    withManifest,
     downloadBlob,
     makeZip,
   };

@@ -11,7 +11,11 @@ function createFixture({ failRebuild = false } = {}) {
     builds++;
     if (failRebuild) throw new Error('Fixture package rebuild failure');
     const manifest = readLibrary(directory);
-    const icons = Object.fromEntries(manifest.icons.map(entry => [entry.alias, { ...entry, svg: fs.readFileSync(path.join(directory, 'icons', entry.file), 'utf8') }]));
+    const { validateSvg } = require('./icon-library.cjs');
+    const icons = Object.fromEntries(manifest.icons.map(entry => {
+      const svg = fs.readFileSync(path.join(directory, 'icons', entry.file), 'utf8');
+      return [entry.alias, { ...entry, svg, tree: validateSvg(svg, true) }];
+    }));
     fs.writeFileSync(path.join(directory, 'js/icon-approved.js'), 'window.DesignSystemApprovedIcons=' + JSON.stringify({ version: manifest.version, icons }) + ';');
   } });
   return { server, directory, builds: () => builds, dispose() {
